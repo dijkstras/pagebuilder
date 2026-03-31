@@ -1,7 +1,27 @@
 {
   "id": "page-1774976348535",
   "title": "test-page",
-  "root": [],
+  "root": [
+    {
+      "id": "segment-1774976567598",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200
+      },
+      "children": []
+    }
+  ],
   "styles": {
     "colors": {
       "primary": "#3b82f6",
