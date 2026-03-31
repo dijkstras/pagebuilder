@@ -97,7 +97,22 @@
           "angle": 36
         }
       },
-      "children": []
+      "children": [
+        {
+          "id": "content-1774977480636",
+          "type": "image",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {},
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
     }
   ]
 }
