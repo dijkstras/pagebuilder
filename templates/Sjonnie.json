@@ -17,7 +17,8 @@
         "contentAlignment": "left",
         "verticalAlignment": "top",
         "direction": "row",
-        "minHeight": 200
+        "minHeight": 200,
+        "bgType": "gradient"
       },
       "children": [
         {
