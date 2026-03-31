@@ -65,14 +65,24 @@ function renderSegment(segment, page) {
   const gradientBg = isGradient
     ? `linear-gradient(${segment.settings.bgGradient.angle}deg, ${segment.settings.bgGradient.color1}, ${segment.settings.bgGradient.color2})`
     : undefined;
+  const hasBgImage = !!segment.settings.bgImage;
+
+  let backgroundImage;
+  if (hasBgImage && isGradient) {
+    backgroundImage = `url(${segment.settings.bgImage}), ${gradientBg}`;
+  } else if (hasBgImage) {
+    backgroundImage = `url(${segment.settings.bgImage})`;
+  } else {
+    backgroundImage = gradientBg;
+  }
 
   const outerStyle = buildStyleString({
     minHeight: `${segment.settings.minHeight ?? 200}px`,
     backgroundColor: isGradient ? undefined : segment.settings.bgColor,
-    backgroundImage: segment.settings.bgImage ? `url(${segment.settings.bgImage})` : gradientBg,
-    backgroundSize: segment.settings.bgImage ? bgSize : undefined,
+    backgroundImage,
+    backgroundSize: hasBgImage ? bgSize : undefined,
     backgroundPosition: bgPosition,
-    backgroundRepeat: segment.settings.bgImage && segment.settings.bgRepeat ? 'repeat' : 'no-repeat',
+    backgroundRepeat: hasBgImage && segment.settings.bgRepeat ? 'repeat' : 'no-repeat',
     padding: `${segment.settings.padding}px`,
     margin: `${segment.settings.margin}px`
   });
@@ -142,19 +152,25 @@ function renderContainer(container, page) {
   };
 
   const isGradient = container.settings.bgType === 'gradient' && container.settings.bgGradient;
-  if (isGradient) {
+  const hasBgImage = !!container.settings.bgImage;
+
+  if (!isGradient && container.settings.bgColor && container.settings.bgColor !== 'transparent') {
+    styleObj.backgroundColor = container.settings.bgColor;
+  }
+  if (hasBgImage && isGradient) {
+    const { angle, color1, color2 } = container.settings.bgGradient;
+    styleObj.backgroundImage = `url(${container.settings.bgImage}), linear-gradient(${angle}deg, ${color1}, ${color2})`;
+    styleObj.backgroundSize = bgSize;
+    styleObj.backgroundPosition = bgPosition;
+    styleObj.backgroundRepeat = container.settings.bgRepeat ? 'repeat' : 'no-repeat';
+  } else if (hasBgImage) {
+    styleObj.backgroundImage = `url(${container.settings.bgImage})`;
+    styleObj.backgroundSize = bgSize;
+    styleObj.backgroundPosition = bgPosition;
+    styleObj.backgroundRepeat = container.settings.bgRepeat ? 'repeat' : 'no-repeat';
+  } else if (isGradient) {
     const { angle, color1, color2 } = container.settings.bgGradient;
     styleObj.backgroundImage = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
-  } else {
-    if (container.settings.bgColor && container.settings.bgColor !== 'transparent') {
-      styleObj.backgroundColor = container.settings.bgColor;
-    }
-    if (container.settings.bgImage) {
-      styleObj.backgroundImage = `url(${container.settings.bgImage})`;
-      styleObj.backgroundSize = bgSize;
-      styleObj.backgroundPosition = bgPosition;
-      styleObj.backgroundRepeat = container.settings.bgRepeat ? 'repeat' : 'no-repeat';
-    }
   }
   if (container.settings.padding) {
     styleObj.padding = `${container.settings.padding}px`;
