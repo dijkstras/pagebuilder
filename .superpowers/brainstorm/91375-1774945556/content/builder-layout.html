@@ -1,0 +1,77 @@
+<h2>Page Builder Interface</h2>
+<p class="subtitle">How should the builder interface be organized?</p>
+
+<div class="cards">
+  <div class="card" data-choice="left-panel" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div style="display: flex; height: 200px; background: #f5f5f5; border: 1px solid #ddd;">
+          <div style="width: 200px; background: #e8e8e8; border-right: 1px solid #999; padding: 10px; overflow-y: auto; font-size: 12px;">
+            <div style="font-weight: bold; margin-bottom: 8px;">Segments</div>
+            <div style="background: white; padding: 6px; margin-bottom: 4px; border: 1px solid #ccc; cursor: pointer;">+ Add Hero</div>
+            <div style="background: white; padding: 6px; margin-bottom: 4px; border: 1px solid #ccc; cursor: pointer;">+ Add Text</div>
+            <div style="background: white; padding: 6px; margin-bottom: 4px; border: 1px solid #ccc; cursor: pointer;">+ Add CTA</div>
+          </div>
+          <div style="flex: 1; padding: 10px; overflow-y: auto;">
+            <div style="background: #fff3cd; padding: 20px; margin-bottom: 10px; border: 2px solid #ffc107;">Hero Segment</div>
+            <div style="background: #e7f3ff; padding: 20px; border: 2px solid #2196F3;">Text Segment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Left Sidebar</h3>
+      <p>Segment library on left, canvas on right. Good for quick access to building blocks.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="top-toolbar" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div style="display: flex; flex-direction: column; height: 200px; background: #f5f5f5; border: 1px solid #ddd;">
+          <div style="background: #e8e8e8; border-bottom: 1px solid #999; padding: 8px; display: flex; gap: 6px; font-size: 11px;">
+            <button style="padding: 4px 8px; background: white; border: 1px solid #999; cursor: pointer;">Hero</button>
+            <button style="padding: 4px 8px; background: white; border: 1px solid #999; cursor: pointer;">Text</button>
+            <button style="padding: 4px 8px; background: white; border: 1px solid #999; cursor: pointer;">CTA</button>
+            <button style="padding: 4px 8px; background: white; border: 1px solid #999; cursor: pointer;">Image</button>
+          </div>
+          <div style="flex: 1; padding: 10px; overflow-y: auto;">
+            <div style="background: #fff3cd; padding: 20px; margin-bottom: 10px; border: 2px solid #ffc107;">Hero Segment</div>
+            <div style="background: #e7f3ff; padding: 20px; border: 2px solid #2196F3;">Text Segment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Top Toolbar</h3>
+      <p>Segment buttons at top, canvas fills the space. Maximizes editing area.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="both-panels" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div style="display: flex; height: 200px; background: #f5f5f5; border: 1px solid #ddd;">
+          <div style="width: 150px; background: #e8e8e8; border-right: 1px solid #999; padding: 8px; font-size: 11px;">
+            <div style="font-weight: bold; margin-bottom: 8px;">Segments</div>
+            <div style="background: white; padding: 4px; margin-bottom: 2px; border: 1px solid #ccc; cursor: pointer;">Hero</div>
+            <div style="background: white; padding: 4px; margin-bottom: 2px; border: 1px solid #ccc; cursor: pointer;">Text</div>
+          </div>
+          <div style="flex: 1; padding: 10px;">
+            <div style="background: #fff3cd; padding: 15px; margin-bottom: 8px; border: 2px solid #ffc107;">Hero</div>
+            <div style="background: #e7f3ff; padding: 15px; border: 2px solid #2196F3;">Text</div>
+          </div>
+          <div style="width: 150px; background: #f0f0f0; border-left: 1px solid #999; padding: 8px; font-size: 11px;">
+            <div style="font-weight: bold; margin-bottom: 8px;">Settings</div>
+            <div style="background: white; padding: 4px; font-size: 10px;">BG Color</div>
+            <div style="background: white; padding: 4px; font-size: 10px; margin-top: 4px;">Padding</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Three-Panel</h3>
+      <p>Segments left, canvas center, settings right. Complete control view.</p>
+    </div>
+  </div>
+</div>

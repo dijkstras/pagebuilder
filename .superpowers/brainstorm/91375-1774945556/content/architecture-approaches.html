@@ -1,0 +1,43 @@
+<h2>Architecture Approaches</h2>
+<p class="subtitle">How should we build and persist the Page Builder?</p>
+
+<div class="options">
+  <div class="option" data-choice="client-only" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Client-Side Only</h3>
+      <p><strong>React editor + localStorage/IndexedDB</strong></p>
+      <p>Pages stored locally in the browser. Export/import as JSON for sharing with the team.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Simplest to build</li><li>No backend needed</li><li>Fast, offline-capable</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Limited to one device</li><li>No real team collaboration</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="backend-storage" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Client + Backend (Recommended)</h3>
+      <p><strong>React editor + Node/Express backend + database</strong></p>
+      <p>Pages stored on a server. Team members can save, load, and share layouts easily.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Real persistence</li><li>Easy team sharing</li><li>Room to scale</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Need backend infrastructure</li><li>More complex setup</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="hybrid" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Hybrid (Start Simple)</h3>
+      <p><strong>React editor + JSON files on disk</strong></p>
+      <p>Pages as JSON files in a project folder. Save/load through the UI, stored locally or via Dropbox.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Simpler than full backend</li><li>Version control friendly</li><li>No database setup</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Need file system access</li><li>Limited real-time sharing</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
