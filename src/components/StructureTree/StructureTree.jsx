@@ -59,29 +59,30 @@ export function StructureTree() {
       >
         <span style={{ fontSize: '14px' }}>📄 Page: {state.page.title}</span>
 
-        {/* Page add dropdown */}
-        {isPageSelected && (
-          <div style={{ position: 'relative', marginLeft: 'auto' }}>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowPageAddMenu(!showPageAddMenu);
-              }}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#3b82f6',
-                cursor: 'pointer',
-                fontSize: '16px',
-                padding: '0 4px',
-                fontWeight: 'bold'
-              }}
-            >
-              +
-            </button>
+        {/* Page add dropdown - always visible */}
+        <div style={{ position: 'relative', marginLeft: 'auto' }}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowPageAddMenu(!showPageAddMenu);
+            }}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#3b82f6',
+              cursor: 'pointer',
+              fontSize: '18px',
+              padding: '0 4px',
+              fontWeight: 'bold',
+              lineHeight: '1'
+            }}
+            title="Add segment or content"
+          >
+            +
+          </button>
 
-            {/* Dropdown menu */}
-            {showPageAddMenu && (
+          {/* Dropdown menu */}
+          {showPageAddMenu && (
               <div
                 style={{
                   position: 'absolute',
@@ -145,8 +146,7 @@ export function StructureTree() {
                 ))}
               </div>
             )}
-          </div>
-        )}
+        </div>
       </div>
 
 
