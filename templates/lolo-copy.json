@@ -80,7 +80,7 @@
       "type": "segment",
       "settings": {
         "fullWidth": true,
-        "bgColor": "#b82828",
+        "bgColor": "#70b828",
         "bgImage": "https://support.lunapic.com/editor/premade/transparent.gif",
         "padding": 40,
         "margin": 0,
