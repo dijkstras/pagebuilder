@@ -37,13 +37,31 @@ export function SegmentSettings() {
       <h3 style={{ fontSize: '14px', marginBottom: '12px', fontWeight: 500 }}>Segment: {segment.name}</h3>
 
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Full Width</label>
-        <input
-          type="checkbox"
-          checked={segment.settings.fullWidth}
-          onChange={(e) => handleUpdate('fullWidth', e.target.checked)}
-          style={{ cursor: 'pointer' }}
-        />
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Layout Direction</label>
+        <div style={{ display: 'flex', gap: '6px' }}>
+          {[
+            { value: 'row', label: '→', title: 'Horizontal (left to right)' },
+            { value: 'column', label: '↓', title: 'Vertical (top to bottom)' }
+          ].map(({ value, label, title }) => (
+            <button
+              key={value}
+              title={title}
+              onClick={() => handleUpdate('direction', value)}
+              style={{
+                flex: 1,
+                padding: '6px',
+                fontSize: '16px',
+                backgroundColor: (segment.settings.direction ?? 'row') === value ? '#3b82f6' : '#374151',
+                color: '#f3f4f6',
+                border: '1px solid #4b5563',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              {label} {value === 'row' ? 'Horizontal' : 'Vertical'}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div style={{ marginBottom: '12px' }}>
@@ -110,6 +128,24 @@ export function SegmentSettings() {
       </div>
 
       <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Min Height (px)</label>
+        <input
+          type="number"
+          value={segment.settings.minHeight ?? 200}
+          onChange={(e) => handleUpdate('minHeight', parseInt(e.target.value))}
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            boxSizing: 'border-box'
+          }}
+        />
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Image URL</label>
         <input
           type="text"
@@ -130,44 +166,29 @@ export function SegmentSettings() {
       </div>
 
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Columns (1-4)</label>
-        <input
-          type="number"
-          min="1"
-          max="4"
-          value={segment.settings.columns}
-          onChange={(e) => handleUpdate('columns', Math.min(4, Math.max(1, parseInt(e.target.value))))}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        />
-      </div>
-
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Content Alignment</label>
-        <select
-          value={segment.settings.contentAlignment}
-          onChange={(e) => handleUpdate('contentAlignment', e.target.value)}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        >
-          <option value="left">Left</option>
-          <option value="center">Center</option>
-          <option value="right">Right</option>
-        </select>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Alignment</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↔</span>
+            {[{ v: 'left', l: '←' }, { v: 'center', l: '—' }, { v: 'right', l: '→' }].map(({ v, l }) => (
+              <button key={v} onClick={() => handleUpdate('contentAlignment', v)} style={{
+                flex: 1, height: '28px', fontSize: '13px',
+                backgroundColor: (segment.settings.contentAlignment ?? 'left') === v ? '#3b82f6' : '#374151',
+                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+              }}>{l}</button>
+            ))}
+          </div>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↕</span>
+            {[{ v: 'top', l: '↑' }, { v: 'center', l: '—' }, { v: 'bottom', l: '↓' }].map(({ v, l }) => (
+              <button key={v} onClick={() => handleUpdate('verticalAlignment', v)} style={{
+                flex: 1, height: '28px', fontSize: '13px',
+                backgroundColor: (segment.settings.verticalAlignment ?? 'top') === v ? '#3b82f6' : '#374151',
+                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+              }}>{l}</button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

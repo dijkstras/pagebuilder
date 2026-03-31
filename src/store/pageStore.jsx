@@ -1,18 +1,19 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { createEmptyPage, createSegment, createContainer, createContentItem } from './pageTypes';
+import { createEmptyPage, createSegment, createContainer, createContentItem, migratePage } from './pageTypes';
 
 const PageContext = createContext();
 
 const initialState = {
   page: createEmptyPage(),
   selectedElementId: null,
-  selectedElementType: null
+  selectedElementType: null,
+  activeBrandSection: null
 };
 
 function pageReducer(state, action) {
   switch (action.type) {
     case 'SET_PAGE':
-      return { ...state, page: action.payload };
+      return { ...state, page: migratePage(action.payload) };
 
     case 'UPDATE_PAGE_SETTINGS':
       return {
@@ -59,12 +60,21 @@ function pageReducer(state, action) {
       return {
         ...state,
         selectedElementId: action.payload.id,
-        selectedElementType: action.payload.elementType
+        selectedElementType: action.payload.elementType,
+        activeBrandSection: null
       };
 
     case 'DESELECT_ELEMENT':
       return {
         ...state,
+        selectedElementId: null,
+        selectedElementType: null
+      };
+
+    case 'SELECT_BRAND_SECTION':
+      return {
+        ...state,
+        activeBrandSection: action.payload,
         selectedElementId: null,
         selectedElementType: null
       };
@@ -137,5 +147,6 @@ export const pageActions = {
   updateElement: (id, updates) => ({ type: 'UPDATE_ELEMENT', payload: { id, updates } }),
   deleteElement: (id) => ({ type: 'DELETE_ELEMENT', payload: id }),
   selectElement: (id, elementType) => ({ type: 'SELECT_ELEMENT', payload: { id, elementType } }),
-  deselectElement: () => ({ type: 'DESELECT_ELEMENT' })
+  deselectElement: () => ({ type: 'DESELECT_ELEMENT' }),
+  selectBrandSection: (section) => ({ type: 'SELECT_BRAND_SECTION', payload: section })
 };
