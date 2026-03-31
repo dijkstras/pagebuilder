@@ -1,0 +1,51 @@
+{
+  "id": "page-1774976348535",
+  "title": "test-page",
+  "root": [],
+  "styles": {
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#8b5cf6",
+      "neutral": "#6b7280"
+    },
+    "fonts": {
+      "heading1": {
+        "family": "Inter",
+        "size": 48,
+        "weight": 700
+      },
+      "heading2": {
+        "family": "Inter",
+        "size": 32,
+        "weight": 600
+      },
+      "body": {
+        "family": "Inter",
+        "size": 16,
+        "weight": 400
+      },
+      "label": {
+        "family": "Inter",
+        "size": 12,
+        "weight": 500
+      }
+    },
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 48
+    },
+    "buttonStyles": [
+      {
+        "id": "default",
+        "bgColor": "#3b82f6",
+        "textColor": "#ffffff",
+        "padding": 12,
+        "radius": 6
+      }
+    ],
+    "bgColor": "#f9fafb"
+  }
+}
