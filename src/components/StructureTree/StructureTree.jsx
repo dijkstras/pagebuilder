@@ -5,33 +5,26 @@ import { createSegment, createContainer, createContentItem, CONTENT_TYPES } from
 import { THEME } from '../../utils/constants';
 
 export function StructureTree() {
+  const [showPageAddMenu, setShowPageAddMenu] = React.useState(false);
   const { state, dispatch } = usePageStore();
 
   const handleAddSegment = () => {
     dispatch(pageActions.addSegment('New Segment'));
+    setShowPageAddMenu(false);
+  };
+
+  const handleAddContentToPage = (type) => {
+    const newContent = createContentItem(type);
+    dispatch(pageActions.updateElement(state.page.id, {
+      root: [...state.page.root, newContent]
+    }));
+    setShowPageAddMenu(false);
   };
 
   const selectedElement = findElement(state.page, state.selectedElementId);
 
   const canAddContainer = selectedElement && (selectedElement.type === 'segment' || selectedElement.type === 'container');
   const canAddContent = selectedElement && (selectedElement.type === 'segment' || selectedElement.type === 'container');
-
-  const handleAddContainer = () => {
-    if (canAddContainer) {
-      dispatch(pageActions.updateElement(selectedElement.id, {
-        children: [...(selectedElement.children || []), createContainer()]
-      }));
-    }
-  };
-
-  const handleAddContent = (type) => {
-    if (canAddContent) {
-      const newContent = createContentItem(type);
-      dispatch(pageActions.updateElement(selectedElement.id, {
-        children: [...(selectedElement.children || []), newContent]
-      }));
-    }
-  };
 
   const isPageSelected = !state.selectedElementId;
 
@@ -59,85 +52,103 @@ export function StructureTree() {
           alignItems: 'center',
           gap: '8px',
           userSelect: 'none',
-          marginBottom: '8px',
+          marginBottom: '16px',
           fontWeight: 500,
           border: `2px solid ${isPageSelected ? '#3b82f6' : 'transparent'}`
         }}
       >
         <span style={{ fontSize: '14px' }}>📄 Page: {state.page.title}</span>
-      </div>
 
-      {/* Add buttons when page is selected */}
-      {isPageSelected && (
-        <div style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '4px', paddingLeft: '4px' }}>
-          <button
-            onClick={handleAddSegment}
-            style={{
-              width: '100%',
-              padding: '6px 8px',
-              backgroundColor: 'rgba(59, 130, 246, 0.2)',
-              color: '#3b82f6',
-              border: '1px solid #3b82f6',
-              borderRadius: '3px',
-              cursor: 'pointer',
-              fontSize: '11px',
-              fontWeight: 500,
-              textAlign: 'left'
-            }}
-          >
-            + Add Segment
-          </button>
-        </div>
-      )}
-
-      {/* Conditional Action Buttons */}
-      {selectedElement && (
-        <div style={{ marginBottom: '16px', paddingTop: '16px', borderTop: `1px solid ${THEME.border}` }}>
-          {canAddContainer && (
+        {/* Page add dropdown */}
+        {isPageSelected && (
+          <div style={{ position: 'relative', marginLeft: 'auto' }}>
             <button
-              onClick={handleAddContainer}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowPageAddMenu(!showPageAddMenu);
+              }}
               style={{
-                width: '100%',
-                padding: '6px',
-                marginBottom: '6px',
-                backgroundColor: THEME.background,
-                color: THEME.accent,
-                border: `1px solid ${THEME.accent}`,
-                borderRadius: '4px',
+                background: 'none',
+                border: 'none',
+                color: '#3b82f6',
                 cursor: 'pointer',
-                fontSize: '11px'
+                fontSize: '16px',
+                padding: '0 4px',
+                fontWeight: 'bold'
               }}
             >
-              + Add Container
+              +
             </button>
-          )}
 
-          {canAddContent && (
-            <div>
-              {Object.values(CONTENT_TYPES).map(type => (
+            {/* Dropdown menu */}
+            {showPageAddMenu && (
+              <div
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: '100%',
+                  backgroundColor: '#1f2937',
+                  border: '1px solid #374151',
+                  borderRadius: '4px',
+                  minWidth: '140px',
+                  zIndex: 1000,
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
+                }}
+              >
                 <button
-                  key={type}
-                  onClick={() => handleAddContent(type)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddSegment();
+                  }}
                   style={{
                     width: '100%',
-                    padding: '6px',
-                    marginBottom: '4px',
-                    backgroundColor: THEME.background,
-                    color: THEME.textMuted,
-                    border: `1px solid ${THEME.border}`,
-                    borderRadius: '4px',
+                    padding: '8px 12px',
+                    backgroundColor: 'transparent',
+                    color: '#9ca3af',
+                    border: 'none',
                     cursor: 'pointer',
-                    fontSize: '11px',
-                    textTransform: 'capitalize'
+                    fontSize: '12px',
+                    textAlign: 'left',
+                    borderBottom: '1px solid #374151',
+                    transition: 'background-color 0.2s'
                   }}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = '#374151'}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
                 >
-                  + {type}
+                  📦 Segment
                 </button>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+                {Object.values(CONTENT_TYPES).map((type, idx) => (
+                  <button
+                    key={type}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddContentToPage(type);
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      backgroundColor: 'transparent',
+                      color: '#9ca3af',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      textAlign: 'left',
+                      borderBottom: idx === Object.values(CONTENT_TYPES).length - 1 ? 'none' : '1px solid #374151',
+                      transition: 'background-color 0.2s',
+                      textTransform: 'capitalize'
+                    }}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#374151'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
 
       {/* Segments */}
       <div style={{ marginTop: '8px' }}>

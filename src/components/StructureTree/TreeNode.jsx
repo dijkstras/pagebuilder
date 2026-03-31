@@ -5,6 +5,7 @@ import { createContainer, createContentItem, CONTENT_TYPES } from '../../store/p
 
 export function TreeNode({ element, level = 0 }) {
   const [isOpen, setIsOpen] = useState(true);
+  const [showAddMenu, setShowAddMenu] = useState(false);
   const { state, dispatch } = usePageStore();
 
   const isSelected = state.selectedElementId === element.id;
@@ -93,6 +94,103 @@ export function TreeNode({ element, level = 0 }) {
         <span style={{ fontSize: '14px' }}>{getIcon(element.type)}</span>
         <span style={{ flex: 1, fontSize: '14px' }}>{labelText}</span>
 
+        {/* Add dropdown button */}
+        {isSelected && (canAddContainer || canAddContent) && (
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowAddMenu(!showAddMenu);
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#3b82f6',
+                cursor: 'pointer',
+                fontSize: '16px',
+                padding: '0 4px',
+                fontWeight: 'bold'
+              }}
+            >
+              +
+            </button>
+
+            {/* Dropdown menu */}
+            {showAddMenu && (
+              <div
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: '100%',
+                  backgroundColor: '#1f2937',
+                  border: '1px solid #374151',
+                  borderRadius: '4px',
+                  minWidth: '120px',
+                  zIndex: 1000,
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
+                }}
+              >
+                {canAddContainer && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddContainer(e);
+                      setShowAddMenu(false);
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      backgroundColor: 'transparent',
+                      color: '#9ca3af',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      textAlign: 'left',
+                      borderBottom: '1px solid #374151',
+                      transition: 'background-color 0.2s'
+                    }}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#374151'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                  >
+                    📋 Container
+                  </button>
+                )}
+                {canAddContent && (
+                  <>
+                    {Object.values(CONTENT_TYPES).map((type, idx) => (
+                      <button
+                        key={type}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAddContent(type)(e);
+                          setShowAddMenu(false);
+                        }}
+                        style={{
+                          width: '100%',
+                          padding: '8px 12px',
+                          backgroundColor: 'transparent',
+                          color: '#9ca3af',
+                          border: 'none',
+                          cursor: 'pointer',
+                          fontSize: '12px',
+                          textAlign: 'left',
+                          borderBottom: idx === Object.values(CONTENT_TYPES).length - 1 ? 'none' : '1px solid #374151',
+                          transition: 'background-color 0.2s',
+                          textTransform: 'capitalize'
+                        }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#374151'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
         <button
           onClick={handleDelete}
           style={{
@@ -107,54 +205,6 @@ export function TreeNode({ element, level = 0 }) {
           ✕
         </button>
       </div>
-
-      {/* Add buttons when selected */}
-      {isSelected && (canAddContainer || canAddContent) && (
-        <div style={{ marginTop: '6px', display: 'flex', flexDirection: 'column', gap: '4px', paddingLeft: '20px' }}>
-          {canAddContainer && (
-            <button
-              onClick={handleAddContainer}
-              style={{
-                width: '100%',
-                padding: '4px 6px',
-                backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                color: '#3b82f6',
-                border: '1px solid #3b82f6',
-                borderRadius: '3px',
-                cursor: 'pointer',
-                fontSize: '11px',
-                textAlign: 'left'
-              }}
-            >
-              + Container
-            </button>
-          )}
-          {canAddContent && (
-            <>
-              {Object.values(CONTENT_TYPES).map(type => (
-                <button
-                  key={type}
-                  onClick={handleAddContent(type)}
-                  style={{
-                    width: '100%',
-                    padding: '4px 6px',
-                    backgroundColor: 'rgba(107, 114, 128, 0.2)',
-                    color: '#9ca3af',
-                    border: '1px solid #4b5563',
-                    borderRadius: '3px',
-                    cursor: 'pointer',
-                    fontSize: '11px',
-                    textAlign: 'left',
-                    textTransform: 'capitalize'
-                  }}
-                >
-                  + {type}
-                </button>
-              ))}
-            </>
-          )}
-        </div>
-      )}
 
       {isOpen && hasChildren && (
         <div>
