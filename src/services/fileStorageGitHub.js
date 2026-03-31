@@ -7,6 +7,7 @@
  */
 
 import { Octokit } from 'octokit';
+import { createEmptyPage } from '../store/pageTypes.js';
 
 function validateEnv() {
   const required = ['GITHUB_TOKEN', 'GITHUB_REPO', 'GITHUB_BRANCH'];
@@ -98,20 +99,7 @@ export const fileStorageGitHub = {
   },
 
   async createNewPage(pageName) {
-    // Return blank page template
-    return {
-      id: `page-${Date.now()}`,
-      title: pageName,
-      root: [],
-      styles: {
-        colors: { primary: '#3b82f6', secondary: '#8b5cf6', neutral: '#6b7280' },
-        fonts: {
-          heading: { family: 'Inter', sizeMin: 28, sizeMax: 48, weight: 700 },
-          body: { family: 'Inter', sizeMin: 14, sizeMax: 18, weight: 400 }
-        },
-        buttonStyles: [{ id: 'default', bgColor: '#3b82f6', textColor: '#ffffff', padding: 12, radius: 6 }],
-        bgColor: '#f9fafb'
-      }
-    };
+    const blankPage = createEmptyPage();
+    return { ...blankPage, title: pageName };
   }
 };
