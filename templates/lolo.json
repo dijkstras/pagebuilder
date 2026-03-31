@@ -104,7 +104,9 @@
           "settings": {
             "assignedStyleId": null,
             "textRole": null,
-            "customOverrides": {},
+            "customOverrides": {
+              "src": "https://support.lunapic.com/editor/premade/transparent.gif"
+            },
             "responsiveVariants": {
               "mobile": {},
               "tablet": {},
