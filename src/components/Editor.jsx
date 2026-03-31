@@ -46,11 +46,33 @@ export function Editor() {
     return () => clearTimeout(timeout);
   }, [state.page, dispatch]); // Re-run when page changes
 
-  const handleSave = async () => {
-    if (saveFileName.trim()) {
-      await savePage(state.page, saveFileName);
+  const handleNewPage = async () => {
+    const pageName = saveFileName.trim();
+
+    if (!pageName) {
+      return;
+    }
+
+    // Validate name
+    if (!pageName.match(/^[a-z0-9\-]+$/i)) {
+      alert('Page name must contain only letters, numbers, and hyphens');
+      return;
+    }
+
+    try {
+      dispatch(pageActions.setSaveStatus('saving'));
+      const newPage = await storage.createNewPage(pageName);
+      dispatch(pageActions.setPage(newPage));
+      dispatch(pageActions.setSaveStatus('saved'));
       setShowSaveDialog(false);
       setSaveFileName('');
+
+      // Clear saved status after 2 seconds
+      setTimeout(() => {
+        dispatch(pageActions.setSaveStatus('idle'));
+      }, 2000);
+    } catch (error) {
+      dispatch(pageActions.setSaveStatus('error', error.message));
     }
   };
 
@@ -188,7 +210,7 @@ h3, .label {
               fontWeight: '500'
             }}
           >
-            Save
+            New Page
           </button>
           <button
             onClick={handleLoadClick}
@@ -255,7 +277,7 @@ h3, .label {
             border: `1px solid ${THEME.border}`,
             minWidth: '300px'
           }}>
-            <h3 style={{ marginBottom: '16px' }}>Save Page</h3>
+            <h3 style={{ marginBottom: '16px' }}>Create Page</h3>
             <input
               type="text"
               placeholder="Page name..."
@@ -271,7 +293,7 @@ h3, .label {
                 color: THEME.text,
                 boxSizing: 'border-box'
               }}
-              onKeyDown={(e) => e.key === 'Enter' && handleSave()}
+              onKeyDown={(e) => e.key === 'Enter' && handleNewPage()}
               autoFocus
             />
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
@@ -290,7 +312,7 @@ h3, .label {
                 Cancel
               </button>
               <button
-                onClick={handleSave}
+                onClick={handleNewPage}
                 style={{
                   padding: '6px 12px',
                   backgroundColor: THEME.accent,
@@ -301,7 +323,7 @@ h3, .label {
                   fontSize: '12px'
                 }}
               >
-                Save
+                Create
               </button>
             </div>
           </div>
