@@ -108,6 +108,67 @@ export function SegmentSettings() {
           }}
         />
       </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Image URL</label>
+        <input
+          type="text"
+          value={segment.settings.bgImage || ''}
+          onChange={(e) => handleUpdate('bgImage', e.target.value || null)}
+          placeholder="https://..."
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            fontSize: '12px',
+            boxSizing: 'border-box'
+          }}
+        />
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Columns (1-4)</label>
+        <input
+          type="number"
+          min="1"
+          max="4"
+          value={segment.settings.columns}
+          onChange={(e) => handleUpdate('columns', Math.min(4, Math.max(1, parseInt(e.target.value))))}
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            boxSizing: 'border-box'
+          }}
+        />
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Content Alignment</label>
+        <select
+          value={segment.settings.contentAlignment}
+          onChange={(e) => handleUpdate('contentAlignment', e.target.value)}
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            boxSizing: 'border-box'
+          }}
+        >
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+        </select>
+      </div>
     </div>
   );
 }

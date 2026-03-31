@@ -62,11 +62,11 @@ export const createSegment = (name = 'Segment') => ({
   settings: {
     fullWidth: true,
     bgColor: '#ffffff',
-    bgGradient: null,
     bgImage: null,
-    bgVideo: null,
     padding: 40,
-    margin: 0
+    margin: 0,
+    columns: 1,
+    contentAlignment: 'left'
   },
   children: []
 });
@@ -78,7 +78,11 @@ export const createContainer = (name = 'Container') => ({
   settings: {
     layout: LAYOUT_TYPES.FLEX,
     columns: 1,
-    spacing: 16
+    spacing: 16,
+    bgColor: 'transparent',
+    bgImage: null,
+    padding: 20,
+    contentAlignment: 'left'
   },
   children: []
 });

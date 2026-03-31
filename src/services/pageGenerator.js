@@ -22,14 +22,22 @@ export function generateHTML(page) {
 }
 
 function renderSegment(segment, page) {
+  const justifyMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
   const styleObj = {
     width: '100%',
     minHeight: '200px',
     backgroundColor: segment.settings.bgColor,
+    backgroundImage: segment.settings.bgImage ? `url(${segment.settings.bgImage})` : undefined,
+    backgroundSize: segment.settings.bgImage ? 'cover' : undefined,
+    backgroundPosition: segment.settings.bgImage ? 'center' : undefined,
     padding: `${segment.settings.padding}px`,
     margin: `${segment.settings.margin}px`,
-    display: 'flex',
-    flexDirection: 'column'
+    display: segment.settings.columns > 1 ? 'grid' : 'flex',
+    gridTemplateColumns: segment.settings.columns > 1 ? `repeat(${segment.settings.columns}, 1fr)` : undefined,
+    flexDirection: segment.settings.columns > 1 ? undefined : 'column',
+    gap: segment.settings.columns > 1 ? '16px' : undefined,
+    justifyContent: justifyMap[segment.settings.contentAlignment] || 'flex-start',
+    alignItems: 'flex-start'
   };
   const style = buildStyleString(styleObj);
   const children = segment.children.map(child => {
@@ -46,13 +54,23 @@ function renderSegment(segment, page) {
 }
 
 function renderContainer(container, page) {
-  const style = buildStyleString({
+  const justifyMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
+  const styleObj = {
+    backgroundColor: container.settings.bgColor,
+    backgroundImage: container.settings.bgImage ? `url(${container.settings.bgImage})` : undefined,
+    backgroundSize: container.settings.bgImage ? 'cover' : undefined,
+    backgroundPosition: container.settings.bgImage ? 'center' : undefined,
+    padding: `${container.settings.padding}px`,
     display: container.settings.layout,
-    gridTemplateColumns: container.settings.layout === 'grid'
+    gridTemplateColumns: container.settings.layout === 'grid' && container.settings.columns > 1
       ? `repeat(${container.settings.columns}, 1fr)`
       : undefined,
-    gap: `${container.settings.spacing}px`
-  });
+    flexWrap: container.settings.layout === 'flex' && container.settings.columns > 1 ? 'wrap' : undefined,
+    gap: `${container.settings.spacing}px`,
+    justifyContent: justifyMap[container.settings.contentAlignment] || 'flex-start',
+    alignItems: 'flex-start'
+  };
+  const style = buildStyleString(styleObj);
 
   const children = container.children.map(child => renderContentItem(child, page)).join('\n');
 
