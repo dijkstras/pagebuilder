@@ -86,12 +86,33 @@ export const fileStorageGitHub = {
         owner, repo, path: 'templates', ref: branch
       });
 
-      return data
+      // Get commit info for last modified timestamps
+      const pages = data
         .filter(item => item.name.endsWith('.json'))
         .map(item => ({
           name: item.name.replace('.json', ''),
-          path: item.path
+          path: item.path,
+          id: item.name.replace('.json', '')
         }));
+
+      // Fetch commit history for each file to get lastModified
+      const pagesWithTimestamps = await Promise.all(
+        pages.map(async (page) => {
+          try {
+            const { data: commits } = await octokit.rest.repos.listCommits({
+              owner, repo, path: page.path, branch, per_page: 1
+            });
+            const lastModified = commits[0]?.commit?.author?.date || new Date().toISOString();
+            return { ...page, lastModified };
+          } catch (e) {
+            return { ...page, lastModified: new Date().toISOString() };
+          }
+        })
+      );
+
+      // Sort by lastModified descending
+      pagesWithTimestamps.sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
+      return pagesWithTimestamps;
     } catch (error) {
       if (error.status === 404) return [];
       throw new Error(`Failed to list pages: ${error.message}`);
@@ -127,5 +148,61 @@ export const fileStorageGitHub = {
         bgColor: '#f9fafb'
       }
     };
+  },
+
+  async deletePage(pageName) {
+    validateEnv();
+
+    const path = `templates/${pageName}.json`;
+
+    try {
+      // Get current file SHA
+      const { data } = await octokit.rest.repos.getContent({
+        owner, repo, path, ref: branch
+      });
+
+      // Delete file
+      await octokit.rest.repos.deleteFile({
+        owner, repo, path,
+        message: `Delete page: ${pageName}`,
+        sha: data.sha,
+        branch
+      });
+
+      return { success: true, message: 'Page deleted' };
+    } catch (error) {
+      throw new Error(`Failed to delete: ${error.message}`);
+    }
+  },
+
+  async duplicatePage(pageName, newName) {
+    validateEnv();
+
+    const oldPath = `templates/${pageName}.json`;
+    const newPath = `templates/${newName}.json`;
+
+    try {
+      // Get source file
+      const { data: sourceData } = await octokit.rest.repos.getContent({
+        owner, repo, path: oldPath, ref: branch
+      });
+
+      const content = Buffer.from(sourceData.content, 'base64').toString('utf-8');
+      const pageData = JSON.parse(content);
+      pageData.title = newName;
+      pageData.id = `page-${Date.now()}`;
+
+      // Create new file
+      await octokit.rest.repos.createOrUpdateFileContents({
+        owner, repo, path: newPath,
+        message: `Duplicate page: ${pageName} -> ${newName}`,
+        content: Buffer.from(JSON.stringify(pageData, null, 2)).toString('base64'),
+        branch
+      });
+
+      return { success: true, page: pageData };
+    } catch (error) {
+      throw new Error(`Failed to duplicate: ${error.message}`);
+    }
   }
 };

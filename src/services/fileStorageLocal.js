@@ -48,5 +48,21 @@ export const fileStorageLocal = {
       body: JSON.stringify({ name: pageName })
     });
     return handleResponse(response);
+  },
+
+  async deletePage(pageName) {
+    const response = await fetch(`${API_URL}/api/pages/${pageName}`, {
+      method: 'DELETE'
+    });
+    return handleResponse(response);
+  },
+
+  async duplicatePage(pageName, newName) {
+    const response = await fetch(`${API_URL}/api/pages/${pageName}/duplicate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ newName })
+    });
+    return handleResponse(response);
   }
 };

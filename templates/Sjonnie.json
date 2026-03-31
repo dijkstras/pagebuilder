@@ -44,6 +44,14 @@
         "textColor": "#ffffff",
         "padding": 12,
         "radius": 6
+      },
+      {
+        "id": "tertiary",
+        "label": "Tertiary",
+        "bgColor": "transparent",
+        "textColor": "#3b82f6",
+        "padding": 12,
+        "radius": 6
       }
     ],
     "bgColor": "#f9fafb"

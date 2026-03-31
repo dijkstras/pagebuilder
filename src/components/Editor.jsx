@@ -89,6 +89,51 @@ export function Editor() {
     }
   };
 
+  const handleDeletePage = async (pageName, e) => {
+    e.stopPropagation();
+    if (!window.confirm(`Delete "${pageName}"? This cannot be undone.`)) {
+      return;
+    }
+    try {
+      dispatch(pageActions.setSaveStatus('saving'));
+      await storage.deletePage(pageName);
+      // Refresh the pages list
+      const loadedPages = await storage.listPages();
+      setPages(loadedPages);
+      dispatch(pageActions.setSaveStatus('saved'));
+      setTimeout(() => {
+        dispatch(pageActions.setSaveStatus('idle'));
+      }, 2000);
+    } catch (error) {
+      dispatch(pageActions.setSaveStatus('error', error.message));
+    }
+  };
+
+  const handleDuplicatePage = async (pageName, e) => {
+    e.stopPropagation();
+    const newName = prompt(`Duplicate "${pageName}" as:`, `${pageName}-copy`);
+    if (!newName) return;
+
+    if (!newName.match(/^[a-z0-9\-]+$/i)) {
+      alert('Page name must contain only letters, numbers, and hyphens');
+      return;
+    }
+
+    try {
+      dispatch(pageActions.setSaveStatus('saving'));
+      await storage.duplicatePage(pageName, newName);
+      // Refresh the pages list
+      const loadedPages = await storage.listPages();
+      setPages(loadedPages);
+      dispatch(pageActions.setSaveStatus('saved'));
+      setTimeout(() => {
+        dispatch(pageActions.setSaveStatus('idle'));
+      }, 2000);
+    } catch (error) {
+      dispatch(pageActions.setSaveStatus('error', error.message));
+    }
+  };
+
   const handleExport = () => {
     const htmlContent = generateHTML(state.page, null);
     const cssContent = generateCSS(state.page);
@@ -308,22 +353,67 @@ export function Editor() {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
                 {pages.map(page => (
-                  <button
+                  <div
                     key={page.id}
-                    onClick={() => handleLoadPage(page.name)}
                     style={{
-                      padding: '8px 12px',
+                      padding: '12px',
                       backgroundColor: THEME.background,
-                      color: THEME.text,
                       border: `1px solid ${THEME.border}`,
                       borderRadius: '4px',
                       cursor: 'pointer',
-                      textAlign: 'left',
-                      fontSize: '12px'
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      fontSize: '12px',
+                      transition: 'background-color 0.2s'
                     }}
+                    onClick={() => handleLoadPage(page.name)}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = THEME.surfaceHover || '#f0f0f0'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.background}
                   >
-                    {page.name}
-                  </button>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 500, color: THEME.text, marginBottom: '4px' }}>
+                        {page.name}
+                      </div>
+                      <div style={{ fontSize: '11px', color: THEME.textMuted }}>
+                        Modified: {new Date(page.lastModified).toLocaleDateString()} {new Date(page.lastModified).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '4px', marginLeft: '8px' }}>
+                      <button
+                        onClick={(e) => handleDuplicatePage(page.name, e)}
+                        title="Duplicate"
+                        style={{
+                          padding: '4px 8px',
+                          backgroundColor: '#3b82f6',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '3px',
+                          cursor: 'pointer',
+                          fontSize: '11px',
+                          fontWeight: 500
+                        }}
+                      >
+                        Copy
+                      </button>
+                      <button
+                        onClick={(e) => handleDeletePage(page.name, e)}
+                        title="Delete"
+                        style={{
+                          padding: '4px 8px',
+                          backgroundColor: '#ef4444',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '3px',
+                          cursor: 'pointer',
+                          fontSize: '11px',
+                          fontWeight: 500
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
                 ))}
               </div>
             )}

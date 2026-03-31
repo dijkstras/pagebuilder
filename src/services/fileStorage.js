@@ -71,6 +71,29 @@ export const storage = {
   async createNewPage(pageName) {
     const impl = await getStorageImplementation();
     return impl.createNewPage(pageName);
+  },
+
+  /**
+   * Delete a page from storage
+   * @param {string} pageName - Name of page to delete
+   * @returns {Promise<object>} Success response
+   * @throws {Error} If deletion fails
+   */
+  async deletePage(pageName) {
+    const impl = await getStorageImplementation();
+    return impl.deletePage(pageName);
+  },
+
+  /**
+   * Duplicate an existing page
+   * @param {string} pageName - Name of page to duplicate
+   * @param {string} newName - Name for the duplicated page
+   * @returns {Promise<object>} New page object
+   * @throws {Error} If duplication fails
+   */
+  async duplicatePage(pageName, newName) {
+    const impl = await getStorageImplementation();
+    return impl.duplicatePage(pageName, newName);
   }
 };
 

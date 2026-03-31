@@ -103,17 +103,27 @@ app.post('/api/pages', async (req, res) => {
   }
 });
 
-// GET /api/pages - List all pages
+// GET /api/pages - List all pages with metadata
 app.get('/api/pages', async (req, res) => {
   try {
     await ensureTemplatesDir();
     const files = await fs.readdir(TEMPLATES_DIR);
-    const pages = files
-      .filter(f => f.endsWith('.json'))
-      .map(f => ({
-        name: f.replace('.json', ''),
-        path: `templates/${f}`
-      }));
+    const pages = await Promise.all(
+      files
+        .filter(f => f.endsWith('.json'))
+        .map(async (f) => {
+          const filePath = path.join(TEMPLATES_DIR, f);
+          const stat = await fs.stat(filePath);
+          return {
+            name: f.replace('.json', ''),
+            path: `templates/${f}`,
+            id: f.replace('.json', ''),
+            lastModified: stat.mtime.toISOString()
+          };
+        })
+    );
+    // Sort by lastModified descending (newest first)
+    pages.sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
     res.json(pages);
   } catch (error) {
     console.error('List pages error:', error);
@@ -159,6 +169,97 @@ app.post('/api/pages/:name/save', async (req, res) => {
     res.json({ success: true, message: 'Saved' });
   } catch (error) {
     console.error('Save page error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// DELETE /api/pages/:name - Delete a page
+app.delete('/api/pages/:name', async (req, res) => {
+  try {
+    const filePath = path.join(TEMPLATES_DIR, `${req.params.name}.json`);
+
+    // Check if file exists
+    try {
+      await fs.access(filePath);
+    } catch {
+      return res.status(404).json({ success: false, message: 'Page not found' });
+    }
+
+    // Delete file
+    await fs.unlink(filePath);
+
+    // Commit deletion to git
+    try {
+      execSync(`git add ${filePath}`, { cwd: path.dirname(TEMPLATES_DIR) });
+      execSync(
+        `git commit -m "Delete page: ${req.params.name}"`,
+        { cwd: path.dirname(TEMPLATES_DIR) }
+      );
+    } catch (error) {
+      console.warn('Git commit failed:', error.message);
+    }
+
+    res.json({ success: true, message: 'Page deleted' });
+  } catch (error) {
+    console.error('Delete page error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// POST /api/pages/:name/duplicate - Duplicate a page
+app.post('/api/pages/:name/duplicate', async (req, res) => {
+  try {
+    const { newName } = req.body;
+    const oldFilePath = path.join(TEMPLATES_DIR, `${req.params.name}.json`);
+    const newFilePath = path.join(TEMPLATES_DIR, `${newName}.json`);
+
+    if (!newName || !newName.match(/^[a-z0-9\-]+$/i)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid page name (alphanumeric and hyphens only)'
+      });
+    }
+
+    // Check if source exists
+    try {
+      await fs.access(oldFilePath);
+    } catch {
+      return res.status(404).json({ success: false, message: 'Source page not found' });
+    }
+
+    // Check if destination already exists
+    try {
+      await fs.access(newFilePath);
+      return res.status(409).json({
+        success: false,
+        message: 'Destination page already exists'
+      });
+    } catch {
+      // Doesn't exist, that's good
+    }
+
+    // Read source and duplicate
+    const content = await fs.readFile(oldFilePath, 'utf-8');
+    const pageData = JSON.parse(content);
+    pageData.title = newName;
+    pageData.id = `page-${Date.now()}`;
+
+    await fs.writeFile(newFilePath, JSON.stringify(pageData, null, 2));
+
+    // Commit to git
+    try {
+      execSync(`git add ${newFilePath}`, { cwd: path.dirname(TEMPLATES_DIR) });
+      execSync(
+        `git commit -m "Duplicate page: ${req.params.name} -> ${newName}"`,
+        { cwd: path.dirname(TEMPLATES_DIR) }
+      );
+    } catch (error) {
+      console.warn('Git commit failed:', error.message);
+    }
+
+    res.json({ success: true, page: pageData });
+  } catch (error) {
+    console.error('Duplicate page error:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 });
