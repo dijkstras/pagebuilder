@@ -17,7 +17,7 @@
         "contentAlignment": "left",
         "verticalAlignment": "top",
         "direction": "row",
-        "minHeight": 200,
+        "minHeight": 400,
         "bgType": "gradient",
         "bgGradient": {
           "color1": "#a52c2c",
