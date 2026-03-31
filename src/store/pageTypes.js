@@ -81,7 +81,9 @@ export const createSegment = (name = 'Segment') => ({
     gutter: 24,
     maxWidth: null,
     contentAlignment: 'left',
-    direction: 'row'
+    verticalAlignment: 'top',
+    direction: 'row',
+    minHeight: 200
   },
   children: []
 });
@@ -97,6 +99,7 @@ export const createContainer = (name = 'Container') => ({
     bgImage: null,
     padding: 20,
     contentAlignment: 'left',
+    verticalAlignment: 'top',
     direction: 'column'
   },
   children: []
@@ -166,7 +169,9 @@ function migrateSegment(segment) {
       gutter: s.gutter ?? 24,
       maxWidth: s.maxWidth ?? null,
       contentAlignment: s.contentAlignment ?? 'left',
-      direction: s.direction ?? 'row'
+      verticalAlignment: s.verticalAlignment ?? 'top',
+      direction: s.direction ?? 'row',
+      minHeight: s.minHeight ?? 200
     },
     children: (segment.children ?? []).map(child =>
       child.type === 'container' ? migrateContainer(child) : child
@@ -187,6 +192,7 @@ function migrateContainer(container) {
       bgImage: s.bgImage ?? null,
       padding: s.padding ?? 20,
       contentAlignment: s.contentAlignment ?? 'left',
+      verticalAlignment: s.verticalAlignment ?? 'top',
       direction: s.direction ?? 'column'
     },
     children: (container.children ?? []).map(child =>

@@ -1,7 +1,19 @@
 import { buildClamp } from '../utils/constants';
 
-export function generateHTML(page) {
+export function generateHTML(page, selectedElementId) {
   const segments = page.root.map(segment => renderSegment(segment, page)).join('\n');
+
+  const selectionStyle = selectedElementId ? `
+  <style>
+    @keyframes selection-pulse {
+      0%   { outline: 2px solid rgba(99,102,241,0.9); outline-offset: 3px; box-shadow: 0 0 0 0 rgba(99,102,241,0.5); }
+      40%  { outline: 2px solid rgba(99,102,241,0.7); outline-offset: 3px; box-shadow: 0 0 0 6px rgba(99,102,241,0.2); }
+      100% { outline: 2px solid transparent;          outline-offset: 3px; box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+    }
+    [data-element-id="${selectedElementId}"] {
+      animation: selection-pulse 0.7s ease-out 1 forwards;
+    }
+  </style>` : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -11,7 +23,7 @@ export function generateHTML(page) {
   <title>${page.title}</title>
   <style>
     ${generateCSS(page)}
-  </style>
+  </style>${selectionStyle}
 </head>
 <body>
   <div id="app">
@@ -22,44 +34,36 @@ export function generateHTML(page) {
 }
 
 function renderSegment(segment, page) {
-  const alignMap = { left: 'start', center: 'center', right: 'end' };
-  const justify = alignMap[segment.settings.contentAlignment] || 'start';
   const gutter = segment.settings.gutter ?? 24;
   const maxWidth = segment.settings.maxWidth;
 
   const outerStyle = buildStyleString({
-    width: '100%',
-    minHeight: '200px',
+    minHeight: `${segment.settings.minHeight ?? 200}px`,
     backgroundColor: segment.settings.bgColor,
     backgroundImage: segment.settings.bgImage ? `url(${segment.settings.bgImage})` : undefined,
     backgroundSize: segment.settings.bgImage ? 'cover' : undefined,
     backgroundPosition: segment.settings.bgImage ? 'center' : undefined,
     padding: `${segment.settings.padding}px`,
-    margin: `${segment.settings.margin}px`,
-    containerType: 'inline-size',
-    containerName: segment.id
+    margin: `${segment.settings.margin}px`
   });
 
   const direction = segment.settings.direction ?? 'row';
-  const innerStyle = direction === 'column'
-    ? buildStyleString({
-        display: 'flex',
-        flexDirection: 'column',
-        gap: `${gutter}px`,
-        maxWidth: maxWidth ? `${maxWidth}px` : undefined,
-        marginLeft: maxWidth ? 'auto' : undefined,
-        marginRight: maxWidth ? 'auto' : undefined,
-        alignItems: 'stretch'
-      })
-    : buildStyleString({
-        display: 'grid',
-        gridTemplateColumns: 'repeat(12, 1fr)',
-        gap: `${gutter}px`,
-        maxWidth: maxWidth ? `${maxWidth}px` : undefined,
-        marginLeft: maxWidth ? 'auto' : undefined,
-        marginRight: maxWidth ? 'auto' : undefined,
-        justifyItems: justify
-      });
+  const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
+  const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
+  const hAlign = hMap[segment.settings.contentAlignment] || 'flex-start';
+  const vAlign = vMap[segment.settings.verticalAlignment] || 'flex-start';
+
+  const innerStyle = buildStyleString({
+    display: 'flex',
+    flexDirection: direction,
+    flexWrap: direction === 'row' ? 'wrap' : undefined,
+    gap: `${gutter}px`,
+    justifyContent: direction === 'row' ? hAlign : vAlign,
+    alignItems: direction === 'row' ? vAlign : hAlign,
+    maxWidth: maxWidth ? `${maxWidth}px` : undefined,
+    marginLeft: maxWidth ? 'auto' : undefined,
+    marginRight: maxWidth ? 'auto' : undefined
+  });
 
   const children = segment.children.map(child => {
     if (child.type === 'container') {
@@ -77,21 +81,22 @@ function renderSegment(segment, page) {
 }
 
 function renderContainer(container, page) {
-  const alignMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
-  const columnSpan = container.settings.columnSpan ?? 12;
+  const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
+  const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
   const direction = container.settings.direction ?? 'column';
-  const alignment = alignMap[container.settings.contentAlignment] || 'flex-start';
+  const hAlign = hMap[container.settings.contentAlignment] || 'flex-start';
+  const vAlign = vMap[container.settings.verticalAlignment] || 'flex-start';
 
   const styleObj = {
-    gridColumn: `span ${columnSpan}`,
+    width: container.settings.width || 'auto',
+    height: container.settings.height || undefined,
+    minWidth: '0',
     display: 'flex',
     flexDirection: direction,
     flexWrap: direction === 'row' ? 'wrap' : undefined,
     gap: `${container.settings.spacing}px`,
-    alignItems: direction === 'row' ? 'center' : 'stretch',
-    justifyContent: direction === 'row' ? alignment : undefined,
-    containerType: 'inline-size',
-    containerName: container.id
+    justifyContent: direction === 'row' ? hAlign : vAlign,
+    alignItems: direction === 'row' ? vAlign : hAlign
   };
 
   if (container.settings.bgColor && container.settings.bgColor !== 'transparent') {
@@ -114,17 +119,26 @@ function renderContainer(container, page) {
   </div>`;
 }
 
+function sizeOverrides(item) {
+  const w = item.settings.customOverrides.width;
+  const h = item.settings.customOverrides.height;
+  return { width: w || undefined, height: h || undefined };
+}
+
 function renderContentItem(item, page) {
   switch (item.type) {
     case 'text': {
       const role = item.settings.textRole;
+      const { width, height } = sizeOverrides(item);
       if (role === 'heading') {
         const style = buildStyleString({
           margin: '0',
           fontFamily: 'var(--font-heading-family)',
           fontSize: 'var(--font-heading-size)',
           fontWeight: 'var(--font-heading-weight)',
-          lineHeight: '1.2'
+          lineHeight: '1.2',
+          width: width ?? 'max-content',
+          height
         });
         return `<h2 style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</h2>`;
       }
@@ -134,21 +148,33 @@ function renderContentItem(item, page) {
           fontFamily: 'var(--font-body-family)',
           fontSize: 'var(--font-body-size)',
           fontWeight: 'var(--font-body-weight)',
-          lineHeight: '1.6'
+          lineHeight: '1.6',
+          width: width ?? 'max-content',
+          height
         });
         return `<p style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
       }
-      return `<p style="margin:0" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
+      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height })}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
     }
 
-    case 'image':
-      return `<img src="${item.settings.customOverrides.src || ''}" alt="" style="max-width:100%;height:auto" data-element-id="${item.id}" />`;
+    case 'image': {
+      const { width, height } = sizeOverrides(item);
+      const imgStyle = buildStyleString({
+        display: 'block',
+        width: width ?? '300px',
+        height: height ?? 'auto',
+        maxWidth: '100%'
+      });
+      return `<img src="${item.settings.customOverrides.src || ''}" alt="" style="${imgStyle}" data-element-id="${item.id}" />`;
+    }
 
     case 'button': {
       const buttonStyle = page.styles.buttonStyles.find(s => s.id === item.settings.assignedStyleId)
         || page.styles.buttonStyles[0];
       const isOutline = buttonStyle?.bgColor === 'transparent';
+      const { width, height } = sizeOverrides(item);
       const btnStyle = buildStyleString({
+        display: 'inline-block',
         backgroundColor: buttonStyle?.bgColor || '#3b82f6',
         color: buttonStyle?.textColor || '#ffffff',
         padding: `${buttonStyle?.padding || 12}px 24px`,
@@ -157,13 +183,18 @@ function renderContentItem(item, page) {
         cursor: 'pointer',
         fontFamily: 'var(--font-body-family)',
         fontWeight: '500',
-        fontSize: '14px'
+        fontSize: '14px',
+        whiteSpace: 'nowrap',
+        width,
+        height
       });
       return `<button style="${btnStyle}" data-element-id="${item.id}">${item.settings.customOverrides.label || 'Button'}</button>`;
     }
 
-    case 'card':
-      return `<div style="border:1px solid #ddd;padding:16px;border-radius:8px" data-element-id="${item.id}">Card Content</div>`;
+    case 'card': {
+      const { width, height } = sizeOverrides(item);
+      return `<div style="${buildStyleString({ border: '1px solid #ddd', padding: '16px', borderRadius: '8px', width: width ?? '300px', height })}" data-element-id="${item.id}">Card Content</div>`;
+    }
 
     default:
       return '';
@@ -217,6 +248,5 @@ function generateCSS(page) {
       font-size: var(--font-heading-size);
       font-weight: var(--font-heading-weight);
     }
-    section { width: 100%; }
   `;
 }

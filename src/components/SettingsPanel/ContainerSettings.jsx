@@ -65,49 +65,48 @@ export function ContainerSettings() {
       </div>
 
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Column Span (of 12)</label>
-        <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap' }}>
-          {[1,2,3,4,5,6,7,8,9,10,11,12].map(n => (
-            <button
-              key={n}
-              onClick={() => handleUpdate('columnSpan', n)}
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Size</label>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ flex: 1 }}>
+            <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Width</label>
+            <input
+              type="text"
+              value={container.settings.width || ''}
+              onChange={(e) => handleUpdate('width', e.target.value || undefined)}
+              placeholder="auto"
               style={{
-                width: '22px',
-                height: '22px',
-                fontSize: '11px',
-                backgroundColor: (container.settings.columnSpan ?? 12) === n ? '#3b82f6' : '#374151',
+                width: '100%',
+                padding: '6px',
+                backgroundColor: '#374151',
                 color: '#f3f4f6',
                 border: '1px solid #4b5563',
-                borderRadius: '3px',
-                cursor: 'pointer',
-                padding: 0
+                borderRadius: '4px',
+                fontSize: '12px',
+                boxSizing: 'border-box'
               }}
-            >
-              {n}
-            </button>
-          ))}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Height</label>
+            <input
+              type="text"
+              value={container.settings.height || ''}
+              onChange={(e) => handleUpdate('height', e.target.value || undefined)}
+              placeholder="auto"
+              style={{
+                width: '100%',
+                padding: '6px',
+                backgroundColor: '#374151',
+                color: '#f3f4f6',
+                border: '1px solid #4b5563',
+                borderRadius: '4px',
+                fontSize: '12px',
+                boxSizing: 'border-box'
+              }}
+            />
+          </div>
         </div>
-        <div style={{ fontSize: '11px', color: '#9ca3af', marginTop: '4px' }}>
-          {Math.round((container.settings.columnSpan ?? 12) / 12 * 100)}% of row width
-        </div>
-      </div>
-
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Children Gap (px)</label>
-        <input
-          type="number"
-          value={container.settings.spacing}
-          onChange={(e) => handleUpdate('spacing', parseInt(e.target.value))}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        />
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>e.g. 200px, 50%, 100%</div>
       </div>
 
       <div style={{ marginBottom: '12px' }}>
@@ -176,24 +175,29 @@ export function ContainerSettings() {
       </div>
 
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Content Alignment</label>
-        <select
-          value={container.settings.contentAlignment}
-          onChange={(e) => handleUpdate('contentAlignment', e.target.value)}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        >
-          <option value="left">Left</option>
-          <option value="center">Center</option>
-          <option value="right">Right</option>
-        </select>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Alignment</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↔</span>
+            {[{ v: 'left', l: '←' }, { v: 'center', l: '—' }, { v: 'right', l: '→' }].map(({ v, l }) => (
+              <button key={v} onClick={() => handleUpdate('contentAlignment', v)} style={{
+                flex: 1, height: '28px', fontSize: '13px',
+                backgroundColor: (container.settings.contentAlignment ?? 'left') === v ? '#3b82f6' : '#374151',
+                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+              }}>{l}</button>
+            ))}
+          </div>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↕</span>
+            {[{ v: 'top', l: '↑' }, { v: 'center', l: '—' }, { v: 'bottom', l: '↓' }].map(({ v, l }) => (
+              <button key={v} onClick={() => handleUpdate('verticalAlignment', v)} style={{
+                flex: 1, height: '28px', fontSize: '13px',
+                backgroundColor: (container.settings.verticalAlignment ?? 'top') === v ? '#3b82f6' : '#374151',
+                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+              }}>{l}</button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

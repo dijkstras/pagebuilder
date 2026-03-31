@@ -201,6 +201,35 @@ export function ContentSettings() {
           </div>
         </>
       )}
+      {/* ── Size ── */}
+      <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151' }}>
+        <label style={{ ...labelStyle, marginBottom: '8px' }}>Size</label>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ flex: 1 }}>
+            <label style={{ ...labelStyle, fontSize: '11px' }}>Width</label>
+            <input
+              type="text"
+              value={content.settings.customOverrides.width || ''}
+              onChange={(e) => handleCustomUpdate('width', e.target.value || undefined)}
+              placeholder="auto"
+              style={inputStyle}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label style={{ ...labelStyle, fontSize: '11px' }}>Height</label>
+            <input
+              type="text"
+              value={content.settings.customOverrides.height || ''}
+              onChange={(e) => handleCustomUpdate('height', e.target.value || undefined)}
+              placeholder="auto"
+              style={inputStyle}
+            />
+          </div>
+        </div>
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+          Leave blank for default. e.g. 200px, 50%, 100%
+        </div>
+      </div>
     </div>
   );
 }

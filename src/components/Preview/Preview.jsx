@@ -8,8 +8,8 @@ export function Preview() {
   const [viewportMode, setViewportMode] = useState('desktop');
 
   const htmlContent = useMemo(() => {
-    return generateHTML(state.page);
-  }, [state.page]);
+    return generateHTML(state.page, state.selectedElementId);
+  }, [state.page, state.selectedElementId]);
 
   const isMobileMode = viewportMode === 'mobile';
   const previewWidth = isMobileMode ? '375px' : '100%';
