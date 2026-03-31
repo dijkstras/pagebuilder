@@ -5,6 +5,8 @@
  * Works on both local dev (Express) and Netlify (Functions with GitHub API).
  */
 
+import { fileStorageLocal } from './fileStorageLocal.js';
+
 let cachedImpl = null;
 
 async function getStorageImplementation() {
@@ -19,7 +21,6 @@ async function getStorageImplementation() {
     }
 
     // In browser or local dev, use Express backend
-    const { fileStorageLocal } = await import('./fileStorageLocal.js');
     cachedImpl = fileStorageLocal;
     return fileStorageLocal;
   } catch (error) {
