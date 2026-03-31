@@ -60,8 +60,14 @@ app.post('/api/pages', async (req, res) => {
     const blankPage = {
       id: `page-${Date.now()}`,
       title: name,
+      breakpoints: {
+        mobile: 320,
+        tablet: 768,
+        desktop: 1024
+      },
       root: [],
       styles: {
+        logo: null,
         colors: { primary: '#3b82f6', secondary: '#8b5cf6', neutral: '#6b7280' },
         fonts: {
           heading1: { family: 'Inter', size: 48, weight: 700 },
@@ -69,8 +75,13 @@ app.post('/api/pages', async (req, res) => {
           body: { family: 'Inter', size: 16, weight: 400 },
           label: { family: 'Inter', size: 12, weight: 500 }
         },
+        buttonStyles: [
+          { id: 'primary', label: 'Primary', bgColor: '#3b82f6', textColor: '#ffffff', padding: 12, radius: 6 },
+          { id: 'secondary', label: 'Secondary', bgColor: '#e5e7eb', textColor: '#1f2937', padding: 12, radius: 6 },
+          { id: 'tertiary', label: 'Tertiary', bgColor: 'transparent', textColor: '#3b82f6', padding: 12, radius: 6 }
+        ],
+        shapes: { borderRadius: 6 },
         spacing: { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 },
-        buttonStyles: [{ id: 'default', bgColor: '#3b82f6', textColor: '#ffffff', padding: 12, radius: 6 }],
         bgColor: '#f9fafb'
       }
     };
