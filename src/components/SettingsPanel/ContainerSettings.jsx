@@ -37,47 +37,63 @@ export function ContainerSettings() {
       <h3 style={{ fontSize: '14px', marginBottom: '12px', fontWeight: 500 }}>Container: {container.name}</h3>
 
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Layout</label>
-        <select
-          value={container.settings.layout}
-          onChange={(e) => handleUpdate('layout', e.target.value)}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        >
-          <option value="flex">Flex</option>
-          <option value="grid">Grid</option>
-        </select>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Layout Direction</label>
+        <div style={{ display: 'flex', gap: '6px' }}>
+          {[
+            { value: 'column', label: '↓', title: 'Vertical (top to bottom)' },
+            { value: 'row', label: '→', title: 'Horizontal (left to right)' }
+          ].map(({ value, label, title }) => (
+            <button
+              key={value}
+              title={title}
+              onClick={() => handleUpdate('direction', value)}
+              style={{
+                flex: 1,
+                padding: '6px',
+                fontSize: '16px',
+                backgroundColor: (container.settings.direction ?? 'column') === value ? '#3b82f6' : '#374151',
+                color: '#f3f4f6',
+                border: '1px solid #4b5563',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              {label} {value === 'row' ? 'Horizontal' : 'Vertical'}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Columns (1-4)</label>
-        <input
-          type="number"
-          min="1"
-          max="4"
-          value={container.settings.columns}
-          onChange={(e) => handleUpdate('columns', Math.min(4, Math.max(1, parseInt(e.target.value))))}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        />
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Column Span (of 12)</label>
+        <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap' }}>
+          {[1,2,3,4,5,6,7,8,9,10,11,12].map(n => (
+            <button
+              key={n}
+              onClick={() => handleUpdate('columnSpan', n)}
+              style={{
+                width: '22px',
+                height: '22px',
+                fontSize: '11px',
+                backgroundColor: (container.settings.columnSpan ?? 12) === n ? '#3b82f6' : '#374151',
+                color: '#f3f4f6',
+                border: '1px solid #4b5563',
+                borderRadius: '3px',
+                cursor: 'pointer',
+                padding: 0
+              }}
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+        <div style={{ fontSize: '11px', color: '#9ca3af', marginTop: '4px' }}>
+          {Math.round((container.settings.columnSpan ?? 12) / 12 * 100)}% of row width
+        </div>
       </div>
 
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Spacing (px)</label>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Children Gap (px)</label>
         <input
           type="number"
           value={container.settings.spacing}

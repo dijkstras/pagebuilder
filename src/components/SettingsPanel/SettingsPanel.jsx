@@ -4,37 +4,52 @@ import { PageSettings } from './PageSettings';
 import { SegmentSettings } from './SegmentSettings';
 import { ContainerSettings } from './ContainerSettings';
 import { ContentSettings } from './ContentSettings';
+import { BrandingSettings } from './BrandingSettings';
 import { THEME } from '../../utils/constants';
+
+const SECTION_ICONS = {
+  typography: '🔤',
+  colors: '🎨',
+  buttons: '🔘'
+};
 
 export function SettingsPanel() {
   const { state } = usePageStore();
 
+  // Brand section takes priority over element settings
+  if (state.activeBrandSection) {
+    return (
+      <div style={{
+        width: '350px',
+        height: '100vh',
+        backgroundColor: THEME.surface,
+        borderLeft: `1px solid ${THEME.border}`,
+        overflow: 'auto',
+        padding: '20px 16px',
+        color: THEME.text
+      }}>
+        <BrandingSettings />
+      </div>
+    );
+  }
+
   let settings = null;
+  let label = '📄 Page';
 
   if (!state.selectedElementId) {
     settings = <PageSettings />;
+    label = '📄 Page';
   } else if (state.selectedElementType === 'segment') {
     settings = <SegmentSettings />;
+    label = '📦 Segment';
   } else if (state.selectedElementType === 'container') {
     settings = <ContainerSettings />;
+    label = '📋 Container';
   } else {
     settings = <ContentSettings />;
+    const typeEmojis = { text: '📝 Text', image: '🖼️ Image', button: '🔘 Button', card: '🃏 Card' };
+    label = typeEmojis[state.selectedElementType] || 'Settings';
   }
-
-  const getSelectedLabel = () => {
-    if (!state.selectedElementId) {
-      return '📄 Page Settings';
-    }
-    const typeEmojis = {
-      segment: '📦 Segment',
-      container: '📋 Container',
-      text: '📝 Text',
-      image: '🖼️ Image',
-      button: '🔘 Button',
-      card: '🃏 Card'
-    };
-    return typeEmojis[state.selectedElementType] || 'Settings';
-  };
 
   return (
     <div style={{
@@ -43,11 +58,11 @@ export function SettingsPanel() {
       backgroundColor: THEME.surface,
       borderLeft: `1px solid ${THEME.border}`,
       overflow: 'auto',
-      padding: '16px',
+      padding: '20px 16px',
       color: THEME.text
     }}>
       <h2 style={{ fontSize: '16px', marginBottom: '16px', fontWeight: 600 }}>
-        {getSelectedLabel()}
+        {label}
       </h2>
       {settings}
     </div>

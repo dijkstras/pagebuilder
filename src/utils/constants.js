@@ -21,3 +21,11 @@ export const CONTENT_TYPE_LABELS = {
   button: 'Button',
   card: 'Card'
 };
+
+export function buildClamp(min, max) {
+  const slope = (max - min) / (1440 - 320);
+  const intercept = min - slope * 320;
+  const vw = (slope * 100).toFixed(2);
+  const rem = (intercept / 16).toFixed(3);
+  return `clamp(${min}px, ${vw}vw + ${rem}rem, ${max}px)`;
+}

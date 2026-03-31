@@ -1,14 +1,18 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { usePageStore } from '../../store/pageStore.jsx';
 import { generateHTML } from '../../services/pageGenerator';
 import { THEME } from '../../utils/constants';
 
 export function Preview() {
   const { state } = usePageStore();
+  const [viewportMode, setViewportMode] = useState('desktop');
 
   const htmlContent = useMemo(() => {
     return generateHTML(state.page);
   }, [state.page]);
+
+  const isMobileMode = viewportMode === 'mobile';
+  const previewWidth = isMobileMode ? '375px' : '100%';
 
   return (
     <div style={{
@@ -21,29 +25,72 @@ export function Preview() {
       display: 'flex',
       flexDirection: 'column'
     }}>
-      <h2 style={{
-        fontSize: '14px',
-        marginBottom: '16px',
-        color: THEME.textMuted,
-        fontWeight: 500
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '16px'
       }}>
-        Live Preview
-      </h2>
+        <h2 style={{
+          fontSize: '14px',
+          color: THEME.textMuted,
+          fontWeight: 500,
+          margin: 0
+        }}>
+          Live Preview
+        </h2>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          <button
+            onClick={() => setViewportMode('desktop')}
+            style={{
+              padding: '4px 12px',
+              fontSize: '12px',
+              fontWeight: viewportMode === 'desktop' ? 600 : 400,
+              backgroundColor: viewportMode === 'desktop' ? THEME.accent : THEME.background,
+              color: viewportMode === 'desktop' ? 'white' : THEME.text,
+              border: `1px solid ${viewportMode === 'desktop' ? THEME.accent : THEME.border}`,
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Desktop
+          </button>
+          <button
+            onClick={() => setViewportMode('mobile')}
+            style={{
+              padding: '4px 12px',
+              fontSize: '12px',
+              fontWeight: viewportMode === 'mobile' ? 600 : 400,
+              backgroundColor: viewportMode === 'mobile' ? THEME.accent : THEME.background,
+              color: viewportMode === 'mobile' ? 'white' : THEME.text,
+              border: `1px solid ${viewportMode === 'mobile' ? THEME.accent : THEME.border}`,
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Mobile
+          </button>
+        </div>
+      </div>
 
       <div style={{
         flex: 1,
         backgroundColor: 'white',
         borderRadius: '4px',
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-        overflow: 'auto'
+        overflow: 'auto',
+        display: 'flex',
+        justifyContent: isMobileMode ? 'center' : 'stretch',
+        padding: isMobileMode ? '20px' : '0'
       }}>
         <iframe
           srcDoc={htmlContent}
           style={{
-            width: '100%',
+            width: previewWidth,
             height: '100%',
             border: 'none',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            flexShrink: isMobileMode ? 0 : 1
           }}
           title="Page Preview"
         />

@@ -37,6 +37,34 @@ export function SegmentSettings() {
       <h3 style={{ fontSize: '14px', marginBottom: '12px', fontWeight: 500 }}>Segment: {segment.name}</h3>
 
       <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Layout Direction</label>
+        <div style={{ display: 'flex', gap: '6px' }}>
+          {[
+            { value: 'row', label: '→', title: 'Horizontal (left to right)' },
+            { value: 'column', label: '↓', title: 'Vertical (top to bottom)' }
+          ].map(({ value, label, title }) => (
+            <button
+              key={value}
+              title={title}
+              onClick={() => handleUpdate('direction', value)}
+              style={{
+                flex: 1,
+                padding: '6px',
+                fontSize: '16px',
+                backgroundColor: (segment.settings.direction ?? 'row') === value ? '#3b82f6' : '#374151',
+                color: '#f3f4f6',
+                border: '1px solid #4b5563',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              {label} {value === 'row' ? 'Horizontal' : 'Vertical'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Full Width</label>
         <input
           type="checkbox"
@@ -124,26 +152,6 @@ export function SegmentSettings() {
             border: '1px solid #4b5563',
             borderRadius: '4px',
             fontSize: '12px',
-            boxSizing: 'border-box'
-          }}
-        />
-      </div>
-
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Columns (1-4)</label>
-        <input
-          type="number"
-          min="1"
-          max="4"
-          value={segment.settings.columns}
-          onChange={(e) => handleUpdate('columns', Math.min(4, Math.max(1, parseInt(e.target.value))))}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
             boxSizing: 'border-box'
           }}
         />
