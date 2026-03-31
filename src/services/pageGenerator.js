@@ -1,4 +1,3 @@
-import { buildClamp } from '../utils/constants';
 
 export function generateHTML(page, selectedElementId) {
   const segments = page.root.map(segment => renderSegment(segment, page)).join('\n');
@@ -6,12 +5,25 @@ export function generateHTML(page, selectedElementId) {
   const selectionStyle = selectedElementId ? `
   <style>
     @keyframes selection-pulse {
-      0%   { outline: 2px solid rgba(99,102,241,0.9); outline-offset: 3px; box-shadow: 0 0 0 0 rgba(99,102,241,0.5); }
-      40%  { outline: 2px solid rgba(99,102,241,0.7); outline-offset: 3px; box-shadow: 0 0 0 6px rgba(99,102,241,0.2); }
-      100% { outline: 2px solid transparent;          outline-offset: 3px; box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+      0%   { box-shadow: inset 0 0 0 2px rgba(99,102,241,0.9), inset 0 0 8px 0 rgba(99,102,241,0.6); }
+      25%  { box-shadow: inset 0 0 0 2px rgba(99,102,241,0.8), inset 0 0 16px 2px rgba(99,102,241,0.3); }
+      50%  { box-shadow: inset 0 0 0 2px rgba(99,102,241,0.9), inset 0 0 8px 0 rgba(99,102,241,0.6); }
+      75%  { box-shadow: inset 0 0 0 2px rgba(99,102,241,0.6), inset 0 0 8px 0 rgba(99,102,241,0.3); }
+      100% { box-shadow: inset 0 0 0 2px rgba(99,102,241,0), inset 0 0 8px 0 rgba(99,102,241,0); }
+    }
+    @keyframes image-pulse {
+      0%   { box-shadow: inset 0 0 0 3px rgba(99,102,241,1), inset 0 0 12px 0 rgba(99,102,241,0.8), 0 0 8px rgba(99,102,241,0.5); }
+      25%  { box-shadow: inset 0 0 0 3px rgba(99,102,241,0.9), inset 0 0 20px 4px rgba(99,102,241,0.5), 0 0 16px rgba(99,102,241,0.8); }
+      50%  { box-shadow: inset 0 0 0 3px rgba(99,102,241,1), inset 0 0 12px 0 rgba(99,102,241,0.8), 0 0 8px rgba(99,102,241,0.5); }
+      75%  { box-shadow: inset 0 0 0 3px rgba(99,102,241,0.6), inset 0 0 12px 0 rgba(99,102,241,0.4), 0 0 8px rgba(99,102,241,0.3); }
+      100% { box-shadow: inset 0 0 0 3px rgba(99,102,241,0), inset 0 0 12px 0 rgba(99,102,241,0), 0 0 8px rgba(99,102,241,0); }
     }
     [data-element-id="${selectedElementId}"] {
-      animation: selection-pulse 0.7s ease-out 1 forwards;
+      animation: selection-pulse 3s ease-in-out forwards;
+    }
+    img[data-element-id="${selectedElementId}"] {
+      animation: image-pulse 3s ease-in-out forwards;
+      border-radius: 4px;
     }
   </style>` : '';
 
@@ -36,13 +48,41 @@ export function generateHTML(page, selectedElementId) {
 function renderSegment(segment, page) {
   const gutter = segment.settings.gutter ?? 24;
   const maxWidth = segment.settings.maxWidth;
+  const bgSize = segment.settings.bgSize || 'cover';
+
+  const getBackgroundPosition = (hAlign, vAlign) => {
+    const hMap = { left: 'left', center: 'center', right: 'right' };
+    const vMap = { top: 'top', center: 'center', bottom: 'bottom' };
+    const h = hMap[hAlign] || 'center';
+    const v = vMap[vAlign] || 'center';
+    return `${h} ${v}`;
+  };
+  const bgPosition = segment.settings.bgImage
+    ? getBackgroundPosition(segment.settings.contentAlignment || 'left', segment.settings.verticalAlignment || 'top')
+    : undefined;
+
+  const isGradient = segment.settings.bgType === 'gradient' && segment.settings.bgGradient;
+  const gradientBg = isGradient
+    ? `linear-gradient(${segment.settings.bgGradient.angle}deg, ${segment.settings.bgGradient.color1}, ${segment.settings.bgGradient.color2})`
+    : undefined;
+  const hasBgImage = !!segment.settings.bgImage;
+
+  let backgroundImage;
+  if (hasBgImage && isGradient) {
+    backgroundImage = `url(${segment.settings.bgImage}), ${gradientBg}`;
+  } else if (hasBgImage) {
+    backgroundImage = `url(${segment.settings.bgImage})`;
+  } else {
+    backgroundImage = gradientBg;
+  }
 
   const outerStyle = buildStyleString({
     minHeight: `${segment.settings.minHeight ?? 200}px`,
-    backgroundColor: segment.settings.bgColor,
-    backgroundImage: segment.settings.bgImage ? `url(${segment.settings.bgImage})` : undefined,
-    backgroundSize: segment.settings.bgImage ? 'cover' : undefined,
-    backgroundPosition: segment.settings.bgImage ? 'center' : undefined,
+    backgroundColor: isGradient ? undefined : segment.settings.bgColor,
+    backgroundImage,
+    backgroundSize: hasBgImage ? bgSize : undefined,
+    backgroundPosition: bgPosition,
+    backgroundRepeat: hasBgImage && segment.settings.bgRepeat ? 'repeat' : 'no-repeat',
     padding: `${segment.settings.padding}px`,
     margin: `${segment.settings.margin}px`
   });
@@ -86,6 +126,18 @@ function renderContainer(container, page) {
   const direction = container.settings.direction ?? 'column';
   const hAlign = hMap[container.settings.contentAlignment] || 'flex-start';
   const vAlign = vMap[container.settings.verticalAlignment] || 'flex-start';
+  const bgSize = container.settings.bgSize || 'cover';
+
+  const getBackgroundPosition = (hAlign, vAlign) => {
+    const hMap = { left: 'left', center: 'center', right: 'right' };
+    const vMap = { top: 'top', center: 'center', bottom: 'bottom' };
+    const h = hMap[hAlign] || 'center';
+    const v = vMap[vAlign] || 'center';
+    return `${h} ${v}`;
+  };
+  const bgPosition = container.settings.bgImage
+    ? getBackgroundPosition(container.settings.contentAlignment || 'left', container.settings.verticalAlignment || 'top')
+    : undefined;
 
   const styleObj = {
     width: container.settings.width || 'auto',
@@ -99,13 +151,26 @@ function renderContainer(container, page) {
     alignItems: direction === 'row' ? vAlign : hAlign
   };
 
-  if (container.settings.bgColor && container.settings.bgColor !== 'transparent') {
+  const isGradient = container.settings.bgType === 'gradient' && container.settings.bgGradient;
+  const hasBgImage = !!container.settings.bgImage;
+
+  if (!isGradient && container.settings.bgColor && container.settings.bgColor !== 'transparent') {
     styleObj.backgroundColor = container.settings.bgColor;
   }
-  if (container.settings.bgImage) {
+  if (hasBgImage && isGradient) {
+    const { angle, color1, color2 } = container.settings.bgGradient;
+    styleObj.backgroundImage = `url(${container.settings.bgImage}), linear-gradient(${angle}deg, ${color1}, ${color2})`;
+    styleObj.backgroundSize = bgSize;
+    styleObj.backgroundPosition = bgPosition;
+    styleObj.backgroundRepeat = container.settings.bgRepeat ? 'repeat' : 'no-repeat';
+  } else if (hasBgImage) {
     styleObj.backgroundImage = `url(${container.settings.bgImage})`;
-    styleObj.backgroundSize = 'cover';
-    styleObj.backgroundPosition = 'center';
+    styleObj.backgroundSize = bgSize;
+    styleObj.backgroundPosition = bgPosition;
+    styleObj.backgroundRepeat = container.settings.bgRepeat ? 'repeat' : 'no-repeat';
+  } else if (isGradient) {
+    const { angle, color1, color2 } = container.settings.bgGradient;
+    styleObj.backgroundImage = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
   }
   if (container.settings.padding) {
     styleObj.padding = `${container.settings.padding}px`;
@@ -128,17 +193,33 @@ function sizeOverrides(item) {
 function renderContentItem(item, page) {
   switch (item.type) {
     case 'text': {
-      const role = item.settings.textRole;
+      const role = item.settings.textRole || 'body';
       const { width, height } = sizeOverrides(item);
-      if (role === 'heading') {
+      const textAlign = item.settings.textAlign || 'left';
+
+      if (role === 'heading1') {
         const style = buildStyleString({
           margin: '0',
-          fontFamily: 'var(--font-heading-family)',
-          fontSize: 'var(--font-heading-size)',
-          fontWeight: 'var(--font-heading-weight)',
+          fontFamily: 'var(--font-heading1-family)',
+          fontSize: 'var(--font-heading1-size)',
+          fontWeight: 'var(--font-heading1-weight)',
           lineHeight: '1.2',
           width: width ?? 'max-content',
-          height
+          height,
+          textAlign
+        });
+        return `<h1 style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</h1>`;
+      }
+      if (role === 'heading2') {
+        const style = buildStyleString({
+          margin: '0',
+          fontFamily: 'var(--font-heading2-family)',
+          fontSize: 'var(--font-heading2-size)',
+          fontWeight: 'var(--font-heading2-weight)',
+          lineHeight: '1.3',
+          width: width ?? 'max-content',
+          height,
+          textAlign
         });
         return `<h2 style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</h2>`;
       }
@@ -150,22 +231,43 @@ function renderContentItem(item, page) {
           fontWeight: 'var(--font-body-weight)',
           lineHeight: '1.6',
           width: width ?? 'max-content',
-          height
+          height,
+          textAlign
         });
         return `<p style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
       }
-      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height })}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
+      if (role === 'label') {
+        const style = buildStyleString({
+          margin: '0',
+          fontFamily: 'var(--font-label-family)',
+          fontSize: 'var(--font-label-size)',
+          fontWeight: 'var(--font-label-weight)',
+          lineHeight: '1.4',
+          width: width ?? 'max-content',
+          height,
+          textAlign,
+          display: 'inline-block'
+        });
+        return `<span class="label" style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</span>`;
+      }
+      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height, textAlign })}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
     }
 
     case 'image': {
       const { width, height } = sizeOverrides(item);
+      const objectFit = item.settings.customOverrides.objectFit || 'cover';
       const imgStyle = buildStyleString({
         display: 'block',
         width: width ?? '300px',
         height: height ?? 'auto',
-        maxWidth: '100%'
+        maxWidth: '100%',
+        objectFit: objectFit === '100% 100%' ? undefined : objectFit,
+        objectPosition: 'center'
       });
-      return `<img src="${item.settings.customOverrides.src || ''}" alt="" style="${imgStyle}" data-element-id="${item.id}" />`;
+      const styleStr = objectFit === '100% 100%'
+        ? `${imgStyle}; object-fit: cover; object-position: center; width: 100%; height: 100%;`
+        : imgStyle;
+      return `<img src="${item.settings.customOverrides.src || ''}" alt="" style="${styleStr}" data-element-id="${item.id}" />`;
     }
 
     case 'button': {
@@ -211,13 +313,10 @@ function buildStyleString(styleObj) {
     .join('; ');
 }
 
-function generateCSS(page) {
+export function generateCSS(page) {
   const colors = page.styles.colors;
   const fonts = page.styles.fonts;
   const spacing = page.styles.spacing ?? { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 };
-
-  const headingClamp = buildClamp(fonts.heading.sizeMin, fonts.heading.sizeMax);
-  const bodyClamp = buildClamp(fonts.body.sizeMin, fonts.body.sizeMax);
 
   return `
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -225,12 +324,18 @@ function generateCSS(page) {
       --color-primary: ${colors.primary};
       --color-secondary: ${colors.secondary};
       --color-neutral: ${colors.neutral};
-      --font-heading-family: ${fonts.heading.family}, sans-serif;
-      --font-heading-size: ${headingClamp};
-      --font-heading-weight: ${fonts.heading.weight};
-      --font-body-family: ${fonts.body.family}, sans-serif;
-      --font-body-size: ${bodyClamp};
-      --font-body-weight: ${fonts.body.weight};
+      --font-heading1-family: ${fonts.heading1?.family ?? 'Inter'}, sans-serif;
+      --font-heading1-size: ${fonts.heading1?.size ?? 48}px;
+      --font-heading1-weight: ${fonts.heading1?.weight ?? 700};
+      --font-heading2-family: ${fonts.heading2?.family ?? 'Inter'}, sans-serif;
+      --font-heading2-size: ${fonts.heading2?.size ?? 32}px;
+      --font-heading2-weight: ${fonts.heading2?.weight ?? 600};
+      --font-body-family: ${fonts.body?.family ?? 'Inter'}, sans-serif;
+      --font-body-size: ${fonts.body?.size ?? 16}px;
+      --font-body-weight: ${fonts.body?.weight ?? 400};
+      --font-label-family: ${fonts.label?.family ?? 'Inter'}, sans-serif;
+      --font-label-size: ${fonts.label?.size ?? 12}px;
+      --font-label-weight: ${fonts.label?.weight ?? 500};
       --spacing-xs: ${spacing.xs}px;
       --spacing-sm: ${spacing.sm}px;
       --spacing-md: ${spacing.md}px;
@@ -243,10 +348,20 @@ function generateCSS(page) {
       font-weight: var(--font-body-weight);
     }
     body { background-color: ${page.styles.bgColor ?? '#f9fafb'}; }
-    h1, h2, h3 {
-      font-family: var(--font-heading-family);
-      font-size: var(--font-heading-size);
-      font-weight: var(--font-heading-weight);
+    h1 {
+      font-family: var(--font-heading1-family);
+      font-size: var(--font-heading1-size);
+      font-weight: var(--font-heading1-weight);
+    }
+    h2 {
+      font-family: var(--font-heading2-family);
+      font-size: var(--font-heading2-size);
+      font-weight: var(--font-heading2-weight);
+    }
+    h3, .label {
+      font-family: var(--font-label-family);
+      font-size: var(--font-label-size);
+      font-weight: var(--font-label-weight);
     }
   `;
 }

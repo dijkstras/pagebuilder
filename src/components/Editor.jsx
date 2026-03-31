@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StructureTree } from './StructureTree/StructureTree';
 import { Preview } from './Preview/Preview';
 import { SettingsPanel } from './SettingsPanel/SettingsPanel';
 import { usePageStore, pageActions } from '../store/pageStore.jsx';
-import { savePage, loadPage, listPages } from '../services/googleDrive';
+import { generateHTML, generateCSS } from '../services/pageGenerator';
+import { storage } from '../services/fileStorage';
 import { THEME, EDITOR_LAYOUT } from '../utils/constants';
 
 export function Editor() {
@@ -12,27 +13,154 @@ export function Editor() {
   const [saveFileName, setSaveFileName] = useState('');
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [pages, setPages] = useState([]);
+  const [autoSaveTimeout, setAutoSaveTimeout] = useState(null);
 
-  const handleSave = async () => {
-    if (saveFileName.trim()) {
-      await savePage(state.page, saveFileName);
+  // Auto-save when page changes
+  useEffect(() => {
+    // Clear existing timeout
+    if (autoSaveTimeout) clearTimeout(autoSaveTimeout);
+
+    // Only auto-save if page has a name (not untitled)
+    if (!state.page.title || state.page.title === 'Untitled Page') {
+      return;
+    }
+
+    // Set new timeout for auto-save
+    const timeout = setTimeout(async () => {
+      dispatch(pageActions.setSaveStatus('saving'));
+      try {
+        const result = await storage.savePage(state.page.title, state.page);
+        dispatch(pageActions.setSaveStatus('saved'));
+        // Clear saved status after 2 seconds
+        setTimeout(() => {
+          dispatch(pageActions.setSaveStatus('idle'));
+        }, 2000);
+      } catch (error) {
+        dispatch(pageActions.setSaveStatus('error', error.message));
+      }
+    }, 3000); // 3 second debounce
+
+    setAutoSaveTimeout(timeout);
+
+    return () => clearTimeout(timeout);
+  }, [state.page, dispatch]); // Re-run when page changes
+
+  const handleNewPage = async () => {
+    const pageName = saveFileName.trim();
+
+    if (!pageName) {
+      return;
+    }
+
+    // Validate name
+    if (!pageName.match(/^[a-z0-9\-]+$/i)) {
+      alert('Page name must contain only letters, numbers, and hyphens');
+      return;
+    }
+
+    try {
+      dispatch(pageActions.setSaveStatus('saving'));
+      const newPage = await storage.createNewPage(pageName);
+      dispatch(pageActions.setPage(newPage));
+      dispatch(pageActions.setSaveStatus('saved'));
       setShowSaveDialog(false);
       setSaveFileName('');
+
+      // Clear saved status after 2 seconds
+      setTimeout(() => {
+        dispatch(pageActions.setSaveStatus('idle'));
+      }, 2000);
+    } catch (error) {
+      dispatch(pageActions.setSaveStatus('error', error.message));
     }
   };
 
   const handleLoadClick = async () => {
-    const loadedPages = await listPages();
+    const loadedPages = await storage.listPages();
     setPages(loadedPages);
     setShowLoadDialog(true);
   };
 
-  const handleLoadPage = async (fileName) => {
-    const page = await loadPage(fileName);
+  const handleLoadPage = async (pageName) => {
+    const page = await storage.loadPage(pageName);
     if (page) {
       dispatch(pageActions.setPage(page));
       setShowLoadDialog(false);
     }
+  };
+
+  const handleDeletePage = async (pageName, e) => {
+    e.stopPropagation();
+    if (!window.confirm(`Delete "${pageName}"? This cannot be undone.`)) {
+      return;
+    }
+    try {
+      dispatch(pageActions.setSaveStatus('saving'));
+      await storage.deletePage(pageName);
+      // Refresh the pages list
+      const loadedPages = await storage.listPages();
+      setPages(loadedPages);
+      dispatch(pageActions.setSaveStatus('saved'));
+      setTimeout(() => {
+        dispatch(pageActions.setSaveStatus('idle'));
+      }, 2000);
+    } catch (error) {
+      dispatch(pageActions.setSaveStatus('error', error.message));
+    }
+  };
+
+  const handleDuplicatePage = async (pageName, e) => {
+    e.stopPropagation();
+    const newName = prompt(`Duplicate "${pageName}" as:`, `${pageName}-copy`);
+    if (!newName) return;
+
+    if (!newName.match(/^[a-z0-9\-]+$/i)) {
+      alert('Page name must contain only letters, numbers, and hyphens');
+      return;
+    }
+
+    try {
+      dispatch(pageActions.setSaveStatus('saving'));
+      await storage.duplicatePage(pageName, newName);
+      // Refresh the pages list
+      const loadedPages = await storage.listPages();
+      setPages(loadedPages);
+      dispatch(pageActions.setSaveStatus('saved'));
+      setTimeout(() => {
+        dispatch(pageActions.setSaveStatus('idle'));
+      }, 2000);
+    } catch (error) {
+      dispatch(pageActions.setSaveStatus('error', error.message));
+    }
+  };
+
+  const handleExport = () => {
+    const htmlContent = generateHTML(state.page, null);
+    const cssContent = generateCSS(state.page);
+
+    // Download HTML
+    const htmlBlob = new Blob([htmlContent], { type: 'text/html' });
+    const htmlUrl = URL.createObjectURL(htmlBlob);
+    const htmlLink = document.createElement('a');
+    htmlLink.href = htmlUrl;
+    htmlLink.download = `${state.page.title || 'page'}.html`;
+    document.body.appendChild(htmlLink);
+    htmlLink.click();
+    document.body.removeChild(htmlLink);
+    URL.revokeObjectURL(htmlUrl);
+
+    // Download CSS
+    setTimeout(() => {
+      const cssBlob = new Blob([cssContent], { type: 'text/css' });
+      const cssUrl = URL.createObjectURL(cssBlob);
+      const cssLink = document.createElement('a');
+      cssLink.href = cssUrl;
+      cssLink.download = `${state.page.title || 'page'}.css`;
+      document.body.appendChild(cssLink);
+      cssLink.click();
+      document.body.removeChild(cssLink);
+      URL.revokeObjectURL(cssUrl);
+    }, 100);
   };
 
   return (
@@ -46,7 +174,23 @@ export function Editor() {
         borderBottom: `1px solid ${THEME.border}`,
         zIndex: 10
       }}>
-        <h1 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>{state.page.title || 'Untitled Page'}</h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <h1 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>
+            {state.page.title || 'Untitled Page'}
+          </h1>
+          {state.saveStatus !== 'idle' && (
+            <span style={{
+              fontSize: '12px',
+              fontWeight: 500,
+              color: state.saveStatus === 'error' ? '#ef4444' : '#10b981',
+              minWidth: '80px'
+            }}>
+              {state.saveStatus === 'saving' && '⟳ Saving...'}
+              {state.saveStatus === 'saved' && '✓ Saved'}
+              {state.saveStatus === 'error' && `✗ Error: ${state.saveError}`}
+            </span>
+          )}
+        </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={() => setShowSaveDialog(true)}
@@ -61,7 +205,7 @@ export function Editor() {
               fontWeight: '500'
             }}
           >
-            Save
+            New Page
           </button>
           <button
             onClick={handleLoadClick}
@@ -77,6 +221,21 @@ export function Editor() {
             }}
           >
             Load
+          </button>
+          <button
+            onClick={handleExport}
+            style={{
+              padding: '6px 12px',
+              backgroundColor: THEME.background,
+              color: '#10b981',
+              border: '1px solid #10b981',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px',
+              fontWeight: '500'
+            }}
+          >
+            Export
           </button>
         </div>
       </div>
@@ -113,7 +272,7 @@ export function Editor() {
             border: `1px solid ${THEME.border}`,
             minWidth: '300px'
           }}>
-            <h3 style={{ marginBottom: '16px' }}>Save Page</h3>
+            <h3 style={{ marginBottom: '16px' }}>Create Page</h3>
             <input
               type="text"
               placeholder="Page name..."
@@ -129,7 +288,7 @@ export function Editor() {
                 color: THEME.text,
                 boxSizing: 'border-box'
               }}
-              onKeyDown={(e) => e.key === 'Enter' && handleSave()}
+              onKeyDown={(e) => e.key === 'Enter' && handleNewPage()}
               autoFocus
             />
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
@@ -148,7 +307,7 @@ export function Editor() {
                 Cancel
               </button>
               <button
-                onClick={handleSave}
+                onClick={handleNewPage}
                 style={{
                   padding: '6px 12px',
                   backgroundColor: THEME.accent,
@@ -159,7 +318,7 @@ export function Editor() {
                   fontSize: '12px'
                 }}
               >
-                Save
+                Create
               </button>
             </div>
           </div>
@@ -194,22 +353,67 @@ export function Editor() {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
                 {pages.map(page => (
-                  <button
+                  <div
                     key={page.id}
-                    onClick={() => handleLoadPage(page.name)}
                     style={{
-                      padding: '8px 12px',
+                      padding: '12px',
                       backgroundColor: THEME.background,
-                      color: THEME.text,
                       border: `1px solid ${THEME.border}`,
                       borderRadius: '4px',
                       cursor: 'pointer',
-                      textAlign: 'left',
-                      fontSize: '12px'
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      fontSize: '12px',
+                      transition: 'background-color 0.2s'
                     }}
+                    onClick={() => handleLoadPage(page.name)}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = THEME.surfaceHover || '#f0f0f0'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.background}
                   >
-                    {page.name}
-                  </button>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 500, color: THEME.text, marginBottom: '4px' }}>
+                        {page.name}
+                      </div>
+                      <div style={{ fontSize: '11px', color: THEME.textMuted }}>
+                        Modified: {new Date(page.lastModified).toLocaleDateString()} {new Date(page.lastModified).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '4px', marginLeft: '8px' }}>
+                      <button
+                        onClick={(e) => handleDuplicatePage(page.name, e)}
+                        title="Duplicate"
+                        style={{
+                          padding: '4px 8px',
+                          backgroundColor: '#3b82f6',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '3px',
+                          cursor: 'pointer',
+                          fontSize: '11px',
+                          fontWeight: 500
+                        }}
+                      >
+                        Copy
+                      </button>
+                      <button
+                        onClick={(e) => handleDeletePage(page.name, e)}
+                        title="Delete"
+                        style={{
+                          padding: '4px 8px',
+                          backgroundColor: '#ef4444',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '3px',
+                          cursor: 'pointer',
+                          fontSize: '11px',
+                          fontWeight: 500
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
                 ))}
               </div>
             )}

@@ -55,6 +55,13 @@ function Divider() {
 
 // ─── Typography ────────────────────────────────────────────────────────────────
 
+const TYPOGRAPHY_STYLES = [
+  { key: 'heading1', label: 'Heading 1', previewText: 'The quick brown fox' },
+  { key: 'heading2', label: 'Heading 2', previewText: 'The quick brown fox' },
+  { key: 'body', label: 'Body', previewText: 'The quick brown fox jumps over the lazy dog.' },
+  { key: 'label', label: 'Label', previewText: 'Label text' }
+];
+
 function TypographySettings() {
   const { state, dispatch } = usePageStore();
   const { fonts } = state.page.styles;
@@ -66,37 +73,50 @@ function TypographySettings() {
 
   return (
     <div>
-      {['heading', 'body'].map(role => (
-        <div key={role}>
-          <p style={sectionHeadingStyle}>{role === 'heading' ? 'Heading' : 'Body text'}</p>
+      {TYPOGRAPHY_STYLES.map((style, index) => (
+        <div key={style.key}>
+          <p style={sectionHeadingStyle}>{style.label}</p>
 
           <div style={{ marginBottom: '12px' }}>
             <label style={labelStyle}>Font family</label>
             <select
-              value={FONT_FAMILIES.includes(fonts[role].family) ? fonts[role].family : 'custom'}
+              value={FONT_FAMILIES.includes(fonts[style.key].family) ? fonts[style.key].family : 'custom'}
               onChange={(e) => {
-                if (e.target.value !== 'custom') handleFontChange(role, 'family', e.target.value);
+                if (e.target.value !== 'custom') handleFontChange(style.key, 'family', e.target.value);
               }}
               style={inputStyle}
             >
               {FONT_FAMILIES.map(f => <option key={f} value={f}>{f}</option>)}
-              {!FONT_FAMILIES.includes(fonts[role].family) && (
-                <option value="custom">{fonts[role].family} (custom)</option>
+              {!FONT_FAMILIES.includes(fonts[style.key].family) && (
+                <option value="custom">{fonts[style.key].family} (custom)</option>
               )}
             </select>
           </div>
 
-          <div style={{ marginBottom: role === 'heading' ? '0' : '0' }}>
-            <label style={labelStyle}>Weight</label>
-            <select
-              value={fonts[role].weight}
-              onChange={(e) => handleFontChange(role, 'weight', parseInt(e.target.value))}
-              style={inputStyle}
-            >
-              {FONT_WEIGHTS.map(w => (
-                <option key={w.value} value={w.value}>{w.label} ({w.value})</option>
-              ))}
-            </select>
+          <div style={{ marginBottom: '12px', display: 'flex', gap: '8px' }}>
+            <div style={{ flex: 1 }}>
+              <label style={labelStyle}>Size (px)</label>
+              <input
+                type="number"
+                value={fonts[style.key].size}
+                onChange={(e) => handleFontChange(style.key, 'size', parseInt(e.target.value) || 0)}
+                min="8"
+                max="96"
+                style={inputStyle}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={labelStyle}>Weight</label>
+              <select
+                value={fonts[style.key].weight}
+                onChange={(e) => handleFontChange(style.key, 'weight', parseInt(e.target.value))}
+                style={inputStyle}
+              >
+                {FONT_WEIGHTS.map(w => (
+                  <option key={w.value} value={w.value}>{w.label}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           {/* Live preview */}
@@ -105,15 +125,15 @@ function TypographySettings() {
             padding: '10px 12px',
             backgroundColor: '#1f2937',
             borderRadius: '6px',
-            fontFamily: fonts[role].family,
-            fontWeight: fonts[role].weight,
-            fontSize: role === 'heading' ? '20px' : '14px',
+            fontFamily: fonts[style.key].family,
+            fontWeight: fonts[style.key].weight,
+            fontSize: `${fonts[style.key].size}px`,
             color: '#f3f4f6'
           }}>
-            {role === 'heading' ? 'The quick brown fox' : 'The quick brown fox jumps over the lazy dog.'}
+            {style.previewText}
           </div>
 
-          {role === 'heading' && <Divider />}
+          {index < TYPOGRAPHY_STYLES.length - 1 && <Divider />}
         </div>
       ))}
     </div>

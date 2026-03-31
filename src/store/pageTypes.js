@@ -32,8 +32,10 @@ export const createEmptyPage = () => ({
       neutral: '#6b7280'
     },
     fonts: {
-      heading: { family: 'Inter', sizeMin: 24, sizeMax: 48, weight: 700 },
-      body: { family: 'Inter', sizeMin: 14, sizeMax: 18, weight: 400 }
+      heading1: { family: 'Inter', size: 48, weight: 700 },
+      heading2: { family: 'Inter', size: 32, weight: 600 },
+      body: { family: 'Inter', size: 16, weight: 400 },
+      label: { family: 'Inter', size: 12, weight: 500 }
     },
     buttonStyles: [
       {
@@ -138,8 +140,10 @@ export function migratePage(page) {
     styles: {
       ...page.styles,
       fonts: {
-        heading: migrateFontToken(page.styles?.fonts?.heading, { sizeMin: 24, sizeMax: 48, weight: 700 }),
-        body: migrateFontToken(page.styles?.fonts?.body, { sizeMin: 14, sizeMax: 18, weight: 400 })
+        heading1: migrateFontToken(page.styles?.fonts?.heading1, { size: 48, weight: 700 }),
+        heading2: migrateFontToken(page.styles?.fonts?.heading2, { size: 32, weight: 600 }),
+        body: migrateFontToken(page.styles?.fonts?.body, { size: 16, weight: 400 }),
+        label: migrateFontToken(page.styles?.fonts?.label, { size: 12, weight: 500 })
       },
       spacing: page.styles?.spacing ?? { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 },
       bgColor: page.styles?.bgColor ?? '#f9fafb',
@@ -151,9 +155,9 @@ export function migratePage(page) {
 
 function migrateFontToken(font, defaults) {
   if (!font) return { family: 'Inter', ...defaults };
-  const sizeMin = font.sizeMin ?? (font.size ? Math.round(font.size * 0.75) : defaults.sizeMin);
-  const sizeMax = font.sizeMax ?? (font.size ? Math.round(font.size * 1.5) : defaults.sizeMax);
-  return { family: font.family ?? 'Inter', sizeMin, sizeMax, weight: font.weight ?? defaults.weight };
+  // Handle old minMax structure and new size structure
+  const size = font.size ?? defaults.size;
+  return { family: font.family ?? 'Inter', size, weight: font.weight ?? defaults.weight };
 }
 
 function migrateSegment(segment) {
