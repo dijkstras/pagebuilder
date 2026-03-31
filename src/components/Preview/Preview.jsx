@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { usePageStore } from '../../store/pageStore';
+import { usePageStore } from '../../store/pageStore.jsx';
 import { generateHTML } from '../../services/pageGenerator';
 import { THEME } from '../../utils/constants';
 

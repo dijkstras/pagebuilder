@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePageStore, pageActions } from '../../store/pageStore';
+import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { TreeNode } from './TreeNode';
 import { createSegment, createContainer, createContentItem, CONTENT_TYPES } from '../../store/pageTypes';
 import { THEME } from '../../utils/constants';

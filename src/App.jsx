@@ -1,15 +1,13 @@
-import { useState } from 'react'
-import './App.css'
+import React from 'react';
+import { PageProvider } from './store/pageStore.jsx';
+import { Editor } from './components/Editor';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1>Page Builder</h1>
-      <p>Responsive page layout builder for teams</p>
-    </>
-  )
+    <PageProvider>
+      <Editor />
+    </PageProvider>
+  );
 }
 
-export default App
+export default App;

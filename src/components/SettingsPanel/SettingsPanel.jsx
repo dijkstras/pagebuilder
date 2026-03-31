@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePageStore } from '../../store/pageStore';
+import { usePageStore } from '../../store/pageStore.jsx';
 import { PageSettings } from './PageSettings';
 import { SegmentSettings } from './SegmentSettings';
 import { ContainerSettings } from './ContainerSettings';

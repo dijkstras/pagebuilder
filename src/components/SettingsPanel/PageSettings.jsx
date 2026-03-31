@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePageStore, pageActions } from '../../store/pageStore';
+import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 
 export function PageSettings() {
   const { state, dispatch } = usePageStore();

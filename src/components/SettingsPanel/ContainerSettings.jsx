@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePageStore, pageActions } from '../../store/pageStore';
+import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 
 function findElement(page, elementId) {
   const search = (element) => {

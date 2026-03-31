@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePageStore, pageActions } from '../../store/pageStore';
+import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPE_LABELS } from '../../utils/constants';
 
 export function TreeNode({ element, level = 0 }) {

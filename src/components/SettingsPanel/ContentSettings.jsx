@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePageStore, pageActions } from '../../store/pageStore';
+import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPES } from '../../store/pageTypes';
 
 function findElement(page, elementId) {
