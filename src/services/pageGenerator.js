@@ -22,7 +22,16 @@ export function generateHTML(page) {
 }
 
 function renderSegment(segment, page) {
-  const style = buildStyleString(segment.settings);
+  const styleObj = {
+    width: '100%',
+    minHeight: '200px',
+    backgroundColor: segment.settings.bgColor,
+    padding: `${segment.settings.padding}px`,
+    margin: `${segment.settings.margin}px`,
+    display: 'flex',
+    flexDirection: 'column'
+  };
+  const style = buildStyleString(styleObj);
   const children = segment.children.map(child => {
     if (child.type === 'container') {
       return renderContainer(child, page);
