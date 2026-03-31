@@ -21,6 +21,21 @@ export function SettingsPanel() {
     settings = <ContentSettings />;
   }
 
+  const getSelectedLabel = () => {
+    if (!state.selectedElementId) {
+      return '📄 Page Settings';
+    }
+    const typeEmojis = {
+      segment: '📦 Segment',
+      container: '📋 Container',
+      text: '📝 Text',
+      image: '🖼️ Image',
+      button: '🔘 Button',
+      card: '🃏 Card'
+    };
+    return typeEmojis[state.selectedElementType] || 'Settings';
+  };
+
   return (
     <div style={{
       width: '350px',
@@ -31,7 +46,9 @@ export function SettingsPanel() {
       padding: '16px',
       color: THEME.text
     }}>
-      <h2 style={{ fontSize: '16px', marginBottom: '16px', fontWeight: 600 }}>Settings</h2>
+      <h2 style={{ fontSize: '16px', marginBottom: '16px', fontWeight: 600 }}>
+        {getSelectedLabel()}
+      </h2>
       {settings}
     </div>
   );

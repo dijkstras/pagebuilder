@@ -20,6 +20,19 @@ export function TreeNode({ element, level = 0 }) {
 
   const labelText = element.name || CONTENT_TYPE_LABELS[element.type] || 'Element';
 
+  // Get icon based on element type
+  const getIcon = (type) => {
+    const icons = {
+      segment: '📦',
+      container: '📋',
+      text: '📝',
+      image: '🖼️',
+      button: '🔘',
+      card: '🃏'
+    };
+    return icons[type] || '•';
+  };
+
   return (
     <div style={{ marginLeft: `${level * 16}px` }}>
       <div
@@ -32,7 +45,8 @@ export function TreeNode({ element, level = 0 }) {
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          userSelect: 'none'
+          userSelect: 'none',
+          border: isSelected ? `2px solid #3b82f6` : '2px solid transparent'
         }}
       >
         {hasChildren && (
@@ -46,7 +60,8 @@ export function TreeNode({ element, level = 0 }) {
               border: 'none',
               color: '#9ca3af',
               cursor: 'pointer',
-              padding: '0 4px'
+              padding: '0 4px',
+              fontSize: '12px'
             }}
           >
             {isOpen ? '▼' : '▶'}
@@ -54,6 +69,7 @@ export function TreeNode({ element, level = 0 }) {
         )}
         {!hasChildren && <span style={{ width: '16px' }} />}
 
+        <span style={{ fontSize: '14px' }}>{getIcon(element.type)}</span>
         <span style={{ flex: 1, fontSize: '14px' }}>{labelText}</span>
 
         <button

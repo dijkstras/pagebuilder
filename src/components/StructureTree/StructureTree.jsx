@@ -33,6 +33,8 @@ export function StructureTree() {
     }
   };
 
+  const isPageSelected = !state.selectedElementId;
+
   return (
     <div style={{
       width: '300px',
@@ -45,6 +47,27 @@ export function StructureTree() {
     }}>
       <h2 style={{ fontSize: '16px', marginBottom: '16px', fontWeight: 600 }}>Page Structure</h2>
 
+      {/* Page Root */}
+      <div
+        onClick={() => dispatch(pageActions.deselectElement())}
+        style={{
+          padding: '8px 4px',
+          cursor: 'pointer',
+          backgroundColor: isPageSelected ? '#3b82f6' : 'transparent',
+          borderRadius: '4px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          userSelect: 'none',
+          marginBottom: '16px',
+          fontWeight: 500,
+          border: `2px solid ${isPageSelected ? '#3b82f6' : 'transparent'}`
+        }}
+      >
+        <span style={{ fontSize: '14px' }}>📄 Page: {state.page.title}</span>
+      </div>
+
+      {/* Add Segment Button */}
       <div style={{ marginBottom: '16px' }}>
         <button
           onClick={handleAddSegment}
@@ -64,6 +87,7 @@ export function StructureTree() {
         </button>
       </div>
 
+      {/* Conditional Action Buttons */}
       {selectedElement && (
         <div style={{ marginBottom: '16px', paddingTop: '16px', borderTop: `1px solid ${THEME.border}` }}>
           {canAddContainer && (
@@ -112,7 +136,8 @@ export function StructureTree() {
         </div>
       )}
 
-      <div style={{ marginTop: '24px' }}>
+      {/* Segments */}
+      <div style={{ marginTop: '8px' }}>
         {state.page.root.map(segment => (
           <TreeNode key={segment.id} element={segment} />
         ))}
