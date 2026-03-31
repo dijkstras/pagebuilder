@@ -59,7 +59,7 @@ export function StructureTree() {
           alignItems: 'center',
           gap: '8px',
           userSelect: 'none',
-          marginBottom: '16px',
+          marginBottom: '8px',
           fontWeight: 500,
           border: `2px solid ${isPageSelected ? '#3b82f6' : 'transparent'}`
         }}
@@ -67,25 +67,28 @@ export function StructureTree() {
         <span style={{ fontSize: '14px' }}>📄 Page: {state.page.title}</span>
       </div>
 
-      {/* Add Segment Button */}
-      <div style={{ marginBottom: '16px' }}>
-        <button
-          onClick={handleAddSegment}
-          style={{
-            width: '100%',
-            padding: '8px',
-            backgroundColor: THEME.accent,
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '12px',
-            fontWeight: 500
-          }}
-        >
-          + Add Segment
-        </button>
-      </div>
+      {/* Add buttons when page is selected */}
+      {isPageSelected && (
+        <div style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '4px', paddingLeft: '4px' }}>
+          <button
+            onClick={handleAddSegment}
+            style={{
+              width: '100%',
+              padding: '6px 8px',
+              backgroundColor: 'rgba(59, 130, 246, 0.2)',
+              color: '#3b82f6',
+              border: '1px solid #3b82f6',
+              borderRadius: '3px',
+              cursor: 'pointer',
+              fontSize: '11px',
+              fontWeight: 500,
+              textAlign: 'left'
+            }}
+          >
+            + Add Segment
+          </button>
+        </div>
+      )}
 
       {/* Conditional Action Buttons */}
       {selectedElement && (

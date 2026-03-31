@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPE_LABELS } from '../../utils/constants';
+import { createContainer, createContentItem, CONTENT_TYPES } from '../../store/pageTypes';
 
 export function TreeNode({ element, level = 0 }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -17,6 +18,26 @@ export function TreeNode({ element, level = 0 }) {
     e.stopPropagation();
     dispatch(pageActions.deleteElement(element.id));
   };
+
+  const handleAddContainer = (e) => {
+    e.stopPropagation();
+    const newContainer = createContainer();
+    dispatch(pageActions.updateElement(element.id, {
+      children: [...(element.children || []), newContainer]
+    }));
+  };
+
+  const handleAddContent = (type) => (e) => {
+    e.stopPropagation();
+    const newContent = createContentItem(type);
+    dispatch(pageActions.updateElement(element.id, {
+      children: [...(element.children || []), newContent]
+    }));
+  };
+
+  // Determine what can be added to this element
+  const canAddContainer = element.type === 'segment' || element.type === 'container';
+  const canAddContent = element.type === 'segment' || element.type === 'container';
 
   const labelText = element.name || CONTENT_TYPE_LABELS[element.type] || 'Element';
 
@@ -86,6 +107,54 @@ export function TreeNode({ element, level = 0 }) {
           ✕
         </button>
       </div>
+
+      {/* Add buttons when selected */}
+      {isSelected && (canAddContainer || canAddContent) && (
+        <div style={{ marginTop: '6px', display: 'flex', flexDirection: 'column', gap: '4px', paddingLeft: '20px' }}>
+          {canAddContainer && (
+            <button
+              onClick={handleAddContainer}
+              style={{
+                width: '100%',
+                padding: '4px 6px',
+                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                color: '#3b82f6',
+                border: '1px solid #3b82f6',
+                borderRadius: '3px',
+                cursor: 'pointer',
+                fontSize: '11px',
+                textAlign: 'left'
+              }}
+            >
+              + Container
+            </button>
+          )}
+          {canAddContent && (
+            <>
+              {Object.values(CONTENT_TYPES).map(type => (
+                <button
+                  key={type}
+                  onClick={handleAddContent(type)}
+                  style={{
+                    width: '100%',
+                    padding: '4px 6px',
+                    backgroundColor: 'rgba(107, 114, 128, 0.2)',
+                    color: '#9ca3af',
+                    border: '1px solid #4b5563',
+                    borderRadius: '3px',
+                    cursor: 'pointer',
+                    fontSize: '11px',
+                    textAlign: 'left',
+                    textTransform: 'capitalize'
+                  }}
+                >
+                  + {type}
+                </button>
+              ))}
+            </>
+          )}
+        </div>
+      )}
 
       {isOpen && hasChildren && (
         <div>
