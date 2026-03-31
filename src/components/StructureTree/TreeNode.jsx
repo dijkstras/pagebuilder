@@ -103,14 +103,21 @@ export function TreeNode({ element, level = 0 }) {
                 setShowAddMenu(!showAddMenu);
               }}
               style={{
-                background: 'none',
+                background: '#3b82f6',
                 border: 'none',
-                color: '#3b82f6',
+                color: 'white',
                 cursor: 'pointer',
-                fontSize: '16px',
-                padding: '0 4px',
+                fontSize: '14px',
+                padding: '2px 6px',
                 fontWeight: 'bold',
-                lineHeight: '1'
+                lineHeight: '1',
+                borderRadius: '3px',
+                width: '24px',
+                height: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
               }}
               title="Add child element"
             >

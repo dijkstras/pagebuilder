@@ -67,14 +67,21 @@ export function StructureTree() {
               setShowPageAddMenu(!showPageAddMenu);
             }}
             style={{
-              background: 'none',
+              background: '#3b82f6',
               border: 'none',
-              color: '#3b82f6',
+              color: 'white',
               cursor: 'pointer',
-              fontSize: '18px',
-              padding: '0 4px',
+              fontSize: '16px',
+              padding: '4px 8px',
               fontWeight: 'bold',
-              lineHeight: '1'
+              lineHeight: '1',
+              borderRadius: '4px',
+              width: '28px',
+              height: '28px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0
             }}
             title="Add segment or content"
           >
