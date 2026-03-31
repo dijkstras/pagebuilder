@@ -73,5 +73,25 @@
     },
     "bgColor": "#f9fafb"
   },
-  "root": []
+  "root": [
+    {
+      "id": "segment-1774977065975",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200
+      },
+      "children": []
+    }
+  ]
 }
