@@ -49,7 +49,7 @@ function renderSegment(segment, page) {
         maxWidth: maxWidth ? `${maxWidth}px` : undefined,
         marginLeft: maxWidth ? 'auto' : undefined,
         marginRight: maxWidth ? 'auto' : undefined,
-        alignItems: justify
+        alignItems: 'stretch'
       })
     : buildStyleString({
         display: 'grid',
@@ -88,7 +88,7 @@ function renderContainer(container, page) {
     flexDirection: direction,
     flexWrap: direction === 'row' ? 'wrap' : undefined,
     gap: `${container.settings.spacing}px`,
-    alignItems: direction === 'row' ? 'center' : alignment,
+    alignItems: direction === 'row' ? 'center' : 'stretch',
     justifyContent: direction === 'row' ? alignment : undefined,
     containerType: 'inline-size',
     containerName: container.id

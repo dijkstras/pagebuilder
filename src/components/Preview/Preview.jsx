@@ -75,25 +75,31 @@ export function Preview() {
 
       <div style={{
         flex: 1,
-        backgroundColor: 'white',
-        borderRadius: '4px',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-        overflow: 'auto',
         display: 'flex',
-        justifyContent: isMobileMode ? 'center' : 'stretch',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        overflow: 'auto',
         padding: isMobileMode ? '20px' : '0'
       }}>
-        <iframe
-          srcDoc={htmlContent}
-          style={{
-            width: previewWidth,
-            height: '100%',
-            border: 'none',
-            borderRadius: '4px',
-            flexShrink: isMobileMode ? 0 : 1
-          }}
-          title="Page Preview"
-        />
+        <div style={{
+          width: previewWidth,
+          height: '100%',
+          backgroundColor: 'white',
+          borderRadius: '4px',
+          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+          overflow: 'auto'
+        }}>
+          <iframe
+            srcDoc={htmlContent}
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              borderRadius: '4px'
+            }}
+            title="Page Preview"
+          />
+        </div>
       </div>
     </div>
   );
