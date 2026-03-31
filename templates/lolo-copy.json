@@ -95,7 +95,8 @@
           "color1": "#70b828",
           "color2": "#d11515",
           "angle": 90
-        }
+        },
+        "bgSize": "contain"
       },
       "children": [
         {
