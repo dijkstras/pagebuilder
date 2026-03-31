@@ -195,7 +195,23 @@ h3, .label {
         borderBottom: `1px solid ${THEME.border}`,
         zIndex: 10
       }}>
-        <h1 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>{state.page.title || 'Untitled Page'}</h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <h1 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>
+            {state.page.title || 'Untitled Page'}
+          </h1>
+          {state.saveStatus !== 'idle' && (
+            <span style={{
+              fontSize: '12px',
+              fontWeight: 500,
+              color: state.saveStatus === 'error' ? '#ef4444' : '#10b981',
+              minWidth: '80px'
+            }}>
+              {state.saveStatus === 'saving' && '⟳ Saving...'}
+              {state.saveStatus === 'saved' && '✓ Saved'}
+              {state.saveStatus === 'error' && `✗ Error: ${state.saveError}`}
+            </span>
+          )}
+        </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={() => setShowSaveDialog(true)}
