@@ -1,0 +1,15 @@
+# netlify.toml
+
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+  publish = "dist"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api:splat"
+  status = 200
+
+[env.production]
+  [env.production.build.environment]
+    NODE_VERSION = "18"
