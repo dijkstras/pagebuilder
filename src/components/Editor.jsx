@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StructureTree } from './StructureTree/StructureTree';
 import { Preview } from './Preview/Preview';
 import { SettingsPanel } from './SettingsPanel/SettingsPanel';
 import { usePageStore, pageActions } from '../store/pageStore.jsx';
 import { savePage, loadPage, listPages } from '../services/googleDrive';
+import { generateHTML } from '../services/pageGenerator';
+import { storage } from '../services/fileStorage';
 import { THEME, EDITOR_LAYOUT } from '../utils/constants';
 
 export function Editor() {
@@ -12,6 +14,37 @@ export function Editor() {
   const [saveFileName, setSaveFileName] = useState('');
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [pages, setPages] = useState([]);
+  const [autoSaveTimeout, setAutoSaveTimeout] = useState(null);
+
+  // Auto-save when page changes
+  useEffect(() => {
+    // Clear existing timeout
+    if (autoSaveTimeout) clearTimeout(autoSaveTimeout);
+
+    // Only auto-save if page has a name (not untitled)
+    if (!state.page.title || state.page.title === 'Untitled Page') {
+      return;
+    }
+
+    // Set new timeout for auto-save
+    const timeout = setTimeout(async () => {
+      dispatch(pageActions.setSaveStatus('saving'));
+      try {
+        const result = await storage.savePage(state.page.title, state.page);
+        dispatch(pageActions.setSaveStatus('saved'));
+        // Clear saved status after 2 seconds
+        setTimeout(() => {
+          dispatch(pageActions.setSaveStatus('idle'));
+        }, 2000);
+      } catch (error) {
+        dispatch(pageActions.setSaveStatus('error', error.message));
+      }
+    }, 3000); // 3 second debounce
+
+    setAutoSaveTimeout(timeout);
+
+    return () => clearTimeout(timeout);
+  }, [state.page, dispatch]); // Re-run when page changes
 
   const handleSave = async () => {
     if (saveFileName.trim()) {
@@ -33,6 +66,100 @@ export function Editor() {
       dispatch(pageActions.setPage(page));
       setShowLoadDialog(false);
     }
+  };
+
+  const generateCSS = (page) => {
+    const colors = page.styles.colors;
+    const fonts = page.styles.fonts;
+    const spacing = page.styles.spacing ?? { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 };
+
+    return `/* Page Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: ${colors.primary};
+  --color-secondary: ${colors.secondary};
+  --color-neutral: ${colors.neutral};
+  --font-heading1-family: ${fonts.heading1.family}, sans-serif;
+  --font-heading1-size: ${fonts.heading1.size}px;
+  --font-heading1-weight: ${fonts.heading1.weight};
+  --font-heading2-family: ${fonts.heading2.family}, sans-serif;
+  --font-heading2-size: ${fonts.heading2.size}px;
+  --font-heading2-weight: ${fonts.heading2.weight};
+  --font-body-family: ${fonts.body.family}, sans-serif;
+  --font-body-size: ${fonts.body.size}px;
+  --font-body-weight: ${fonts.body.weight};
+  --font-label-family: ${fonts.label.family}, sans-serif;
+  --font-label-size: ${fonts.label.size}px;
+  --font-label-weight: ${fonts.label.weight};
+  --spacing-xs: ${spacing.xs}px;
+  --spacing-sm: ${spacing.sm}px;
+  --spacing-md: ${spacing.md}px;
+  --spacing-lg: ${spacing.lg}px;
+  --spacing-xl: ${spacing.xl}px;
+}
+
+html, body {
+  font-family: var(--font-body-family);
+  font-size: var(--font-body-size);
+  font-weight: var(--font-body-weight);
+}
+
+body {
+  background-color: ${page.styles.bgColor ?? '#f9fafb'};
+}
+
+h1 {
+  font-family: var(--font-heading1-family);
+  font-size: var(--font-heading1-size);
+  font-weight: var(--font-heading1-weight);
+}
+
+h2 {
+  font-family: var(--font-heading2-family);
+  font-size: var(--font-heading2-size);
+  font-weight: var(--font-heading2-weight);
+}
+
+h3, .label {
+  font-family: var(--font-label-family);
+  font-size: var(--font-label-size);
+  font-weight: var(--font-label-weight);
+}
+`;
+  };
+
+  const handleExport = () => {
+    const htmlContent = generateHTML(state.page, null);
+    const cssContent = generateCSS(state.page);
+
+    // Download HTML
+    const htmlBlob = new Blob([htmlContent], { type: 'text/html' });
+    const htmlUrl = URL.createObjectURL(htmlBlob);
+    const htmlLink = document.createElement('a');
+    htmlLink.href = htmlUrl;
+    htmlLink.download = `${state.page.title || 'page'}.html`;
+    document.body.appendChild(htmlLink);
+    htmlLink.click();
+    document.body.removeChild(htmlLink);
+    URL.revokeObjectURL(htmlUrl);
+
+    // Download CSS
+    setTimeout(() => {
+      const cssBlob = new Blob([cssContent], { type: 'text/css' });
+      const cssUrl = URL.createObjectURL(cssBlob);
+      const cssLink = document.createElement('a');
+      cssLink.href = cssUrl;
+      cssLink.download = `${state.page.title || 'page'}.css`;
+      document.body.appendChild(cssLink);
+      cssLink.click();
+      document.body.removeChild(cssLink);
+      URL.revokeObjectURL(cssUrl);
+    }, 100);
   };
 
   return (
@@ -77,6 +204,21 @@ export function Editor() {
             }}
           >
             Load
+          </button>
+          <button
+            onClick={handleExport}
+            style={{
+              padding: '6px 12px',
+              backgroundColor: THEME.background,
+              color: '#10b981',
+              border: '1px solid #10b981',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px',
+              fontWeight: '500'
+            }}
+          >
+            Export
           </button>
         </div>
       </div>
