@@ -94,8 +94,8 @@ export function TreeNode({ element, level = 0 }) {
         <span style={{ fontSize: '14px' }}>{getIcon(element.type)}</span>
         <span style={{ flex: 1, fontSize: '14px' }}>{labelText}</span>
 
-        {/* Add dropdown button */}
-        {isSelected && (canAddContainer || canAddContent) && (
+        {/* Add dropdown button - always visible if can add */}
+        {(canAddContainer || canAddContent) && (
           <div style={{ position: 'relative' }}>
             <button
               onClick={(e) => {
@@ -109,8 +109,10 @@ export function TreeNode({ element, level = 0 }) {
                 cursor: 'pointer',
                 fontSize: '16px',
                 padding: '0 4px',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                lineHeight: '1'
               }}
+              title="Add child element"
             >
               +
             </button>
