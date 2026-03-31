@@ -7,7 +7,9 @@ const initialState = {
   page: createEmptyPage(),
   selectedElementId: null,
   selectedElementType: null,
-  activeBrandSection: null
+  activeBrandSection: null,
+  saveStatus: 'idle', // 'idle' | 'saving' | 'saved' | 'error'
+  saveError: null
 };
 
 function pageReducer(state, action) {
@@ -79,6 +81,19 @@ function pageReducer(state, action) {
         selectedElementType: null
       };
 
+    case 'SET_SAVE_STATUS':
+      return {
+        ...state,
+        saveStatus: action.payload.status,
+        saveError: action.payload.error || null
+      };
+
+    case 'CLEAR_SAVE_ERROR':
+      return {
+        ...state,
+        saveError: null
+      };
+
     default:
       return state;
   }
@@ -148,5 +163,10 @@ export const pageActions = {
   deleteElement: (id) => ({ type: 'DELETE_ELEMENT', payload: id }),
   selectElement: (id, elementType) => ({ type: 'SELECT_ELEMENT', payload: { id, elementType } }),
   deselectElement: () => ({ type: 'DESELECT_ELEMENT' }),
-  selectBrandSection: (section) => ({ type: 'SELECT_BRAND_SECTION', payload: section })
+  selectBrandSection: (section) => ({ type: 'SELECT_BRAND_SECTION', payload: section }),
+  setSaveStatus: (status, error = null) => ({
+    type: 'SET_SAVE_STATUS',
+    payload: { status, error }
+  }),
+  clearSaveError: () => ({ type: 'CLEAR_SAVE_ERROR' })
 };
