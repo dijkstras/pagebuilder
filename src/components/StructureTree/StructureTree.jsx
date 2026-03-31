@@ -13,14 +13,6 @@ export function StructureTree() {
     setShowPageAddMenu(false);
   };
 
-  const handleAddContentToPage = (type) => {
-    const newContent = createContentItem(type);
-    dispatch(pageActions.updateElement(state.page.id, {
-      root: [...state.page.root, newContent]
-    }));
-    setShowPageAddMenu(false);
-  };
-
   const selectedElement = findElement(state.page, state.selectedElementId);
 
   const canAddContainer = selectedElement && (selectedElement.type === 'segment' || selectedElement.type === 'container');
@@ -117,7 +109,6 @@ export function StructureTree() {
                     cursor: 'pointer',
                     fontSize: '12px',
                     textAlign: 'left',
-                    borderBottom: '1px solid #374151',
                     transition: 'background-color 0.2s'
                   }}
                   onMouseEnter={(e) => e.target.style.backgroundColor = '#374151'}
@@ -125,32 +116,6 @@ export function StructureTree() {
                 >
                   📦 Segment
                 </button>
-                {Object.values(CONTENT_TYPES).map((type, idx) => (
-                  <button
-                    key={type}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddContentToPage(type);
-                    }}
-                    style={{
-                      width: '100%',
-                      padding: '8px 12px',
-                      backgroundColor: 'transparent',
-                      color: '#9ca3af',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                      textAlign: 'left',
-                      borderBottom: idx === Object.values(CONTENT_TYPES).length - 1 ? 'none' : '1px solid #374151',
-                      transition: 'background-color 0.2s',
-                      textTransform: 'capitalize'
-                    }}
-                    onMouseEnter={(e) => e.target.style.backgroundColor = '#374151'}
-                    onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-                  >
-                    {type}
-                  </button>
-                ))}
               </div>
             )}
         </div>
