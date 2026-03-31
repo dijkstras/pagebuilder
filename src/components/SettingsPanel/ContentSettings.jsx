@@ -65,17 +65,69 @@ export function ContentSettings() {
       {content.type === CONTENT_TYPES.TEXT && (
         <>
           <div style={{ marginBottom: '16px' }}>
-            <label style={labelStyle}>Text role</label>
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <label style={labelStyle}>Text style</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {[
-                { id: 'heading', label: 'Heading', preview: state.page.styles.fonts.heading },
-                { id: 'body', label: 'Body text', preview: state.page.styles.fonts.body }
+                { id: 'heading1', label: 'Heading 1' },
+                { id: 'heading2', label: 'Heading 2' },
+                { id: 'body', label: 'Body' },
+                { id: 'label', label: 'Label' }
               ].map(role => {
+                const preview = state.page.styles.fonts[role.id];
                 const isActive = content.settings.textRole === role.id;
                 return (
                   <button
                     key={role.id}
                     onClick={() => handleSettingUpdate('textRole', role.id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '10px 12px',
+                      backgroundColor: isActive ? '#1d4ed8' : '#374151',
+                      border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      textAlign: 'left'
+                    }}
+                  >
+                    <div style={{ flex: 1 }}>
+                      <div style={{
+                        fontFamily: preview.family,
+                        fontWeight: preview.weight,
+                        fontSize: `${preview.size}px`,
+                        color: '#f3f4f6',
+                        lineHeight: '1.2'
+                      }}>
+                        Aa
+                      </div>
+                    </div>
+                    <div style={{ marginLeft: 'auto' }}>
+                      <div style={{ fontSize: '11px', color: isActive ? '#93c5fd' : '#9ca3af' }}>
+                        {role.label}
+                      </div>
+                      <div style={{ fontSize: '10px', color: '#6b7280', marginTop: '1px' }}>
+                        {preview.size}px • {preview.family}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={labelStyle}>Alignment</label>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {[
+                { id: 'left', label: 'Left', icon: '◄' },
+                { id: 'center', label: 'Center', icon: '═' },
+                { id: 'right', label: 'Right', icon: '►' }
+              ].map(alignment => {
+                const isActive = (content.settings.textAlign || 'left') === alignment.id;
+                return (
+                  <button
+                    key={alignment.id}
+                    onClick={() => handleSettingUpdate('textAlign', alignment.id)}
                     style={{
                       flex: 1,
                       padding: '10px 8px',
@@ -83,25 +135,13 @@ export function ContentSettings() {
                       border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
                       borderRadius: '6px',
                       cursor: 'pointer',
-                      textAlign: 'center'
+                      fontSize: '14px',
+                      fontWeight: isActive ? '600' : '400',
+                      color: isActive ? '#93c5fd' : '#9ca3af'
                     }}
+                    title={alignment.label}
                   >
-                    <div style={{
-                      fontFamily: role.preview.family,
-                      fontWeight: role.preview.weight,
-                      fontSize: role.id === 'heading' ? '18px' : '13px',
-                      color: '#f3f4f6',
-                      lineHeight: '1.2',
-                      marginBottom: '3px'
-                    }}>
-                      Aa
-                    </div>
-                    <div style={{ fontSize: '11px', color: isActive ? '#93c5fd' : '#9ca3af' }}>
-                      {role.label}
-                    </div>
-                    <div style={{ fontSize: '10px', color: '#6b7280', marginTop: '1px' }}>
-                      {role.preview.family}
-                    </div>
+                    {alignment.icon}
                   </button>
                 );
               })}
@@ -126,16 +166,53 @@ export function ContentSettings() {
 
       {/* ── Image ── */}
       {content.type === CONTENT_TYPES.IMAGE && (
-        <div>
-          <label style={labelStyle}>Image URL</label>
-          <input
-            type="text"
-            value={content.settings.customOverrides.src || ''}
-            onChange={(e) => handleCustomUpdate('src', e.target.value)}
-            placeholder="https://..."
-            style={inputStyle}
-          />
-        </div>
+        <>
+          <div style={{ marginBottom: '16px' }}>
+            <label style={labelStyle}>Image URL</label>
+            <input
+              type="text"
+              value={content.settings.customOverrides.src || ''}
+              onChange={(e) => handleCustomUpdate('src', e.target.value)}
+              placeholder="https://..."
+              style={inputStyle}
+            />
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={labelStyle}>Image Fit</label>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {[
+                { id: 'contain', label: 'Fit' },
+                { id: 'cover', label: 'Fill' },
+                { id: 'stretch', label: 'Stretch' }
+              ].map(fit => {
+                const isActive = (content.settings.customOverrides.objectFit || 'cover') === (fit.id === 'stretch' ? '100% 100%' : fit.id);
+                return (
+                  <button
+                    key={fit.id}
+                    onClick={() => handleCustomUpdate('objectFit', fit.id === 'stretch' ? '100% 100%' : fit.id)}
+                    style={{
+                      flex: 1,
+                      padding: '10px 8px',
+                      backgroundColor: isActive ? '#1d4ed8' : '#374151',
+                      border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: isActive ? '600' : '400',
+                      color: isActive ? '#93c5fd' : '#9ca3af'
+                    }}
+                  >
+                    {fit.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+              Fit: maintain aspect ratio • Fill: crop to fit • Stretch: ignore aspect ratio
+            </div>
+          </div>
+        </>
       )}
 
       {/* ── Button ── */}

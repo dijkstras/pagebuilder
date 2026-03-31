@@ -3,8 +3,7 @@ import { StructureTree } from './StructureTree/StructureTree';
 import { Preview } from './Preview/Preview';
 import { SettingsPanel } from './SettingsPanel/SettingsPanel';
 import { usePageStore, pageActions } from '../store/pageStore.jsx';
-import { savePage, loadPage, listPages } from '../services/googleDrive';
-import { generateHTML } from '../services/pageGenerator';
+import { generateHTML, generateCSS } from '../services/pageGenerator';
 import { storage } from '../services/fileStorage';
 import { THEME, EDITOR_LAYOUT } from '../utils/constants';
 
@@ -77,82 +76,17 @@ export function Editor() {
   };
 
   const handleLoadClick = async () => {
-    const loadedPages = await listPages();
+    const loadedPages = await storage.listPages();
     setPages(loadedPages);
     setShowLoadDialog(true);
   };
 
-  const handleLoadPage = async (fileName) => {
-    const page = await loadPage(fileName);
+  const handleLoadPage = async (pageName) => {
+    const page = await storage.loadPage(pageName);
     if (page) {
       dispatch(pageActions.setPage(page));
       setShowLoadDialog(false);
     }
-  };
-
-  const generateCSS = (page) => {
-    const colors = page.styles.colors;
-    const fonts = page.styles.fonts;
-    const spacing = page.styles.spacing ?? { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 };
-
-    return `/* Page Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --color-primary: ${colors.primary};
-  --color-secondary: ${colors.secondary};
-  --color-neutral: ${colors.neutral};
-  --font-heading1-family: ${fonts.heading1.family}, sans-serif;
-  --font-heading1-size: ${fonts.heading1.size}px;
-  --font-heading1-weight: ${fonts.heading1.weight};
-  --font-heading2-family: ${fonts.heading2.family}, sans-serif;
-  --font-heading2-size: ${fonts.heading2.size}px;
-  --font-heading2-weight: ${fonts.heading2.weight};
-  --font-body-family: ${fonts.body.family}, sans-serif;
-  --font-body-size: ${fonts.body.size}px;
-  --font-body-weight: ${fonts.body.weight};
-  --font-label-family: ${fonts.label.family}, sans-serif;
-  --font-label-size: ${fonts.label.size}px;
-  --font-label-weight: ${fonts.label.weight};
-  --spacing-xs: ${spacing.xs}px;
-  --spacing-sm: ${spacing.sm}px;
-  --spacing-md: ${spacing.md}px;
-  --spacing-lg: ${spacing.lg}px;
-  --spacing-xl: ${spacing.xl}px;
-}
-
-html, body {
-  font-family: var(--font-body-family);
-  font-size: var(--font-body-size);
-  font-weight: var(--font-body-weight);
-}
-
-body {
-  background-color: ${page.styles.bgColor ?? '#f9fafb'};
-}
-
-h1 {
-  font-family: var(--font-heading1-family);
-  font-size: var(--font-heading1-size);
-  font-weight: var(--font-heading1-weight);
-}
-
-h2 {
-  font-family: var(--font-heading2-family);
-  font-size: var(--font-heading2-size);
-  font-weight: var(--font-heading2-weight);
-}
-
-h3, .label {
-  font-family: var(--font-label-family);
-  font-size: var(--font-label-size);
-  font-weight: var(--font-label-weight);
-}
-`;
   };
 
   const handleExport = () => {

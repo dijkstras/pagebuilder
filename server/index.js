@@ -1,11 +1,17 @@
 // server/index.js
 
-require('dotenv').config({ path: '.env.local' });
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs').promises;
-const path = require('path');
-const { execSync } = require('child_process');
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import fs from 'fs/promises';
+import path from 'path';
+import { execSync } from 'child_process';
+import { fileURLToPath } from 'url';
+
+dotenv.config({ path: '.env.local' });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.SERVER_PORT || 3001;
@@ -58,9 +64,12 @@ app.post('/api/pages', async (req, res) => {
       styles: {
         colors: { primary: '#3b82f6', secondary: '#8b5cf6', neutral: '#6b7280' },
         fonts: {
-          heading: { family: 'Inter', sizeMin: 28, sizeMax: 48, weight: 700 },
-          body: { family: 'Inter', sizeMin: 14, sizeMax: 18, weight: 400 }
+          heading1: { family: 'Inter', size: 48, weight: 700 },
+          heading2: { family: 'Inter', size: 32, weight: 600 },
+          body: { family: 'Inter', size: 16, weight: 400 },
+          label: { family: 'Inter', size: 12, weight: 500 }
         },
+        spacing: { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 },
         buttonStyles: [{ id: 'default', bgColor: '#3b82f6', textColor: '#ffffff', padding: 12, radius: 6 }],
         bgColor: '#f9fafb'
       }

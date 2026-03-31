@@ -12,7 +12,7 @@ async function getStorageImplementation() {
 
   try {
     // In production (Netlify), use GitHub API
-    if (typeof window === 'undefined' && process.env.NETLIFY === 'true') {
+    if (typeof window === 'undefined' && typeof process !== 'undefined' && process.env.NETLIFY === 'true') {
       const { fileStorageGitHub } = await import('./fileStorageGitHub.js');
       cachedImpl = fileStorageGitHub;
       return fileStorageGitHub;
