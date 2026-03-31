@@ -18,7 +18,12 @@
         "verticalAlignment": "top",
         "direction": "row",
         "minHeight": 200,
-        "bgType": "gradient"
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#a52c2c",
+          "color2": "#000000",
+          "angle": 90
+        }
       },
       "children": [
         {
