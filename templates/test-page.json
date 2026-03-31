@@ -19,7 +19,24 @@
         "direction": "row",
         "minHeight": 200
       },
-      "children": []
+      "children": [
+        {
+          "id": "content-1774976570940",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "body",
+            "customOverrides": {
+              "content": "Your text here"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
     }
   ],
   "styles": {
