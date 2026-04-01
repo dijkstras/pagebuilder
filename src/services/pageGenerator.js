@@ -424,8 +424,8 @@ export function generateGoogleFontsImport(fonts) {
     .map(([family, weights]) => {
       const encodedFamily = family.replace(/\s+/g, '+');
       const sortedWeights = Array.from(weights).sort((a, b) => a - b);
-      const weightList = sortedWeights.map(w => `wght@${w}`).join(';');
-      return `family=${encodedFamily}:${weightList}`;
+      const weightList = sortedWeights.join(';');
+      return `family=${encodedFamily}:wght@${weightList}`;
     })
     .join('&');
 

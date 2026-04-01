@@ -128,10 +128,8 @@ describe('generateGoogleFontsImport', () => {
     const result = generateGoogleFontsImport(fonts);
     expect(result).toContain('fonts.googleapis.com/css2');
     expect(result).toContain('Inter');
-    expect(result).toContain('wght@400');
-    expect(result).toContain('wght@500');
-    expect(result).toContain('wght@600');
-    expect(result).toContain('wght@700');
+    expect(result).toContain('wght@400;500;600;700');
+    expect(result).toContain('display=swap');
   });
 
   it('generates import for multiple fonts with correct URL encoding', () => {
