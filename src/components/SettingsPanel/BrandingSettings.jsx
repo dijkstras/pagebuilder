@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
+import { ColorPresets } from './ColorPresets.jsx';
 
 const FONT_FAMILIES = [
   'Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Poppins',
@@ -217,7 +218,7 @@ function ColorsSettings() {
 
 // ─── Buttons ───────────────────────────────────────────────────────────────────
 
-function ButtonEditor({ style: btnStyle, onChange }) {
+function ButtonEditor({ style: btnStyle, onChange, colors = {} }) {
   const shapeValue = SHAPE_PRESETS.find(s => s.value === btnStyle.radius)?.value ?? 'custom';
   const isCustomRadius = !SHAPE_PRESETS.some(s => s.value === btnStyle.radius);
 
@@ -255,7 +256,7 @@ function ButtonEditor({ style: btnStyle, onChange }) {
       <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
         <div style={{ flex: 1 }}>
           <label style={labelStyle}>Background</label>
-          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
             <input
               type="color"
               value={btnStyle.bgColor === 'transparent' ? '#ffffff' : btnStyle.bgColor}
@@ -269,10 +270,13 @@ function ButtonEditor({ style: btnStyle, onChange }) {
               style={{ flex: 1, ...inputStyle }}
             />
           </div>
+          {Object.keys(colors).length > 0 && (
+            <ColorPresets colors={colors} onSelectColor={(color) => onChange('bgColor', color)} />
+          )}
         </div>
         <div style={{ flex: 1 }}>
           <label style={labelStyle}>Text color</label>
-          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
             <input
               type="color"
               value={btnStyle.textColor}
@@ -286,6 +290,9 @@ function ButtonEditor({ style: btnStyle, onChange }) {
               style={{ flex: 1, ...inputStyle }}
             />
           </div>
+          {Object.keys(colors).length > 0 && (
+            <ColorPresets colors={colors} onSelectColor={(color) => onChange('textColor', color)} />
+          )}
         </div>
       </div>
 
@@ -343,7 +350,7 @@ function ButtonEditor({ style: btnStyle, onChange }) {
 
 function ButtonsSettings() {
   const { state, dispatch } = usePageStore();
-  const { buttonStyles } = state.page.styles;
+  const { buttonStyles, colors } = state.page.styles;
 
   const handleButtonChange = (id, key, value) => {
     const updated = buttonStyles.map(b => b.id === id ? { ...b, [key]: value } : b);
@@ -362,6 +369,7 @@ function ButtonsSettings() {
           <ButtonEditor
             style={btn}
             onChange={(key, value) => handleButtonChange(btn.id, key, value)}
+            colors={colors || {}}
           />
           {i < orderedButtons.length - 1 && <Divider />}
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPES } from '../../store/pageTypes';
+import { ColorPresets } from './ColorPresets.jsx';
 
 function findElement(page, elementId) {
   const search = (element) => {
@@ -148,7 +149,7 @@ export function ContentSettings() {
             </div>
           </div>
 
-          <div>
+          <div style={{ marginBottom: '16px' }}>
             <label style={labelStyle}>Content</label>
             <textarea
               value={content.settings.customOverrides.content || ''}
@@ -160,6 +161,28 @@ export function ContentSettings() {
                 resize: 'vertical'
               }}
             />
+          </div>
+
+          <div>
+            <label style={labelStyle}>Text color</label>
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+              <input
+                type="color"
+                value={content.settings.customOverrides.color || state.page.styles.colors?.text || '#1f2937'}
+                onChange={(e) => handleCustomUpdate('color', e.target.value)}
+                style={{ width: '40px', height: '40px', cursor: 'pointer', flexShrink: 0, borderRadius: '4px', border: '1px solid #4b5563' }}
+              />
+              <input
+                type="text"
+                value={content.settings.customOverrides.color || ''}
+                onChange={(e) => handleCustomUpdate('color', e.target.value || undefined)}
+                placeholder="Default"
+                style={inputStyle}
+              />
+            </div>
+            {Object.keys(state.page.styles.colors || {}).length > 0 && (
+              <ColorPresets colors={state.page.styles.colors} onSelectColor={(color) => handleCustomUpdate('color', color)} />
+            )}
           </div>
         </>
       )}
