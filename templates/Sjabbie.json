@@ -35,6 +35,22 @@
               "desktop": {}
             }
           }
+        },
+        {
+          "id": "text-1775026530244-es1kf",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "heading1",
+            "customOverrides": {
+              "content": "Sjabbie"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
         }
       ]
     }
