@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { ColorPresets } from './ColorPresets.jsx';
 
@@ -66,6 +66,36 @@ const TYPOGRAPHY_STYLES = [
 function TypographySettings() {
   const { state, dispatch } = usePageStore();
   const { fonts } = state.page.styles;
+
+  // Dynamically load Google Fonts into the app's <head> so the preview renders correctly
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const fontMap = {};
+      Object.values(fonts).forEach(font => {
+        if (!font?.family) return;
+        if (!fontMap[font.family]) fontMap[font.family] = new Set();
+        if (font.weight) fontMap[font.family].add(font.weight);
+      });
+
+      // Remove previously injected font links
+      document.querySelectorAll('link[data-gfont]').forEach(el => el.remove());
+
+      // Inject a <link> for each font family without specifying weights.
+      // Weight params break static (non-variable) fonts — the browser will use
+      // the closest available weight via CSS font matching.
+      Object.entries(fontMap).forEach(([family]) => {
+        const encodedFamily = encodeURIComponent(family).replace(/%20/g, '+');
+        const url = `https://fonts.googleapis.com/css2?family=${encodedFamily}&display=swap`;
+        const link = document.createElement('link');
+        link.setAttribute('data-gfont', family);
+        link.rel = 'stylesheet';
+        link.href = url;
+        document.head.appendChild(link);
+      });
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [fonts]);
 
   const handleFontChange = (role, key, value) => {
     const newFonts = { ...fonts, [role]: { ...fonts[role], [key]: value } };
