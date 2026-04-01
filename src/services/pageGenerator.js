@@ -84,7 +84,14 @@ function renderSegment(segment, page) {
     backgroundPosition: bgPosition,
     backgroundRepeat: hasBgImage && segment.settings.bgRepeat ? 'repeat' : 'no-repeat',
     padding: `${segment.settings.padding}px`,
-    margin: `${segment.settings.margin}px`
+    margin: `${segment.settings.margin}px`,
+    border: segment.settings.borderEnabled
+      ? `${segment.settings.borderWidth ?? 1}px solid ${segment.settings.borderColor ?? '#000000'}`
+      : undefined,
+    boxShadow: segment.settings.elevationEnabled
+      ? `0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 2.5}px rgba(0,0,0,${0.1 + (segment.settings.elevation ?? 4) * 0.012})`
+      : undefined,
+    borderRadius: `${segment.settings.borderRadius ?? 0}px`
   });
 
   const direction = segment.settings.direction ?? 'row';
@@ -175,6 +182,14 @@ function renderContainer(container, page) {
   if (container.settings.padding) {
     styleObj.padding = `${container.settings.padding}px`;
   }
+
+  styleObj.border = container.settings.borderEnabled
+    ? `${container.settings.borderWidth ?? 1}px solid ${container.settings.borderColor ?? '#000000'}`
+    : undefined;
+  styleObj.boxShadow = container.settings.elevationEnabled
+    ? `0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 2.5}px rgba(0,0,0,${0.1 + (container.settings.elevation ?? 4) * 0.012})`
+    : undefined;
+  styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
 
   const style = buildStyleString(styleObj);
   const children = container.children.map(child => renderContentItem(child, page)).join('\n');
