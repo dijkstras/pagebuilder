@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { ColorPresets } from './ColorPresets.jsx';
 
 const inputStyle = {
   flex: 1,
@@ -11,7 +12,7 @@ const inputStyle = {
   boxSizing: 'border-box'
 };
 
-export function GradientPicker({ bgType = 'solid', bgColor, bgGradient, onUpdate }) {
+export function GradientPicker({ bgType = 'solid', bgColor, bgGradient, onUpdate, colors = {} }) {
   const gradient = bgGradient || { color1: bgColor || '#ffffff', color2: '#000000', angle: 90 };
   const dialRef = useRef(null);
   const dragging = useRef(false);
@@ -71,19 +72,24 @@ export function GradientPicker({ bgType = 'solid', bgColor, bgGradient, onUpdate
       </div>
 
       {bgType !== 'gradient' ? (
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <input
-            type="color"
-            value={bgColor || '#ffffff'}
-            onChange={(e) => onUpdate('bgColor', e.target.value)}
-            style={{ width: '40px', height: '40px', cursor: 'pointer', flexShrink: 0 }}
-          />
-          <input
-            type="text"
-            value={bgColor || ''}
-            onChange={(e) => onUpdate('bgColor', e.target.value)}
-            style={inputStyle}
-          />
+        <div>
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+            <input
+              type="color"
+              value={bgColor || '#ffffff'}
+              onChange={(e) => onUpdate('bgColor', e.target.value)}
+              style={{ width: '40px', height: '40px', cursor: 'pointer', flexShrink: 0 }}
+            />
+            <input
+              type="text"
+              value={bgColor || ''}
+              onChange={(e) => onUpdate('bgColor', e.target.value)}
+              style={inputStyle}
+            />
+          </div>
+          {Object.keys(colors).length > 0 && (
+            <ColorPresets colors={colors} onSelectColor={(color) => onUpdate('bgColor', color)} />
+          )}
         </div>
       ) : (
         <div>
@@ -112,9 +118,12 @@ export function GradientPicker({ bgType = 'solid', bgColor, bgGradient, onUpdate
               style={inputStyle}
             />
           </div>
+          {Object.keys(colors).length > 0 && (
+            <ColorPresets colors={colors} onSelectColor={(color) => updateGradient('color1', color)} />
+          )}
 
           {/* Color 2 */}
-          <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '4px' }}>Color 2</div>
+          <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '4px', marginTop: '12px' }}>Color 2</div>
           <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
             <input
               type="color"
@@ -129,6 +138,9 @@ export function GradientPicker({ bgType = 'solid', bgColor, bgGradient, onUpdate
               style={inputStyle}
             />
           </div>
+          {Object.keys(colors).length > 0 && (
+            <ColorPresets colors={colors} onSelectColor={(color) => updateGradient('color2', color)} />
+          )}
 
           {/* Direction dial */}
           <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px' }}>Direction</div>

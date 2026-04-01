@@ -33,6 +33,8 @@ export function SegmentSettings() {
     dispatch(pageActions.updateElement(segment.id, updates));
   };
 
+  const colors = state.page.styles.colors || {};
+
   return (
     <div>
       <h3 style={{ fontSize: '14px', marginBottom: '12px', fontWeight: 500 }}>Segment: {segment.name}</h3>
@@ -72,6 +74,7 @@ export function SegmentSettings() {
           bgColor={segment.settings.bgColor}
           bgGradient={segment.settings.bgGradient}
           onUpdate={handleUpdate}
+          colors={colors}
         />
       </div>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
+import { ColorPresets } from './ColorPresets.jsx';
 
 export function PageSettings() {
   const { state, dispatch } = usePageStore();
@@ -41,7 +42,7 @@ export function PageSettings() {
         <label style={{ fontSize: '12px', color: '#9ca3af', display: 'block', marginBottom: '6px' }}>
           Background color
         </label>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '8px' }}>
           <input
             type="color"
             value={bgColor}
@@ -64,6 +65,9 @@ export function PageSettings() {
             }}
           />
         </div>
+        {Object.keys(page.styles.colors || {}).length > 0 && (
+          <ColorPresets colors={page.styles.colors} onSelectColor={handleBgColorChange} />
+        )}
       </div>
 
       <p style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.5' }}>

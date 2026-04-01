@@ -33,6 +33,8 @@ export function ContainerSettings() {
     dispatch(pageActions.updateElement(container.id, updates));
   };
 
+  const colors = state.page.styles.colors || {};
+
   return (
     <div>
       <h3 style={{ fontSize: '14px', marginBottom: '12px', fontWeight: 500 }}>Container: {container.name}</h3>
@@ -117,6 +119,7 @@ export function ContainerSettings() {
           bgColor={container.settings.bgColor}
           bgGradient={container.settings.bgGradient}
           onUpdate={handleUpdate}
+          colors={colors}
         />
       </div>
 
