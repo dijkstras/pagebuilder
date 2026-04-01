@@ -181,8 +181,8 @@ export function StructureTree() {
             </div>
 
             <div>
-              {state.page.root.map(segment => (
-                <TreeNode key={segment.id} element={segment} />
+              {state.page.root.map((segment, index) => (
+                <TreeNode key={segment.id} element={segment} segmentIndex={index} segmentTotal={state.page.root.length} />
               ))}
             </div>
           </>

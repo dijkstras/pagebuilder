@@ -50,6 +50,17 @@ function pageReducer(state, action) {
         page: updateElement(state.page, action.payload.id, action.payload.updates)
       };
 
+    case 'MOVE_SEGMENT': {
+      const { id, direction } = action.payload;
+      const root = [...state.page.root];
+      const idx = root.findIndex(s => s.id === id);
+      if (idx === -1) return state;
+      const newIdx = direction === 'up' ? idx - 1 : idx + 1;
+      if (newIdx < 0 || newIdx >= root.length) return state;
+      [root[idx], root[newIdx]] = [root[newIdx], root[idx]];
+      return { ...state, page: { ...state.page, root } };
+    }
+
     case 'DELETE_ELEMENT':
       return {
         ...state,
@@ -203,6 +214,7 @@ export const pageActions = {
   updatePageStyles: (styles) => ({ type: 'UPDATE_PAGE_STYLES', payload: styles }),
   addSegment: (name) => ({ type: 'ADD_SEGMENT', payload: name }),
   updateElement: (id, updates) => ({ type: 'UPDATE_ELEMENT', payload: { id, updates } }),
+  moveSegment: (id, direction) => ({ type: 'MOVE_SEGMENT', payload: { id, direction } }),
   deleteElement: (id) => ({ type: 'DELETE_ELEMENT', payload: id }),
   duplicateElement: (id, elementType) => ({ type: 'DUPLICATE_ELEMENT', payload: { id, elementType } }),
   selectElement: (id, elementType) => ({ type: 'SELECT_ELEMENT', payload: { id, elementType } }),

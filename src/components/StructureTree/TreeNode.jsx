@@ -3,7 +3,7 @@ import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPE_LABELS } from '../../utils/constants';
 import { createContainer, createContentItem, CONTENT_TYPES } from '../../store/pageTypes';
 
-export function TreeNode({ element, level = 0 }) {
+export function TreeNode({ element, level = 0, segmentIndex, segmentTotal }) {
   const [isOpen, setIsOpen] = useState(true);
   const [showAddMenu, setShowAddMenu] = useState(false);
   const { state, dispatch } = usePageStore();
@@ -18,6 +18,16 @@ export function TreeNode({ element, level = 0 }) {
   const handleDelete = (e) => {
     e.stopPropagation();
     dispatch(pageActions.deleteElement(element.id));
+  };
+
+  const handleMoveUp = (e) => {
+    e.stopPropagation();
+    dispatch(pageActions.moveSegment(element.id, 'up'));
+  };
+
+  const handleMoveDown = (e) => {
+    e.stopPropagation();
+    dispatch(pageActions.moveSegment(element.id, 'down'));
   };
 
   const handleDuplicate = (e) => {
@@ -204,6 +214,43 @@ export function TreeNode({ element, level = 0 }) {
               </div>
             )}
           </div>
+        )}
+
+        {element.type === 'segment' && segmentTotal > 1 && (
+          <>
+            <button
+              onClick={handleMoveUp}
+              disabled={segmentIndex === 0}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: segmentIndex === 0 ? '#4b5563' : '#9ca3af',
+                cursor: segmentIndex === 0 ? 'default' : 'pointer',
+                fontSize: '12px',
+                padding: '0 2px',
+                lineHeight: '1'
+              }}
+              title="Move up"
+            >
+              ▲
+            </button>
+            <button
+              onClick={handleMoveDown}
+              disabled={segmentIndex === segmentTotal - 1}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: segmentIndex === segmentTotal - 1 ? '#4b5563' : '#9ca3af',
+                cursor: segmentIndex === segmentTotal - 1 ? 'default' : 'pointer',
+                fontSize: '12px',
+                padding: '0 2px',
+                lineHeight: '1'
+              }}
+              title="Move down"
+            >
+              ▼
+            </button>
+          </>
         )}
 
         <button
