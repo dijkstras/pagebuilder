@@ -284,6 +284,106 @@ export function SegmentSettings() {
           </div>
         </div>
       </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Corner Radius (px)</label>
+        <input
+          type="number"
+          value={segment.settings.borderRadius ?? 0}
+          min={0}
+          onChange={(e) => handleUpdate('borderRadius', parseInt(e.target.value) || 0)}
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            boxSizing: 'border-box'
+          }}
+        />
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={segment.settings.borderEnabled || false}
+            onChange={(e) => handleUpdate('borderEnabled', e.target.checked)}
+            style={{ cursor: 'pointer' }}
+          />
+          Border
+        </label>
+        {segment.settings.borderEnabled && (
+          <div style={{ marginTop: '8px', display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Width (px)</label>
+              <input
+                type="number"
+                value={segment.settings.borderWidth ?? 1}
+                min={1}
+                onChange={(e) => handleUpdate('borderWidth', parseInt(e.target.value) || 1)}
+                style={{
+                  width: '100%',
+                  padding: '6px',
+                  backgroundColor: '#374151',
+                  color: '#f3f4f6',
+                  border: '1px solid #4b5563',
+                  borderRadius: '4px',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Color</label>
+              <input
+                type="text"
+                value={segment.settings.borderColor ?? '#000000'}
+                onChange={(e) => handleUpdate('borderColor', e.target.value)}
+                placeholder="#000000"
+                style={{
+                  width: '100%',
+                  padding: '6px',
+                  backgroundColor: '#374151',
+                  color: '#f3f4f6',
+                  border: '1px solid #4b5563',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={segment.settings.elevationEnabled || false}
+            onChange={(e) => handleUpdate('elevationEnabled', e.target.checked)}
+            style={{ cursor: 'pointer' }}
+          />
+          Elevation
+        </label>
+        {segment.settings.elevationEnabled && (
+          <div style={{ marginTop: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+              <label style={{ fontSize: '11px', color: '#9ca3af' }}>Shadow intensity</label>
+              <span style={{ fontSize: '11px', color: '#9ca3af' }}>{segment.settings.elevation ?? 4}</span>
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={24}
+              value={segment.settings.elevation ?? 4}
+              onChange={(e) => handleUpdate('elevation', parseInt(e.target.value))}
+              style={{ width: '100%', cursor: 'pointer' }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
