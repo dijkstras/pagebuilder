@@ -95,8 +95,9 @@ function TypographySettings() {
           </div>
 
           <div style={{ marginBottom: '12px' }}>
-            <label style={labelStyle}>Search fonts</label>
+            <label htmlFor={`font-search-${style.key}`} style={labelStyle}>Search fonts</label>
             <input
+              id={`font-search-${style.key}`}
               type="text"
               placeholder="Type any Google Font name..."
               value={fonts[style.key].family}
