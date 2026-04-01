@@ -2,10 +2,10 @@ import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { ColorPresets } from './ColorPresets.jsx';
 
-const FONT_FAMILIES = [
-  'Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Poppins',
-  'Playfair Display', 'Merriweather', 'Georgia', 'Times New Roman',
-  'Source Sans Pro', 'Nunito', 'Raleway'
+const PRESET_FONTS = [
+  'Inter', 'Roboto', 'Open Sans', 'Poppins', 'Raleway', 'Work Sans', 'Nunito',
+  'Merriweather', 'Playfair Display', 'Lora', 'Crimson Text',
+  'Montserrat', 'Oswald', 'Space Grotesk', 'Caveat', 'Pacifico', 'Inconsolata'
 ];
 
 const FONT_WEIGHTS = [
@@ -81,17 +81,28 @@ function TypographySettings() {
           <div style={{ marginBottom: '12px' }}>
             <label style={labelStyle}>Font family</label>
             <select
-              value={FONT_FAMILIES.includes(fonts[style.key].family) ? fonts[style.key].family : 'custom'}
+              value={PRESET_FONTS.includes(fonts[style.key].family) ? fonts[style.key].family : 'custom'}
               onChange={(e) => {
                 if (e.target.value !== 'custom') handleFontChange(style.key, 'family', e.target.value);
               }}
               style={inputStyle}
             >
-              {FONT_FAMILIES.map(f => <option key={f} value={f}>{f}</option>)}
-              {!FONT_FAMILIES.includes(fonts[style.key].family) && (
+              {PRESET_FONTS.map(f => <option key={f} value={f}>{f}</option>)}
+              {!PRESET_FONTS.includes(fonts[style.key].family) && (
                 <option value="custom">{fonts[style.key].family} (custom)</option>
               )}
             </select>
+          </div>
+
+          <div style={{ marginBottom: '12px' }}>
+            <label style={labelStyle}>Search fonts</label>
+            <input
+              type="text"
+              placeholder="Type any Google Font name..."
+              value={fonts[style.key].family}
+              onChange={(e) => handleFontChange(style.key, 'family', e.target.value)}
+              style={inputStyle}
+            />
           </div>
 
           <div style={{ marginBottom: '12px', display: 'flex', gap: '8px' }}>
