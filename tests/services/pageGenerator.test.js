@@ -162,4 +162,43 @@ describe('generateGoogleFontsImport', () => {
     const result = generateGoogleFontsImport(fonts);
     expect(result).toMatch(/^@import url\(.*\);$/);
   });
+
+  it('skips fonts without weights', () => {
+    const fonts = {
+      heading1: { family: 'Roboto' }, // no weight
+      body: { family: 'Inter', weight: 400 }
+    };
+    const result = generateGoogleFontsImport(fonts);
+    // Should only contain Inter, not Roboto with empty wght@
+    expect(result).toContain('Inter');
+    expect(result).not.toContain('Roboto');
+  });
+
+  it('handles special characters in font names', () => {
+    const fonts = {
+      heading1: { family: 'Font & Co.', weight: 700 }
+    };
+    const result = generateGoogleFontsImport(fonts);
+    // Should properly encode the ampersand in the font name
+    expect(result).toContain('%26'); // & encoded as %26
+    expect(result).toContain('Font+%26+Co.'); // Full font name properly encoded
+  });
+
+  it('handles font names with multiple spaces', () => {
+    const fonts = {
+      heading1: { family: 'Playfair   Display', weight: 700 } // multiple spaces
+    };
+    const result = generateGoogleFontsImport(fonts);
+    expect(result).toContain('Playfair'); // Should contain the font name
+    expect(result).toContain('Display');
+  });
+
+  it('returns empty string when all fonts lack weights', () => {
+    const fonts = {
+      heading1: { family: 'Roboto' },
+      body: { family: 'Inter' }
+    };
+    const result = generateGoogleFontsImport(fonts);
+    expect(result).toBe('');
+  });
 });

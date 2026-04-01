@@ -405,13 +405,13 @@ export function generateGoogleFontsImport(fonts) {
 
   Object.values(fonts).forEach(font => {
     if (!font || !font.family) return;
+    // MUST have a weight, skip fonts without one
+    if (font.weight === undefined || font.weight === null) return;
 
     if (!fontMap[font.family]) {
       fontMap[font.family] = new Set();
     }
-    if (font.weight) {
-      fontMap[font.family].add(font.weight);
-    }
+    fontMap[font.family].add(font.weight);
   });
 
   // If no fonts, return empty string
@@ -422,7 +422,9 @@ export function generateGoogleFontsImport(fonts) {
   // Build query parameters
   const params = Object.entries(fontMap)
     .map(([family, weights]) => {
-      const encodedFamily = family.replace(/\s+/g, '+');
+      // Collapse multiple spaces to single space first, then encode
+      const normalizedFamily = family.replace(/\s+/g, ' ');
+      const encodedFamily = encodeURIComponent(normalizedFamily).replace(/%20/g, '+');
       const sortedWeights = Array.from(weights).sort((a, b) => a - b);
       const weightList = sortedWeights.join(';');
       return `family=${encodedFamily}:wght@${weightList}`;
