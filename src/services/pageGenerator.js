@@ -91,7 +91,8 @@ function renderSegment(segment, page) {
     boxShadow: segment.settings.elevationEnabled
       ? `0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02})`
       : undefined,
-    borderRadius: `${segment.settings.borderRadius ?? 0}px`
+    borderRadius: `${segment.settings.borderRadius ?? 0}px`,
+    overflow: 'visible'
   });
 
   const direction = segment.settings.direction ?? 'row';
@@ -190,6 +191,7 @@ function renderContainer(container, page) {
     ? `0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (container.settings.elevation ?? 4) * 0.02})`
     : undefined;
   styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
+  styleObj.overflow = 'visible';
 
   const style = buildStyleString(styleObj);
   const children = container.children.map(child => renderContentItem(child, page)).join('\n');
