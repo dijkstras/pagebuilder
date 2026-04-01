@@ -199,7 +199,7 @@ function ColorsSettings() {
                     />
                     <input
                       type="text"
-                      value={colors[colorKey].toUpperCase()}
+                      value={(colors[colorKey] || '#000000').toUpperCase()}
                       onChange={(e) => handleColorChange(colorKey, e.target.value)}
                       style={{ flex: 1, ...inputStyle }}
                     />
