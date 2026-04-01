@@ -88,8 +88,8 @@ function renderSegment(segment, page) {
     border: segment.settings.borderEnabled
       ? `${segment.settings.borderWidth ?? 1}px solid ${segment.settings.borderColor ?? '#000000'}`
       : undefined,
-    boxShadow: segment.settings.elevationEnabled
-      ? `0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02})`
+    filter: segment.settings.elevationEnabled
+      ? `drop-shadow(0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02}))`
       : undefined,
     borderRadius: `${segment.settings.borderRadius ?? 0}px`,
     overflow: 'visible'
@@ -187,8 +187,8 @@ function renderContainer(container, page) {
   styleObj.border = container.settings.borderEnabled
     ? `${container.settings.borderWidth ?? 1}px solid ${container.settings.borderColor ?? '#000000'}`
     : undefined;
-  styleObj.boxShadow = container.settings.elevationEnabled
-    ? `0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (container.settings.elevation ?? 4) * 0.02})`
+  styleObj.filter = container.settings.elevationEnabled
+    ? `drop-shadow(0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (container.settings.elevation ?? 4) * 0.02}))`
     : undefined;
   styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
   styleObj.overflow = 'visible';
