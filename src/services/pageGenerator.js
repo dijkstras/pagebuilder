@@ -78,6 +78,8 @@ function renderSegment(segment, page) {
   }
 
   const outerStyle = buildStyleString({
+    display: 'flex',
+    flexDirection: 'column',
     minHeight: `${segment.settings.minHeight ?? 200}px`,
     backgroundColor: isGradient ? undefined : (segment.settings.bgColor || page.styles.colors.background),
     backgroundImage,
@@ -104,6 +106,7 @@ function renderSegment(segment, page) {
   const vAlign = vMap[segment.settings.verticalAlignment] || 'flex-start';
 
   const innerStyle = buildStyleString({
+    flex: '1',
     display: 'flex',
     flexDirection: direction,
     flexWrap: direction === 'row' ? 'wrap' : undefined,
