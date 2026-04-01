@@ -136,6 +136,39 @@
               }
             }
           ]
+        },
+        {
+          "id": "container-1775026557494-m8w4n",
+          "name": "Container",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column"
+          },
+          "children": [
+            {
+              "id": "button-1775026557494-d7kyt",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Button"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         }
       ]
     }
