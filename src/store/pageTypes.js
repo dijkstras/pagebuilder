@@ -150,10 +150,26 @@ export function migratePage(page) {
     { id: 'tertiary', label: 'Tertiary', bgColor: 'transparent', textColor: '#3b82f6', padding: 12, radius: 6 }
   ];
 
+  // Ensure all 6 semantic colors exist
+  const defaultColors = {
+    primary: '#3b82f6',
+    secondary: '#8b5cf6',
+    accent: '#ec4899',
+    text: '#1f2937',
+    background: '#f9fafb',
+    neutral: '#6b7280'
+  };
+
+  const colors = {
+    ...defaultColors,
+    ...(page.styles?.colors ?? {})
+  };
+
   return {
     ...page,
     styles: {
       ...page.styles,
+      colors,
       fonts: {
         heading1: migrateFontToken(page.styles?.fonts?.heading1, { size: 48, weight: 700 }),
         heading2: migrateFontToken(page.styles?.fonts?.heading2, { size: 32, weight: 600 }),

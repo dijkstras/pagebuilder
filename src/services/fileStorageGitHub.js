@@ -131,7 +131,14 @@ export const fileStorageGitHub = {
       root: [],
       styles: {
         logo: null,
-        colors: { primary: '#3b82f6', secondary: '#8b5cf6', neutral: '#6b7280' },
+        colors: {
+          primary: '#3b82f6',
+          secondary: '#8b5cf6',
+          accent: '#ec4899',
+          text: '#1f2937',
+          background: '#f9fafb',
+          neutral: '#6b7280'
+        },
         fonts: {
           heading1: { family: 'Inter', size: 48, weight: 700 },
           heading2: { family: 'Inter', size: 32, weight: 600 },
