@@ -53,6 +53,58 @@
           }
         }
       ]
+    },
+    {
+      "id": "segment-1775026534211-d7i1m",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200
+      },
+      "children": [
+        {
+          "id": "text-1775026534211-8aa4i",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "heading1",
+            "customOverrides": {
+              "content": "Sjabbie"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        },
+        {
+          "id": "text-1775026534211-bqgzf",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "heading1",
+            "customOverrides": {
+              "content": "Sjabbie"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
     }
   ],
   "styles": {
