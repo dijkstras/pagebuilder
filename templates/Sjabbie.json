@@ -103,6 +103,22 @@
               "desktop": {}
             }
           }
+        },
+        {
+          "id": "container-1775026547844",
+          "name": "Container",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column"
+          },
+          "children": []
         }
       ]
     }
