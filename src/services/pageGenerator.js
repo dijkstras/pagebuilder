@@ -351,7 +351,10 @@ export function generateCSS(page) {
   const fonts = page.styles.fonts;
   const spacing = page.styles.spacing ?? { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 };
 
+  const googleFontsImport = generateGoogleFontsImport(fonts);
+
   return `
+    ${googleFontsImport}
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --color-primary: ${colors.primary};
