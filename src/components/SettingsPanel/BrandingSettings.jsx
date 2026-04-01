@@ -145,7 +145,21 @@ function TypographySettings() {
 const COLOR_LABELS = {
   primary: 'Primary',
   secondary: 'Secondary',
+  accent: 'Accent',
+  text: 'Text',
+  background: 'Background',
   neutral: 'Neutral'
+};
+
+const COLOR_GROUPS = {
+  brand: {
+    label: 'Brand Colors',
+    keys: ['primary', 'secondary']
+  },
+  ui: {
+    label: 'UI Colors',
+    keys: ['text', 'background', 'accent', 'neutral']
+  }
 };
 
 function ColorsSettings() {
@@ -158,25 +172,45 @@ function ColorsSettings() {
 
   return (
     <div>
-      {Object.entries(colors).map(([key, value]) => (
-        <div key={key} style={{ marginBottom: '16px' }}>
-          <label style={labelStyle}>{COLOR_LABELS[key] || key}</label>
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <input
-              type="color"
-              value={value}
-              onChange={(e) => handleColorChange(key, e.target.value)}
-              style={{ width: '44px', height: '44px', cursor: 'pointer', borderRadius: '6px', border: '1px solid #4b5563', padding: '2px', backgroundColor: '#374151' }}
-            />
-            <input
-              type="text"
-              value={value.toUpperCase()}
-              onChange={(e) => handleColorChange(key, e.target.value)}
-              style={{ flex: 1, ...inputStyle }}
-            />
+      {Object.entries(COLOR_GROUPS).map((groupEntry, groupIndex) => {
+        const [groupKey, group] = groupEntry;
+        return (
+          <div key={groupKey}>
+            <p style={sectionHeadingStyle}>{group.label}</p>
+            <div style={{ marginBottom: '16px' }}>
+              {group.keys.map(colorKey => (
+                <div key={colorKey} style={{ marginBottom: '16px' }}>
+                  <label style={labelStyle}>{COLOR_LABELS[colorKey]}</label>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <input
+                      type="color"
+                      value={colors[colorKey]}
+                      onChange={(e) => handleColorChange(colorKey, e.target.value)}
+                      style={{
+                        width: '44px',
+                        height: '44px',
+                        cursor: 'pointer',
+                        borderRadius: '6px',
+                        border: '1px solid #4b5563',
+                        padding: '2px',
+                        backgroundColor: '#374151',
+                        flexShrink: 0
+                      }}
+                    />
+                    <input
+                      type="text"
+                      value={colors[colorKey].toUpperCase()}
+                      onChange={(e) => handleColorChange(colorKey, e.target.value)}
+                      style={{ flex: 1, ...inputStyle }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            {groupIndex < Object.keys(COLOR_GROUPS).length - 1 && <Divider />}
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
