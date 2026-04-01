@@ -78,7 +78,7 @@ function renderSegment(segment, page) {
 
   const outerStyle = buildStyleString({
     minHeight: `${segment.settings.minHeight ?? 200}px`,
-    backgroundColor: isGradient ? undefined : segment.settings.bgColor,
+    backgroundColor: isGradient ? undefined : (segment.settings.bgColor || page.styles.colors.background),
     backgroundImage,
     backgroundSize: hasBgImage ? bgSize : undefined,
     backgroundPosition: bgPosition,
@@ -223,7 +223,8 @@ function renderContentItem(item, page) {
           lineHeight: '1.2',
           width: width ?? 'max-content',
           height,
-          textAlign
+          textAlign,
+          color: item.settings.customOverrides.color || page.styles.colors.text
         });
         return `<h1 style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</h1>`;
       }
@@ -236,7 +237,8 @@ function renderContentItem(item, page) {
           lineHeight: '1.3',
           width: width ?? 'max-content',
           height,
-          textAlign
+          textAlign,
+          color: item.settings.customOverrides.color || page.styles.colors.text
         });
         return `<h2 style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</h2>`;
       }
@@ -249,7 +251,8 @@ function renderContentItem(item, page) {
           lineHeight: '1.6',
           width: width ?? 'max-content',
           height,
-          textAlign
+          textAlign,
+          color: item.settings.customOverrides.color || page.styles.colors.text
         });
         return `<p style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
       }
@@ -263,11 +266,12 @@ function renderContentItem(item, page) {
           width: width ?? 'max-content',
           height,
           textAlign,
-          display: 'inline-block'
+          display: 'inline-block',
+          color: item.settings.customOverrides.color || page.styles.colors.text
         });
         return `<span class="label" style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</span>`;
       }
-      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height, textAlign })}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
+      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height, textAlign, color: item.settings.customOverrides.color || page.styles.colors.text })}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
     }
 
     case 'image': {
@@ -292,13 +296,25 @@ function renderContentItem(item, page) {
         || page.styles.buttonStyles[0];
       const isOutline = buttonStyle?.bgColor === 'transparent';
       const { width, height } = sizeOverrides(item);
+
+      // Determine default color based on button style ID
+      let defaultBgColor = '#3b82f6';
+      if (buttonStyle?.id === 'primary') {
+        defaultBgColor = page.styles.colors.primary;
+      } else if (buttonStyle?.id === 'secondary') {
+        defaultBgColor = page.styles.colors.secondary;
+      }
+
+      const bgColor = item.settings.customOverrides.bgColor || buttonStyle?.bgColor || defaultBgColor;
+      const textColor = item.settings.customOverrides.textColor || buttonStyle?.textColor || '#ffffff';
+
       const btnStyle = buildStyleString({
         display: 'inline-block',
-        backgroundColor: buttonStyle?.bgColor || '#3b82f6',
-        color: buttonStyle?.textColor || '#ffffff',
+        backgroundColor: bgColor === 'transparent' ? 'transparent' : bgColor,
+        color: textColor,
         padding: `${buttonStyle?.padding || 12}px 24px`,
         borderRadius: `${buttonStyle?.radius || 6}px`,
-        border: isOutline ? `1.5px solid ${buttonStyle?.textColor || '#3b82f6'}` : 'none',
+        border: bgColor === 'transparent' ? `1.5px solid ${textColor}` : 'none',
         cursor: 'pointer',
         fontFamily: 'var(--font-body-family)',
         fontWeight: '500',
