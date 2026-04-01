@@ -398,3 +398,37 @@ export function generateCSS(page) {
     }
   `;
 }
+
+export function generateGoogleFontsImport(fonts) {
+  // Collect all unique fonts and their weights
+  const fontMap = {};
+
+  Object.values(fonts).forEach(font => {
+    if (!font || !font.family) return;
+
+    if (!fontMap[font.family]) {
+      fontMap[font.family] = new Set();
+    }
+    if (font.weight) {
+      fontMap[font.family].add(font.weight);
+    }
+  });
+
+  // If no fonts, return empty string
+  if (Object.keys(fontMap).length === 0) {
+    return '';
+  }
+
+  // Build query parameters
+  const params = Object.entries(fontMap)
+    .map(([family, weights]) => {
+      const encodedFamily = family.replace(/\s+/g, '+');
+      const sortedWeights = Array.from(weights).sort((a, b) => a - b);
+      const weightList = sortedWeights.map(w => `wght@${w}`).join(';');
+      return `family=${encodedFamily}:${weightList}`;
+    })
+    .join('&');
+
+  const url = `https://fonts.googleapis.com/css2?${params}&display=swap`;
+  return `@import url('${url}');`;
+}

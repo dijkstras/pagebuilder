@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateHTML } from '../../src/services/pageGenerator';
+import { generateHTML, generateGoogleFontsImport } from '../../src/services/pageGenerator';
 import { createEmptyPage, createSegment, createContentItem, CONTENT_TYPES } from '../../src/store/pageTypes';
 
 describe('pageGenerator', () => {
@@ -110,5 +110,58 @@ describe('pageGenerator', () => {
     expect(html).toContain('</body>');
     expect(html).toContain('<meta charset="UTF-8">');
     expect(html).toContain('<meta name="viewport"');
+  });
+});
+
+describe('generateGoogleFontsImport', () => {
+  it('returns empty string when no fonts provided', () => {
+    expect(generateGoogleFontsImport({})).toBe('');
+  });
+
+  it('generates import for single font with single weight', () => {
+    const fonts = {
+      heading1: { family: 'Inter', size: 48, weight: 700 },
+      heading2: { family: 'Inter', size: 32, weight: 600 },
+      body: { family: 'Inter', size: 16, weight: 400 },
+      label: { family: 'Inter', size: 12, weight: 500 }
+    };
+    const result = generateGoogleFontsImport(fonts);
+    expect(result).toContain('fonts.googleapis.com/css2');
+    expect(result).toContain('Inter');
+    expect(result).toContain('wght@400');
+    expect(result).toContain('wght@500');
+    expect(result).toContain('wght@600');
+    expect(result).toContain('wght@700');
+  });
+
+  it('generates import for multiple fonts with correct URL encoding', () => {
+    const fonts = {
+      heading1: { family: 'Playfair Display', size: 48, weight: 700 },
+      body: { family: 'Inter', size: 16, weight: 400 }
+    };
+    const result = generateGoogleFontsImport(fonts);
+    expect(result).toContain('Playfair+Display');
+    expect(result).toContain('Inter');
+    expect(result).toContain('&family=');
+    expect(result).toContain('display=swap');
+  });
+
+  it('deduplicates weights for same font', () => {
+    const fonts = {
+      heading1: { family: 'Roboto', size: 48, weight: 700 },
+      body: { family: 'Roboto', size: 16, weight: 700 }
+    };
+    const result = generateGoogleFontsImport(fonts);
+    // Should only have one wght@700, not two
+    const matches = result.match(/wght@700/g);
+    expect(matches.length).toBe(1);
+  });
+
+  it('returns CSS @import statement format', () => {
+    const fonts = {
+      body: { family: 'Inter', size: 16, weight: 400 }
+    };
+    const result = generateGoogleFontsImport(fonts);
+    expect(result).toMatch(/^@import url\(.*\);$/);
   });
 });
