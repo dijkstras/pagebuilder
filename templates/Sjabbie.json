@@ -118,7 +118,24 @@
             "verticalAlignment": "top",
             "direction": "column"
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1775026553860",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Button"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         }
       ]
     }
