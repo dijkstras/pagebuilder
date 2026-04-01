@@ -89,7 +89,7 @@ function renderSegment(segment, page) {
       ? `${segment.settings.borderWidth ?? 1}px solid ${segment.settings.borderColor ?? '#000000'}`
       : undefined,
     boxShadow: segment.settings.elevationEnabled
-      ? `0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 2.5}px rgba(0,0,0,${0.1 + (segment.settings.elevation ?? 4) * 0.012})`
+      ? `0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02})`
       : undefined,
     borderRadius: `${segment.settings.borderRadius ?? 0}px`
   });
@@ -187,7 +187,7 @@ function renderContainer(container, page) {
     ? `${container.settings.borderWidth ?? 1}px solid ${container.settings.borderColor ?? '#000000'}`
     : undefined;
   styleObj.boxShadow = container.settings.elevationEnabled
-    ? `0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 2.5}px rgba(0,0,0,${0.1 + (container.settings.elevation ?? 4) * 0.012})`
+    ? `0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (container.settings.elevation ?? 4) * 0.02})`
     : undefined;
   styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
 
