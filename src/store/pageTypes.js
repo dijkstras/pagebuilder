@@ -85,7 +85,13 @@ export const createSegment = (name = 'Segment') => ({
     contentAlignment: 'left',
     verticalAlignment: 'top',
     direction: 'row',
-    minHeight: 200
+    minHeight: 200,
+    borderEnabled: false,
+    borderWidth: 1,
+    borderColor: '#000000',
+    elevationEnabled: false,
+    elevation: 4,
+    borderRadius: 0
   },
   children: []
 });
@@ -102,7 +108,13 @@ export const createContainer = (name = 'Container') => ({
     padding: 20,
     contentAlignment: 'left',
     verticalAlignment: 'top',
-    direction: 'column'
+    direction: 'column',
+    borderEnabled: false,
+    borderWidth: 1,
+    borderColor: '#000000',
+    elevationEnabled: false,
+    elevation: 4,
+    borderRadius: 0
   },
   children: []
 });
@@ -175,7 +187,13 @@ function migrateSegment(segment) {
       contentAlignment: s.contentAlignment ?? 'left',
       verticalAlignment: s.verticalAlignment ?? 'top',
       direction: s.direction ?? 'row',
-      minHeight: s.minHeight ?? 200
+      minHeight: s.minHeight ?? 200,
+      borderEnabled: s.borderEnabled ?? false,
+      borderWidth: s.borderWidth ?? 1,
+      borderColor: s.borderColor ?? '#000000',
+      elevationEnabled: s.elevationEnabled ?? false,
+      elevation: s.elevation ?? 4,
+      borderRadius: s.borderRadius ?? 0
     },
     children: (segment.children ?? []).map(child =>
       child.type === 'container' ? migrateContainer(child) : child
@@ -197,7 +215,13 @@ function migrateContainer(container) {
       padding: s.padding ?? 20,
       contentAlignment: s.contentAlignment ?? 'left',
       verticalAlignment: s.verticalAlignment ?? 'top',
-      direction: s.direction ?? 'column'
+      direction: s.direction ?? 'column',
+      borderEnabled: s.borderEnabled ?? false,
+      borderWidth: s.borderWidth ?? 1,
+      borderColor: s.borderColor ?? '#000000',
+      elevationEnabled: s.elevationEnabled ?? false,
+      elevation: s.elevation ?? 4,
+      borderRadius: s.borderRadius ?? 0
     },
     children: (container.children ?? []).map(child =>
       child.type === 'container' ? migrateContainer(child) : child

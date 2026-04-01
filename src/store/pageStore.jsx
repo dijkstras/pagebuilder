@@ -58,6 +58,16 @@ function pageReducer(state, action) {
         selectedElementType: null
       };
 
+    case 'DUPLICATE_ELEMENT': {
+      const { page: newPage, cloneId } = duplicateElementInPage(state.page, action.payload.id);
+      return {
+        ...state,
+        page: newPage,
+        selectedElementId: cloneId,
+        selectedElementType: action.payload.elementType
+      };
+    }
+
     case 'SELECT_ELEMENT':
       return {
         ...state,
@@ -136,6 +146,39 @@ function deleteElement(page, elementId) {
   };
 }
 
+export function deepCloneElement(element) {
+  const newId = `${element.type}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+  return {
+    ...element,
+    id: newId,
+    children: element.children?.map(deepCloneElement)
+  };
+}
+
+export function duplicateElementInPage(page, elementId) {
+  let cloneId = null;
+
+  const insertAfterInArray = (arr) => {
+    const idx = arr.findIndex(item => item.id === elementId);
+    if (idx !== -1) {
+      const clone = deepCloneElement(arr[idx]);
+      cloneId = clone.id;
+      const newArr = [...arr];
+      newArr.splice(idx + 1, 0, clone);
+      return newArr;
+    }
+    return arr.map(item => ({
+      ...item,
+      children: item.children ? insertAfterInArray(item.children) : item.children
+    }));
+  };
+
+  return {
+    page: { ...page, root: insertAfterInArray(page.root) },
+    cloneId
+  };
+}
+
 export function PageProvider({ children }) {
   const [state, dispatch] = useReducer(pageReducer, initialState);
 
@@ -161,6 +204,7 @@ export const pageActions = {
   addSegment: (name) => ({ type: 'ADD_SEGMENT', payload: name }),
   updateElement: (id, updates) => ({ type: 'UPDATE_ELEMENT', payload: { id, updates } }),
   deleteElement: (id) => ({ type: 'DELETE_ELEMENT', payload: id }),
+  duplicateElement: (id, elementType) => ({ type: 'DUPLICATE_ELEMENT', payload: { id, elementType } }),
   selectElement: (id, elementType) => ({ type: 'SELECT_ELEMENT', payload: { id, elementType } }),
   deselectElement: () => ({ type: 'DESELECT_ELEMENT' }),
   selectBrandSection: (section) => ({ type: 'SELECT_BRAND_SECTION', payload: section }),

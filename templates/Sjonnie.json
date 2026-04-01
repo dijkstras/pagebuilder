@@ -1,7 +1,50 @@
 {
   "id": "page-1774977075813",
   "title": "Sjonnie",
-  "root": [],
+  "root": [
+    {
+      "id": "segment-1774978499759",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": "https://www.transparentpng.com/download/penguin/SmTb01-penguin-free-png.png",
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 400,
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#a52c2c",
+          "color2": "#000000",
+          "angle": 90
+        }
+      },
+      "children": [
+        {
+          "id": "content-1774978526724",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "heading1",
+            "customOverrides": {
+              "content": "Your text here"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
+    }
+  ],
   "styles": {
     "colors": {
       "primary": "#3b82f6",

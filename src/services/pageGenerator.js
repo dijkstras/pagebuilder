@@ -84,7 +84,15 @@ function renderSegment(segment, page) {
     backgroundPosition: bgPosition,
     backgroundRepeat: hasBgImage && segment.settings.bgRepeat ? 'repeat' : 'no-repeat',
     padding: `${segment.settings.padding}px`,
-    margin: `${segment.settings.margin}px`
+    margin: `${segment.settings.margin}px`,
+    border: segment.settings.borderEnabled
+      ? `${segment.settings.borderWidth ?? 1}px solid ${segment.settings.borderColor ?? '#000000'}`
+      : undefined,
+    filter: segment.settings.elevationEnabled
+      ? `drop-shadow(0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02}))`
+      : undefined,
+    borderRadius: `${segment.settings.borderRadius ?? 0}px`,
+    overflow: 'visible'
   });
 
   const direction = segment.settings.direction ?? 'row';
@@ -175,6 +183,15 @@ function renderContainer(container, page) {
   if (container.settings.padding) {
     styleObj.padding = `${container.settings.padding}px`;
   }
+
+  styleObj.border = container.settings.borderEnabled
+    ? `${container.settings.borderWidth ?? 1}px solid ${container.settings.borderColor ?? '#000000'}`
+    : undefined;
+  styleObj.filter = container.settings.elevationEnabled
+    ? `drop-shadow(0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (container.settings.elevation ?? 4) * 0.02}))`
+    : undefined;
+  styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
+  styleObj.overflow = 'visible';
 
   const style = buildStyleString(styleObj);
   const children = container.children.map(child => renderContentItem(child, page)).join('\n');
