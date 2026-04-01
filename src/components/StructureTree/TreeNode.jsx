@@ -20,6 +20,11 @@ export function TreeNode({ element, level = 0 }) {
     dispatch(pageActions.deleteElement(element.id));
   };
 
+  const handleDuplicate = (e) => {
+    e.stopPropagation();
+    dispatch(pageActions.duplicateElement(element.id, element.type));
+  };
+
   const handleAddContainer = (e) => {
     e.stopPropagation();
     const newContainer = createContainer();
@@ -199,6 +204,23 @@ export function TreeNode({ element, level = 0 }) {
             )}
           </div>
         )}
+
+        <button
+          onClick={handleDuplicate}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#9ca3af',
+            cursor: 'pointer',
+            opacity: 0.7,
+            fontSize: '14px',
+            padding: '0 2px',
+            lineHeight: '1'
+          }}
+          title="Duplicate"
+        >
+          ⧉
+        </button>
 
         <button
           onClick={handleDelete}
