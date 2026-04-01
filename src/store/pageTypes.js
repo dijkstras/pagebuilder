@@ -39,13 +39,17 @@ export const createEmptyPage = () => ({
       heading1: { family: 'Inter', size: 48, weight: 700 },
       heading2: { family: 'Inter', size: 32, weight: 600 },
       body: { family: 'Inter', size: 16, weight: 400 },
-      label: { family: 'Inter', size: 12, weight: 500 }
+      label: { family: 'Inter', size: 12, weight: 500 },
+      button: { family: 'Inter', weight: 500 }
     },
     buttonStyles: [
       {
         id: 'primary',
         label: 'Primary',
         bgColor: '#3b82f6',
+        bgType: 'solid',
+        bgGradient: null,
+        fontSize: 14,
         textColor: '#ffffff',
         padding: 12,
         radius: 6
@@ -54,6 +58,9 @@ export const createEmptyPage = () => ({
         id: 'secondary',
         label: 'Secondary',
         bgColor: '#e5e7eb',
+        bgType: 'solid',
+        bgGradient: null,
+        fontSize: 14,
         textColor: '#1f2937',
         padding: 12,
         radius: 6
@@ -62,6 +69,9 @@ export const createEmptyPage = () => ({
         id: 'tertiary',
         label: 'Tertiary',
         bgColor: 'transparent',
+        bgType: 'solid',
+        bgGradient: null,
+        fontSize: 14,
         textColor: '#3b82f6',
         padding: 12,
         radius: 6
@@ -134,7 +144,7 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => ({
     customOverrides: contentType === CONTENT_TYPES.TEXT
       ? { content: 'Your text here' }
       : contentType === CONTENT_TYPES.BUTTON
-        ? { label: 'Button' }
+        ? { label: 'Button', icon: { key: null, position: 'none' } }
         : contentType === CONTENT_TYPES.VIDEO
           ? { src: '' }
           : {},
@@ -179,11 +189,17 @@ export function migratePage(page) {
         heading1: migrateFontToken(page.styles?.fonts?.heading1, { size: 48, weight: 700 }),
         heading2: migrateFontToken(page.styles?.fonts?.heading2, { size: 32, weight: 600 }),
         body: migrateFontToken(page.styles?.fonts?.body, { size: 16, weight: 400 }),
-        label: migrateFontToken(page.styles?.fonts?.label, { size: 12, weight: 500 })
+        label: migrateFontToken(page.styles?.fonts?.label, { size: 12, weight: 500 }),
+        button: page.styles?.fonts?.button ?? { family: 'Inter', weight: 500 }
       },
       spacing: page.styles?.spacing ?? { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 },
       bgColor: page.styles?.bgColor ?? '#f9fafb',
-      buttonStyles
+      buttonStyles: buttonStyles.map(b => ({
+        ...b,
+        bgType: b.bgType ?? 'solid',
+        bgGradient: b.bgGradient ?? null,
+        fontSize: b.fontSize ?? 14
+      }))
     },
     root: (page.root ?? []).map(migrateSegment)
   };
@@ -194,6 +210,19 @@ function migrateFontToken(font, defaults) {
   // Handle old minMax structure and new size structure
   const size = font.size ?? defaults.size;
   return { family: font.family ?? 'Inter', size, weight: font.weight ?? defaults.weight };
+}
+
+function migrateContentItem(item) {
+  if (item.type !== 'button') return item;
+  const overrides = item.settings?.customOverrides ?? {};
+  if (overrides.icon) return item;
+  return {
+    ...item,
+    settings: {
+      ...item.settings,
+      customOverrides: { ...overrides, icon: { key: null, position: 'none' } }
+    }
+  };
 }
 
 function migrateSegment(segment) {
@@ -221,7 +250,7 @@ function migrateSegment(segment) {
       borderRadius: s.borderRadius ?? 0
     },
     children: (segment.children ?? []).map(child =>
-      child.type === 'container' ? migrateContainer(child) : child
+      child.type === 'container' ? migrateContainer(child) : migrateContentItem(child)
     )
   };
 }
@@ -250,7 +279,7 @@ function migrateContainer(container) {
       borderRadius: s.borderRadius ?? 0
     },
     children: (container.children ?? []).map(child =>
-      child.type === 'container' ? migrateContainer(child) : child
+      child.type === 'container' ? migrateContainer(child) : migrateContentItem(child)
     )
   };
 }
