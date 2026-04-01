@@ -55,7 +55,8 @@ export function TreeNode({ element, level = 0 }) {
       text: '📝',
       image: '🖼️',
       button: '🔘',
-      card: '🃏'
+      card: '🃏',
+      video: '▶️'
     };
     return icons[type] || '•';
   };

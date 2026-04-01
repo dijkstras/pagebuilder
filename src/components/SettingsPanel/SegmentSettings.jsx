@@ -152,6 +152,29 @@ export function SegmentSettings() {
         />
       </div>
 
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Video URL</label>
+        <input
+          type="text"
+          value={segment.settings.bgVideo || ''}
+          onChange={(e) => handleUpdate('bgVideo', e.target.value || null)}
+          placeholder="https://www.youtube.com/watch?v=..."
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            fontSize: '12px',
+            boxSizing: 'border-box'
+          }}
+        />
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+          Plays muted in background. Paste a YouTube URL.
+        </div>
+      </div>
+
       {segment.settings.bgImage && (
         <>
           <div style={{ marginBottom: '12px' }}>

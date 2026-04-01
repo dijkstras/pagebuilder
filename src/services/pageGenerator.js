@@ -1,3 +1,4 @@
+import { extractYouTubeId, buildYouTubeEmbedUrl } from '../utils/youtube.js';
 
 export function generateHTML(page, selectedElementId) {
   const segments = page.root.map(segment => renderSegment(segment, page)).join('\n');
@@ -92,7 +93,8 @@ function renderSegment(segment, page) {
       ? `drop-shadow(0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02}))`
       : undefined,
     borderRadius: `${segment.settings.borderRadius ?? 0}px`,
-    overflow: 'visible'
+    overflow: segment.settings.bgVideo ? 'hidden' : 'visible',
+    position: segment.settings.bgVideo ? 'relative' : undefined
   });
 
   const direction = segment.settings.direction ?? 'row';
@@ -121,8 +123,17 @@ function renderSegment(segment, page) {
     }
   }).join('\n');
 
+  const segmentVideoId = segment.settings.bgVideo
+    ? extractYouTubeId(segment.settings.bgVideo)
+    : null;
+  const segmentVideoBg = segmentVideoId
+    ? `<iframe src="${buildYouTubeEmbedUrl(segmentVideoId)}" style="position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);pointer-events:none;border:none;z-index:0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`
+    : '';
+  const innerZIndex = segmentVideoId ? `${innerStyle}; position: relative; z-index: 1` : innerStyle;
+
   return `<section style="${outerStyle}" data-element-id="${segment.id}">
-  <div style="${innerStyle}">
+  ${segmentVideoBg}
+  <div style="${innerZIndex}">
     ${children}
   </div>
 </section>`;
@@ -191,13 +202,25 @@ function renderContainer(container, page) {
     ? `drop-shadow(0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (container.settings.elevation ?? 4) * 0.02}))`
     : undefined;
   styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
-  styleObj.overflow = 'visible';
+  styleObj.overflow = container.settings.bgVideo ? 'hidden' : 'visible';
+  if (container.settings.bgVideo) styleObj.position = 'relative';
 
   const style = buildStyleString(styleObj);
   const children = container.children.map(child => renderContentItem(child, page)).join('\n');
 
+  const containerVideoId = container.settings.bgVideo
+    ? extractYouTubeId(container.settings.bgVideo)
+    : null;
+  const containerVideoBg = containerVideoId
+    ? `<iframe src="${buildYouTubeEmbedUrl(containerVideoId)}" style="position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);pointer-events:none;border:none;z-index:0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`
+    : '';
+  const childrenWrapped = containerVideoId
+    ? `<div style="position:relative;z-index:1;display:contents">${children}</div>`
+    : children;
+
   return `<div style="${style}" data-element-id="${container.id}">
-    ${children}
+    ${containerVideoBg}
+    ${childrenWrapped}
   </div>`;
 }
 
@@ -329,6 +352,16 @@ function renderContentItem(item, page) {
     case 'card': {
       const { width, height } = sizeOverrides(item);
       return `<div style="${buildStyleString({ border: '1px solid #ddd', padding: '16px', borderRadius: '8px', width: width ?? '300px', height })}" data-element-id="${item.id}">Card Content</div>`;
+    }
+
+    case 'video': {
+      const { width, height } = sizeOverrides(item);
+      const videoId = extractYouTubeId(item.settings.customOverrides.src || '');
+      if (!videoId) {
+        return `<div style="${buildStyleString({ width: width ?? '560px', height: height ?? '315px', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px' })}" data-element-id="${item.id}">No video URL set</div>`;
+      }
+      const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      return `<iframe src="${embedUrl}" style="${buildStyleString({ width: width ?? '560px', height: height ?? '315px', border: 'none', display: 'block' })}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-element-id="${item.id}"></iframe>`;
     }
 
     default:

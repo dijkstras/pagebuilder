@@ -8,7 +8,8 @@ export const CONTENT_TYPES = {
   TEXT: 'text',
   IMAGE: 'image',
   BUTTON: 'button',
-  CARD: 'card'
+  CARD: 'card',
+  VIDEO: 'video'
 };
 
 export const MAX_WIDTH_PRESETS = [
@@ -81,6 +82,7 @@ export const createSegment = (name = 'Segment') => ({
     fullWidth: true,
     bgColor: '#ffffff',
     bgImage: null,
+    bgVideo: null,
     padding: 40,
     margin: 0,
     gutter: 24,
@@ -108,6 +110,7 @@ export const createContainer = (name = 'Container') => ({
     spacing: 16,
     bgColor: 'transparent',
     bgImage: null,
+    bgVideo: null,
     padding: 20,
     contentAlignment: 'left',
     verticalAlignment: 'top',
@@ -132,7 +135,9 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => ({
       ? { content: 'Your text here' }
       : contentType === CONTENT_TYPES.BUTTON
         ? { label: 'Button' }
-        : {},
+        : contentType === CONTENT_TYPES.VIDEO
+          ? { src: '' }
+          : {},
     responsiveVariants: {
       mobile: {},
       tablet: {},
@@ -199,6 +204,7 @@ function migrateSegment(segment) {
       fullWidth: s.fullWidth ?? true,
       bgColor: s.bgColor ?? '#ffffff',
       bgImage: s.bgImage ?? null,
+      bgVideo: s.bgVideo ?? null,
       padding: s.padding ?? 40,
       margin: s.margin ?? 0,
       gutter: s.gutter ?? 24,
@@ -231,6 +237,7 @@ function migrateContainer(container) {
       spacing: s.spacing ?? 16,
       bgColor: s.bgColor ?? 'transparent',
       bgImage: s.bgImage ?? null,
+      bgVideo: s.bgVideo ?? null,
       padding: s.padding ?? 20,
       contentAlignment: s.contentAlignment ?? 'left',
       verticalAlignment: s.verticalAlignment ?? 'top',

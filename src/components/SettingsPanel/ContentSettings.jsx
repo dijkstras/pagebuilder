@@ -238,6 +238,23 @@ export function ContentSettings() {
         </>
       )}
 
+      {/* ── Video ── */}
+      {content.type === CONTENT_TYPES.VIDEO && (
+        <div style={{ marginBottom: '16px' }}>
+          <label style={labelStyle}>YouTube URL</label>
+          <input
+            type="text"
+            value={content.settings.customOverrides.src || ''}
+            onChange={(e) => handleCustomUpdate('src', e.target.value)}
+            placeholder="https://www.youtube.com/watch?v=..."
+            style={inputStyle}
+          />
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+            Paste a YouTube video URL
+          </div>
+        </div>
+      )}
+
       {/* ── Button ── */}
       {content.type === CONTENT_TYPES.BUTTON && (
         <>
