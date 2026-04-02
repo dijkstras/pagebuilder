@@ -226,7 +226,12 @@
         "elevation": 4,
         "borderRadius": 0,
         "scrollEnabled": true,
-        "bgType": "gradient"
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#000000",
+          "color2": "#6b7280",
+          "angle": 180
+        }
       },
       "children": [
         {
