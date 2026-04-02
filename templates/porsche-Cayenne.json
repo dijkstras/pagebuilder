@@ -108,7 +108,7 @@
         "gutter": "auto",
         "maxWidth": null,
         "contentAlignment": "center",
-        "verticalAlignment": "bottom",
+        "verticalAlignment": "top",
         "direction": "column",
         "minHeight": 800,
         "borderEnabled": false,
