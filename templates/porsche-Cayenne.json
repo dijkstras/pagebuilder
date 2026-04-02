@@ -210,7 +210,7 @@
         "contentAlignment": "center",
         "verticalAlignment": "bottom",
         "direction": "row",
-        "minHeight": 600,
+        "minHeight": 800,
         "borderEnabled": false,
         "borderWidth": 1,
         "borderColor": "#000000",
