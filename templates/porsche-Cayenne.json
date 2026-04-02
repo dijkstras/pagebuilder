@@ -183,7 +183,7 @@
                   "label": "Start Tutorial Now",
                   "icon": {
                     "key": null,
-                    "position": "none"
+                    "position": "after"
                   },
                   "sizeOverride": {
                     "enabled": false,
