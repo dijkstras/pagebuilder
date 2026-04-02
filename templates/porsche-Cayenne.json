@@ -251,7 +251,13 @@
             "height": "600px",
             "bgSize": "600px auto",
             "bgPositionX": "right",
-            "bgPositionY": "top"
+            "bgPositionY": "top",
+            "bgType": "gradient",
+            "bgGradient": {
+              "color1": "#ffffff",
+              "color2": "#000000",
+              "angle": 145
+            }
           },
           "children": [
             {
