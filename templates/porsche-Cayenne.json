@@ -105,7 +105,7 @@
         "bgVideo": "https://www.youtube.com/watch?v=2yrlNznB2lE",
         "padding": 80,
         "margin": 0,
-        "gutter": 24,
+        "gutter": "auto",
         "maxWidth": null,
         "contentAlignment": "center",
         "verticalAlignment": "top",
