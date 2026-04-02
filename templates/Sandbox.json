@@ -96,7 +96,8 @@
                 "assignedStyleId": null,
                 "textRole": "body",
                 "customOverrides": {
-                  "content": "A very short desciption goes here we know what this is all about. "
+                  "content": "A very short desciption goes here we know what this is all about. ",
+                  "width": "100%"
                 },
                 "responsiveVariants": {
                   "mobile": {},
