@@ -91,7 +91,7 @@
       "lg": 24,
       "xl": 48
     },
-    "bgColor": "#FFf"
+    "bgColor": "#000000"
   },
   "root": [
     {
@@ -201,6 +201,32 @@
           ]
         }
       ]
+    },
+    {
+      "id": "segment-1775133572394",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0
+      },
+      "children": []
     },
     {
       "id": "segment-1775059134416",
