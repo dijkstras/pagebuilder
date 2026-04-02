@@ -51,7 +51,11 @@
         "padding": 12,
         "radius": 999,
         "bgType": "gradient",
-        "bgGradient": null,
+        "bgGradient": {
+          "color1": "#ec4899",
+          "color2": "#000000",
+          "angle": 90
+        },
         "fontSize": 18
       },
       {
