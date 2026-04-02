@@ -116,8 +116,8 @@
                 "customOverrides": {
                   "label": "Button",
                   "icon": {
-                    "key": null,
-                    "position": "none"
+                    "key": "chevron-right",
+                    "position": "after"
                   },
                   "sizeOverride": {
                     "enabled": false,
