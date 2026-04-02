@@ -1,6 +1,16 @@
 import React, { useEffect } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { ColorPresets } from './ColorPresets.jsx';
+import { GradientPicker } from './GradientPicker';
+
+function darkenHex(hex, amount = 0.15) {
+  const h = hex.replace('#', '');
+  if (h.length !== 6) return hex;
+  const r = Math.max(0, Math.round(parseInt(h.slice(0, 2), 16) * (1 - amount)));
+  const g = Math.max(0, Math.round(parseInt(h.slice(2, 4), 16) * (1 - amount)));
+  const b = Math.max(0, Math.round(parseInt(h.slice(4, 6), 16) * (1 - amount)));
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
 
 const PRESET_FONTS = [
   'Inter', 'Roboto', 'Open Sans', 'Poppins', 'Raleway', 'Work Sans', 'Nunito',
@@ -267,23 +277,41 @@ function ButtonEditor({ style: btnStyle, onChange, colors = {} }) {
   const shapeValue = SHAPE_PRESETS.find(s => s.value === btnStyle.radius)?.value ?? 'custom';
   const isCustomRadius = !SHAPE_PRESETS.some(s => s.value === btnStyle.radius);
 
-  const previewStyle = {
+  const previewBg = btnStyle.bgType === 'gradient' && btnStyle.bgGradient
+    ? `linear-gradient(${btnStyle.bgGradient.angle ?? 90}deg, ${btnStyle.bgGradient.color1}, ${btnStyle.bgGradient.color2})`
+    : btnStyle.bgColor;
+
+  const hoverBg = btnStyle.bgType === 'gradient' && btnStyle.bgGradient
+    ? `linear-gradient(${btnStyle.bgGradient.angle ?? 90}deg, ${darkenHex(btnStyle.bgGradient.color1)}, ${darkenHex(btnStyle.bgGradient.color2)})`
+    : darkenHex(btnStyle.bgColor || '#3b82f6');
+
+  const sharedPreviewStyle = {
     display: 'inline-block',
     padding: `${btnStyle.padding}px 20px`,
-    backgroundColor: btnStyle.bgColor,
     color: btnStyle.textColor,
     borderRadius: `${btnStyle.radius}px`,
-    fontSize: '13px',
+    fontSize: `${btnStyle.fontSize ?? 14}px`,
     fontWeight: 500,
-    border: btnStyle.bgColor === 'transparent' ? `1.5px solid ${btnStyle.textColor}` : 'none',
+    border: btnStyle.bgType !== 'gradient' && btnStyle.bgColor === 'transparent' ? `1.5px solid ${btnStyle.textColor}` : 'none',
     cursor: 'default'
   };
 
   return (
     <div>
       {/* Preview */}
-      <div style={{ marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <span style={previewStyle}>{btnStyle.label}</span>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+        <div>
+          <div style={{ fontSize: 11, color: '#888', marginBottom: 4 }}>Normal</div>
+          <div style={{ ...sharedPreviewStyle, background: previewBg }}>
+            {btnStyle.label || 'Button'}
+          </div>
+        </div>
+        <div>
+          <div style={{ fontSize: 11, color: '#888', marginBottom: 4 }}>Hover</div>
+          <div style={{ ...sharedPreviewStyle, background: hoverBg }}>
+            {btnStyle.label || 'Button'}
+          </div>
+        </div>
       </div>
 
       {/* Label */}
@@ -297,48 +325,51 @@ function ButtonEditor({ style: btnStyle, onChange, colors = {} }) {
         />
       </div>
 
-      {/* Colors row */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-        <div style={{ flex: 1 }}>
-          <label style={labelStyle}>Background</label>
-          <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
-            <input
-              type="color"
-              value={btnStyle.bgColor === 'transparent' ? '#ffffff' : btnStyle.bgColor}
-              onChange={(e) => onChange('bgColor', e.target.value)}
-              style={{ width: '36px', height: '36px', cursor: 'pointer', borderRadius: '5px', border: '1px solid #4b5563', padding: '2px', backgroundColor: '#374151', flexShrink: 0 }}
-            />
-            <input
-              type="text"
-              value={btnStyle.bgColor}
-              onChange={(e) => onChange('bgColor', e.target.value)}
-              style={{ flex: 1, ...inputStyle }}
-            />
-          </div>
-          {Object.keys(colors).length > 0 && (
-            <ColorPresets colors={colors} onSelectColor={(color) => onChange('bgColor', color)} />
-          )}
+      {/* Background (gradient picker) */}
+      <div style={{ marginBottom: 12 }}>
+        <label style={labelStyle}>Background</label>
+        <GradientPicker
+          bgType={btnStyle.bgType || 'solid'}
+          bgColor={btnStyle.bgColor}
+          bgGradient={btnStyle.bgGradient}
+          onUpdate={onChange}
+          colors={colors}
+        />
+      </div>
+
+      {/* Text color */}
+      <div style={{ marginBottom: '10px' }}>
+        <label style={labelStyle}>Text color</label>
+        <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
+          <input
+            type="color"
+            value={btnStyle.textColor}
+            onChange={(e) => onChange('textColor', e.target.value)}
+            style={{ width: '36px', height: '36px', cursor: 'pointer', borderRadius: '5px', border: '1px solid #4b5563', padding: '2px', backgroundColor: '#374151', flexShrink: 0 }}
+          />
+          <input
+            type="text"
+            value={btnStyle.textColor}
+            onChange={(e) => onChange('textColor', e.target.value)}
+            style={{ flex: 1, ...inputStyle }}
+          />
         </div>
-        <div style={{ flex: 1 }}>
-          <label style={labelStyle}>Text color</label>
-          <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
-            <input
-              type="color"
-              value={btnStyle.textColor}
-              onChange={(e) => onChange('textColor', e.target.value)}
-              style={{ width: '36px', height: '36px', cursor: 'pointer', borderRadius: '5px', border: '1px solid #4b5563', padding: '2px', backgroundColor: '#374151', flexShrink: 0 }}
-            />
-            <input
-              type="text"
-              value={btnStyle.textColor}
-              onChange={(e) => onChange('textColor', e.target.value)}
-              style={{ flex: 1, ...inputStyle }}
-            />
-          </div>
-          {Object.keys(colors).length > 0 && (
-            <ColorPresets colors={colors} onSelectColor={(color) => onChange('textColor', color)} />
-          )}
-        </div>
+        {Object.keys(colors).length > 0 && (
+          <ColorPresets colors={colors} onSelectColor={(color) => onChange('textColor', color)} />
+        )}
+      </div>
+
+      {/* Font Size */}
+      <div style={{ marginBottom: 12 }}>
+        <label style={labelStyle}>Font Size (px)</label>
+        <input
+          type="number"
+          value={btnStyle.fontSize ?? 14}
+          onChange={e => onChange('fontSize', parseInt(e.target.value) || 14)}
+          min={8}
+          max={72}
+          style={inputStyle}
+        />
       </div>
 
       {/* Shape */}
