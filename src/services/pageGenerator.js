@@ -367,7 +367,7 @@ function renderContentItem(item, page) {
         background: background,
         color: textColor,
         padding: `${buttonStyle?.padding || 12}px 24px`,
-        borderRadius: `${buttonStyle?.radius || 6}px`,
+        borderRadius: `${buttonStyle?.radius ?? 6}px`,
         border: isOutline ? `1.5px solid ${textColor}` : 'none',
         cursor: 'pointer',
         fontFamily: 'var(--font-button-family)',
