@@ -107,7 +107,7 @@
         "direction": "row",
         "minHeight": 200,
         "bgVideo": null,
-        "bgType": "solid",
+        "bgType": "gradient",
         "bgGradient": null,
         "borderEnabled": false,
         "borderWidth": 1,
