@@ -97,7 +97,8 @@
                 "textRole": "body",
                 "customOverrides": {
                   "content": "A very short desciption goes here we know what this is all about. ",
-                  "width": "100%"
+                  "width": "100%",
+                  "color": "#1f2937"
                 },
                 "responsiveVariants": {
                   "mobile": {},
