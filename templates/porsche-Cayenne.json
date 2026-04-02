@@ -431,6 +431,74 @@
               }
             }
           ]
+        },
+        {
+          "id": "container-1775134192720-tzfw6",
+          "name": "Feature card",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "#ffffff",
+            "bgImage": "https://a.storyblok.com/f/322327/2250x1980/225759e0fd/cayenne-turbo-electric-porsche-active-ride-desktop.png",
+            "bgVideo": null,
+            "padding": 32,
+            "contentAlignment": "left",
+            "verticalAlignment": "bottom",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": true,
+            "elevation": 4,
+            "borderRadius": 12,
+            "width": "420px",
+            "height": "520px",
+            "bgSize": "600px auto",
+            "bgPositionX": "right",
+            "bgPositionY": "top",
+            "bgType": "gradient",
+            "bgGradient": {
+              "color1": "#eef5fb",
+              "color2": "#b5c4d4",
+              "angle": 49
+            }
+          },
+          "children": [
+            {
+              "id": "text-1775134192720-p2gbe",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading2",
+                "customOverrides": {
+                  "content": "Future Shock"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "text-1775134192720-cqtu6",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "The best and most comfortable ride ever, using the latest adaptive suspension, force-built in-house. ",
+                  "width": "100%"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         }
       ]
     },
