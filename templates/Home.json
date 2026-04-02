@@ -48,7 +48,7 @@
         "label": "Primary",
         "bgColor": "#3b82f6",
         "textColor": "#ffffff",
-        "padding": 12,
+        "padding": 16,
         "radius": 999,
         "bgType": "gradient",
         "bgGradient": {
