@@ -182,7 +182,7 @@
                 "customOverrides": {
                   "label": "Start Tutorial Now",
                   "icon": {
-                    "key": null,
+                    "key": "arrow-right",
                     "position": "after"
                   },
                   "sizeOverride": {
