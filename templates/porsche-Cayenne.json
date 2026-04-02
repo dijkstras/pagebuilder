@@ -900,34 +900,6 @@
       ]
     },
     {
-      "id": "segment-1775057926252-tw8r6",
-      "name": "Footer",
-      "type": "segment",
-      "settings": {
-        "fullWidth": true,
-        "bgColor": "#ffffff",
-        "bgImage": null,
-        "bgVideo": "https://www.youtube.com/watch?v=OUPQGEwO6hA",
-        "padding": 40,
-        "margin": 80,
-        "gutter": 24,
-        "maxWidth": null,
-        "contentAlignment": "center",
-        "verticalAlignment": "bottom",
-        "direction": "row",
-        "minHeight": 800,
-        "borderEnabled": false,
-        "borderWidth": 1,
-        "borderColor": "#000000",
-        "elevationEnabled": false,
-        "elevation": 4,
-        "borderRadius": 24,
-        "bgType": "solid",
-        "bgGradient": null
-      },
-      "children": []
-    },
-    {
       "id": "segment-1775124898904-lf5cb",
       "name": "Title",
       "type": "segment",
