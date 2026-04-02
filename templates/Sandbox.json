@@ -136,6 +136,20 @@
               }
             }
           ]
+        },
+        {
+          "id": "content-1775131220507",
+          "type": "image",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {},
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
         }
       ]
     }
