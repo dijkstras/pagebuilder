@@ -547,7 +547,7 @@
             "bgVideo": null,
             "padding": 20,
             "contentAlignment": "left",
-            "verticalAlignment": "bottom",
+            "verticalAlignment": "center",
             "direction": "row",
             "borderEnabled": false,
             "borderWidth": 1,
