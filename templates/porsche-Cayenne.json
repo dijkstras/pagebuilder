@@ -558,7 +558,9 @@
             "width": "40%",
             "bgSize": "cover",
             "height": "400px",
-            "scrollEnabled": false
+            "scrollEnabled": false,
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": [
             {
