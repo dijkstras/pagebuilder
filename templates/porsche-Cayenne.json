@@ -235,7 +235,7 @@
           "type": "container",
           "settings": {
             "columnSpan": 12,
-            "spacing": 16,
+            "spacing": "auto",
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
