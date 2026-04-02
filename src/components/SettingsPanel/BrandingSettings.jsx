@@ -60,7 +60,8 @@ const TYPOGRAPHY_STYLES = [
   { key: 'heading1', label: 'Heading 1', previewText: 'The quick brown fox' },
   { key: 'heading2', label: 'Heading 2', previewText: 'The quick brown fox' },
   { key: 'body', label: 'Body', previewText: 'The quick brown fox jumps over the lazy dog.' },
-  { key: 'label', label: 'Label', previewText: 'Label text' }
+  { key: 'label', label: 'Label', previewText: 'Label text' },
+  { key: 'button', label: 'Button', previewText: 'Button' }
 ];
 
 function TypographySettings() {
@@ -137,17 +138,19 @@ function TypographySettings() {
           </div>
 
           <div style={{ marginBottom: '12px', display: 'flex', gap: '8px' }}>
-            <div style={{ flex: 1 }}>
-              <label style={labelStyle}>Size (px)</label>
-              <input
-                type="number"
-                value={fonts[style.key].size}
-                onChange={(e) => handleFontChange(style.key, 'size', parseInt(e.target.value) || 0)}
-                min="8"
-                max="96"
-                style={inputStyle}
-              />
-            </div>
+            {style.key !== 'button' && (
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Size (px)</label>
+                <input
+                  type="number"
+                  value={fonts[style.key].size}
+                  onChange={(e) => handleFontChange(style.key, 'size', parseInt(e.target.value) || 0)}
+                  min="8"
+                  max="96"
+                  style={inputStyle}
+                />
+              </div>
+            )}
             <div style={{ flex: 1 }}>
               <label style={labelStyle}>Weight</label>
               <select
