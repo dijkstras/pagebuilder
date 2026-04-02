@@ -536,26 +536,6 @@
       },
       "children": [
         {
-          "id": "content-1775059186126",
-          "type": "image",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://a.storyblok.com/f/322327/1536x1536/c5ac3b0115/cayenne-turbo-electric-heating.jpg/m/1536x1350/smart/filters:format(avif)?dpl=dpl_2MEpbdpb2AZuh5SQjoqVJiQtc18c",
-              "objectFit": "cover",
-              "width": "45%",
-              "borderRadius": "24px",
-              "opacity": ""
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
           "id": "container-1775134324183",
           "name": "Container",
           "type": "container",
