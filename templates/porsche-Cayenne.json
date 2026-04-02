@@ -180,7 +180,7 @@
                 "assignedStyleId": "tertiary",
                 "textRole": null,
                 "customOverrides": {
-                  "label": "Start ",
+                  "label": "Start Tutorial Now",
                   "icon": {
                     "key": null,
                     "position": "none"
