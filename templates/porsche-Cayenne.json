@@ -541,7 +541,7 @@
           "type": "container",
           "settings": {
             "columnSpan": 12,
-            "spacing": "auto",
+            "spacing": 45,
             "bgColor": "#ec4899",
             "bgImage": "https://a.storyblok.com/f/322327/1536x1536/c5ac3b0115/cayenne-turbo-electric-heating.jpg",
             "bgVideo": null,
