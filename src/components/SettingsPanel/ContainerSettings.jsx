@@ -23,6 +23,15 @@ function findElement(page, elementId) {
 export function ContainerSettings() {
   const { state, dispatch } = usePageStore();
   const container = findElement(state.page, state.selectedElementId);
+  const [spacingInput, setSpacingInput] = React.useState('');
+  const isEditingRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (container && !isEditingRef.current) {
+      const currentValue = container.settings.spacing === 'auto' ? 'auto' : container.settings.spacing?.toString() ?? '16';
+      setSpacingInput(currentValue);
+    }
+  }, [container?.settings.spacing]);
 
   if (!container) return null;
 
@@ -99,6 +108,61 @@ export function ContainerSettings() {
               }}>{l}</button>
             ))}
           </div>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Spacing</label>
+        <input
+          type="text"
+          value={spacingInput}
+          onChange={(e) => {
+            const value = e.target.value;
+            isEditingRef.current = true;
+            setSpacingInput(value);
+            
+            const trimmedValue = value.trim();
+            if (trimmedValue.toLowerCase() === 'auto') {
+              handleUpdate('spacing', 'auto');
+              isEditingRef.current = false;
+            } else if (trimmedValue === '') {
+              // Allow empty input to reset to default
+              handleUpdate('spacing', 16);
+              isEditingRef.current = false;
+            } else {
+              // Allow numbers with optional % or px suffix
+              const numericMatch = trimmedValue.match(/^(\d+(?:\.\d+)?)\s*(px|%)?$/i);
+              if (numericMatch) {
+                const numValue = parseFloat(numericMatch[1]);
+                if (numValue >= 0) {
+                  handleUpdate('spacing', numValue);
+                }
+              }
+              isEditingRef.current = false;
+            }
+          }}
+          onBlur={() => {
+            isEditingRef.current = false;
+            // Sync with actual value when losing focus
+            if (container) {
+              const currentValue = container.settings.spacing === 'auto' ? 'auto' : container.settings.spacing?.toString() ?? '16';
+              setSpacingInput(currentValue);
+            }
+          }}
+          placeholder="16px or auto"
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            fontSize: '12px',
+            boxSizing: 'border-box'
+          }}
+        />
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+          Enter pixel value (e.g. 16), percentage (e.g. 10%), or "auto" to distribute evenly
         </div>
       </div>
 

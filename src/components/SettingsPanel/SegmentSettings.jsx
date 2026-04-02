@@ -23,6 +23,15 @@ function findElement(page, elementId) {
 export function SegmentSettings() {
   const { state, dispatch } = usePageStore();
   const segment = findElement(state.page, state.selectedElementId);
+  const [spacingInput, setSpacingInput] = React.useState('');
+  const isEditingRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (segment && !isEditingRef.current) {
+      const currentValue = segment.settings.gutter === 'auto' ? 'auto' : segment.settings.gutter?.toString() ?? '24';
+      setSpacingInput(currentValue);
+    }
+  }, [segment?.settings.gutter]);
 
   if (!segment) return null;
 
@@ -99,6 +108,61 @@ export function SegmentSettings() {
               }}>{l}</button>
             ))}
           </div>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Spacing</label>
+        <input
+          type="text"
+          value={spacingInput}
+          onChange={(e) => {
+            const value = e.target.value;
+            isEditingRef.current = true;
+            setSpacingInput(value);
+            
+            const trimmedValue = value.trim();
+            if (trimmedValue.toLowerCase() === 'auto') {
+              handleUpdate('gutter', 'auto');
+              isEditingRef.current = false;
+            } else if (trimmedValue === '') {
+              // Allow empty input to reset to default
+              handleUpdate('gutter', 24);
+              isEditingRef.current = false;
+            } else {
+              // Allow numbers with optional % or px suffix
+              const numericMatch = trimmedValue.match(/^(\d+(?:\.\d+)?)\s*(px|%)?$/i);
+              if (numericMatch) {
+                const numValue = parseFloat(numericMatch[1]);
+                if (numValue >= 0) {
+                  handleUpdate('gutter', numValue);
+                }
+              }
+              isEditingRef.current = false;
+            }
+          }}
+          onBlur={() => {
+            isEditingRef.current = false;
+            // Sync with actual value when losing focus
+            if (segment) {
+              const currentValue = segment.settings.gutter === 'auto' ? 'auto' : segment.settings.gutter?.toString() ?? '24';
+              setSpacingInput(currentValue);
+            }
+          }}
+          placeholder="24px or auto"
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            fontSize: '12px',
+            boxSizing: 'border-box'
+          }}
+        />
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+          Enter pixel value (e.g. 24), percentage (e.g. 10%), or "auto" to distribute evenly
         </div>
       </div>
 

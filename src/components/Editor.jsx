@@ -111,7 +111,10 @@ export function Editor() {
 
   const handleDuplicatePage = async (pageName, e) => {
     e.stopPropagation();
-    const newName = prompt(`Duplicate "${pageName}" as:`, `${pageName}-copy`);
+    // Sanitize the original name to create a valid default suggestion
+    const sanitizedName = pageName.toLowerCase().replace(/[^a-z0-9\-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const defaultCopyName = sanitizedName ? `${sanitizedName}-copy` : 'page-copy';
+    const newName = prompt(`Duplicate "${pageName}" as:`, defaultCopyName);
     if (!newName) return;
 
     if (!newName.match(/^[a-z0-9\-]+$/i)) {
@@ -188,6 +191,15 @@ export function Editor() {
               {state.saveStatus === 'saving' && '⟳ Saving...'}
               {state.saveStatus === 'saved' && '✓ Saved'}
               {state.saveStatus === 'error' && `✗ Error: ${state.saveError}`}
+            </span>
+          )}
+          {state.lastSaved && (
+            <span style={{
+              fontSize: '11px',
+              color: '#6b7280',
+              whiteSpace: 'nowrap'
+            }}>
+              Last saved: {new Date(state.lastSaved).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
           )}
         </div>

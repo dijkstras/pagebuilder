@@ -61,6 +61,7 @@ function renderSegment(segment, page) {
   const gutter = segment.settings.gutter ?? 24;
   const maxWidth = segment.settings.maxWidth;
   const bgSize = segment.settings.bgSize || 'cover';
+  const isAutoSpacing = segment.settings.gutter === 'auto';
 
   const getBackgroundPosition = (hAlign, vAlign) => {
     const hMap = { left: 'left', center: 'center', right: 'right' };
@@ -124,8 +125,10 @@ function renderSegment(segment, page) {
     display: 'flex',
     flexDirection: direction,
     flexWrap: direction === 'row' ? 'wrap' : undefined,
-    gap: `${gutter}px`,
-    justifyContent: direction === 'row' ? hAlign : vAlign,
+    gap: isAutoSpacing ? undefined : `${gutter}px`,
+    justifyContent: isAutoSpacing 
+      ? (direction === 'row' ? 'space-between' : 'space-around') 
+      : (direction === 'row' ? hAlign : vAlign),
     alignItems: direction === 'row' ? vAlign : hAlign,
     maxWidth: maxWidth ? `${maxWidth}px` : undefined,
     marginLeft: maxWidth ? 'auto' : undefined,
@@ -184,6 +187,7 @@ function renderContainer(container, page) {
   const hAlign = hMap[container.settings.contentAlignment] || 'flex-start';
   const vAlign = vMap[container.settings.verticalAlignment] || 'flex-start';
   const bgSize = container.settings.bgSize || 'cover';
+  const isAutoSpacing = container.settings.spacing === 'auto';
 
   const getBackgroundPosition = (hAlign, vAlign) => {
     const hMap = { left: 'left', center: 'center', right: 'right' };
@@ -206,8 +210,10 @@ function renderContainer(container, page) {
     display: 'flex',
     flexDirection: direction,
     flexWrap: direction === 'row' ? 'wrap' : undefined,
-    gap: `${container.settings.spacing}px`,
-    justifyContent: direction === 'row' ? hAlign : vAlign,
+    gap: isAutoSpacing ? undefined : `${container.settings.spacing}px`,
+    justifyContent: isAutoSpacing 
+      ? (direction === 'row' ? 'space-between' : 'space-around') 
+      : (direction === 'row' ? hAlign : vAlign),
     alignItems: direction === 'row' ? vAlign : hAlign
   };
 

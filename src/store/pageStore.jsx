@@ -9,7 +9,8 @@ const initialState = {
   selectedElementType: null,
   activeBrandSection: null,
   saveStatus: 'idle', // 'idle' | 'saving' | 'saved' | 'error'
-  saveError: null
+  saveError: null,
+  lastSaved: null
 };
 
 function pageReducer(state, action) {
@@ -136,7 +137,8 @@ function pageReducer(state, action) {
       return {
         ...state,
         saveStatus: action.payload.status,
-        saveError: action.payload.error || null
+        saveError: action.payload.error || null,
+        lastSaved: action.payload.status === 'saved' ? new Date().toISOString() : state.lastSaved
       };
 
     case 'CLEAR_SAVE_ERROR':
