@@ -115,7 +115,8 @@
         "elevationEnabled": false,
         "elevation": 4,
         "borderRadius": 0,
-        "bgSize": "contain"
+        "bgSize": "contain",
+        "bgPositionX": "right"
       },
       "children": []
     }
