@@ -1003,13 +1003,13 @@
           },
           "children": [
             {
-              "id": "content-1775134808782",
-              "type": "image",
+              "id": "content-1775134969832",
+              "type": "text",
               "settings": {
                 "assignedStyleId": null,
-                "textRole": null,
+                "textRole": "body",
                 "customOverrides": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  "content": "Your text here"
                 },
                 "responsiveVariants": {
                   "mobile": {},
@@ -1019,13 +1019,22 @@
               }
             },
             {
-              "id": "content-1775134811882",
-              "type": "image",
+              "id": "content-1775134972082",
+              "type": "button",
               "settings": {
-                "assignedStyleId": null,
+                "assignedStyleId": "primary",
                 "textRole": null,
                 "customOverrides": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  "label": "Button",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
                 },
                 "responsiveVariants": {
                   "mobile": {},
