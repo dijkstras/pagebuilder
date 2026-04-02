@@ -50,7 +50,7 @@
         "textColor": "#ffffff",
         "padding": 12,
         "radius": 999,
-        "bgType": "solid",
+        "bgType": "gradient",
         "bgGradient": null,
         "fontSize": 18
       },
