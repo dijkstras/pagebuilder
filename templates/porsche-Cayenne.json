@@ -572,7 +572,7 @@
                 "customOverrides": {
                   "content": "Interiour Courses",
                   "color": "#ffffff",
-                  "width": "30px"
+                  "width": "auto"
                 },
                 "responsiveVariants": {
                   "mobile": {},
