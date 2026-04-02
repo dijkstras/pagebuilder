@@ -200,8 +200,7 @@
                     "enabled": false,
                     "width": "auto",
                     "height": "auto"
-                  },
-                  "width": "200PX"
+                  }
                 },
                 "responsiveVariants": {
                   "mobile": {},
