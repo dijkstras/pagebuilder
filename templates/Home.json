@@ -97,7 +97,7 @@
       "settings": {
         "fullWidth": true,
         "bgColor": "#ffffff",
-        "bgImage": "https://png.pngtree.com/png-clipart/20240523/original/pngtree-3d-burger-on-transparent-background-png-image_15157990.png",
+        "bgImage": null,
         "padding": 40,
         "margin": 0,
         "gutter": 24,
