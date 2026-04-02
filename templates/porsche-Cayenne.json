@@ -555,7 +555,7 @@
             "elevationEnabled": false,
             "elevation": 4,
             "borderRadius": 24,
-            "width": "400px",
+            "width": "500px",
             "bgSize": "cover",
             "height": "400px",
             "scrollEnabled": false,
