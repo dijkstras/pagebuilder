@@ -263,7 +263,8 @@
                 "textRole": null,
                 "customOverrides": {
                   "src": "https://res.cloudinary.com/dmwcbhehi/image/upload/c_thumb,w_3840,g_center/f_auto/q_auto/v1/Sports_Cup_D_ndu7fe?_a=BAVMn6Gf0",
-                  "objectFit": "cover"
+                  "objectFit": "cover",
+                  "height": "30px"
                 },
                 "responsiveVariants": {
                   "mobile": {},
