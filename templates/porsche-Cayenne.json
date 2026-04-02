@@ -229,7 +229,7 @@
       "children": [
         {
           "id": "container-1775133599428",
-          "name": "Container",
+          "name": "Feature card",
           "type": "container",
           "settings": {
             "columnSpan": 12,
