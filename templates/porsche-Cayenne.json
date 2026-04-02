@@ -234,6 +234,32 @@
       ]
     },
     {
+      "id": "segment-1775133272695",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0
+      },
+      "children": []
+    },
+    {
       "id": "segment-1775059134416",
       "name": "Photo and text",
       "type": "segment",
@@ -343,32 +369,6 @@
           ]
         }
       ]
-    },
-    {
-      "id": "segment-1775133272695",
-      "name": "New Segment",
-      "type": "segment",
-      "settings": {
-        "fullWidth": true,
-        "bgColor": "#ffffff",
-        "bgImage": null,
-        "bgVideo": null,
-        "padding": 40,
-        "margin": 0,
-        "gutter": 24,
-        "maxWidth": null,
-        "contentAlignment": "left",
-        "verticalAlignment": "top",
-        "direction": "row",
-        "minHeight": 200,
-        "borderEnabled": false,
-        "borderWidth": 1,
-        "borderColor": "#000000",
-        "elevationEnabled": false,
-        "elevation": 4,
-        "borderRadius": 0
-      },
-      "children": []
     },
     {
       "id": "segment-1775060933785",
