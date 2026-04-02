@@ -1065,7 +1065,9 @@
             "elevationEnabled": true,
             "elevation": 16,
             "borderRadius": 0,
-            "width": "100%"
+            "width": "100%",
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": [
             {
