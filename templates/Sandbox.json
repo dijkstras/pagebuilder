@@ -199,7 +199,7 @@
       {
         "id": "tertiary",
         "label": "Tertiary",
-        "bgColor": "#1f2937",
+        "bgColor": "",
         "textColor": "#3b82f6",
         "padding": 12,
         "radius": 6,
