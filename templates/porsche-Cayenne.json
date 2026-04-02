@@ -208,7 +208,7 @@
       "type": "segment",
       "settings": {
         "fullWidth": true,
-        "bgColor": "#ffffff",
+        "bgColor": "#000000",
         "bgImage": null,
         "bgVideo": null,
         "padding": 40,
