@@ -2,6 +2,7 @@ import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPES } from '../../store/pageTypes';
 import { ColorPresets } from './ColorPresets.jsx';
+import { BUTTON_ICONS } from '../../utils/buttonIcons';
 
 function findElement(page, elementId) {
   const search = (element) => {
@@ -267,68 +268,164 @@ export function ContentSettings() {
       )}
 
       {/* ── Button ── */}
-      {content.type === CONTENT_TYPES.BUTTON && (
-        <>
-          <div style={{ marginBottom: '16px' }}>
-            <label style={labelStyle}>Button style</label>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {state.page.styles.buttonStyles.map(btnStyle => {
-                const isActive = content.settings.assignedStyleId === btnStyle.id;
-                const isOutline = btnStyle.bgColor === 'transparent';
-                return (
+      {content.type === CONTENT_TYPES.BUTTON && (() => {
+        const customOverrides = content.settings.customOverrides;
+        const icon = customOverrides.icon ?? { key: null, position: 'none' };
+        const sizeOverride = customOverrides.sizeOverride ?? { enabled: false, width: 'auto', height: 'auto' };
+        return (
+          <>
+            <div style={{ marginBottom: '16px' }}>
+              <label style={labelStyle}>Button style</label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {state.page.styles.buttonStyles.map(btnStyle => {
+                  const isActive = content.settings.assignedStyleId === btnStyle.id;
+                  const isOutline = btnStyle.bgColor === 'transparent';
+                  return (
+                    <button
+                      key={btnStyle.id}
+                      onClick={() => handleSettingUpdate('assignedStyleId', btnStyle.id)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '10px 12px',
+                        backgroundColor: isActive ? '#1d4ed8' : '#374151',
+                        border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        textAlign: 'left'
+                      }}
+                    >
+                      {/* Mini button preview */}
+                      <span style={{
+                        display: 'inline-block',
+                        padding: '5px 14px',
+                        backgroundColor: btnStyle.bgColor,
+                        color: btnStyle.textColor,
+                        borderRadius: `${btnStyle.radius}px`,
+                        fontSize: '12px',
+                        fontWeight: 500,
+                        border: isOutline ? `1.5px solid ${btnStyle.textColor}` : 'none',
+                        whiteSpace: 'nowrap',
+                        flexShrink: 0
+                      }}>
+                        {btnStyle.label}
+                      </span>
+                      <span style={{ fontSize: '12px', color: isActive ? '#f3f4f6' : '#9ca3af' }}>
+                        {btnStyle.label}
+                      </span>
+                      {isActive && (
+                        <span style={{ marginLeft: 'auto', color: '#93c5fd', fontSize: '14px' }}>✓</span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '16px' }}>
+              <label style={labelStyle}>Label</label>
+              <input
+                type="text"
+                value={content.settings.customOverrides.label || ''}
+                onChange={(e) => handleCustomUpdate('label', e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+
+            {/* Icon section */}
+            <div style={{ marginBottom: 16 }}>
+              <label style={labelStyle}>Icon</label>
+              {/* Position toggle */}
+              <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
+                {['none', 'before', 'after'].map(pos => (
                   <button
-                    key={btnStyle.id}
-                    onClick={() => handleSettingUpdate('assignedStyleId', btnStyle.id)}
+                    key={pos}
+                    onClick={() => handleCustomUpdate('icon', { ...icon, position: pos })}
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      padding: '10px 12px',
-                      backgroundColor: isActive ? '#1d4ed8' : '#374151',
-                      border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
-                      borderRadius: '6px',
+                      flex: 1,
+                      padding: '6px 0',
+                      border: '1px solid',
+                      borderColor: icon.position === pos ? '#3b82f6' : '#d1d5db',
+                      borderRadius: 4,
+                      background: icon.position === pos ? '#eff6ff' : '#fff',
+                      color: icon.position === pos ? '#3b82f6' : '#374151',
+                      fontSize: 12,
                       cursor: 'pointer',
-                      textAlign: 'left'
+                      textTransform: 'capitalize'
                     }}
                   >
-                    {/* Mini button preview */}
-                    <span style={{
-                      display: 'inline-block',
-                      padding: '5px 14px',
-                      backgroundColor: btnStyle.bgColor,
-                      color: btnStyle.textColor,
-                      borderRadius: `${btnStyle.radius}px`,
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      border: isOutline ? `1.5px solid ${btnStyle.textColor}` : 'none',
-                      whiteSpace: 'nowrap',
-                      flexShrink: 0
-                    }}>
-                      {btnStyle.label}
-                    </span>
-                    <span style={{ fontSize: '12px', color: isActive ? '#f3f4f6' : '#9ca3af' }}>
-                      {btnStyle.label}
-                    </span>
-                    {isActive && (
-                      <span style={{ marginLeft: 'auto', color: '#93c5fd', fontSize: '14px' }}>✓</span>
-                    )}
+                    {pos === 'none' ? 'None' : pos === 'before' ? 'Before' : 'After'}
                   </button>
-                );
-              })}
+                ))}
+              </div>
+              {/* Icon grid — only when position is not 'none' */}
+              {icon.position !== 'none' && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 4 }}>
+                  {BUTTON_ICONS.map(({ key: iconKey, label, svg }) => (
+                    <button
+                      key={iconKey}
+                      title={label}
+                      onClick={() => handleCustomUpdate('icon', { ...icon, key: iconKey })}
+                      style={{
+                        padding: 6,
+                        border: '1px solid',
+                        borderColor: icon.key === iconKey ? '#3b82f6' : '#e5e7eb',
+                        borderRadius: 4,
+                        background: icon.key === iconKey ? '#eff6ff' : '#fafafa',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                      dangerouslySetInnerHTML={{ __html: svg }}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
 
-          <div>
-            <label style={labelStyle}>Label</label>
-            <input
-              type="text"
-              value={content.settings.customOverrides.label || ''}
-              onChange={(e) => handleCustomUpdate('label', e.target.value)}
-              style={inputStyle}
-            />
-          </div>
-        </>
-      )}
+            {/* Size override section */}
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                <label style={labelStyle}>Size Override</label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={sizeOverride.enabled}
+                    onChange={e => handleCustomUpdate('sizeOverride', { ...sizeOverride, enabled: e.target.checked })}
+                  />
+                  <span style={{ fontSize: 12, color: '#6b7280' }}>Enable</span>
+                </label>
+              </div>
+              {sizeOverride.enabled && (
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ ...labelStyle, fontSize: 11 }}>Width</label>
+                    <input
+                      type="text"
+                      value={sizeOverride.width}
+                      onChange={e => handleCustomUpdate('sizeOverride', { ...sizeOverride, width: e.target.value })}
+                      placeholder="auto"
+                      style={inputStyle}
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ ...labelStyle, fontSize: 11 }}>Height</label>
+                    <input
+                      type="text"
+                      value={sizeOverride.height}
+                      onChange={e => handleCustomUpdate('sizeOverride', { ...sizeOverride, height: e.target.value })}
+                      placeholder="auto"
+                      style={inputStyle}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        );
+      })()}
       {/* ── Size ── */}
       <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151' }}>
         <label style={{ ...labelStyle, marginBottom: '8px' }}>Size</label>
