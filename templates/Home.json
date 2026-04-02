@@ -140,7 +140,24 @@
             "elevation": 4,
             "borderRadius": 0
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1775140935954",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         },
         {
           "id": "container-1775140901813",
