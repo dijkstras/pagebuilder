@@ -108,7 +108,11 @@
         "minHeight": 200,
         "bgVideo": null,
         "bgType": "gradient",
-        "bgGradient": null,
+        "bgGradient": {
+          "color1": "#ffffff",
+          "color2": "#6b7280",
+          "angle": 90
+        },
         "borderEnabled": false,
         "borderWidth": 1,
         "borderColor": "#000000",
