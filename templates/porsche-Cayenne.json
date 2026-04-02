@@ -556,7 +556,8 @@
             "elevation": 4,
             "borderRadius": 0,
             "width": "40%",
-            "bgSize": "cover"
+            "bgSize": "cover",
+            "height": "400px"
           },
           "children": [
             {
