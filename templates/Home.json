@@ -53,7 +53,7 @@
         "bgType": "gradient",
         "bgGradient": {
           "color1": "#ec4899",
-          "color2": "#000000",
+          "color2": "#ff0000",
           "angle": 90
         },
         "fontSize": 18
