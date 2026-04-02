@@ -52,7 +52,8 @@
             "elevationEnabled": false,
             "elevation": 4,
             "borderRadius": 0,
-            "width": "240px"
+            "width": "240px",
+            "height": "600px"
           },
           "children": []
         }
