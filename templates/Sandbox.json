@@ -32,7 +32,8 @@
         "borderRadius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "scrollEnabled": false
+        "scrollEnabled": false,
+        "maxHeight": 400
       },
       "children": [
         {
