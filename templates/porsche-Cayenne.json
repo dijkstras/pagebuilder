@@ -225,7 +225,8 @@
         "elevationEnabled": false,
         "elevation": 4,
         "borderRadius": 0,
-        "scrollEnabled": true
+        "scrollEnabled": true,
+        "bgType": "gradient"
       },
       "children": [
         {
