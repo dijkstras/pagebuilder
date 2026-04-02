@@ -248,7 +248,9 @@
             "borderColor": "#000000",
             "elevationEnabled": false,
             "elevation": 4,
-            "borderRadius": 0
+            "borderRadius": 0,
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": []
         }
