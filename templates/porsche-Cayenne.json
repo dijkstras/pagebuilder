@@ -259,7 +259,7 @@
               "type": "text",
               "settings": {
                 "assignedStyleId": null,
-                "textRole": "heading2",
+                "textRole": "heading1",
                 "customOverrides": {
                   "content": "Your text here"
                 },
