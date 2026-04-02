@@ -111,7 +111,7 @@
         "bgGradient": {
           "color1": "#fffef5",
           "color2": "#f5ffc2",
-          "angle": 90
+          "angle": 21
         },
         "borderEnabled": false,
         "borderWidth": 1,
