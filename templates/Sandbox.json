@@ -33,7 +33,7 @@
         "bgType": "solid",
         "bgGradient": null,
         "scrollEnabled": true,
-        "maxHeight": 400
+        "maxHeight": null
       },
       "children": [
         {
