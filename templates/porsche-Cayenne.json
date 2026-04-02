@@ -1,0 +1,1093 @@
+{
+  "id": "page-1775125304722",
+  "title": "porsche-Cayenne",
+  "breakpoints": {
+    "mobile": 320,
+    "tablet": 768,
+    "desktop": 1024
+  },
+  "styles": {
+    "logo": null,
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#8b5cf6",
+      "accent": "#ec4899",
+      "text": "#000000",
+      "background": "#ffffff",
+      "neutral": "#6b7280"
+    },
+    "fonts": {
+      "heading1": {
+        "family": "Exo",
+        "size": 48,
+        "weight": 400
+      },
+      "heading2": {
+        "family": "Racing Sans One",
+        "size": 32,
+        "weight": 400
+      },
+      "body": {
+        "family": "Exo",
+        "size": 18,
+        "weight": 400
+      },
+      "label": {
+        "family": "Exo",
+        "size": 12,
+        "weight": 500
+      },
+      "button": {
+        "family": "Inter",
+        "weight": 500
+      }
+    },
+    "buttonStyles": [
+      {
+        "id": "primary",
+        "label": "Primary",
+        "bgColor": "#141414",
+        "textColor": "#ffffff",
+        "padding": 12,
+        "radius": 0,
+        "bgType": "solid",
+        "bgGradient": {
+          "color1": "#ec4899",
+          "color2": "#000000",
+          "angle": 90
+        },
+        "fontSize": 14
+      },
+      {
+        "id": "secondary",
+        "label": "Secondary",
+        "bgColor": "#fff",
+        "textColor": "#1f2937",
+        "padding": 12,
+        "radius": 0,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
+      },
+      {
+        "id": "tertiary",
+        "label": "Tertiary",
+        "bgColor": "transparent",
+        "textColor": "#000000",
+        "padding": 12,
+        "radius": 0,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
+      }
+    ],
+    "shapes": {
+      "borderRadius": 6
+    },
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 48
+    },
+    "bgColor": "#FFf"
+  },
+  "root": [
+    {
+      "id": "segment-1775050902202",
+      "name": "Nav",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#fff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 32,
+        "margin": 0,
+        "gutter": "auto",
+        "maxWidth": null,
+        "contentAlignment": "center",
+        "verticalAlignment": "center",
+        "direction": "row",
+        "minHeight": 20,
+        "borderEnabled": true,
+        "borderWidth": 1,
+        "borderColor": "#b3b3b3",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": [
+        {
+          "id": "content-1775122404870",
+          "type": "button",
+          "settings": {
+            "assignedStyleId": "secondary",
+            "textRole": null,
+            "customOverrides": {
+              "label": "Menu",
+              "icon": {
+                "key": "hamburger",
+                "position": "before"
+              },
+              "sizeOverride": {
+                "enabled": false,
+                "width": "auto",
+                "height": "auto"
+              },
+              "width": "140px"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          },
+          "name": "Menu"
+        },
+        {
+          "id": "content-1775051334084",
+          "type": "image",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {
+              "src": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Porsche_wordmark.png",
+              "objectFit": "contain"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          },
+          "name": "Logo"
+        },
+        {
+          "id": "content-1775123709772",
+          "type": "button",
+          "settings": {
+            "assignedStyleId": "primary",
+            "textRole": null,
+            "customOverrides": {
+              "label": "Find a Dealer",
+              "icon": {
+                "key": null,
+                "position": "none"
+              },
+              "sizeOverride": {
+                "enabled": false,
+                "width": "auto",
+                "height": "auto"
+              },
+              "width": "140px"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "segment-1775051544618-gy6ov",
+      "name": "Image",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#8b5cf6",
+        "bgImage": "https://www.freelogovectors.net/wp-content/uploads/2021/07/porsche-911-logo-freelogovectors.net_.png",
+        "bgVideo": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "center",
+        "verticalAlignment": "bottom",
+        "direction": "row",
+        "minHeight": 600,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#ffffff",
+          "color2": "#808080",
+          "angle": 180
+        },
+        "bgSize": "50% auto",
+        "bgPositionY": "top",
+        "bgPositionX": "center",
+        "bgOpacity": "20%"
+      },
+      "children": [
+        {
+          "id": "content-1775056982689",
+          "type": "image",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {
+              "src": "https://a.storyblok.com/f/322327/2616x712/7e18df530b/cz25w25ix0010-911-carrera-t-side.png/m/2500x680/smart/filters:format(avif)?dpl=dpl_2vaEL1EGxMUkVrCN2Vnus9uZqidn",
+              "objectFit": "100% 100%"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "segment-1775050614237-zas8y",
+      "name": "Labels",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 80,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "center",
+        "verticalAlignment": "bottom",
+        "direction": "column",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": [
+        {
+          "id": "content-1775050635336",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "heading1",
+            "customOverrides": {
+              "content": "911 Carrera T"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          },
+          "name": "Car Name"
+        },
+        {
+          "id": "content-1775052128467",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "body",
+            "customOverrides": {
+              "content": "From $218.000"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        },
+        {
+          "id": "container-1775057281766",
+          "name": "Container",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "center",
+            "verticalAlignment": "bottom",
+            "direction": "row",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "bgType": "solid",
+            "bgGradient": null
+          },
+          "children": [
+            {
+              "id": "content-1775057290607",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Change Model",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775057292992",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "tertiary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Build your Porsche",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775057295709",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "tertiary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "New & Used Inventory",
+                  "icon": {
+                    "key": "arrow-right",
+                    "position": "after"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "content-1775057493204",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "label",
+            "customOverrides": {
+              "content": "Manufacturer’s Suggested Retail Price. Excludes options; taxes; title; registration; delivery, processing and handling fee; dealer charges; potential tariffs. Dealer sets actual selling price.",
+              "color": "#6b7280"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          },
+          "name": "Disclaimer"
+        }
+      ]
+    },
+    {
+      "id": "segment-1775057564537",
+      "name": "Specs",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 80,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": [
+        {
+          "id": "container-1775057619394",
+          "name": "Container",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 32,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "bgType": "solid",
+            "bgGradient": null,
+            "width": "40%"
+          },
+          "children": [
+            {
+              "id": "content-1775057988292",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "4.3 s",
+                  "height": "40px"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775058199716",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "0 - 60 mph",
+                  "color": "#6b7280",
+                  "height": "40px"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775058335195",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "388 hp",
+                  "height": "40px"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775058337545",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Max. engine power",
+                  "color": "#6b7280",
+                  "height": "40px"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775058642674",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "183 mph",
+                  "height": "40px"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775058645659",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Max speed",
+                  "color": "#6b7280",
+                  "height": "50px"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775058651224",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "tertiary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Technical Specs",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "content-1775058123606",
+          "type": "image",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {
+              "src": "https://a.storyblok.com/f/322327/1720x1210/4dd129a813/cz25w25ix0011-911-carrera-t-front.png",
+              "objectFit": "cover",
+              "width": "55%"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "segment-1775059134416",
+      "name": "Photo and text",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 80,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": [
+        {
+          "id": "content-1775059186126",
+          "type": "image",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {
+              "src": "https://a.storyblok.com/f/322327/1720x1232/fab0d7cd9a/cz25w25ox0002-911-carrera-t-side.jpg/m/1720x1291/smart/filters:format(avif)?dpl=dpl_2vaEL1EGxMUkVrCN2Vnus9uZqidn",
+              "objectFit": "cover",
+              "width": "45%",
+              "borderRadius": "24px",
+              "opacity": ""
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        },
+        {
+          "id": "container-1775059319892",
+          "name": "Container",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 40,
+            "contentAlignment": "left",
+            "verticalAlignment": "center",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "width": "40%",
+            "bgType": "solid",
+            "bgGradient": null
+          },
+          "children": [
+            {
+              "id": "content-1775059324883",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "The one and always.",
+                  "width": "70%"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775059327392",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "The 911 Carrera T: For over 55 years, the T has stood not only for touring, but above all for puristic driving pleasure — thanks to targeted lightweight construction, emotional engine sound, characteristic design elements and a precise manual transmission.",
+                  "color": "#000000",
+                  "width": "100%"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "segment-1775060933785",
+      "name": "Title",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 0,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "center",
+        "verticalAlignment": "bottom",
+        "direction": "row",
+        "minHeight": 120,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": [
+        {
+          "id": "content-1775060937633",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "heading1",
+            "customOverrides": {
+              "content": "Dreams become reality"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "segment-1775059138940",
+      "name": "Carousel",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 80,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": [
+        {
+          "id": "container-1775059799692",
+          "name": "Touring",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "#000000",
+            "bgImage": "https://a.storyblok.com/f/322327/1700x1300/00f0ba0505/cz25w25ox0004-911-carrera-t-rear.jpg",
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "bottom",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 24,
+            "bgType": "solid",
+            "bgGradient": null,
+            "width": "820px",
+            "height": "620px",
+            "bgOpacity": ""
+          },
+          "children": [
+            {
+              "id": "content-1775060143483",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading2",
+                "customOverrides": {
+                  "content": "\"T\" for touring",
+                  "color": "#ffffff"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775060146799",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "label",
+                "customOverrides": {
+                  "content": "Lighter, sportier, manual transmission: The 911 Carrera T provides even more agility, dynamism and unbridled emotions, especially on winding mountain and country roads.",
+                  "color": "#ffffff",
+                  "width": "400px"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "container-1775060336261-potlp",
+          "name": "Shifter",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": "https://a.storyblok.com/f/322327/820x1300/3dd0fa52b0/cz25w25od0001-911-carrera-t-gear-shift.jpg",
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "bottom",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 24,
+            "bgType": "solid",
+            "bgGradient": null,
+            "width": "420px",
+            "height": "620px"
+          },
+          "children": [
+            {
+              "id": "text-1775060336261-fl7h0",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading2",
+                "customOverrides": {
+                  "content": "Refined gearshift lever",
+                  "color": "#ffffff"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "text-1775060336261-scxc2",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "label",
+                "customOverrides": {
+                  "content": "The gearshift lever with shift knob in open-pored walnut and a plaque engraved with \"MT\" (Manual Transmission) literally offer an even more pleasant gearshift experience.",
+                  "color": "#ffffff",
+                  "width": "100%"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "segment-1775057926252-tw8r6",
+      "name": "Footer",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": "https://www.youtube.com/watch?v=OUPQGEwO6hA",
+        "padding": 40,
+        "margin": 80,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "center",
+        "verticalAlignment": "bottom",
+        "direction": "row",
+        "minHeight": 800,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 24,
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": []
+    },
+    {
+      "id": "segment-1775124898904-lf5cb",
+      "name": "Title",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 0,
+        "margin": 40,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "center",
+        "verticalAlignment": "bottom",
+        "direction": "row",
+        "minHeight": 120,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": [
+        {
+          "id": "text-1775124898904-rnlg3",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "heading1",
+            "customOverrides": {
+              "content": "You deserve to drive it"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "segment-1775124176107-26qyp",
+      "name": "Footer",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": "https://a.storyblok.com/f/322327/7680x2472/7c7d000a07/cz25w25ox0007-911-carrera-t-and-911-carrera-t-cabrio.jpg",
+        "bgVideo": null,
+        "padding": 0,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "center",
+        "verticalAlignment": "bottom",
+        "direction": "row",
+        "minHeight": 700,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": [
+        {
+          "id": "container-1775124517921",
+          "name": "Copyright",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "#000000",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 40,
+            "contentAlignment": "center",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": true,
+            "elevation": 16,
+            "borderRadius": 0,
+            "width": "100%"
+          },
+          "children": [
+            {
+              "id": "content-1775124557672",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "© 2026 Porsche Cars North America, Inc.",
+                  "color": "#ffffff"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
