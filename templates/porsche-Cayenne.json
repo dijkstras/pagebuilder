@@ -211,7 +211,7 @@
         "bgColor": "#000000",
         "bgImage": null,
         "bgVideo": null,
-        "padding": 40,
+        "padding": 80,
         "margin": 0,
         "gutter": 24,
         "maxWidth": null,
