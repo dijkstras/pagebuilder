@@ -252,7 +252,22 @@
             "bgType": "solid",
             "bgGradient": null
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1775125824890",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {},
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         }
       ]
     },
