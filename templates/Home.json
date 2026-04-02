@@ -223,7 +223,7 @@
             "elevationEnabled": false,
             "elevation": 4,
             "borderRadius": 0,
-            "width": "40%"
+            "width": "30%"
           },
           "children": []
         }
