@@ -115,14 +115,40 @@ export function PageGrid({ onPageSelect, onNewPage }) {
         alignItems: 'center',
         marginBottom: '32px'
       }}>
-        <h1 style={{
-          fontSize: '32px',
-          fontWeight: 600,
-          color: THEME.text,
-          margin: 0
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px'
         }}>
-          Your Pages
-        </h1>
+          <img 
+            src="https://superb-activity-b7b8c463f3.media.strapiapp.com/logo_0e2ef7d0ed.webp"
+            alt="Pagebuilder Logo"
+            style={{
+              height: 'auto',
+              width: '240px',
+              objectFit: 'contain'
+            }}
+          />
+          <div>
+            <h1 style={{
+              fontSize: '32px',
+              fontWeight: 600,
+              color: THEME.text,
+              margin: 0,
+              lineHeight: '1.2'
+            }}>
+              Pagebuilder 1.0
+            </h1>
+            <p style={{
+              fontSize: '14px',
+              color: THEME.textMuted,
+              margin: 0,
+              marginTop: '2px'
+            }}>
+              by Sjoerd Dijkstra
+            </p>
+          </div>
+        </div>
         <button
           onClick={onNewPage}
           style={{
@@ -211,26 +237,45 @@ export function PageGrid({ onPageSelect, onNewPage }) {
               }}
             >
               {/* Preview Area */}
-              <div style={{
-                height: '200px',
-                backgroundColor: '#1a1a1a',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
+              <div 
+                onClick={() => handlePageClick(page.name)}
+                style={{
+                  height: '200px',
+                  backgroundColor: '#1a1a1a',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  cursor: 'pointer'
+                }}
+              >
                 {pagePreviews[page.name] ? (
-                  <iframe
-                    src={pagePreviews[page.name]}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      border: 'none',
-                      transform: 'scale(0.3)',
-                      transformOrigin: 'top left',
-                      width: '333%',
-                      height: '333%'
-                    }}
-                    title={`Preview of ${page.name}`}
-                  />
+                  <>
+                    <iframe
+                      src={pagePreviews[page.name]}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        border: 'none',
+                        transform: 'scale(0.3)',
+                        transformOrigin: 'top left',
+                        width: '333%',
+                        height: '333%',
+                        pointerEvents: 'none'
+                      }}
+                      title={`Preview of ${page.name}`}
+                    />
+                    <div
+                      onClick={() => handlePageClick(page.name)}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        cursor: 'pointer',
+                        zIndex: 1
+                      }}
+                    />
+                  </>
                 ) : (
                   <div style={{
                     display: 'flex',
