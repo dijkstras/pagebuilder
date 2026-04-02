@@ -146,9 +146,9 @@ export const fileStorageGitHub = {
           label: { family: 'Inter', size: 12, weight: 500 }
         },
         buttonStyles: [
-          { id: 'primary', label: 'Primary', bgColor: '#3b82f6', textColor: '#ffffff', padding: 12, radius: 6 },
-          { id: 'secondary', label: 'Secondary', bgColor: '#e5e7eb', textColor: '#1f2937', padding: 12, radius: 6 },
-          { id: 'tertiary', label: 'Tertiary', bgColor: 'transparent', textColor: '#3b82f6', padding: 12, radius: 6 }
+          { id: 'primary', label: 'Primary', bgColor: '#3b82f6', textColor: '#ffffff', padding: 12, radius: 6, bgType: 'solid', bgGradient: null, fontSize: 14 },
+          { id: 'secondary', label: 'Secondary', bgColor: '#e5e7eb', textColor: '#1f2937', padding: 12, radius: 6, bgType: 'solid', bgGradient: null, fontSize: 14 },
+          { id: 'tertiary', label: 'Tertiary', bgColor: 'transparent', textColor: '#3b82f6', padding: 12, radius: 6, bgType: 'solid', bgGradient: null, fontSize: 14 }
         ],
         shapes: { borderRadius: 6 },
         spacing: { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 },

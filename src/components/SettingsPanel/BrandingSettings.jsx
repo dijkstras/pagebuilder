@@ -4,6 +4,7 @@ import { ColorPresets } from './ColorPresets.jsx';
 import { GradientPicker } from './GradientPicker';
 
 function darkenHex(hex, amount = 0.15) {
+  if (!hex || typeof hex !== 'string') return hex;
   const h = hex.replace('#', '');
   if (h.length !== 6) return hex;
   const r = Math.max(0, Math.round(parseInt(h.slice(0, 2), 16) * (1 - amount)));
@@ -368,7 +369,7 @@ function ButtonEditor({ style: btnStyle, onChange, colors = {} }) {
           onChange={e => onChange('fontSize', parseInt(e.target.value) || 14)}
           min={8}
           max={72}
-          style={inputStyle}
+          style={{ ...inputStyle, width: 80 }}
         />
       </div>
 
