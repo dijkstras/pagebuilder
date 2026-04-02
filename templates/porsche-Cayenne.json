@@ -567,7 +567,8 @@
                 "assignedStyleId": null,
                 "textRole": "body",
                 "customOverrides": {
-                  "content": "Interiour Courses"
+                  "content": "Interiour Courses",
+                  "color": "#ffffff"
                 },
                 "responsiveVariants": {
                   "mobile": {},
