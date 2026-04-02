@@ -19,7 +19,8 @@ export const CONTENT_TYPE_LABELS = {
   text: 'Text',
   image: 'Image',
   button: 'Button',
-  card: 'Card'
+  card: 'Card',
+  video: 'Video'
 };
 
 export function buildClamp(min, max) {

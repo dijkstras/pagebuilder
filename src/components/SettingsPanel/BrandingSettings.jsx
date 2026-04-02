@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { ColorPresets } from './ColorPresets.jsx';
+import { GradientPicker } from './GradientPicker';
 
-const FONT_FAMILIES = [
-  'Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Poppins',
-  'Playfair Display', 'Merriweather', 'Georgia', 'Times New Roman',
-  'Source Sans Pro', 'Nunito', 'Raleway'
+function darkenHex(hex, amount = 0.15) {
+  if (!hex || typeof hex !== 'string') return hex;
+  const h = hex.replace('#', '');
+  if (h.length !== 6) return hex;
+  const r = Math.max(0, Math.round(parseInt(h.slice(0, 2), 16) * (1 - amount)));
+  const g = Math.max(0, Math.round(parseInt(h.slice(2, 4), 16) * (1 - amount)));
+  const b = Math.max(0, Math.round(parseInt(h.slice(4, 6), 16) * (1 - amount)));
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+
+const PRESET_FONTS = [
+  'Inter', 'Roboto', 'Open Sans', 'Poppins', 'Raleway', 'Work Sans', 'Nunito',
+  'Merriweather', 'Playfair Display', 'Lora', 'Crimson Text',
+  'Montserrat', 'Oswald', 'Space Grotesk', 'Caveat', 'Pacifico', 'Inconsolata'
 ];
 
 const FONT_WEIGHTS = [
@@ -60,12 +71,43 @@ const TYPOGRAPHY_STYLES = [
   { key: 'heading1', label: 'Heading 1', previewText: 'The quick brown fox' },
   { key: 'heading2', label: 'Heading 2', previewText: 'The quick brown fox' },
   { key: 'body', label: 'Body', previewText: 'The quick brown fox jumps over the lazy dog.' },
-  { key: 'label', label: 'Label', previewText: 'Label text' }
+  { key: 'label', label: 'Label', previewText: 'Label text' },
+  { key: 'button', label: 'Button', previewText: 'Button' }
 ];
 
 function TypographySettings() {
   const { state, dispatch } = usePageStore();
   const { fonts } = state.page.styles;
+
+  // Dynamically load Google Fonts into the app's <head> so the preview renders correctly
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const fontMap = {};
+      Object.values(fonts).forEach(font => {
+        if (!font?.family) return;
+        if (!fontMap[font.family]) fontMap[font.family] = new Set();
+        if (font.weight) fontMap[font.family].add(font.weight);
+      });
+
+      // Remove previously injected font links
+      document.querySelectorAll('link[data-gfont]').forEach(el => el.remove());
+
+      // Inject a <link> for each font family without specifying weights.
+      // Weight params break static (non-variable) fonts — the browser will use
+      // the closest available weight via CSS font matching.
+      Object.entries(fontMap).forEach(([family]) => {
+        const encodedFamily = encodeURIComponent(family).replace(/%20/g, '+');
+        const url = `https://fonts.googleapis.com/css2?family=${encodedFamily}&display=swap`;
+        const link = document.createElement('link');
+        link.setAttribute('data-gfont', family);
+        link.rel = 'stylesheet';
+        link.href = url;
+        document.head.appendChild(link);
+      });
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [fonts]);
 
   const handleFontChange = (role, key, value) => {
     const newFonts = { ...fonts, [role]: { ...fonts[role], [key]: value } };
@@ -81,31 +123,45 @@ function TypographySettings() {
           <div style={{ marginBottom: '12px' }}>
             <label style={labelStyle}>Font family</label>
             <select
-              value={FONT_FAMILIES.includes(fonts[style.key].family) ? fonts[style.key].family : 'custom'}
+              value={PRESET_FONTS.includes(fonts[style.key].family) ? fonts[style.key].family : 'custom'}
               onChange={(e) => {
                 if (e.target.value !== 'custom') handleFontChange(style.key, 'family', e.target.value);
               }}
               style={inputStyle}
             >
-              {FONT_FAMILIES.map(f => <option key={f} value={f}>{f}</option>)}
-              {!FONT_FAMILIES.includes(fonts[style.key].family) && (
+              {PRESET_FONTS.map(f => <option key={f} value={f}>{f}</option>)}
+              {!PRESET_FONTS.includes(fonts[style.key].family) && (
                 <option value="custom">{fonts[style.key].family} (custom)</option>
               )}
             </select>
           </div>
 
+          <div style={{ marginBottom: '12px' }}>
+            <label htmlFor={`font-search-${style.key}`} style={labelStyle}>Search fonts</label>
+            <input
+              id={`font-search-${style.key}`}
+              type="text"
+              placeholder="Type any Google Font name..."
+              value={fonts[style.key].family}
+              onChange={(e) => handleFontChange(style.key, 'family', e.target.value)}
+              style={inputStyle}
+            />
+          </div>
+
           <div style={{ marginBottom: '12px', display: 'flex', gap: '8px' }}>
-            <div style={{ flex: 1 }}>
-              <label style={labelStyle}>Size (px)</label>
-              <input
-                type="number"
-                value={fonts[style.key].size}
-                onChange={(e) => handleFontChange(style.key, 'size', parseInt(e.target.value) || 0)}
-                min="8"
-                max="96"
-                style={inputStyle}
-              />
-            </div>
+            {style.key !== 'button' && (
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Size (px)</label>
+                <input
+                  type="number"
+                  value={fonts[style.key].size}
+                  onChange={(e) => handleFontChange(style.key, 'size', parseInt(e.target.value) || 0)}
+                  min="8"
+                  max="96"
+                  style={inputStyle}
+                />
+              </div>
+            )}
             <div style={{ flex: 1 }}>
               <label style={labelStyle}>Weight</label>
               <select
@@ -128,7 +184,7 @@ function TypographySettings() {
             borderRadius: '6px',
             fontFamily: fonts[style.key].family,
             fontWeight: fonts[style.key].weight,
-            fontSize: `${fonts[style.key].size}px`,
+            ...(fonts[style.key].size !== undefined && { fontSize: `${fonts[style.key].size}px` }),
             color: '#f3f4f6'
           }}>
             {style.previewText}
@@ -222,23 +278,41 @@ function ButtonEditor({ style: btnStyle, onChange, colors = {} }) {
   const shapeValue = SHAPE_PRESETS.find(s => s.value === btnStyle.radius)?.value ?? 'custom';
   const isCustomRadius = !SHAPE_PRESETS.some(s => s.value === btnStyle.radius);
 
-  const previewStyle = {
+  const previewBg = btnStyle.bgType === 'gradient' && btnStyle.bgGradient
+    ? `linear-gradient(${btnStyle.bgGradient.angle ?? 90}deg, ${btnStyle.bgGradient.color1}, ${btnStyle.bgGradient.color2})`
+    : btnStyle.bgColor;
+
+  const hoverBg = btnStyle.bgType === 'gradient' && btnStyle.bgGradient
+    ? `linear-gradient(${btnStyle.bgGradient.angle ?? 90}deg, ${darkenHex(btnStyle.bgGradient.color1)}, ${darkenHex(btnStyle.bgGradient.color2)})`
+    : darkenHex(btnStyle.bgColor || '#3b82f6');
+
+  const sharedPreviewStyle = {
     display: 'inline-block',
     padding: `${btnStyle.padding}px 20px`,
-    backgroundColor: btnStyle.bgColor,
     color: btnStyle.textColor,
     borderRadius: `${btnStyle.radius}px`,
-    fontSize: '13px',
+    fontSize: `${btnStyle.fontSize ?? 14}px`,
     fontWeight: 500,
-    border: btnStyle.bgColor === 'transparent' ? `1.5px solid ${btnStyle.textColor}` : 'none',
+    border: btnStyle.bgType !== 'gradient' && btnStyle.bgColor === 'transparent' ? `1.5px solid ${btnStyle.textColor}` : 'none',
     cursor: 'default'
   };
 
   return (
     <div>
       {/* Preview */}
-      <div style={{ marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <span style={previewStyle}>{btnStyle.label}</span>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+        <div>
+          <div style={{ fontSize: 11, color: '#888', marginBottom: 4 }}>Normal</div>
+          <div style={{ ...sharedPreviewStyle, background: previewBg }}>
+            {btnStyle.label || 'Button'}
+          </div>
+        </div>
+        <div>
+          <div style={{ fontSize: 11, color: '#888', marginBottom: 4 }}>Hover</div>
+          <div style={{ ...sharedPreviewStyle, background: hoverBg }}>
+            {btnStyle.label || 'Button'}
+          </div>
+        </div>
       </div>
 
       {/* Label */}
@@ -252,48 +326,51 @@ function ButtonEditor({ style: btnStyle, onChange, colors = {} }) {
         />
       </div>
 
-      {/* Colors row */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-        <div style={{ flex: 1 }}>
-          <label style={labelStyle}>Background</label>
-          <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
-            <input
-              type="color"
-              value={btnStyle.bgColor === 'transparent' ? '#ffffff' : btnStyle.bgColor}
-              onChange={(e) => onChange('bgColor', e.target.value)}
-              style={{ width: '36px', height: '36px', cursor: 'pointer', borderRadius: '5px', border: '1px solid #4b5563', padding: '2px', backgroundColor: '#374151', flexShrink: 0 }}
-            />
-            <input
-              type="text"
-              value={btnStyle.bgColor}
-              onChange={(e) => onChange('bgColor', e.target.value)}
-              style={{ flex: 1, ...inputStyle }}
-            />
-          </div>
-          {Object.keys(colors).length > 0 && (
-            <ColorPresets colors={colors} onSelectColor={(color) => onChange('bgColor', color)} />
-          )}
+      {/* Background (gradient picker) */}
+      <div style={{ marginBottom: 12 }}>
+        <label style={labelStyle}>Background</label>
+        <GradientPicker
+          bgType={btnStyle.bgType || 'solid'}
+          bgColor={btnStyle.bgColor}
+          bgGradient={btnStyle.bgGradient}
+          onUpdate={onChange}
+          colors={colors}
+        />
+      </div>
+
+      {/* Text color */}
+      <div style={{ marginBottom: '10px' }}>
+        <label style={labelStyle}>Text color</label>
+        <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
+          <input
+            type="color"
+            value={btnStyle.textColor}
+            onChange={(e) => onChange('textColor', e.target.value)}
+            style={{ width: '36px', height: '36px', cursor: 'pointer', borderRadius: '5px', border: '1px solid #4b5563', padding: '2px', backgroundColor: '#374151', flexShrink: 0 }}
+          />
+          <input
+            type="text"
+            value={btnStyle.textColor}
+            onChange={(e) => onChange('textColor', e.target.value)}
+            style={{ flex: 1, ...inputStyle }}
+          />
         </div>
-        <div style={{ flex: 1 }}>
-          <label style={labelStyle}>Text color</label>
-          <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
-            <input
-              type="color"
-              value={btnStyle.textColor}
-              onChange={(e) => onChange('textColor', e.target.value)}
-              style={{ width: '36px', height: '36px', cursor: 'pointer', borderRadius: '5px', border: '1px solid #4b5563', padding: '2px', backgroundColor: '#374151', flexShrink: 0 }}
-            />
-            <input
-              type="text"
-              value={btnStyle.textColor}
-              onChange={(e) => onChange('textColor', e.target.value)}
-              style={{ flex: 1, ...inputStyle }}
-            />
-          </div>
-          {Object.keys(colors).length > 0 && (
-            <ColorPresets colors={colors} onSelectColor={(color) => onChange('textColor', color)} />
-          )}
-        </div>
+        {Object.keys(colors).length > 0 && (
+          <ColorPresets colors={colors} onSelectColor={(color) => onChange('textColor', color)} />
+        )}
+      </div>
+
+      {/* Font Size */}
+      <div style={{ marginBottom: 12 }}>
+        <label style={labelStyle}>Font Size (px)</label>
+        <input
+          type="number"
+          value={btnStyle.fontSize ?? 14}
+          onChange={e => onChange('fontSize', parseInt(e.target.value) || 14)}
+          min={8}
+          max={72}
+          style={{ ...inputStyle, width: 80 }}
+        />
       </div>
 
       {/* Shape */}

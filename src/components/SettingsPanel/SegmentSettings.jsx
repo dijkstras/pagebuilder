@@ -37,7 +37,16 @@ export function SegmentSettings() {
 
   return (
     <div>
-      <h3 style={{ fontSize: '14px', marginBottom: '12px', fontWeight: 500 }}>Segment: {segment.name}</h3>
+      <div style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #1f2937' }}>
+        <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</label>
+        <input
+          type="text"
+          value={segment.name || ''}
+          onChange={(e) => dispatch(pageActions.updateElement(segment.id, { name: e.target.value }))}
+          placeholder="Segment name…"
+          style={{ width: '100%', padding: '7px 10px', backgroundColor: '#1f2937', color: '#f3f4f6', border: '1px solid #374151', borderRadius: '6px', fontSize: '13px', boxSizing: 'border-box', outline: 'none' }}
+        />
+      </div>
 
       <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Layout Direction</label>
@@ -150,6 +159,29 @@ export function SegmentSettings() {
             boxSizing: 'border-box'
           }}
         />
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Video URL</label>
+        <input
+          type="text"
+          value={segment.settings.bgVideo || ''}
+          onChange={(e) => handleUpdate('bgVideo', e.target.value || null)}
+          placeholder="https://www.youtube.com/watch?v=..."
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            fontSize: '12px',
+            boxSizing: 'border-box'
+          }}
+        />
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+          Plays muted in background. Paste a YouTube URL.
+        </div>
       </div>
 
       {segment.settings.bgImage && (

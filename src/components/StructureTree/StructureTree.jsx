@@ -96,93 +96,35 @@ export function StructureTree() {
       <div style={{ flex: 1, overflow: 'auto', padding: '16px' }}>
         {activeTab === 'structure' ? (
           <>
-            {/* Page Root */}
-            <div
-              onClick={() => dispatch(pageActions.deselectElement())}
-              style={{
-                padding: '8px 4px',
-                cursor: 'pointer',
-                backgroundColor: isPageSelected ? '#3b82f6' : 'transparent',
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                userSelect: 'none',
-                marginBottom: '16px',
-                fontWeight: 500,
-                border: `2px solid ${isPageSelected ? '#3b82f6' : 'transparent'}`
-              }}
-            >
-              <span style={{ fontSize: '14px' }}>📄 Page: {state.page.title}</span>
-
-              <div style={{ position: 'relative', marginLeft: 'auto' }}>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowPageAddMenu(!showPageAddMenu);
-                  }}
-                  style={{
-                    background: '#3b82f6',
-                    border: 'none',
-                    color: 'white',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    padding: '4px 8px',
-                    fontWeight: 'bold',
-                    lineHeight: '1',
-                    borderRadius: '4px',
-                    width: '28px',
-                    height: '28px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0
-                  }}
-                  title="Add segment"
-                >
-                  +
-                </button>
-
-                {showPageAddMenu && (
-                  <div style={{
-                    position: 'absolute',
-                    right: 0,
-                    top: '100%',
-                    backgroundColor: '#1f2937',
-                    border: '1px solid #374151',
-                    borderRadius: '4px',
-                    minWidth: '140px',
-                    zIndex: 1000,
-                    boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
-                  }}>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleAddSegment();
-                      }}
-                      style={{
-                        width: '100%',
-                        padding: '8px 12px',
-                        backgroundColor: 'transparent',
-                        color: '#9ca3af',
-                        border: 'none',
-                        cursor: 'pointer',
-                        fontSize: '12px',
-                        textAlign: 'left'
-                      }}
-                      onMouseEnter={(e) => e.target.style.backgroundColor = '#374151'}
-                      onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-                    >
-                      📦 Segment
-                    </button>
-                  </div>
-                )}
-              </div>
+            {/* Page header */}
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '14px', paddingBottom: '12px', borderBottom: '1px solid #1a2537' }}>
+              <span
+                onClick={() => dispatch(pageActions.deselectElement())}
+                style={{
+                  flex: 1, fontSize: '12px', fontWeight: 500,
+                  color: isPageSelected ? '#93c5fd' : '#4b6074',
+                  cursor: 'pointer', userSelect: 'none',
+                  letterSpacing: '0.05em', textTransform: 'uppercase'
+                }}
+              >
+                {state.page.title}
+              </span>
+              <button
+                onClick={(e) => { e.stopPropagation(); handleAddSegment(); }}
+                style={{
+                  background: '#1d4ed8', border: 'none', color: 'white',
+                  cursor: 'pointer', fontSize: '16px', fontWeight: 'bold',
+                  borderRadius: '4px', width: '24px', height: '24px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0
+                }}
+                title="Add segment"
+              >+</button>
             </div>
 
             <div>
-              {state.page.root.map(segment => (
-                <TreeNode key={segment.id} element={segment} />
+              {state.page.root.map((segment, index) => (
+                <TreeNode key={segment.id} element={segment} segmentIndex={index} segmentTotal={state.page.root.length} />
               ))}
             </div>
           </>

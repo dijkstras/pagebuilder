@@ -1,3 +1,15 @@
+import { extractYouTubeId, buildYouTubeEmbedUrl } from '../utils/youtube.js';
+import { getButtonIcon } from '../utils/buttonIcons';
+
+function darkenHex(hex, amount = 0.15) {
+  if (!hex || typeof hex !== 'string') return hex;
+  const h = hex.replace('#', '');
+  if (h.length !== 6) return hex;
+  const r = Math.max(0, Math.round(parseInt(h.slice(0, 2), 16) * (1 - amount)));
+  const g = Math.max(0, Math.round(parseInt(h.slice(2, 4), 16) * (1 - amount)));
+  const b = Math.max(0, Math.round(parseInt(h.slice(4, 6), 16) * (1 - amount)));
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
 
 export function generateHTML(page, selectedElementId) {
   const segments = page.root.map(segment => renderSegment(segment, page)).join('\n');
@@ -77,6 +89,8 @@ function renderSegment(segment, page) {
   }
 
   const outerStyle = buildStyleString({
+    display: 'flex',
+    flexDirection: 'column',
     minHeight: `${segment.settings.minHeight ?? 200}px`,
     backgroundColor: isGradient ? undefined : (segment.settings.bgColor || page.styles.colors.background),
     backgroundImage,
@@ -92,7 +106,8 @@ function renderSegment(segment, page) {
       ? `drop-shadow(0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02}))`
       : undefined,
     borderRadius: `${segment.settings.borderRadius ?? 0}px`,
-    overflow: 'visible'
+    overflow: segment.settings.bgVideo ? 'hidden' : 'visible',
+    position: segment.settings.bgVideo ? 'relative' : undefined
   });
 
   const direction = segment.settings.direction ?? 'row';
@@ -102,6 +117,7 @@ function renderSegment(segment, page) {
   const vAlign = vMap[segment.settings.verticalAlignment] || 'flex-start';
 
   const innerStyle = buildStyleString({
+    flex: '1',
     display: 'flex',
     flexDirection: direction,
     flexWrap: direction === 'row' ? 'wrap' : undefined,
@@ -121,8 +137,17 @@ function renderSegment(segment, page) {
     }
   }).join('\n');
 
+  const segmentVideoId = segment.settings.bgVideo
+    ? extractYouTubeId(segment.settings.bgVideo)
+    : null;
+  const segmentVideoBg = segmentVideoId
+    ? `<iframe src="${buildYouTubeEmbedUrl(segmentVideoId)}" style="position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);pointer-events:none;border:none;z-index:0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`
+    : '';
+  const innerZIndex = segmentVideoId ? `${innerStyle}; position: relative; z-index: 1` : innerStyle;
+
   return `<section style="${outerStyle}" data-element-id="${segment.id}">
-  <div style="${innerStyle}">
+  ${segmentVideoBg}
+  <div style="${innerZIndex}">
     ${children}
   </div>
 </section>`;
@@ -191,20 +216,31 @@ function renderContainer(container, page) {
     ? `drop-shadow(0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (container.settings.elevation ?? 4) * 0.02}))`
     : undefined;
   styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
-  styleObj.overflow = 'visible';
+  styleObj.overflow = container.settings.bgVideo ? 'hidden' : 'visible';
+  if (container.settings.bgVideo) styleObj.position = 'relative';
 
   const style = buildStyleString(styleObj);
   const children = container.children.map(child => renderContentItem(child, page)).join('\n');
 
+  const containerVideoId = container.settings.bgVideo
+    ? extractYouTubeId(container.settings.bgVideo)
+    : null;
+  const containerVideoBg = containerVideoId
+    ? `<iframe src="${buildYouTubeEmbedUrl(containerVideoId)}" style="position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);pointer-events:none;border:none;z-index:0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`
+    : '';
+  const childrenWrapped = containerVideoId
+    ? `<div style="position:relative;z-index:1;display:contents">${children}</div>`
+    : children;
+
   return `<div style="${style}" data-element-id="${container.id}">
-    ${children}
+    ${containerVideoBg}
+    ${childrenWrapped}
   </div>`;
 }
 
 function sizeOverrides(item) {
-  const w = item.settings.customOverrides.width;
-  const h = item.settings.customOverrides.height;
-  return { width: w || undefined, height: h || undefined };
+  const overrides = item.settings?.customOverrides ?? {};
+  return { width: overrides.width || undefined, height: overrides.height || undefined };
 }
 
 function renderContentItem(item, page) {
@@ -294,41 +330,72 @@ function renderContentItem(item, page) {
     case 'button': {
       const buttonStyle = page.styles.buttonStyles.find(s => s.id === item.settings.assignedStyleId)
         || page.styles.buttonStyles[0];
-      const isOutline = buttonStyle?.bgColor === 'transparent';
-      const { width, height } = sizeOverrides(item);
+      const isGradient = buttonStyle?.bgType === 'gradient' && buttonStyle?.bgGradient;
 
-      // Determine default color based on button style ID
-      let defaultBgColor = '#3b82f6';
-      if (buttonStyle?.id === 'primary') {
-        defaultBgColor = page.styles.colors.primary;
-      } else if (buttonStyle?.id === 'secondary') {
-        defaultBgColor = page.styles.colors.secondary;
-      }
+      // Background
+      const bgColor = item.settings.customOverrides?.bgColor || buttonStyle?.bgColor || '#3b82f6';
+      const background = isGradient
+        ? `linear-gradient(${buttonStyle.bgGradient.angle ?? 90}deg, ${buttonStyle.bgGradient.color1}, ${buttonStyle.bgGradient.color2})`
+        : bgColor;
+      const isOutline = buttonStyle?.bgColor === 'transparent' && !isGradient;
 
-      const bgColor = item.settings.customOverrides.bgColor || buttonStyle?.bgColor || defaultBgColor;
-      const textColor = item.settings.customOverrides.textColor || buttonStyle?.textColor || '#ffffff';
+      // sizeOverride (button-specific) takes priority over element-level size overrides
+      const so = item.settings.customOverrides?.sizeOverride;
+      const { width: elWidth, height: elHeight } = sizeOverrides(item);
+      const width = (so?.enabled && so.width && so.width !== 'auto') ? so.width : elWidth;
+      const height = (so?.enabled && so.height && so.height !== 'auto') ? so.height : elHeight;
+
+      const textColor = item.settings.customOverrides?.textColor || buttonStyle?.textColor || '#ffffff';
+      const fontSize = `${buttonStyle?.fontSize ?? 14}px`;
+
+      // Icon
+      const iconData = item.settings.customOverrides?.icon;
+      const iconSvg = (iconData?.position !== 'none' && iconData?.key)
+        ? getButtonIcon(iconData.key)
+        : null;
+      const label = item.settings.customOverrides?.label || 'Button';
+      const iconStyle = 'display:inline-flex;align-items:center;vertical-align:middle;margin-right:4px;';
+      const iconAfterStyle = 'display:inline-flex;align-items:center;vertical-align:middle;margin-left:4px;';
+      const innerContent = iconSvg
+        ? iconData.position === 'before'
+          ? `<span style="${iconStyle}">${iconSvg}</span>${label}`
+          : `${label}<span style="${iconAfterStyle}">${iconSvg}</span>`
+        : label;
 
       const btnStyle = buildStyleString({
         display: 'inline-block',
-        backgroundColor: bgColor === 'transparent' ? 'transparent' : bgColor,
+        background: background,
         color: textColor,
         padding: `${buttonStyle?.padding || 12}px 24px`,
-        borderRadius: `${buttonStyle?.radius || 6}px`,
-        border: bgColor === 'transparent' ? `1.5px solid ${textColor}` : 'none',
+        borderRadius: `${buttonStyle?.radius ?? 6}px`,
+        border: isOutline ? `1.5px solid ${textColor}` : 'none',
         cursor: 'pointer',
-        fontFamily: 'var(--font-body-family)',
-        fontWeight: '500',
-        fontSize: '14px',
+        fontFamily: 'var(--font-button-family)',
+        fontWeight: 'var(--font-button-weight)',
+        fontSize,
         whiteSpace: 'nowrap',
+        textDecoration: 'none',
         width,
         height
       });
-      return `<button style="${btnStyle}" data-element-id="${item.id}">${item.settings.customOverrides.label || 'Button'}</button>`;
+
+      const btnClass = `btn-${(buttonStyle?.id || 'primary').replace(/[^a-z0-9-_]/gi, '-')}`;
+      return `<button class="${btnClass}" style="${btnStyle}" data-element-id="${item.id}">${innerContent}</button>`;
     }
 
     case 'card': {
       const { width, height } = sizeOverrides(item);
       return `<div style="${buildStyleString({ border: '1px solid #ddd', padding: '16px', borderRadius: '8px', width: width ?? '300px', height })}" data-element-id="${item.id}">Card Content</div>`;
+    }
+
+    case 'video': {
+      const { width, height } = sizeOverrides(item);
+      const videoId = extractYouTubeId(item.settings.customOverrides.src || '');
+      if (!videoId) {
+        return `<div style="${buildStyleString({ width: width ?? '560px', height: height ?? '315px', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px' })}" data-element-id="${item.id}">No video URL set</div>`;
+      }
+      const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      return `<iframe src="${embedUrl}" style="${buildStyleString({ width: width ?? '560px', height: height ?? '315px', border: 'none', display: 'block' })}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-element-id="${item.id}"></iframe>`;
     }
 
     default:
@@ -351,7 +418,10 @@ export function generateCSS(page) {
   const fonts = page.styles.fonts;
   const spacing = page.styles.spacing ?? { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 };
 
+  const googleFontsImport = generateGoogleFontsImport(fonts);
+
   return `
+    ${googleFontsImport}
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --color-primary: ${colors.primary};
@@ -369,6 +439,8 @@ export function generateCSS(page) {
       --font-label-family: ${fonts.label?.family ?? 'Inter'}, sans-serif;
       --font-label-size: ${fonts.label?.size ?? 12}px;
       --font-label-weight: ${fonts.label?.weight ?? 500};
+      --font-button-family: ${fonts.button?.family ?? 'Inter'}, sans-serif;
+      --font-button-weight: ${fonts.button?.weight ?? 500};
       --spacing-xs: ${spacing.xs}px;
       --spacing-sm: ${spacing.sm}px;
       --spacing-md: ${spacing.md}px;
@@ -396,5 +468,37 @@ export function generateCSS(page) {
       font-size: var(--font-label-size);
       font-weight: var(--font-label-weight);
     }
+    ${page.styles.buttonStyles.map(bs => {
+      const isGradient = bs.bgType === 'gradient' && bs.bgGradient;
+      const hoverBg = isGradient
+        ? `linear-gradient(${bs.bgGradient.angle ?? 90}deg, ${darkenHex(bs.bgGradient.color1)}, ${darkenHex(bs.bgGradient.color2)})`
+        : darkenHex(bs.bgColor || '#3b82f6');
+      const isOutline = bs.bgColor === 'transparent' && bs.bgType !== 'gradient';
+      if (isOutline) return ''; // skip hover for transparent/outline buttons
+      const safeId = (bs.id || 'primary').replace(/[^a-z0-9-_]/gi, '-');
+      return `.btn-${safeId}:hover { background: ${hoverBg} !important; }`;
+    }).filter(Boolean).join('\n    ')}
   `;
+}
+
+export function generateGoogleFontsImport(fonts) {
+  // Collect unique font families
+  const families = new Set();
+
+  Object.values(fonts).forEach(font => {
+    if (!font || !font.family) return;
+    families.add(font.family.replace(/\s+/g, ' ').trim());
+  });
+
+  if (families.size === 0) return '';
+
+  // No weight specs — static fonts (e.g. Pacifico, BBH Bartle) only have weight 400
+  // and return 503 when you request a specific wght. The browser uses the nearest
+  // available weight via CSS font matching against the weight CSS variable.
+  const params = Array.from(families)
+    .map(family => `family=${encodeURIComponent(family).replace(/%20/g, '+')}`)
+    .join('&');
+
+  const url = `https://fonts.googleapis.com/css2?${params}&display=swap`;
+  return `@import url('${url}');`;
 }
