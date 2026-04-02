@@ -144,7 +144,7 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => ({
     customOverrides: contentType === CONTENT_TYPES.TEXT
       ? { content: 'Your text here' }
       : contentType === CONTENT_TYPES.BUTTON
-        ? { label: 'Button', icon: { key: null, position: 'none' } }
+        ? { label: 'Button', icon: { key: null, position: 'none' }, sizeOverride: { enabled: false, width: 'auto', height: 'auto' } }
         : contentType === CONTENT_TYPES.VIDEO
           ? { src: '' }
           : {},
@@ -215,12 +215,18 @@ function migrateFontToken(font, defaults) {
 function migrateContentItem(item) {
   if (item.type !== 'button') return item;
   const overrides = item.settings?.customOverrides ?? {};
-  if (overrides.icon) return item;
+  const needsIcon = !overrides.icon;
+  const needsSize = !overrides.sizeOverride;
+  if (!needsIcon && !needsSize) return item;
   return {
     ...item,
     settings: {
       ...item.settings,
-      customOverrides: { ...overrides, icon: { key: null, position: 'none' } }
+      customOverrides: {
+        ...overrides,
+        ...(needsIcon ? { icon: { key: null, position: 'none' } } : {}),
+        ...(needsSize ? { sizeOverride: { enabled: false, width: 'auto', height: 'auto' } } : {})
+      }
     }
   };
 }
