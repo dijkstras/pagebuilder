@@ -55,7 +55,22 @@
             "width": "240px",
             "height": "400px"
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1775130732288",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {},
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         }
       ]
     }
