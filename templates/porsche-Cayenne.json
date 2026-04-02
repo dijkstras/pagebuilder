@@ -234,7 +234,7 @@
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
-            "bgColor": "transparent",
+            "bgColor": "#ffffff",
             "bgImage": null,
             "bgVideo": null,
             "padding": 20,
