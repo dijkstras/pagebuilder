@@ -220,7 +220,12 @@
             "elevationEnabled": false,
             "elevation": 4,
             "borderRadius": 0,
-            "bgType": "gradient"
+            "bgType": "gradient",
+            "bgGradient": {
+              "color1": "#ec4899",
+              "color2": "#000000",
+              "angle": 297
+            }
           },
           "children": []
         }
