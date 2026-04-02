@@ -236,10 +236,13 @@ function migrateSegment(segment) {
   return {
     ...segment,
     settings: {
+      ...s,
       fullWidth: s.fullWidth ?? true,
       bgColor: s.bgColor ?? '#ffffff',
       bgImage: s.bgImage ?? null,
       bgVideo: s.bgVideo ?? null,
+      bgType: s.bgType ?? 'solid',
+      bgGradient: s.bgGradient ?? null,
       padding: s.padding ?? 40,
       margin: s.margin ?? 0,
       gutter: s.gutter ?? 24,
@@ -268,11 +271,14 @@ function migrateContainer(container) {
   return {
     ...container,
     settings: {
+      ...s,
       columnSpan,
       spacing: s.spacing ?? 16,
       bgColor: s.bgColor ?? 'transparent',
       bgImage: s.bgImage ?? null,
       bgVideo: s.bgVideo ?? null,
+      bgType: s.bgType ?? 'solid',
+      bgGradient: s.bgGradient ?? null,
       padding: s.padding ?? 20,
       contentAlignment: s.contentAlignment ?? 'left',
       verticalAlignment: s.verticalAlignment ?? 'top',

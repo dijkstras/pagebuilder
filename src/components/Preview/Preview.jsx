@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { usePageStore } from '../../store/pageStore.jsx';
 import { generateHTML } from '../../services/pageGenerator';
 import { THEME } from '../../utils/constants';
@@ -6,10 +6,41 @@ import { THEME } from '../../utils/constants';
 export function Preview() {
   const { state } = usePageStore();
   const [viewportMode, setViewportMode] = useState('desktop');
+  const iframeRef = useRef(null);
+  const savedScrollRef = useRef(0);
+  const pendingScrollToIdRef = useRef(null);
 
   const htmlContent = useMemo(() => {
     return generateHTML(state.page, state.selectedElementId);
   }, [state.page, state.selectedElementId]);
+
+  // When selection changes, mark the element to scroll to on next iframe load
+  useEffect(() => {
+    if (state.selectedElementId) {
+      pendingScrollToIdRef.current = state.selectedElementId;
+    }
+  }, [state.selectedElementId]);
+
+  const handleIframeLoad = useCallback(() => {
+    const iframe = iframeRef.current;
+    if (!iframe?.contentWindow) return;
+
+    iframe.contentWindow.addEventListener('scroll', () => {
+      savedScrollRef.current = iframe.contentWindow.scrollY;
+    });
+
+    const targetId = pendingScrollToIdRef.current;
+    if (targetId) {
+      pendingScrollToIdRef.current = null;
+      const el = iframe.contentDocument?.querySelector(`[data-element-id="${targetId}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+    }
+
+    iframe.contentWindow.scrollTo(0, savedScrollRef.current);
+  }, []);
 
   const isMobileMode = viewportMode === 'mobile';
   const previewWidth = isMobileMode ? '375px' : '100%';
@@ -90,7 +121,9 @@ export function Preview() {
           overflow: 'auto'
         }}>
           <iframe
+            ref={iframeRef}
             srcDoc={htmlContent}
+            onLoad={handleIframeLoad}
             style={{
               width: '100%',
               height: '100%',
