@@ -224,7 +224,8 @@
             "elevation": 4,
             "borderRadius": 0,
             "width": "30%",
-            "height": "300px"
+            "height": "300px",
+            "bgSize": "contain"
           },
           "children": []
         }
