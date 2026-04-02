@@ -249,7 +249,8 @@
             "borderRadius": 12,
             "width": "420px",
             "height": "600px",
-            "bgSize": "contain"
+            "bgSize": "contain",
+            "bgPositionX": "right"
           },
           "children": [
             {
