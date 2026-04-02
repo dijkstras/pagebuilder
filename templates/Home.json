@@ -11,6 +11,9 @@
     "colors": {
       "primary": "#3b82f6",
       "secondary": "#8b5cf6",
+      "accent": "#ec4899",
+      "text": "#1f2937",
+      "background": "#f9fafb",
       "neutral": "#6b7280"
     },
     "fonts": {
@@ -33,6 +36,10 @@
         "family": "Inter",
         "size": 12,
         "weight": 500
+      },
+      "button": {
+        "family": "Inter",
+        "weight": 500
       }
     },
     "buttonStyles": [
@@ -42,7 +49,10 @@
         "bgColor": "#3b82f6",
         "textColor": "#ffffff",
         "padding": 12,
-        "radius": 6
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
       },
       {
         "id": "secondary",
@@ -50,7 +60,10 @@
         "bgColor": "#e5e7eb",
         "textColor": "#1f2937",
         "padding": 12,
-        "radius": 6
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
       },
       {
         "id": "tertiary",
@@ -58,7 +71,10 @@
         "bgColor": "transparent",
         "textColor": "#3b82f6",
         "padding": 12,
-        "radius": 6
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
       }
     ],
     "shapes": {
@@ -89,7 +105,16 @@
         "contentAlignment": "left",
         "verticalAlignment": "top",
         "direction": "row",
-        "minHeight": 200
+        "minHeight": 200,
+        "bgVideo": null,
+        "bgType": "solid",
+        "bgGradient": null,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0
       },
       "children": []
     }
