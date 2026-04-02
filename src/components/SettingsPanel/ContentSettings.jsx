@@ -341,18 +341,17 @@ export function ContentSettings() {
                 {['none', 'before', 'after'].map(pos => (
                   <button
                     key={pos}
-                    onClick={() => handleCustomUpdate('icon', { ...icon, position: pos })}
+                    onClick={() => handleCustomUpdate('icon', { ...icon, position: pos, key: pos === 'none' ? null : icon.key })}
                     style={{
                       flex: 1,
                       padding: '6px 0',
                       border: '1px solid',
-                      borderColor: icon.position === pos ? '#3b82f6' : '#d1d5db',
+                      borderColor: icon.position === pos ? '#3b82f6' : '#4b5563',
                       borderRadius: 4,
-                      background: icon.position === pos ? '#eff6ff' : '#fff',
-                      color: icon.position === pos ? '#3b82f6' : '#374151',
+                      background: icon.position === pos ? '#1d4ed8' : '#374151',
+                      color: icon.position === pos ? '#93c5fd' : '#9ca3af',
                       fontSize: 12,
-                      cursor: 'pointer',
-                      textTransform: 'capitalize'
+                      cursor: 'pointer'
                     }}
                   >
                     {pos === 'none' ? 'None' : pos === 'before' ? 'Before' : 'After'}
@@ -370,9 +369,9 @@ export function ContentSettings() {
                       style={{
                         padding: 6,
                         border: '1px solid',
-                        borderColor: icon.key === iconKey ? '#3b82f6' : '#e5e7eb',
+                        borderColor: icon.key === iconKey ? '#3b82f6' : '#4b5563',
                         borderRadius: 4,
-                        background: icon.key === iconKey ? '#eff6ff' : '#fafafa',
+                        background: icon.key === iconKey ? '#1d4ed8' : '#374151',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -388,7 +387,7 @@ export function ContentSettings() {
             {/* Size override section */}
             <div style={{ marginBottom: 16 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <label style={labelStyle}>Size Override</label>
+                <label style={{ ...labelStyle, marginBottom: 0 }}>Size Override</label>
                 <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
                   <input
                     type="checkbox"
