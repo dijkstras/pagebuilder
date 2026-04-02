@@ -557,7 +557,8 @@
             "borderRadius": 24,
             "width": "40%",
             "bgSize": "cover",
-            "height": "400px"
+            "height": "400px",
+            "scrollEnabled": false
           },
           "children": [
             {
