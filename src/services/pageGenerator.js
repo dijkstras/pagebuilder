@@ -239,9 +239,8 @@ function renderContainer(container, page) {
 }
 
 function sizeOverrides(item) {
-  const w = item.settings.customOverrides.width;
-  const h = item.settings.customOverrides.height;
-  return { width: w || undefined, height: h || undefined };
+  const overrides = item.settings?.customOverrides ?? {};
+  return { width: overrides.width || undefined, height: overrides.height || undefined };
 }
 
 function renderContentItem(item, page) {

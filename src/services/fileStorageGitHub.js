@@ -143,7 +143,8 @@ export const fileStorageGitHub = {
           heading1: { family: 'Inter', size: 48, weight: 700 },
           heading2: { family: 'Inter', size: 32, weight: 600 },
           body: { family: 'Inter', size: 16, weight: 400 },
-          label: { family: 'Inter', size: 12, weight: 500 }
+          label: { family: 'Inter', size: 12, weight: 500 },
+          button: { family: 'Inter', weight: 500 }
         },
         buttonStyles: [
           { id: 'primary', label: 'Primary', bgColor: '#3b82f6', textColor: '#ffffff', padding: 12, radius: 6, bgType: 'solid', bgGradient: null, fontSize: 14 },
