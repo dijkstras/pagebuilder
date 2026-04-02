@@ -248,7 +248,40 @@
             "elevation": 4,
             "borderRadius": 12
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1775133637224",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775133640028",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         }
       ]
     },
