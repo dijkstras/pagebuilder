@@ -19,7 +19,7 @@
     "fonts": {
       "heading1": {
         "family": "Pacifico",
-        "size": 48,
+        "size": 80,
         "weight": 700
       },
       "heading2": {
