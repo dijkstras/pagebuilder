@@ -548,7 +548,7 @@
             "padding": 20,
             "contentAlignment": "left",
             "verticalAlignment": "bottom",
-            "direction": "row",
+            "direction": "column",
             "borderEnabled": false,
             "borderWidth": 1,
             "borderColor": "#000000",
