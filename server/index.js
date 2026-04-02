@@ -95,12 +95,14 @@ app.post('/api/pages', async (req, res) => {
 
     await fs.writeFile(filePath, JSON.stringify(blankPage, null, 2));
 
-    // Commit to git
+    // Commit to git and push to GitHub
     try {
       execSync(`git add ${filePath}`, { cwd: path.dirname(TEMPLATES_DIR) });
       execSync(`git commit -m "Create page: ${name}"`, { cwd: path.dirname(TEMPLATES_DIR) });
+      execSync(`git push origin HEAD`, { cwd: path.dirname(TEMPLATES_DIR) });
+      console.log(`✅ Pushed create page: ${name}`);
     } catch (error) {
-      console.warn('Git commit failed (might not be in repo):', error.message);
+      console.warn('Git push failed (might not be in repo):', error.message);
     }
 
     res.json({ success: true, page: blankPage });
@@ -162,18 +164,21 @@ app.post('/api/pages/:name/save', async (req, res) => {
     await ensureTemplatesDir();
     await fs.writeFile(filePath, JSON.stringify(page, null, 2));
 
-    // Commit to git
+    // Commit to git and push to GitHub
     try {
       execSync(`git add ${filePath}`, { cwd: path.dirname(TEMPLATES_DIR) });
       execSync(
         `git commit -m "Auto-save: ${req.params.name} @ ${new Date().toISOString()}"`,
         { cwd: path.dirname(TEMPLATES_DIR) }
       );
+      execSync(`git push origin HEAD`, { cwd: path.dirname(TEMPLATES_DIR) });
+      console.log(`✅ Pushed auto-save: ${req.params.name}`);
     } catch (error) {
-      // Commit might fail if nothing changed, that's okay
+      // Commit/push might fail if nothing changed or auth issues, that's okay
+      console.warn('Git push failed:', error.message);
     }
 
-    res.json({ success: true, message: 'Saved' });
+    res.json({ success: true, message: 'Saved to GitHub' });
   } catch (error) {
     console.error('Save page error:', error);
     res.status(500).json({ success: false, message: error.message });
@@ -195,15 +200,17 @@ app.delete('/api/pages/:name', async (req, res) => {
     // Delete file
     await fs.unlink(filePath);
 
-    // Commit deletion to git
+    // Commit deletion to git and push to GitHub
     try {
-      execSync(`git add ${filePath}`, { cwd: path.dirname(TEMPLATES_DIR) });
+      execSync(`git add -A`, { cwd: path.dirname(TEMPLATES_DIR) });
       execSync(
         `git commit -m "Delete page: ${req.params.name}"`,
         { cwd: path.dirname(TEMPLATES_DIR) }
       );
+      execSync(`git push origin HEAD`, { cwd: path.dirname(TEMPLATES_DIR) });
+      console.log(`✅ Pushed delete page: ${req.params.name}`);
     } catch (error) {
-      console.warn('Git commit failed:', error.message);
+      console.warn('Git push failed:', error.message);
     }
 
     res.json({ success: true, message: 'Page deleted' });
@@ -253,15 +260,17 @@ app.post('/api/pages/:name/duplicate', async (req, res) => {
 
     await fs.writeFile(newFilePath, JSON.stringify(pageData, null, 2));
 
-    // Commit to git
+    // Commit to git and push to GitHub
     try {
       execSync(`git add ${newFilePath}`, { cwd: path.dirname(TEMPLATES_DIR) });
       execSync(
         `git commit -m "Duplicate page: ${req.params.name} -> ${newName}"`,
         { cwd: path.dirname(TEMPLATES_DIR) }
       );
+      execSync(`git push origin HEAD`, { cwd: path.dirname(TEMPLATES_DIR) });
+      console.log(`✅ Pushed duplicate page: ${req.params.name} -> ${newName}`);
     } catch (error) {
-      console.warn('Git commit failed:', error.message);
+      console.warn('Git push failed:', error.message);
     }
 
     res.json({ success: true, page: pageData });
