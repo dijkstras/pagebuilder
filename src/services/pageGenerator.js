@@ -338,9 +338,9 @@ function renderContentItem(item, page) {
       const background = isGradient
         ? `linear-gradient(${buttonStyle.bgGradient.angle ?? 90}deg, ${buttonStyle.bgGradient.color1}, ${buttonStyle.bgGradient.color2})`
         : bgColor;
-      const isOutline = bgColor === 'transparent' && !isGradient;
+      const isOutline = buttonStyle?.bgColor === 'transparent' && !isGradient;
 
-      // Size — prefer sizeOverride when enabled, otherwise fall back to element-level size
+      // sizeOverride (button-specific) takes priority over element-level size overrides
       const so = item.settings.customOverrides?.sizeOverride;
       const { width: elWidth, height: elHeight } = sizeOverrides(item);
       const width = (so?.enabled && so.width && so.width !== 'auto') ? so.width : elWidth;
@@ -380,7 +380,8 @@ function renderContentItem(item, page) {
         height
       });
 
-      return `<button class="btn-${buttonStyle?.id || 'primary'}" style="${btnStyle}" data-element-id="${item.id}">${innerContent}</button>`;
+      const btnClass = `btn-${(buttonStyle?.id || 'primary').replace(/[^a-z0-9-_]/gi, '-')}`;
+      return `<button class="${btnClass}" style="${btnStyle}" data-element-id="${item.id}">${innerContent}</button>`;
     }
 
     case 'card': {
@@ -475,8 +476,9 @@ export function generateCSS(page) {
         : darkenHex(bs.bgColor || '#3b82f6');
       const isOutline = bs.bgColor === 'transparent' && bs.bgType !== 'gradient';
       if (isOutline) return ''; // skip hover for transparent/outline buttons
-      return `.btn-${bs.id}:hover { background: ${hoverBg} !important; }`;
-    }).join('\n    ')}
+      const safeId = (bs.id || 'primary').replace(/[^a-z0-9-_]/gi, '-');
+      return `.btn-${safeId}:hover { background: ${hoverBg} !important; }`;
+    }).filter(Boolean).join('\n    ')}
   `;
 }
 
