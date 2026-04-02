@@ -29,7 +29,7 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0,
+        "borderRadius": 80,
         "bgType": "solid",
         "bgGradient": null,
         "scrollEnabled": true,
