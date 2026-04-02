@@ -590,8 +590,8 @@
                 "customOverrides": {
                   "label": "Show Assets",
                   "icon": {
-                    "key": null,
-                    "position": "none"
+                    "key": "arrow-right",
+                    "position": "after"
                   },
                   "sizeOverride": {
                     "enabled": false,
