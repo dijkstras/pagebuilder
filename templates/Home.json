@@ -146,7 +146,7 @@
               "type": "text",
               "settings": {
                 "assignedStyleId": null,
-                "textRole": "body",
+                "textRole": "heading1",
                 "customOverrides": {
                   "content": "I Love Hamburgers"
                 },
