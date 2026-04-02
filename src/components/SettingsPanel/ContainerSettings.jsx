@@ -126,9 +126,8 @@ export function ContainerSettings() {
               handleUpdate('spacing', 'auto');
               isEditingRef.current = false;
             } else if (trimmedValue === '') {
-              // Allow empty input to reset to default
-              handleUpdate('spacing', 16);
-              isEditingRef.current = false;
+              // Don't reset immediately, allow user to type
+              // Only reset on blur if still empty
             } else {
               // Allow numbers with optional % or px suffix
               const numericMatch = trimmedValue.match(/^(\d+(?:\.\d+)?)\s*(px|%)?$/i);
@@ -143,10 +142,16 @@ export function ContainerSettings() {
           }}
           onBlur={() => {
             isEditingRef.current = false;
-            // Sync with actual value when losing focus
-            if (container) {
-              const currentValue = container.settings.spacing === 'auto' ? 'auto' : container.settings.spacing?.toString() ?? '16';
-              setSpacingInput(currentValue);
+            // If field is empty when losing focus, reset to default
+            if (spacingInput.trim() === '') {
+              handleUpdate('spacing', 16);
+              setSpacingInput('16');
+            } else {
+              // Sync with actual value when losing focus
+              if (container) {
+                const currentValue = container.settings.spacing === 'auto' ? 'auto' : container.settings.spacing?.toString() ?? '16';
+                setSpacingInput(currentValue);
+              }
             }
           }}
           placeholder="16px or auto"
@@ -163,6 +168,20 @@ export function ContainerSettings() {
         />
         <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
           Enter pixel value (e.g. 16), percentage (e.g. 10%), or "auto" to distribute evenly
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', marginBottom: '6px', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={container.settings.scrollEnabled || false}
+            onChange={(e) => handleUpdate('scrollEnabled', e.target.checked)}
+          />
+          <span>Scroll</span>
+        </label>
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+          Enable scrolling when content overflows the container bounds
         </div>
       </div>
 

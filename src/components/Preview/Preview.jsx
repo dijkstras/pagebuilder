@@ -11,7 +11,21 @@ export function Preview() {
   const pendingScrollToIdRef = useRef(null);
 
   const htmlContent = useMemo(() => {
-    return generateHTML(state.page, state.selectedElementId);
+    try {
+      return generateHTML(state.page, state.selectedElementId);
+    } catch (error) {
+      console.error('Error generating HTML:', error);
+      console.error('Page data:', state.page);
+      return `<!DOCTYPE html>
+<html>
+<head><title>Error</title></head>
+<body style="padding: 20px; font-family: sans-serif;">
+  <h1 style="color: red;">Error Rendering Page</h1>
+  <p>${error.message}</p>
+  <pre style="background: #f5f5f5; padding: 10px; overflow: auto;">${error.stack}</pre>
+</body>
+</html>`;
+    }
   }, [state.page, state.selectedElementId]);
 
   // When selection changes, mark the element to scroll to on next iframe load

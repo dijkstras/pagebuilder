@@ -82,9 +82,24 @@ export function Editor() {
   };
 
   const handleLoadPage = async (pageName) => {
-    const page = await storage.loadPage(pageName);
-    if (page) {
-      dispatch(pageActions.setPage(page));
+    try {
+      console.log('Loading page:', pageName);
+      const page = await storage.loadPage(pageName);
+      console.log('Page loaded from storage:', page);
+      if (page) {
+        console.log('Dispatching SET_PAGE action');
+        dispatch(pageActions.setPage(page));
+        console.log('Page set successfully');
+      } else {
+        console.warn('Page is null or undefined');
+        alert('Page not found');
+      }
+    } catch (error) {
+      console.error('Error loading page:', error);
+      console.error('Error stack:', error.stack);
+      alert(`Failed to load page: ${error.message}`);
+    } finally {
+      console.log('Closing load dialog');
       setShowLoadDialog(false);
     }
   };

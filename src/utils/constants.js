@@ -19,7 +19,6 @@ export const CONTENT_TYPE_LABELS = {
   text: 'Text',
   image: 'Image',
   button: 'Button',
-  card: 'Card',
   video: 'Video'
 };
 

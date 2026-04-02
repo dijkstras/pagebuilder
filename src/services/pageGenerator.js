@@ -96,6 +96,7 @@ function renderSegment(segment, page) {
     display: 'flex',
     flexDirection: 'column',
     minHeight: `${segment.settings.minHeight ?? 200}px`,
+    maxHeight: segment.settings.maxHeight ? `${segment.settings.maxHeight}px` : undefined,
     backgroundColor: segment.settings.bgColor || page.styles.colors.background,
     backgroundImage: isGradient ? gradientBg : undefined,
     backgroundSize: isGradient ? 'cover' : undefined,
@@ -110,7 +111,7 @@ function renderSegment(segment, page) {
       ? `drop-shadow(0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02}))`
       : undefined,
     borderRadius: `${segment.settings.borderRadius ?? 0}px`,
-    overflow: segment.settings.bgVideo ? 'hidden' : 'visible',
+    overflow: segment.settings.bgVideo ? 'hidden' : (segment.settings.scrollEnabled ? 'auto' : 'visible'),
     position: (segment.settings.bgVideo || hasBgImage || isGradient) ? 'relative' : undefined
   });
 
@@ -121,13 +122,13 @@ function renderSegment(segment, page) {
   const vAlign = vMap[segment.settings.verticalAlignment] || 'flex-start';
 
   const innerStyle = buildStyleString({
-    flex: '1',
+    flex: segment.settings.scrollEnabled && direction === 'row' ? 'none' : '1',
     display: 'flex',
     flexDirection: direction,
-    flexWrap: direction === 'row' ? 'wrap' : undefined,
+    flexWrap: (direction === 'row' && !segment.settings.scrollEnabled) ? 'wrap' : undefined,
     gap: isAutoSpacing ? undefined : `${gutter}px`,
     justifyContent: isAutoSpacing 
-      ? (direction === 'row' ? 'space-between' : 'space-around') 
+      ? 'space-between'
       : (direction === 'row' ? hAlign : vAlign),
     alignItems: direction === 'row' ? vAlign : hAlign,
     maxWidth: maxWidth ? `${maxWidth}px` : undefined,
@@ -137,7 +138,7 @@ function renderSegment(segment, page) {
 
   const children = segment.children.map(child => {
     if (child.type === 'container') {
-      return renderContainer(child, page);
+      return renderContainer(child, page, segment.settings.scrollEnabled && direction === 'row');
     } else {
       return renderContentItem(child, page);
     }
@@ -180,14 +181,15 @@ function renderSegment(segment, page) {
 </section>`;
 }
 
-function renderContainer(container, page) {
+function renderContainer(container, page, parentHasHorizontalScroll = false) {
   const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
   const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
   const direction = container.settings.direction ?? 'column';
   const hAlign = hMap[container.settings.contentAlignment] || 'flex-start';
   const vAlign = vMap[container.settings.verticalAlignment] || 'flex-start';
   const bgSize = container.settings.bgSize || 'cover';
-  const isAutoSpacing = container.settings.spacing === 'auto';
+  const spacing = container.settings.spacing;
+  const isAutoSpacing = spacing === 'auto';
 
   const getBackgroundPosition = (hAlign, vAlign) => {
     const hMap = { left: 'left', center: 'center', right: 'right' };
@@ -203,22 +205,28 @@ function renderContainer(container, page) {
       )
     : undefined;
 
+  const isGradient = container.settings.bgType === 'gradient' && container.settings.bgGradient;
+  const hasBgImage = !!container.settings.bgImage;
+  const containerVideoId = container.settings.bgVideo
+    ? extractYouTubeId(container.settings.bgVideo)
+    : null;
+
   const styleObj = {
     width: container.settings.width || 'auto',
     height: container.settings.height || undefined,
-    minWidth: '0',
-    display: 'flex',
-    flexDirection: direction,
-    flexWrap: direction === 'row' ? 'wrap' : undefined,
-    gap: isAutoSpacing ? undefined : `${container.settings.spacing}px`,
-    justifyContent: isAutoSpacing 
-      ? (direction === 'row' ? 'space-between' : 'space-around') 
-      : (direction === 'row' ? hAlign : vAlign),
-    alignItems: direction === 'row' ? vAlign : hAlign
+    minWidth: (container.settings.scrollEnabled && direction === 'row') || parentHasHorizontalScroll ? 'auto' : '0',
+    flexShrink: (container.settings.scrollEnabled && direction === 'row') || parentHasHorizontalScroll ? '0' : '1',
+    display: (containerVideoId || hasBgImage) ? 'block' : 'flex',
+    ...(containerVideoId || hasBgImage ? {} : {
+      flexDirection: direction,
+      flexWrap: (direction === 'row' && !container.settings.scrollEnabled) ? 'wrap' : undefined,
+      gap: isAutoSpacing ? undefined : `${typeof spacing === 'number' ? spacing : 16}px`,
+      justifyContent: isAutoSpacing 
+        ? 'space-between'
+        : (direction === 'row' ? hAlign : vAlign),
+      alignItems: direction === 'row' ? vAlign : hAlign
+    })
   };
-
-  const isGradient = container.settings.bgType === 'gradient' && container.settings.bgGradient;
-  const hasBgImage = !!container.settings.bgImage;
 
   if (!isGradient && container.settings.bgColor && container.settings.bgColor !== 'transparent') {
     styleObj.backgroundColor = container.settings.bgColor;
@@ -241,20 +249,18 @@ function renderContainer(container, page) {
     ? `drop-shadow(0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (container.settings.elevation ?? 4) * 0.02}))`
     : undefined;
   styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
-  styleObj.overflow = container.settings.bgVideo ? 'hidden' : 'visible';
+  styleObj.overflow = container.settings.scrollEnabled ? 'auto' : 
+    (container.settings.bgVideo || container.settings.borderRadius > 0) ? 'hidden' : 'visible';
   if (container.settings.bgVideo || hasBgImage || isGradient) styleObj.position = 'relative';
 
   const style = buildStyleString(styleObj);
   const children = container.children.map(child => renderContentItem(child, page)).join('\n');
 
-  const containerVideoId = container.settings.bgVideo
-    ? extractYouTubeId(container.settings.bgVideo)
-    : null;
   const containerVideoBg = containerVideoId
     ? `<iframe src="${buildYouTubeEmbedUrl(containerVideoId)}" style="position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);pointer-events:none;border:none;z-index:0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`
     : '';
   const childrenWrapped = (containerVideoId || hasBgImage)
-    ? `<div style="position:relative;z-index:1">${children}</div>`
+    ? `<div style="position:relative;z-index:1;display:flex;flex-direction:${direction};flex-wrap:${(direction === 'row' && !container.settings.scrollEnabled) ? 'wrap' : 'unset'};gap:${isAutoSpacing ? 'unset' : `${typeof spacing === 'number' ? spacing : 16}px`};justify-content:${isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign)};align-items:${direction === 'row' ? vAlign : hAlign};width:100%;height:100%">${children}</div>`
     : children;
 
   // Add pseudo-element for background image when needed
@@ -295,6 +301,7 @@ function renderContentItem(item, page) {
       const role = item.settings.textRole || 'body';
       const { width, height } = sizeOverrides(item);
       const textAlign = item.settings.textAlign || 'left';
+      const customOverrides = item.settings?.customOverrides || {};
 
       if (role === 'heading1') {
         const style = buildStyleString({
@@ -306,9 +313,9 @@ function renderContentItem(item, page) {
           width: width ?? 'max-content',
           height,
           textAlign,
-          color: item.settings.customOverrides.color || page.styles.colors.text
+          color: customOverrides.color || page.styles.colors.text
         });
-        return `<h1 style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</h1>`;
+        return `<h1 style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</h1>`;
       }
       if (role === 'heading2') {
         const style = buildStyleString({
@@ -320,9 +327,9 @@ function renderContentItem(item, page) {
           width: width ?? 'max-content',
           height,
           textAlign,
-          color: item.settings.customOverrides.color || page.styles.colors.text
+          color: customOverrides.color || page.styles.colors.text
         });
-        return `<h2 style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</h2>`;
+        return `<h2 style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</h2>`;
       }
       if (role === 'body') {
         const style = buildStyleString({
@@ -334,9 +341,9 @@ function renderContentItem(item, page) {
           width: width ?? 'max-content',
           height,
           textAlign,
-          color: item.settings.customOverrides.color || page.styles.colors.text
+          color: customOverrides.color || page.styles.colors.text
         });
-        return `<p style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
+        return `<p style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</p>`;
       }
       if (role === 'label') {
         const style = buildStyleString({
@@ -349,18 +356,19 @@ function renderContentItem(item, page) {
           height,
           textAlign,
           display: 'inline-block',
-          color: item.settings.customOverrides.color || page.styles.colors.text
+          color: customOverrides.color || page.styles.colors.text
         });
-        return `<span class="label" style="${style}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</span>`;
+        return `<span class="label" style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</span>`;
       }
-      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height, textAlign, color: item.settings.customOverrides.color || page.styles.colors.text })}" data-element-id="${item.id}">${item.settings.customOverrides.content || ''}</p>`;
+      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height, textAlign, color: customOverrides.color || page.styles.colors.text })}" data-element-id="${item.id}">${customOverrides.content || ''}</p>`;
     }
 
     case 'image': {
       const { width, height } = sizeOverrides(item);
-      const objectFit = item.settings.customOverrides.objectFit || 'cover';
-      const borderRadius = item.settings.customOverrides.borderRadius;
-      const opacity = item.settings.customOverrides.opacity;
+      const customOverrides = item.settings?.customOverrides || {};
+      const objectFit = customOverrides.objectFit || 'cover';
+      const borderRadius = customOverrides.borderRadius;
+      const opacity = customOverrides.opacity;
       const imgStyle = buildStyleString({
         display: 'block',
         width: width ?? '300px',
@@ -374,12 +382,13 @@ function renderContentItem(item, page) {
       const styleStr = objectFit === '100% 100%'
         ? `${imgStyle}; object-fit: cover; object-position: center; width: 100%; height: 100%;`
         : imgStyle;
-      return `<img src="${item.settings.customOverrides.src || ''}" alt="" style="${styleStr}" data-element-id="${item.id}" />`;
+      return `<img src="${customOverrides.src || ''}" alt="" style="${styleStr}" data-element-id="${item.id}" />`;
     }
 
     case 'button': {
-      const buttonStyle = page.styles.buttonStyles.find(s => s.id === item.settings.assignedStyleId)
-        || page.styles.buttonStyles[0];
+      const buttonStyles = page.styles.buttonStyles || [];
+      const buttonStyle = buttonStyles.find(s => s.id === item.settings.assignedStyleId)
+        || buttonStyles[0];
       const isGradient = buttonStyle?.bgType === 'gradient' && buttonStyle?.bgGradient;
 
       // Background
@@ -433,14 +442,10 @@ function renderContentItem(item, page) {
       return `<button class="${btnClass}" style="${btnStyle}" data-element-id="${item.id}">${innerContent}</button>`;
     }
 
-    case 'card': {
-      const { width, height } = sizeOverrides(item);
-      return `<div style="${buildStyleString({ border: '1px solid #ddd', padding: '16px', borderRadius: '8px', width: width ?? '300px', height })}" data-element-id="${item.id}">Card Content</div>`;
-    }
-
     case 'video': {
       const { width, height } = sizeOverrides(item);
-      const videoId = extractYouTubeId(item.settings.customOverrides.src || '');
+      const customOverrides = item.settings?.customOverrides || {};
+      const videoId = extractYouTubeId(customOverrides.src || '');
       if (!videoId) {
         return `<div style="${buildStyleString({ width: width ?? '560px', height: height ?? '315px', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px' })}" data-element-id="${item.id}">No video URL set</div>`;
       }
@@ -518,7 +523,7 @@ export function generateCSS(page) {
       font-size: var(--font-label-size);
       font-weight: var(--font-label-weight);
     }
-    ${page.styles.buttonStyles.map(bs => {
+    ${(page.styles.buttonStyles || []).map(bs => {
       const isGradient = bs.bgType === 'gradient' && bs.bgGradient;
       const hoverBg = isGradient
         ? `linear-gradient(${bs.bgGradient.angle ?? 90}deg, ${darkenHex(bs.bgGradient.color1)}, ${darkenHex(bs.bgGradient.color2)})`

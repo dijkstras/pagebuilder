@@ -4,11 +4,11 @@ import { CONTENT_TYPE_LABELS } from '../../utils/constants';
 import { createContainer, createContentItem, CONTENT_TYPES } from '../../store/pageTypes';
 
 const TYPE_ICONS = {
+  segment: '▦',
   container: '⊞',
   text: 'T',
   image: '▣',
   button: '⊡',
-  card: '▦',
   video: '▷'
 };
 

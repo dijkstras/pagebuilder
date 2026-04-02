@@ -16,7 +16,14 @@ const initialState = {
 function pageReducer(state, action) {
   switch (action.type) {
     case 'SET_PAGE':
-      return { ...state, page: migratePage(action.payload) };
+      try {
+        const migratedPage = migratePage(action.payload);
+        return { ...state, page: migratedPage };
+      } catch (error) {
+        console.error('Error migrating page:', error);
+        console.error('Page data:', action.payload);
+        throw error;
+      }
 
     case 'UPDATE_PAGE_SETTINGS':
       return {

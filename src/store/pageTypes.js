@@ -8,7 +8,6 @@ export const CONTENT_TYPES = {
   TEXT: 'text',
   IMAGE: 'image',
   BUTTON: 'button',
-  CARD: 'card',
   VIDEO: 'video'
 };
 
@@ -145,9 +144,11 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => ({
       ? { content: 'Your text here' }
       : contentType === CONTENT_TYPES.BUTTON
         ? { label: 'Button', icon: { key: null, position: 'none' }, sizeOverride: { enabled: false, width: 'auto', height: 'auto' } }
-        : contentType === CONTENT_TYPES.VIDEO
-          ? { src: '' }
-          : {},
+        : contentType === CONTENT_TYPES.IMAGE
+          ? { src: 'https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
+          : contentType === CONTENT_TYPES.VIDEO
+            ? { src: '' }
+            : {},
     responsiveVariants: {
       mobile: {},
       tablet: {},

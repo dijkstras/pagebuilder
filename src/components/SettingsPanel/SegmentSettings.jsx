@@ -126,9 +126,8 @@ export function SegmentSettings() {
               handleUpdate('gutter', 'auto');
               isEditingRef.current = false;
             } else if (trimmedValue === '') {
-              // Allow empty input to reset to default
-              handleUpdate('gutter', 24);
-              isEditingRef.current = false;
+              // Don't reset immediately, allow user to type
+              // Only reset on blur if still empty
             } else {
               // Allow numbers with optional % or px suffix
               const numericMatch = trimmedValue.match(/^(\d+(?:\.\d+)?)\s*(px|%)?$/i);
@@ -143,10 +142,16 @@ export function SegmentSettings() {
           }}
           onBlur={() => {
             isEditingRef.current = false;
-            // Sync with actual value when losing focus
-            if (segment) {
-              const currentValue = segment.settings.gutter === 'auto' ? 'auto' : segment.settings.gutter?.toString() ?? '24';
-              setSpacingInput(currentValue);
+            // If field is empty when losing focus, reset to default
+            if (spacingInput.trim() === '') {
+              handleUpdate('gutter', 24);
+              setSpacingInput('24');
+            } else {
+              // Sync with actual value when losing focus
+              if (segment) {
+                const currentValue = segment.settings.gutter === 'auto' ? 'auto' : segment.settings.gutter?.toString() ?? '24';
+                setSpacingInput(currentValue);
+              }
             }
           }}
           placeholder="24px or auto"
@@ -163,6 +168,20 @@ export function SegmentSettings() {
         />
         <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
           Enter pixel value (e.g. 24), percentage (e.g. 10%), or "auto" to distribute evenly
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', marginBottom: '6px', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={segment.settings.scrollEnabled || false}
+            onChange={(e) => handleUpdate('scrollEnabled', e.target.checked)}
+          />
+          <span>Scroll</span>
+        </label>
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+          Enable scrolling when content overflows the segment bounds
         </div>
       </div>
 
@@ -219,6 +238,25 @@ export function SegmentSettings() {
           type="number"
           value={segment.settings.minHeight ?? 200}
           onChange={(e) => handleUpdate('minHeight', parseInt(e.target.value))}
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            boxSizing: 'border-box'
+          }}
+        />
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Max Height (px)</label>
+        <input
+          type="number"
+          value={segment.settings.maxHeight || ''}
+          onChange={(e) => handleUpdate('maxHeight', e.target.value ? parseInt(e.target.value) : null)}
+          placeholder="No limit"
           style={{
             width: '100%',
             padding: '6px',
