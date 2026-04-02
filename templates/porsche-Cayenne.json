@@ -72,8 +72,8 @@
       {
         "id": "tertiary",
         "label": "Tertiary",
-        "bgColor": "#ffffff",
-        "textColor": "#000000",
+        "bgColor": "transparent",
+        "textColor": "#ffffff",
         "padding": 12,
         "radius": 0,
         "bgType": "solid",
