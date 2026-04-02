@@ -193,8 +193,8 @@
                 "customOverrides": {
                   "label": "Eat a burger with Sjoerd",
                   "icon": {
-                    "key": "arrow-right",
-                    "position": "after"
+                    "key": null,
+                    "position": "none"
                   },
                   "sizeOverride": {
                     "enabled": false,
