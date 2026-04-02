@@ -250,7 +250,8 @@
             "elevation": 4,
             "borderRadius": 0,
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "width": "100%"
           },
           "children": [
             {
