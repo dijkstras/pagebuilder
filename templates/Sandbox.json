@@ -78,7 +78,7 @@
               "type": "text",
               "settings": {
                 "assignedStyleId": null,
-                "textRole": "body",
+                "textRole": "heading2",
                 "customOverrides": {
                   "content": "Your text here"
                 },
