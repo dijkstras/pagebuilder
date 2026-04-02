@@ -200,7 +200,7 @@
         "id": "tertiary",
         "label": "Tertiary",
         "bgColor": "transparent",
-        "textColor": "#3b82f6",
+        "textColor": "#1f2937",
         "padding": 12,
         "radius": 6,
         "bgType": "solid",
