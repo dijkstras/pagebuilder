@@ -557,7 +557,33 @@
             "borderRadius": 0,
             "width": "40%"
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1775134400342",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Button",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         },
         {
           "id": "container-1775059319892",
