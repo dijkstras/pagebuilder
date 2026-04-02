@@ -39,7 +39,7 @@
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
-            "bgColor": "transparent",
+            "bgColor": "#f9fafb",
             "bgImage": null,
             "bgVideo": null,
             "padding": 20,
@@ -53,7 +53,7 @@
             "elevation": 4,
             "borderRadius": 0,
             "width": "240px",
-            "height": "600px"
+            "height": "400px"
           },
           "children": []
         }
