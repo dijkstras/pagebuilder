@@ -250,7 +250,7 @@
             "width": "420px",
             "height": "600px",
             "bgSize": "600px auto",
-            "bgPositionX": "left"
+            "bgPositionX": "right"
           },
           "children": [
             {
