@@ -222,7 +222,7 @@
             "borderRadius": 0,
             "bgType": "gradient",
             "bgGradient": {
-              "color1": "#ec4899",
+              "color1": "#404040",
               "color2": "#000000",
               "angle": 297
             }
