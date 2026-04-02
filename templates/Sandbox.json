@@ -51,7 +51,8 @@
             "borderColor": "#000000",
             "elevationEnabled": false,
             "elevation": 4,
-            "borderRadius": 0
+            "borderRadius": 0,
+            "width": "240px"
           },
           "children": []
         }
