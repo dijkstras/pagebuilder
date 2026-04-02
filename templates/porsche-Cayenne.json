@@ -249,7 +249,7 @@
             "borderRadius": 12,
             "width": "420px",
             "height": "600px",
-            "bgSize": "cover",
+            "bgSize": "200px 200px",
             "bgPositionX": "right"
           },
           "children": [
