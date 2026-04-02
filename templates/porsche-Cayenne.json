@@ -237,7 +237,7 @@
             "bgColor": "#ffffff",
             "bgImage": "https://a.storyblok.com/f/322327/1002x1503/272bd14760/cayenne-turbo-electric-suspension.png",
             "bgVideo": null,
-            "padding": 20,
+            "padding": 40,
             "contentAlignment": "left",
             "verticalAlignment": "bottom",
             "direction": "column",
