@@ -228,25 +228,7 @@
         "bgPositionX": "center",
         "bgOpacity": "20%"
       },
-      "children": [
-        {
-          "id": "content-1775056982689",
-          "type": "image",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://a.storyblok.com/f/322327/2616x712/7e18df530b/cz25w25ix0010-911-carrera-t-side.png/m/2500x680/smart/filters:format(avif)?dpl=dpl_2vaEL1EGxMUkVrCN2Vnus9uZqidn",
-              "objectFit": "100% 100%"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        }
-      ]
+      "children": []
     },
     {
       "id": "segment-1775050614237-zas8y",
