@@ -700,7 +700,8 @@
             "width": "240px",
             "height": "auto",
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "scrollEnabled": true
           },
           "children": [
             {
