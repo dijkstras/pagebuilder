@@ -247,6 +247,34 @@ export function ContentSettings() {
               Fit: maintain aspect ratio • Fill: crop to fit • Stretch: ignore aspect ratio
             </div>
           </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={labelStyle}>Corner Radius</label>
+            <input
+              type="text"
+              value={content.settings.customOverrides.borderRadius || ''}
+              onChange={(e) => handleCustomUpdate('borderRadius', e.target.value)}
+              placeholder="0px"
+              style={inputStyle}
+            />
+            <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+              Enter value like: 8px, 12px, 50%
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={labelStyle}>Opacity</label>
+            <input
+              type="text"
+              value={content.settings.customOverrides.opacity || ''}
+              onChange={(e) => handleCustomUpdate('opacity', e.target.value)}
+              placeholder="100%"
+              style={inputStyle}
+            />
+            <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+              Enter value like: 0.5, 50%, 80%
+            </div>
+          </div>
         </>
       )}
 

@@ -147,8 +147,8 @@
       "type": "segment",
       "settings": {
         "fullWidth": true,
-        "bgColor": "#ffffff",
-        "bgImage": null,
+        "bgColor": "#8b5cf6",
+        "bgImage": "https://www.freelogovectors.net/wp-content/uploads/2021/07/porsche-911-logo-freelogovectors.net_.png",
         "bgVideo": null,
         "padding": 40,
         "margin": 0,
@@ -157,7 +157,7 @@
         "contentAlignment": "center",
         "verticalAlignment": "bottom",
         "direction": "row",
-        "minHeight": 500,
+        "minHeight": 600,
         "borderEnabled": false,
         "borderWidth": 1,
         "borderColor": "#000000",
@@ -168,8 +168,12 @@
         "bgGradient": {
           "color1": "#ffffff",
           "color2": "#808080",
-          "angle": 180
-        }
+          "angle": 188
+        },
+        "bgSize": "50% auto",
+        "bgPositionY": "top",
+        "bgPositionX": "center",
+        "bgOpacity": "20%"
       },
       "children": [
         {
@@ -612,7 +616,9 @@
             "customOverrides": {
               "src": "https://a.storyblok.com/f/322327/1720x1232/fab0d7cd9a/cz25w25ox0002-911-carrera-t-side.jpg/m/1720x1291/smart/filters:format(avif)?dpl=dpl_2vaEL1EGxMUkVrCN2Vnus9uZqidn",
               "objectFit": "cover",
-              "width": "45%"
+              "width": "45%",
+              "borderRadius": "24px",
+              "opacity": ""
             },
             "responsiveVariants": {
               "mobile": {},
@@ -764,7 +770,7 @@
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
-            "bgColor": "transparent",
+            "bgColor": "#000000",
             "bgImage": "https://a.storyblok.com/f/322327/1700x1300/00f0ba0505/cz25w25ox0004-911-carrera-t-rear.jpg",
             "bgVideo": null,
             "padding": 20,
@@ -776,11 +782,12 @@
             "borderColor": "#000000",
             "elevationEnabled": false,
             "elevation": 4,
-            "borderRadius": 0,
+            "borderRadius": 24,
             "bgType": "solid",
             "bgGradient": null,
             "width": "820px",
-            "height": "620px"
+            "height": "620px",
+            "bgOpacity": ""
           },
           "children": [
             {
@@ -839,7 +846,7 @@
             "borderColor": "#000000",
             "elevationEnabled": false,
             "elevation": 4,
-            "borderRadius": 0,
+            "borderRadius": 24,
             "bgType": "solid",
             "bgGradient": null,
             "width": "420px",
@@ -911,7 +918,65 @@
         "bgType": "solid",
         "bgGradient": null
       },
-      "children": []
+      "children": [
+        {
+          "id": "content-1775120400927",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "body",
+            "customOverrides": {
+              "content": "Your text here"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        },
+        {
+          "id": "content-1775120405043",
+          "type": "button",
+          "settings": {
+            "assignedStyleId": "primary",
+            "textRole": null,
+            "customOverrides": {
+              "label": "Button",
+              "icon": {
+                "key": null,
+                "position": "none"
+              },
+              "sizeOverride": {
+                "enabled": false,
+                "width": "auto",
+                "height": "auto"
+              }
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        },
+        {
+          "id": "content-1775120412027",
+          "type": "video",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {
+              "src": ""
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        }
+      ]
     }
   ]
 }

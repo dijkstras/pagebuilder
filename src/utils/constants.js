@@ -7,12 +7,12 @@ export const EDITOR_LAYOUT = {
 };
 
 export const THEME = {
-  background: '#1f2937',
-  surface: '#111827',
-  border: '#374151',
-  text: '#f3f4f6',
-  textMuted: '#9ca3af',
-  accent: '#3b82f6'
+  background: '#2d3748',
+  surface: '#1a202c',
+  border: '#4a5568',
+  text: '#f7fafc',
+  textMuted: '#a0aec0',
+  accent: '#4299e1'
 };
 
 export const CONTENT_TYPE_LABELS = {

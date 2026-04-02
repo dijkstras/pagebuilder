@@ -70,7 +70,10 @@ function renderSegment(segment, page) {
     return `${h} ${v}`;
   };
   const bgPosition = segment.settings.bgImage
-    ? getBackgroundPosition(segment.settings.contentAlignment || 'left', segment.settings.verticalAlignment || 'top')
+    ? getBackgroundPosition(
+        segment.settings.bgPositionX || segment.settings.contentAlignment || 'left', 
+        segment.settings.bgPositionY || segment.settings.verticalAlignment || 'top'
+      )
     : undefined;
 
   const isGradient = segment.settings.bgType === 'gradient' && segment.settings.bgGradient;
@@ -92,11 +95,11 @@ function renderSegment(segment, page) {
     display: 'flex',
     flexDirection: 'column',
     minHeight: `${segment.settings.minHeight ?? 200}px`,
-    backgroundColor: isGradient ? undefined : (segment.settings.bgColor || page.styles.colors.background),
-    backgroundImage,
-    backgroundSize: hasBgImage ? bgSize : undefined,
-    backgroundPosition: bgPosition,
-    backgroundRepeat: hasBgImage && segment.settings.bgRepeat ? 'repeat' : 'no-repeat',
+    backgroundColor: segment.settings.bgColor || page.styles.colors.background,
+    backgroundImage: isGradient ? gradientBg : undefined,
+    backgroundSize: isGradient ? 'cover' : undefined,
+    backgroundPosition: isGradient ? 'center' : undefined,
+    backgroundRepeat: isGradient ? 'no-repeat' : undefined,
     padding: `${segment.settings.padding}px`,
     margin: `${segment.settings.margin}px`,
     border: segment.settings.borderEnabled
@@ -107,7 +110,7 @@ function renderSegment(segment, page) {
       : undefined,
     borderRadius: `${segment.settings.borderRadius ?? 0}px`,
     overflow: segment.settings.bgVideo ? 'hidden' : 'visible',
-    position: segment.settings.bgVideo ? 'relative' : undefined
+    position: (segment.settings.bgVideo || hasBgImage || isGradient) ? 'relative' : undefined
   });
 
   const direction = segment.settings.direction ?? 'row';
@@ -143,10 +146,31 @@ function renderSegment(segment, page) {
   const segmentVideoBg = segmentVideoId
     ? `<iframe src="${buildYouTubeEmbedUrl(segmentVideoId)}" style="position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);pointer-events:none;border:none;z-index:0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`
     : '';
-  const innerZIndex = segmentVideoId ? `${innerStyle}; position: relative; z-index: 1` : innerStyle;
+  const innerZIndex = hasBgImage ? `${innerStyle}; position: relative; z-index: 1` : (segmentVideoId ? `${innerStyle}; position: relative; z-index: 1` : innerStyle);
+
+  // Add pseudo-element for background image when needed
+  const bgImageOverlay = hasBgImage ? `
+    <style>
+      [data-element-id="${segment.id}"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url(${segment.settings.bgImage});
+        background-size: ${bgSize};
+        background-position: ${bgPosition};
+        background-repeat: ${segment.settings.bgRepeat ? 'repeat' : 'no-repeat'};
+        ${segment.settings.bgOpacity ? `opacity: ${segment.settings.bgOpacity};` : ''}
+        z-index: 0;
+        border-radius: ${segment.settings.borderRadius ?? 0}px;
+      }
+    </style>` : '';
 
   return `<section style="${outerStyle}" data-element-id="${segment.id}">
   ${segmentVideoBg}
+  ${bgImageOverlay}
   <div style="${innerZIndex}">
     ${children}
   </div>
@@ -169,7 +193,10 @@ function renderContainer(container, page) {
     return `${h} ${v}`;
   };
   const bgPosition = container.settings.bgImage
-    ? getBackgroundPosition(container.settings.contentAlignment || 'left', container.settings.verticalAlignment || 'top')
+    ? getBackgroundPosition(
+        container.settings.bgPositionX || container.settings.contentAlignment || 'left', 
+        container.settings.bgPositionY || container.settings.verticalAlignment || 'top'
+      )
     : undefined;
 
   const styleObj = {
@@ -190,20 +217,12 @@ function renderContainer(container, page) {
   if (!isGradient && container.settings.bgColor && container.settings.bgColor !== 'transparent') {
     styleObj.backgroundColor = container.settings.bgColor;
   }
-  if (hasBgImage && isGradient) {
-    const { angle, color1, color2 } = container.settings.bgGradient;
-    styleObj.backgroundImage = `url(${container.settings.bgImage}), linear-gradient(${angle}deg, ${color1}, ${color2})`;
-    styleObj.backgroundSize = bgSize;
-    styleObj.backgroundPosition = bgPosition;
-    styleObj.backgroundRepeat = container.settings.bgRepeat ? 'repeat' : 'no-repeat';
-  } else if (hasBgImage) {
-    styleObj.backgroundImage = `url(${container.settings.bgImage})`;
-    styleObj.backgroundSize = bgSize;
-    styleObj.backgroundPosition = bgPosition;
-    styleObj.backgroundRepeat = container.settings.bgRepeat ? 'repeat' : 'no-repeat';
-  } else if (isGradient) {
+  if (isGradient) {
     const { angle, color1, color2 } = container.settings.bgGradient;
     styleObj.backgroundImage = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
+    styleObj.backgroundSize = 'cover';
+    styleObj.backgroundPosition = 'center';
+    styleObj.backgroundRepeat = 'no-repeat';
   }
   if (container.settings.padding) {
     styleObj.padding = `${container.settings.padding}px`;
@@ -217,7 +236,7 @@ function renderContainer(container, page) {
     : undefined;
   styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
   styleObj.overflow = container.settings.bgVideo ? 'hidden' : 'visible';
-  if (container.settings.bgVideo) styleObj.position = 'relative';
+  if (container.settings.bgVideo || hasBgImage || isGradient) styleObj.position = 'relative';
 
   const style = buildStyleString(styleObj);
   const children = container.children.map(child => renderContentItem(child, page)).join('\n');
@@ -228,12 +247,33 @@ function renderContainer(container, page) {
   const containerVideoBg = containerVideoId
     ? `<iframe src="${buildYouTubeEmbedUrl(containerVideoId)}" style="position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);pointer-events:none;border:none;z-index:0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`
     : '';
-  const childrenWrapped = containerVideoId
-    ? `<div style="position:relative;z-index:1;display:contents">${children}</div>`
+  const childrenWrapped = (containerVideoId || hasBgImage)
+    ? `<div style="position:relative;z-index:1">${children}</div>`
     : children;
+
+  // Add pseudo-element for background image when needed
+  const containerBgImageOverlay = hasBgImage ? `
+    <style>
+      [data-element-id="${container.id}"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url(${container.settings.bgImage});
+        background-size: ${bgSize};
+        background-position: ${bgPosition};
+        background-repeat: ${container.settings.bgRepeat ? 'repeat' : 'no-repeat'};
+        ${container.settings.bgOpacity ? `opacity: ${container.settings.bgOpacity};` : ''}
+        z-index: 0;
+        border-radius: ${container.settings.borderRadius ?? 0}px;
+      }
+    </style>` : '';
 
   return `<div style="${style}" data-element-id="${container.id}">
     ${containerVideoBg}
+    ${containerBgImageOverlay}
     ${childrenWrapped}
   </div>`;
 }
@@ -313,13 +353,17 @@ function renderContentItem(item, page) {
     case 'image': {
       const { width, height } = sizeOverrides(item);
       const objectFit = item.settings.customOverrides.objectFit || 'cover';
+      const borderRadius = item.settings.customOverrides.borderRadius;
+      const opacity = item.settings.customOverrides.opacity;
       const imgStyle = buildStyleString({
         display: 'block',
         width: width ?? '300px',
         height: height ?? 'auto',
         maxWidth: '100%',
         objectFit: objectFit === '100% 100%' ? undefined : objectFit,
-        objectPosition: 'center'
+        objectPosition: 'center',
+        ...(borderRadius && { borderRadius }),
+        ...(opacity && { opacity })
       });
       const styleStr = objectFit === '100% 100%'
         ? `${imgStyle}; object-fit: cover; object-position: center; width: 100%; height: 100%;`

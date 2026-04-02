@@ -50,6 +50,36 @@ function pageReducer(state, action) {
         page: updateElement(state.page, action.payload.id, action.payload.updates)
       };
 
+    case 'MOVE_ELEMENT': {
+      const { id, direction } = action.payload;
+      
+      const findAndMoveInArray = (children) => {
+        if (!children) return children;
+        
+        const idx = children.findIndex(child => child.id === id);
+        if (idx !== -1) {
+          const newIdx = direction === 'up' ? idx - 1 : idx + 1;
+          if (newIdx < 0 || newIdx >= children.length) return children;
+          const newChildren = [...children];
+          [newChildren[idx], newChildren[newIdx]] = [newChildren[newIdx], newChildren[idx]];
+          return newChildren;
+        }
+        
+        return children.map(child => ({
+          ...child,
+          children: child.children ? findAndMoveInArray(child.children) : child.children
+        }));
+      };
+
+      return {
+        ...state,
+        page: {
+          ...state.page,
+          root: findAndMoveInArray(state.page.root)
+        }
+      };
+    }
+
     case 'MOVE_SEGMENT': {
       const { id, direction } = action.payload;
       const root = [...state.page.root];
@@ -214,6 +244,7 @@ export const pageActions = {
   updatePageStyles: (styles) => ({ type: 'UPDATE_PAGE_STYLES', payload: styles }),
   addSegment: (name) => ({ type: 'ADD_SEGMENT', payload: name }),
   updateElement: (id, updates) => ({ type: 'UPDATE_ELEMENT', payload: { id, updates } }),
+  moveElement: (id, direction) => ({ type: 'MOVE_ELEMENT', payload: { id, direction } }),
   moveSegment: (id, direction) => ({ type: 'MOVE_SEGMENT', payload: { id, direction } }),
   deleteElement: (id) => ({ type: 'DELETE_ELEMENT', payload: id }),
   duplicateElement: (id, elementType) => ({ type: 'DUPLICATE_ELEMENT', payload: { id, elementType } }),

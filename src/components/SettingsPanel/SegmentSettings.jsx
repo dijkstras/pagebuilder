@@ -77,6 +77,32 @@ export function SegmentSettings() {
       </div>
 
       <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Alignment</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↔</span>
+            {[{ v: 'left', l: '←' }, { v: 'center', l: '—' }, { v: 'right', l: '→' }].map(({ v, l }) => (
+              <button key={v} onClick={() => handleUpdate('contentAlignment', v)} style={{
+                flex: 1, height: '28px', fontSize: '13px',
+                backgroundColor: (segment.settings.contentAlignment ?? 'left') === v ? '#3b82f6' : '#374151',
+                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+              }}>{l}</button>
+            ))}
+          </div>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↕</span>
+            {[{ v: 'top', l: '↑' }, { v: 'center', l: '—' }, { v: 'bottom', l: '↓' }].map(({ v, l }) => (
+              <button key={v} onClick={() => handleUpdate('verticalAlignment', v)} style={{
+                flex: 1, height: '28px', fontSize: '13px',
+                backgroundColor: (segment.settings.verticalAlignment ?? 'top') === v ? '#3b82f6' : '#374151',
+                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+              }}>{l}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Background</label>
         <GradientPicker
           bgType={segment.settings.bgType || 'solid'}
@@ -281,6 +307,32 @@ export function SegmentSettings() {
           )}
 
           <div style={{ marginBottom: '12px' }}>
+            <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Background Alignment</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div style={{ display: 'flex', gap: '4px' }}>
+                <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↔</span>
+                {[{ v: 'left', l: '←' }, { v: 'center', l: '—' }, { v: 'right', l: '→' }].map(({ v, l }) => (
+                  <button key={v} onClick={() => handleUpdate('bgPositionX', v)} style={{
+                    flex: 1, height: '28px', fontSize: '13px',
+                    backgroundColor: (segment.settings.bgPositionX ?? 'left') === v ? '#3b82f6' : '#374151',
+                    color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+                  }}>{l}</button>
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: '4px' }}>
+                <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↕</span>
+                {[{ v: 'top', l: '↑' }, { v: 'center', l: '—' }, { v: 'bottom', l: '↓' }].map(({ v, l }) => (
+                  <button key={v} onClick={() => handleUpdate('bgPositionY', v)} style={{
+                    flex: 1, height: '28px', fontSize: '13px',
+                    backgroundColor: (segment.settings.bgPositionY ?? 'top') === v ? '#3b82f6' : '#374151',
+                    color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+                  }}>{l}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '12px' }}>
             <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
               <input
                 type="checkbox"
@@ -291,34 +343,31 @@ export function SegmentSettings() {
               Repeat background
             </label>
           </div>
+
+          <div style={{ marginBottom: '12px' }}>
+            <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Opacity</label>
+            <input
+              type="text"
+              value={segment.settings.bgOpacity || ''}
+              onChange={(e) => handleUpdate('bgOpacity', e.target.value)}
+              placeholder="100%"
+              style={{
+                width: '100%',
+                padding: '6px',
+                backgroundColor: '#374151',
+                color: '#f3f4f6',
+                border: '1px solid #4b5563',
+                borderRadius: '4px',
+                fontSize: '12px',
+                boxSizing: 'border-box'
+              }}
+            />
+            <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+              Enter value like: 0.5, 50%, 80%
+            </div>
+          </div>
         </>
       )}
-
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Alignment</label>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <div style={{ display: 'flex', gap: '4px' }}>
-            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↔</span>
-            {[{ v: 'left', l: '←' }, { v: 'center', l: '—' }, { v: 'right', l: '→' }].map(({ v, l }) => (
-              <button key={v} onClick={() => handleUpdate('contentAlignment', v)} style={{
-                flex: 1, height: '28px', fontSize: '13px',
-                backgroundColor: (segment.settings.contentAlignment ?? 'left') === v ? '#3b82f6' : '#374151',
-                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
-              }}>{l}</button>
-            ))}
-          </div>
-          <div style={{ display: 'flex', gap: '4px' }}>
-            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↕</span>
-            {[{ v: 'top', l: '↑' }, { v: 'center', l: '—' }, { v: 'bottom', l: '↓' }].map(({ v, l }) => (
-              <button key={v} onClick={() => handleUpdate('verticalAlignment', v)} style={{
-                flex: 1, height: '28px', fontSize: '13px',
-                backgroundColor: (segment.settings.verticalAlignment ?? 'top') === v ? '#3b82f6' : '#374151',
-                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
-              }}>{l}</button>
-            ))}
-          </div>
-        </div>
-      </div>
 
       <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Corner Radius (px)</label>

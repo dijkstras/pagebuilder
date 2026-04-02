@@ -97,12 +97,12 @@ export function StructureTree() {
         {activeTab === 'structure' ? (
           <>
             {/* Page header */}
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '14px', paddingBottom: '12px', borderBottom: '1px solid #1a2537' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', paddingBottom: '14px', borderBottom: '1px solid #4a5568' }}>
               <span
                 onClick={() => dispatch(pageActions.deselectElement())}
                 style={{
-                  flex: 1, fontSize: '12px', fontWeight: 500,
-                  color: isPageSelected ? '#93c5fd' : '#4b6074',
+                  flex: 1, fontSize: '13px', fontWeight: 600,
+                  color: isPageSelected ? '#90cdf4' : '#718096',
                   cursor: 'pointer', userSelect: 'none',
                   letterSpacing: '0.05em', textTransform: 'uppercase'
                 }}
@@ -112,7 +112,7 @@ export function StructureTree() {
               <button
                 onClick={(e) => { e.stopPropagation(); handleAddSegment(); }}
                 style={{
-                  background: '#1d4ed8', border: 'none', color: 'white',
+                  background: '#4299e1', border: 'none', color: 'white',
                   cursor: 'pointer', fontSize: '16px', fontWeight: 'bold',
                   borderRadius: '4px', width: '24px', height: '24px',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
