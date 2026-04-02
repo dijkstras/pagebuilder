@@ -147,7 +147,9 @@
             "elevationEnabled": false,
             "elevation": 4,
             "borderRadius": 0,
-            "width": "65%"
+            "width": "65%",
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": [
             {
@@ -233,7 +235,9 @@
             "borderRadius": 0,
             "width": "30%",
             "height": "300px",
-            "bgSize": "contain"
+            "bgSize": "contain",
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": []
         }
