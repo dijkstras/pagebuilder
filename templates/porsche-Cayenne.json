@@ -556,7 +556,7 @@
             "elevation": 4,
             "borderRadius": 0,
             "width": "40%",
-            "bgSize": "contain"
+            "bgSize": "cover"
           },
           "children": [
             {
