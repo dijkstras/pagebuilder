@@ -254,7 +254,7 @@
             "bgPositionY": "top",
             "bgType": "gradient",
             "bgGradient": {
-              "color1": "#ffffff",
+              "color1": "#eef5fb",
               "color2": "#000000",
               "angle": 168
             }
