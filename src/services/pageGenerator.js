@@ -1,4 +1,15 @@
 import { extractYouTubeId, buildYouTubeEmbedUrl } from '../utils/youtube.js';
+import { getButtonIcon } from '../utils/buttonIcons';
+
+function darkenHex(hex, amount = 0.15) {
+  if (!hex || typeof hex !== 'string') return hex;
+  const h = hex.replace('#', '');
+  if (h.length !== 6) return hex;
+  const r = Math.max(0, Math.round(parseInt(h.slice(0, 2), 16) * (1 - amount)));
+  const g = Math.max(0, Math.round(parseInt(h.slice(2, 4), 16) * (1 - amount)));
+  const b = Math.max(0, Math.round(parseInt(h.slice(4, 6), 16) * (1 - amount)));
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
 
 export function generateHTML(page, selectedElementId) {
   const segments = page.root.map(segment => renderSegment(segment, page)).join('\n');
@@ -320,36 +331,56 @@ function renderContentItem(item, page) {
     case 'button': {
       const buttonStyle = page.styles.buttonStyles.find(s => s.id === item.settings.assignedStyleId)
         || page.styles.buttonStyles[0];
-      const isOutline = buttonStyle?.bgColor === 'transparent';
-      const { width, height } = sizeOverrides(item);
+      const isGradient = buttonStyle?.bgType === 'gradient' && buttonStyle?.bgGradient;
 
-      // Determine default color based on button style ID
-      let defaultBgColor = '#3b82f6';
-      if (buttonStyle?.id === 'primary') {
-        defaultBgColor = page.styles.colors.primary;
-      } else if (buttonStyle?.id === 'secondary') {
-        defaultBgColor = page.styles.colors.secondary;
-      }
+      // Background
+      const bgColor = item.settings.customOverrides?.bgColor || buttonStyle?.bgColor || '#3b82f6';
+      const background = isGradient
+        ? `linear-gradient(${buttonStyle.bgGradient.angle ?? 90}deg, ${buttonStyle.bgGradient.color1}, ${buttonStyle.bgGradient.color2})`
+        : bgColor;
+      const isOutline = bgColor === 'transparent' && !isGradient;
 
-      const bgColor = item.settings.customOverrides.bgColor || buttonStyle?.bgColor || defaultBgColor;
-      const textColor = item.settings.customOverrides.textColor || buttonStyle?.textColor || '#ffffff';
+      // Size — prefer sizeOverride when enabled, otherwise fall back to element-level size
+      const so = item.settings.customOverrides?.sizeOverride;
+      const { width: elWidth, height: elHeight } = sizeOverrides(item);
+      const width = (so?.enabled && so.width && so.width !== 'auto') ? so.width : elWidth;
+      const height = (so?.enabled && so.height && so.height !== 'auto') ? so.height : elHeight;
+
+      const textColor = item.settings.customOverrides?.textColor || buttonStyle?.textColor || '#ffffff';
+      const fontSize = `${buttonStyle?.fontSize ?? 14}px`;
+
+      // Icon
+      const iconData = item.settings.customOverrides?.icon;
+      const iconSvg = (iconData?.position !== 'none' && iconData?.key)
+        ? getButtonIcon(iconData.key)
+        : null;
+      const label = item.settings.customOverrides?.label || 'Button';
+      const iconStyle = 'display:inline-flex;align-items:center;vertical-align:middle;margin-right:4px;';
+      const iconAfterStyle = 'display:inline-flex;align-items:center;vertical-align:middle;margin-left:4px;';
+      const innerContent = iconSvg
+        ? iconData.position === 'before'
+          ? `<span style="${iconStyle}">${iconSvg}</span>${label}`
+          : `${label}<span style="${iconAfterStyle}">${iconSvg}</span>`
+        : label;
 
       const btnStyle = buildStyleString({
         display: 'inline-block',
-        backgroundColor: bgColor === 'transparent' ? 'transparent' : bgColor,
+        background: background,
         color: textColor,
         padding: `${buttonStyle?.padding || 12}px 24px`,
         borderRadius: `${buttonStyle?.radius || 6}px`,
-        border: bgColor === 'transparent' ? `1.5px solid ${textColor}` : 'none',
+        border: isOutline ? `1.5px solid ${textColor}` : 'none',
         cursor: 'pointer',
-        fontFamily: 'var(--font-body-family)',
-        fontWeight: '500',
-        fontSize: '14px',
+        fontFamily: 'var(--font-button-family)',
+        fontWeight: 'var(--font-button-weight)',
+        fontSize,
         whiteSpace: 'nowrap',
+        textDecoration: 'none',
         width,
         height
       });
-      return `<button style="${btnStyle}" data-element-id="${item.id}">${item.settings.customOverrides.label || 'Button'}</button>`;
+
+      return `<button class="btn-${buttonStyle?.id || 'primary'}" style="${btnStyle}" data-element-id="${item.id}">${innerContent}</button>`;
     }
 
     case 'card': {
@@ -408,6 +439,8 @@ export function generateCSS(page) {
       --font-label-family: ${fonts.label?.family ?? 'Inter'}, sans-serif;
       --font-label-size: ${fonts.label?.size ?? 12}px;
       --font-label-weight: ${fonts.label?.weight ?? 500};
+      --font-button-family: ${fonts.button?.family ?? 'Inter'}, sans-serif;
+      --font-button-weight: ${fonts.button?.weight ?? 500};
       --spacing-xs: ${spacing.xs}px;
       --spacing-sm: ${spacing.sm}px;
       --spacing-md: ${spacing.md}px;
@@ -435,39 +468,34 @@ export function generateCSS(page) {
       font-size: var(--font-label-size);
       font-weight: var(--font-label-weight);
     }
+    ${page.styles.buttonStyles.map(bs => {
+      const isGradient = bs.bgType === 'gradient' && bs.bgGradient;
+      const hoverBg = isGradient
+        ? `linear-gradient(${bs.bgGradient.angle ?? 90}deg, ${darkenHex(bs.bgGradient.color1)}, ${darkenHex(bs.bgGradient.color2)})`
+        : darkenHex(bs.bgColor || '#3b82f6');
+      const isOutline = bs.bgColor === 'transparent' && bs.bgType !== 'gradient';
+      if (isOutline) return ''; // skip hover for transparent/outline buttons
+      return `.btn-${bs.id}:hover { background: ${hoverBg} !important; }`;
+    }).join('\n    ')}
   `;
 }
 
 export function generateGoogleFontsImport(fonts) {
-  // Collect all unique fonts and their weights
-  const fontMap = {};
+  // Collect unique font families
+  const families = new Set();
 
   Object.values(fonts).forEach(font => {
     if (!font || !font.family) return;
-    // MUST have a weight, skip fonts without one
-    if (font.weight === undefined || font.weight === null) return;
-
-    if (!fontMap[font.family]) {
-      fontMap[font.family] = new Set();
-    }
-    fontMap[font.family].add(font.weight);
+    families.add(font.family.replace(/\s+/g, ' ').trim());
   });
 
-  // If no fonts, return empty string
-  if (Object.keys(fontMap).length === 0) {
-    return '';
-  }
+  if (families.size === 0) return '';
 
-  // Build query parameters
-  const params = Object.entries(fontMap)
-    .map(([family, weights]) => {
-      // Collapse multiple spaces to single space first, then encode
-      const normalizedFamily = family.replace(/\s+/g, ' ');
-      const encodedFamily = encodeURIComponent(normalizedFamily).replace(/%20/g, '+');
-      const sortedWeights = Array.from(weights).sort((a, b) => a - b);
-      const weightList = sortedWeights.join(';');
-      return `family=${encodedFamily}:wght@${weightList}`;
-    })
+  // No weight specs — static fonts (e.g. Pacifico, BBH Bartle) only have weight 400
+  // and return 503 when you request a specific wght. The browser uses the nearest
+  // available weight via CSS font matching against the weight CSS variable.
+  const params = Array.from(families)
+    .map(family => `family=${encodeURIComponent(family).replace(/%20/g, '+')}`)
     .join('&');
 
   const url = `https://fonts.googleapis.com/css2?${params}&display=swap`;
