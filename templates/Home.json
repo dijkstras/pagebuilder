@@ -97,7 +97,7 @@
       "settings": {
         "fullWidth": true,
         "bgColor": "#ffffff",
-        "bgImage": null,
+        "bgImage": "https://img.freepik.com/vrije-vector/3d-render-fastfood-hamburger-met-kaas-vector-icoon_107791-18640.jpg?semt=ais_hybrid&w=740&q=80",
         "padding": 40,
         "margin": 0,
         "gutter": 24,
