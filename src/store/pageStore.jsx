@@ -10,7 +10,8 @@ const initialState = {
   activeBrandSection: null,
   saveStatus: 'idle', // 'idle' | 'saving' | 'saved' | 'error'
   saveError: null,
-  lastSaved: null
+  lastSaved: null,
+  currentView: 'grid' // 'grid' | 'editor'
 };
 
 function pageReducer(state, action) {
@@ -154,6 +155,12 @@ function pageReducer(state, action) {
         saveError: null
       };
 
+    case 'SET_VIEW':
+      return {
+        ...state,
+        currentView: action.payload
+      };
+
     default:
       return state;
   }
@@ -264,5 +271,6 @@ export const pageActions = {
     type: 'SET_SAVE_STATUS',
     payload: { status, error }
   }),
-  clearSaveError: () => ({ type: 'CLEAR_SAVE_ERROR' })
+  clearSaveError: () => ({ type: 'CLEAR_SAVE_ERROR' }),
+  setView: (view) => ({ type: 'SET_VIEW', payload: view })
 };

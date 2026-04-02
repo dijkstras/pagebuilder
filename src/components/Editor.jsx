@@ -7,7 +7,7 @@ import { generateHTML, generateCSS } from '../services/pageGenerator';
 import { storage } from '../services/fileStorage';
 import { THEME, EDITOR_LAYOUT } from '../utils/constants';
 
-export function Editor() {
+export function Editor({ onBackToGrid }) {
   const { state, dispatch } = usePageStore();
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [saveFileName, setSaveFileName] = useState('');
@@ -193,6 +193,26 @@ export function Editor() {
         zIndex: 10
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {onBackToGrid && (
+            <button
+              onClick={onBackToGrid}
+              style={{
+                padding: '6px 12px',
+                backgroundColor: THEME.background,
+                color: THEME.text,
+                border: `1px solid ${THEME.border}`,
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '12px',
+                fontWeight: '500',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              ← Back to Pages
+            </button>
+          )}
           <h1 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>
             {state.page.title || 'Untitled Page'}
           </h1>

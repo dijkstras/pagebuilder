@@ -1,11 +1,11 @@
 import React from 'react';
 import { PageProvider } from './store/pageStore.jsx';
-import { Editor } from './components/Editor';
+import { AppContent } from './AppContent';
 
 function App() {
   return (
     <PageProvider>
-      <Editor />
+      <AppContent />
     </PageProvider>
   );
 }
