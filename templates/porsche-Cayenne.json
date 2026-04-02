@@ -62,7 +62,7 @@
         "id": "secondary",
         "label": "Secondary",
         "bgColor": "#fff",
-        "textColor": "#1f2937",
+        "textColor": "#000000",
         "padding": 12,
         "radius": 0,
         "bgType": "solid",
