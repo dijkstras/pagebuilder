@@ -173,7 +173,7 @@ function TypographySettings() {
             borderRadius: '6px',
             fontFamily: fonts[style.key].family,
             fontWeight: fonts[style.key].weight,
-            fontSize: `${fonts[style.key].size}px`,
+            ...(fonts[style.key].size !== undefined && { fontSize: `${fonts[style.key].size}px` }),
             color: '#f3f4f6'
           }}>
             {style.previewText}
