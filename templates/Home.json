@@ -111,7 +111,7 @@
         "direction": "row",
         "minHeight": 200,
         "bgVideo": null,
-        "bgType": "solid",
+        "bgType": "gradient",
         "bgGradient": {
           "color1": "#fffef5",
           "color2": "#f5ffc2",
