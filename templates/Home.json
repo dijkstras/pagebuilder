@@ -295,7 +295,8 @@
             "textRole": null,
             "customOverrides": {
               "src": "https://s7d1.scene7.com/is/image/mcdonalds/ngk_gui_nl_main_Big%20tasty_double:nutrition-calculator-tile",
-              "borderRadius": "24px"
+              "borderRadius": "24px",
+              "width": "250px"
             },
             "responsiveVariants": {
               "mobile": {},
