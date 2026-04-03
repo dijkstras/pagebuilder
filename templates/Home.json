@@ -363,34 +363,6 @@
           ]
         },
         {
-          "id": "container-1775226415554-ng9aq",
-          "name": "Container",
-          "type": "container",
-          "settings": {
-            "columnSpan": 12,
-            "spacing": 16,
-            "bgColor": "transparent",
-            "bgImage": "https://png.pngtree.com/png-clipart/20240523/original/pngtree-3d-burger-on-transparent-background-png-image_15157990.png",
-            "bgVideo": null,
-            "padding": 20,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
-            "direction": "column",
-            "borderEnabled": false,
-            "borderWidth": 1,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "width": "30%",
-            "height": "300px",
-            "bgSize": "contain",
-            "bgType": "solid",
-            "bgGradient": null
-          },
-          "children": []
-        },
-        {
           "id": "content-1775226425504",
           "type": "video",
           "settings": {
