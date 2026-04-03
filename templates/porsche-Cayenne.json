@@ -110,7 +110,7 @@
         "contentAlignment": "left",
         "verticalAlignment": "top",
         "direction": "column",
-        "minHeight": 720,
+        "minHeight": 7,
         "borderEnabled": false,
         "borderWidth": 1,
         "borderColor": "#000000",
