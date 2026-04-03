@@ -138,7 +138,7 @@
             "spacing": "auto",
             "bgColor": "transparent",
             "bgImage": null,
-            "bgVideo": "https://www.youtube.com/watch?v=2yrlNznB2lE",
+            "bgVideo": null,
             "padding": 0,
             "contentAlignment": "left",
             "verticalAlignment": "top",
