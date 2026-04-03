@@ -37,6 +37,10 @@
         "family": "Inter",
         "size": 12,
         "weight": 500
+      },
+      "button": {
+        "family": "Inter",
+        "weight": 500
       }
     },
     "buttonStyles": [
@@ -46,7 +50,10 @@
         "bgColor": "#3b82f6",
         "textColor": "#ffffff",
         "padding": 12,
-        "radius": 6
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
       },
       {
         "id": "secondary",
@@ -54,7 +61,10 @@
         "bgColor": "#e5e7eb",
         "textColor": "#1f2937",
         "padding": 12,
-        "radius": 6
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
       },
       {
         "id": "tertiary",
@@ -62,7 +72,10 @@
         "bgColor": "transparent",
         "textColor": "#3b82f6",
         "padding": 12,
-        "radius": 6
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
       }
     ],
     "shapes": {
