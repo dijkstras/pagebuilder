@@ -67,7 +67,7 @@
         "radius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 18
       },
       {
         "id": "tertiary",
@@ -644,7 +644,7 @@
         "bgVideo": null,
         "padding": 80,
         "margin": 0,
-        "gutter": 24,
+        "gutter": 60,
         "maxWidth": null,
         "contentAlignment": "left",
         "verticalAlignment": "top",
@@ -686,7 +686,7 @@
           "type": "container",
           "settings": {
             "columnSpan": 12,
-            "spacing": 16,
+            "spacing": 24,
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
@@ -700,7 +700,7 @@
             "elevationEnabled": false,
             "elevation": 4,
             "borderRadius": 0,
-            "width": "40%",
+            "width": "45%",
             "bgType": "solid",
             "bgGradient": null
           },
@@ -732,6 +732,31 @@
                   "content": "The 911 Carrera T: For over 55 years, the T has stood not only for touring, but above all for puristic driving pleasure — thanks to targeted lightweight construction, emotional engine sound, characteristic design elements and a precise manual transmission.",
                   "color": "#000000",
                   "width": "100%"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775216606253",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "tertiary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Learn more",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
                 },
                 "responsiveVariants": {
                   "mobile": {},
@@ -800,7 +825,7 @@
         "bgVideo": null,
         "padding": 80,
         "margin": 0,
-        "gutter": 24,
+        "gutter": "auto",
         "maxWidth": null,
         "contentAlignment": "left",
         "verticalAlignment": "top",

@@ -9,7 +9,8 @@ const TYPE_ICONS = {
   text: 'T',
   image: '▣',
   button: '⊡',
-  video: '▷'
+  video: '▷',
+  card: '🎴'
 };
 
 function containsElement(children, targetId) {
@@ -36,7 +37,7 @@ function canMoveElement(element, direction, parentChildren) {
 
 function AddMenu({ element, onClose }) {
   const { dispatch } = usePageStore();
-  const canAddContainer = element.type === 'segment' || element.type === 'container';
+  const canAddContainer = element.type === 'segment';
 
   const add = (fn) => (e) => { e.stopPropagation(); fn(); onClose(); };
 

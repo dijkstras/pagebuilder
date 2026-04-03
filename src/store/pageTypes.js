@@ -8,7 +8,8 @@ export const CONTENT_TYPES = {
   TEXT: 'text',
   IMAGE: 'image',
   BUTTON: 'button',
-  VIDEO: 'video'
+  VIDEO: 'video',
+  CARD: 'card'
 };
 
 export const MAX_WIDTH_PRESETS = [
@@ -134,28 +135,81 @@ export const createContainer = (name = 'Container') => ({
   children: []
 });
 
-export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => ({
-  id: `content-${Date.now()}`,
-  type: contentType,
-  settings: {
-    assignedStyleId: contentType === CONTENT_TYPES.BUTTON ? 'primary' : null,
-    textRole: contentType === CONTENT_TYPES.TEXT ? 'body' : null,
-    customOverrides: contentType === CONTENT_TYPES.TEXT
-      ? { content: 'Your text here' }
-      : contentType === CONTENT_TYPES.BUTTON
-        ? { label: 'Button', icon: { key: null, position: 'none' }, sizeOverride: { enabled: false, width: 'auto', height: 'auto' } }
-        : contentType === CONTENT_TYPES.IMAGE
-          ? { src: 'https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
-          : contentType === CONTENT_TYPES.VIDEO
-            ? { src: '' }
-            : {},
-    responsiveVariants: {
-      mobile: {},
-      tablet: {},
-      desktop: {}
-    }
+export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
+  if (contentType === CONTENT_TYPES.CARD) {
+    return {
+      id: `content-${Date.now()}`,
+      type: contentType,
+      settings: {
+        width: '300px',
+        height: 'auto',
+        bgColor: '#ffffff',
+        bgType: 'solid',
+        bgGradient: null,
+        padding: 20,
+        direction: 'column',
+        contentAlignment: 'left',
+        verticalAlignment: 'top',
+        spacing: 12,
+        borderEnabled: false,
+        borderWidth: 1,
+        borderColor: '#e5e7eb',
+        borderRadius: 8,
+        elevationEnabled: false,
+        elevation: 4,
+        // Card elements
+        showImage: true,
+        showText: true,
+        showButton: true,
+        image: {
+          src: 'https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          objectFit: 'cover',
+          borderRadius: '4px'
+        },
+        text: {
+          content: 'Card title goes here',
+          textRole: 'heading2',
+          textAlign: 'left',
+          color: null
+        },
+        button: {
+          label: 'Learn More',
+          assignedStyleId: 'primary',
+          icon: { key: null, position: 'none' },
+          sizeOverride: { enabled: false, width: 'auto', height: 'auto' }
+        }
+      },
+      responsiveVariants: {
+        mobile: {},
+        tablet: {},
+        desktop: {}
+      }
+    };
   }
-});
+
+  return {
+    id: `content-${Date.now()}`,
+    type: contentType,
+    settings: {
+      assignedStyleId: contentType === CONTENT_TYPES.BUTTON ? 'primary' : null,
+      textRole: contentType === CONTENT_TYPES.TEXT ? 'body' : null,
+      customOverrides: contentType === CONTENT_TYPES.TEXT
+        ? { content: 'Your text here' }
+        : contentType === CONTENT_TYPES.BUTTON
+          ? { label: 'Button', icon: { key: null, position: 'none' }, sizeOverride: { enabled: false, width: 'auto', height: 'auto' } }
+          : contentType === CONTENT_TYPES.IMAGE
+            ? { src: 'https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
+            : contentType === CONTENT_TYPES.VIDEO
+              ? { src: '' }
+              : {},
+      responsiveVariants: {
+        mobile: {},
+        tablet: {},
+        desktop: {}
+      }
+    }
+  };
+};
 
 // Migrate saved pages from older data shapes
 export function migratePage(page) {

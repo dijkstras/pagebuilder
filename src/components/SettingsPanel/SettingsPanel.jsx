@@ -47,8 +47,8 @@ export function SettingsPanel() {
     label = '📋 Container';
   } else {
     settings = <ContentSettings />;
-    const typeEmojis = { text: '📝 Text', image: '🖼️ Image', button: '🔘 Button' };
-    label = typeEmojis[state.selectedElementType] || 'Settings';
+    const typeEmojis = { text: '📝 Text', image: '🖼️ Image', button: '🔘 Button', card: '🎴 Card' };
+    label = typeEmojis[state.selectedElementType] || '🎴 Card Settings';
   }
 
   return (

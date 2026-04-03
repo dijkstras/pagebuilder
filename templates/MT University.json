@@ -1,0 +1,623 @@
+{
+  "id": "page-1775216731674",
+  "title": "MT University",
+  "breakpoints": {
+    "mobile": 320,
+    "tablet": 768,
+    "desktop": 1024
+  },
+  "root": [
+    {
+      "id": "segment-1775216776997",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#6b7280",
+        "bgImage": null,
+        "bgVideo": "https://mindtickle-scratch-tech-support.s3.ap-southeast-1.amazonaws.com/CaaS_AI-Role-play/SOP/images/top-banner_V1.mp4",
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "center",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 465,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null,
+        "bgVideoSize": "cover",
+        "bgVideoPositionX": "right"
+      },
+      "children": []
+    },
+    {
+      "id": "segment-1775217515620",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 80,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "center",
+        "direction": "row",
+        "minHeight": 600,
+        "borderEnabled": true,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgSize": "contain",
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#ffffff",
+          "color2": "#e4ecfa",
+          "angle": 180
+        },
+        "bgPositionY": "center"
+      },
+      "children": [
+        {
+          "id": "container-1775217849781",
+          "name": "Container44",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 32,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "center",
+            "verticalAlignment": "top",
+            "direction": "row",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "bgType": "solid",
+            "bgGradient": null,
+            "width": "54%"
+          },
+          "children": [
+            {
+              "id": "content-1775220216528",
+              "type": "card",
+              "settings": {
+                "width": "200px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 24,
+                "direction": "column",
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": true,
+                "elevation": 3,
+                "image": {
+                  "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png",
+                  "objectFit": "contain",
+                  "borderRadius": "4px",
+                  "width": "70px",
+                  "height": "auto"
+                },
+                "text": {
+                  "content": "Understand Why and How to Scale Practice",
+                  "textRole": "body",
+                  "textAlign": "center",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "contentAlignment": "center",
+                "verticalAlignment": "center",
+                "spacing": 16,
+                "showButton": false
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "name": "crrrd"
+            },
+            {
+              "id": "card-1775222419526-j5hb7",
+              "type": "card",
+              "settings": {
+                "width": "200px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 24,
+                "direction": "column",
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": true,
+                "elevation": 3,
+                "image": {
+                  "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png",
+                  "objectFit": "contain",
+                  "borderRadius": "4px",
+                  "width": "70px",
+                  "height": "auto"
+                },
+                "text": {
+                  "content": "Understand Why and How to Scale Practice",
+                  "textRole": "body",
+                  "textAlign": "center",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "contentAlignment": "center",
+                "verticalAlignment": "center",
+                "spacing": 16,
+                "showButton": false
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "name": "crrrd"
+            },
+            {
+              "id": "card-1775222419018-tpkmd",
+              "type": "card",
+              "settings": {
+                "width": "200px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 24,
+                "direction": "column",
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": true,
+                "elevation": 3,
+                "image": {
+                  "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png",
+                  "objectFit": "contain",
+                  "borderRadius": "4px",
+                  "width": "70px",
+                  "height": "auto"
+                },
+                "text": {
+                  "content": "Understand Why and How to Scale Practice",
+                  "textRole": "body",
+                  "textAlign": "center",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "contentAlignment": "center",
+                "verticalAlignment": "center",
+                "spacing": 16,
+                "showButton": false
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "name": "crrrd"
+            },
+            {
+              "id": "card-1775222688984-0u2ux",
+              "type": "card",
+              "settings": {
+                "width": "200px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 24,
+                "direction": "column",
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": true,
+                "elevation": 3,
+                "image": {
+                  "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png",
+                  "objectFit": "contain",
+                  "borderRadius": "4px",
+                  "width": "70px",
+                  "height": "auto"
+                },
+                "text": {
+                  "content": "Understand Why and How to Scale Practice",
+                  "textRole": "body",
+                  "textAlign": "center",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "contentAlignment": "center",
+                "verticalAlignment": "center",
+                "spacing": 16,
+                "showButton": false
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "name": "crrrd"
+            },
+            {
+              "id": "card-1775222416389-uiec3",
+              "type": "card",
+              "settings": {
+                "width": "200px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 24,
+                "direction": "column",
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": true,
+                "elevation": 3,
+                "image": {
+                  "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png",
+                  "objectFit": "contain",
+                  "borderRadius": "4px",
+                  "width": "70px",
+                  "height": "auto"
+                },
+                "text": {
+                  "content": "Understand Why and How to Scale Practice",
+                  "textRole": "body",
+                  "textAlign": "center",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "contentAlignment": "center",
+                "verticalAlignment": "center",
+                "spacing": 16,
+                "showButton": false
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "name": "crrrd"
+            },
+            {
+              "id": "card-1775222415028-vl2hx",
+              "type": "card",
+              "settings": {
+                "width": "200px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 24,
+                "direction": "column",
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": true,
+                "elevation": 3,
+                "image": {
+                  "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png",
+                  "objectFit": "contain",
+                  "borderRadius": "4px",
+                  "width": "70px",
+                  "height": "auto"
+                },
+                "text": {
+                  "content": "Understand Why and How to Scale Practice",
+                  "textRole": "body",
+                  "textAlign": "center",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "contentAlignment": "center",
+                "verticalAlignment": "center",
+                "spacing": 16,
+                "showButton": false
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "name": "crrrd"
+            }
+          ]
+        },
+        {
+          "id": "container-1775220295083",
+          "name": "Container",
+          "type": "container",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "tra",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "bgType": "solid",
+            "bgGradient": null,
+            "width": "44%"
+          },
+          "children": [
+            {
+              "id": "content-1775220300169",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "Introducing the"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "text-1775222953107-rt5vp",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "AI Role Plays Certification Program",
+                  "width": "100%",
+                  "color": "#8b5cf6"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "text-1775223054358-w5891",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading2",
+                "customOverrides": {
+                  "content": "To help you build effective and scalable practice for your teams",
+                  "width": "100%"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "segment-1775217537101",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#6b7280",
+        "bgImage": null,
+        "bgVideo": "https://mindtickle-scratch-tech-support.s3.ap-southeast-1.amazonaws.com/CaaS_AI-Role-play/SOP/images/Banner-03.mp4",
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 700,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgVideoSize": "cover",
+        "bgType": "solid",
+        "bgGradient": null
+      },
+      "children": []
+    }
+  ],
+  "styles": {
+    "logo": null,
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#8b5cf6",
+      "accent": "#ec4899",
+      "text": "#1f2937",
+      "background": "#f9fafb",
+      "neutral": "#6b7280"
+    },
+    "fonts": {
+      "heading1": {
+        "family": "Inter",
+        "size": 48,
+        "weight": 700
+      },
+      "heading2": {
+        "family": "Inter",
+        "size": 24,
+        "weight": 500
+      },
+      "body": {
+        "family": "Inter",
+        "size": 16,
+        "weight": 400
+      },
+      "label": {
+        "family": "Inter",
+        "size": 12,
+        "weight": 500
+      },
+      "button": {
+        "family": "Inter",
+        "weight": 500
+      }
+    },
+    "buttonStyles": [
+      {
+        "id": "primary",
+        "label": "Primary",
+        "bgColor": "#3b82f6",
+        "textColor": "#ffffff",
+        "padding": 12,
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
+      },
+      {
+        "id": "secondary",
+        "label": "Secondary",
+        "bgColor": "#e5e7eb",
+        "textColor": "#1f2937",
+        "padding": 12,
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
+      },
+      {
+        "id": "tertiary",
+        "label": "Tertiary",
+        "bgColor": "transparent",
+        "textColor": "#3b82f6",
+        "padding": 12,
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
+      }
+    ],
+    "shapes": {
+      "borderRadius": 6
+    },
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 48
+    },
+    "bgColor": "#f9fafb"
+  }
+}

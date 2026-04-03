@@ -1,4 +1,4 @@
-import { extractYouTubeId, buildYouTubeEmbedUrl } from '../utils/youtube.js';
+import { renderVideo } from '../utils/video.js';
 import { getButtonIcon } from '../utils/buttonIcons';
 
 function darkenHex(hex, amount = 0.15) {
@@ -144,13 +144,15 @@ function renderSegment(segment, page) {
     }
   }).join('\n');
 
-  const segmentVideoId = segment.settings.bgVideo
-    ? extractYouTubeId(segment.settings.bgVideo)
-    : null;
-  const segmentVideoBg = segmentVideoId
-    ? `<iframe src="${buildYouTubeEmbedUrl(segmentVideoId)}" style="position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);pointer-events:none;border:none;z-index:0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`
+  const segmentVideoBg = segment.settings.bgVideo
+    ? renderVideo(segment.settings.bgVideo, { 
+        isBackground: true,
+        bgSize: segment.settings.bgVideoSize || 'cover',
+        bgPositionX: segment.settings.bgVideoPositionX || 'center',
+        bgPositionY: segment.settings.bgVideoPositionY || 'center'
+      })
     : '';
-  const innerZIndex = hasBgImage ? `${innerStyle}; position: relative; z-index: 1` : (segmentVideoId ? `${innerStyle}; position: relative; z-index: 1` : innerStyle);
+  const innerZIndex = hasBgImage || segment.settings.bgVideo ? `${innerStyle}; position: relative; z-index: 1` : innerStyle;
 
   // Add pseudo-element for background image when needed
   const bgImageOverlay = hasBgImage ? `
@@ -207,17 +209,22 @@ function renderContainer(container, page, parentHasHorizontalScroll = false) {
 
   const isGradient = container.settings.bgType === 'gradient' && container.settings.bgGradient;
   const hasBgImage = !!container.settings.bgImage;
-  const containerVideoId = container.settings.bgVideo
-    ? extractYouTubeId(container.settings.bgVideo)
-    : null;
+  const containerVideoBg = container.settings.bgVideo
+    ? renderVideo(container.settings.bgVideo, { 
+        isBackground: true,
+        bgSize: container.settings.bgVideoSize || 'cover',
+        bgPositionX: container.settings.bgVideoPositionX || 'center',
+        bgPositionY: container.settings.bgVideoPositionY || 'center'
+      })
+    : '';
 
   const styleObj = {
     width: container.settings.width || 'auto',
     height: container.settings.height || undefined,
     minWidth: (container.settings.scrollEnabled && direction === 'row') || parentHasHorizontalScroll ? 'auto' : '0',
     flexShrink: (container.settings.scrollEnabled && direction === 'row') || parentHasHorizontalScroll ? '0' : '1',
-    display: (containerVideoId || hasBgImage) ? 'block' : 'flex',
-    ...(containerVideoId || hasBgImage ? {} : {
+    display: (container.settings.bgVideo || hasBgImage) ? 'block' : 'flex',
+    ...(container.settings.bgVideo || hasBgImage ? {} : {
       flexDirection: direction,
       flexWrap: (direction === 'row' && !container.settings.scrollEnabled) ? 'wrap' : undefined,
       gap: isAutoSpacing ? undefined : `${typeof spacing === 'number' ? spacing : 16}px`,
@@ -256,10 +263,7 @@ function renderContainer(container, page, parentHasHorizontalScroll = false) {
   const style = buildStyleString(styleObj);
   const children = container.children.map(child => renderContentItem(child, page)).join('\n');
 
-  const containerVideoBg = containerVideoId
-    ? `<iframe src="${buildYouTubeEmbedUrl(containerVideoId)}" style="position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);pointer-events:none;border:none;z-index:0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`
-    : '';
-  const childrenWrapped = (containerVideoId || hasBgImage)
+  const childrenWrapped = (container.settings.bgVideo || hasBgImage)
     ? `<div style="position:relative;z-index:1;display:flex;flex-direction:${direction};flex-wrap:${(direction === 'row' && !container.settings.scrollEnabled) ? 'wrap' : 'unset'};gap:${isAutoSpacing ? 'unset' : `${typeof spacing === 'number' ? spacing : 16}px`};justify-content:${isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign)};align-items:${direction === 'row' ? vAlign : hAlign};width:100%;height:100%">${children}</div>`
     : children;
 
@@ -445,12 +449,136 @@ function renderContentItem(item, page) {
     case 'video': {
       const { width, height } = sizeOverrides(item);
       const customOverrides = item.settings?.customOverrides || {};
-      const videoId = extractYouTubeId(customOverrides.src || '');
-      if (!videoId) {
+      const videoUrl = customOverrides.src || '';
+      
+      if (!videoUrl) {
         return `<div style="${buildStyleString({ width: width ?? '560px', height: height ?? '315px', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px' })}" data-element-id="${item.id}">No video URL set</div>`;
       }
-      const embedUrl = `https://www.youtube.com/embed/${videoId}`;
-      return `<iframe src="${embedUrl}" style="${buildStyleString({ width: width ?? '560px', height: height ?? '315px', border: 'none', display: 'block' })}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-element-id="${item.id}"></iframe>`;
+      
+      const videoStyle = {
+        width: width ?? '560px',
+        height: height ?? '315px'
+      };
+      
+      return renderVideo(videoUrl, { style: videoStyle, isBackground: false });
+    }
+
+    case 'card': {
+      const { width, height } = sizeOverrides(item);
+      const settings = item.settings || {};
+      
+      // Map alignment values to flexbox values
+      const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
+      const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
+      const hAlign = hMap[settings.contentAlignment] || 'flex-start';
+      const vAlign = vMap[settings.verticalAlignment] || 'flex-start';
+      
+      const cardStyle = buildStyleString({
+        width: settings.width || (width ?? '300px'),
+        height: settings.height || (height ?? 'auto'),
+        minWidth: '200px',
+        backgroundColor: settings.bgType === 'gradient' 
+          ? `linear-gradient(${settings.bgGradient?.angle ?? 90}deg, ${settings.bgGradient?.color1}, ${settings.bgGradient?.color2})`
+          : settings.bgColor || '#ffffff',
+        backgroundImage: settings.bgType === 'gradient' ? undefined : undefined,
+        backgroundSize: settings.bgType === 'gradient' ? 'cover' : undefined,
+        backgroundPosition: settings.bgType === 'gradient' ? 'center' : undefined,
+        backgroundRepeat: settings.bgType === 'gradient' ? 'no-repeat' : undefined,
+        padding: `${settings.padding || 20}px`,
+        border: settings.borderEnabled 
+          ? `${settings.borderWidth ?? 1}px solid ${settings.borderColor || '#e5e7eb'}`
+          : 'none',
+        borderRadius: `${settings.borderRadius || 8}px`,
+        filter: settings.elevationEnabled
+          ? `drop-shadow(0 ${settings.elevation ?? 4}px ${(settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (settings.elevation ?? 4) * 0.02}))`
+          : undefined,
+        display: 'flex',
+        flexDirection: settings.direction || 'column',
+        justifyContent: vAlign,
+        alignItems: hAlign,
+        gap: typeof settings.spacing === 'string' ? settings.spacing : `${settings.spacing || 12}px`,
+        boxSizing: 'border-box'
+      });
+
+      const imageHtml = settings.image?.src && settings.showImage !== false ? `
+        <img src="${settings.image.src}" 
+             style="${buildStyleString({
+               width: settings.image?.width || '100%',
+               height: settings.image?.height || '200px',
+               objectFit: settings.image?.objectFit || 'cover',
+               borderRadius: settings.image?.borderRadius || '4px'
+             })}" 
+             alt="" />` : '';
+
+      const textHtml = settings.text?.content && settings.showText !== false ? `
+        <${settings.text.textRole === 'heading1' ? 'h1' : settings.text.textRole === 'heading2' ? 'h2' : settings.text.textRole === 'label' ? 'span' : 'p'}
+          style="${buildStyleString({
+            margin: '0',
+            fontFamily: `var(--font-${settings.text.textRole || 'body'}-family)`,
+            fontSize: `var(--font-${settings.text.textRole || 'body'}-size)`,
+            fontWeight: `var(--font-${settings.text.textRole || 'body'}-weight)`,
+            lineHeight: settings.text.textRole === 'heading1' ? '1.2' : settings.text.textRole === 'heading2' ? '1.3' : settings.text.textRole === 'label' ? '1.4' : '1.6',
+            textAlign: settings.text.textAlign || 'left',
+            color: settings.text.color || page.styles.colors.text
+          })}">${settings.text.content}</${settings.text.textRole === 'heading1' ? 'h1' : settings.text.textRole === 'heading2' ? 'h2' : settings.text.textRole === 'label' ? 'span' : 'p'}>` : '';
+
+      const buttonHtml = settings.button?.label && settings.showButton !== false ? (() => {
+        const buttonStyles = page.styles.buttonStyles || [];
+        const buttonStyle = buttonStyles.find(s => s.id === settings.button.assignedStyleId)
+          || buttonStyles[0];
+        const isGradient = buttonStyle?.bgType === 'gradient' && buttonStyle?.bgGradient;
+
+        const bgColor = buttonStyle?.bgColor || '#3b82f6';
+        const background = isGradient
+          ? `linear-gradient(${buttonStyle.bgGradient.angle ?? 90}deg, ${buttonStyle.bgGradient.color1}, ${buttonStyle.bgGradient.color2})`
+          : bgColor;
+        const isOutline = buttonStyle?.bgColor === 'transparent' && !isGradient;
+
+        const so = settings.button.sizeOverride;
+        const width = (so?.enabled && so.width && so.width !== 'auto') ? so.width : 'auto';
+        const height = (so?.enabled && so.height && so.height !== 'auto') ? so.height : 'auto';
+
+        const textColor = buttonStyle?.textColor || '#ffffff';
+        const fontSize = `${buttonStyle?.fontSize ?? 14}px`;
+
+        const iconData = settings.button.icon;
+        const iconSvg = (iconData?.position !== 'none' && iconData?.key)
+          ? getButtonIcon(iconData.key)
+          : null;
+        const label = settings.button.label || 'Button';
+        const iconStyle = 'display:inline-flex;align-items:center;vertical-align:middle;margin-right:4px;';
+        const iconAfterStyle = 'display:inline-flex;align-items:center;vertical-align:middle;margin-left:4px;';
+        const innerContent = iconSvg
+          ? iconData.position === 'before'
+            ? `<span style="${iconStyle}">${iconSvg}</span>${label}`
+            : `${label}<span style="${iconAfterStyle}">${iconSvg}</span>`
+          : label;
+
+        const btnStyle = buildStyleString({
+          display: 'inline-block',
+          background: background,
+          color: textColor,
+          padding: `${buttonStyle?.padding || 12}px 24px`,
+          borderRadius: `${buttonStyle?.radius ?? 6}px`,
+          border: isOutline ? `1.5px solid ${textColor}` : 'none',
+          cursor: 'pointer',
+          fontFamily: 'var(--font-button-family)',
+          fontWeight: 'var(--font-button-weight)',
+          fontSize,
+          whiteSpace: 'nowrap',
+          textDecoration: 'none',
+          width,
+          height
+        });
+
+        return `<button style="${btnStyle}">${innerContent}</button>`;
+      })() : '';
+
+      return `<div style="${cardStyle}" data-element-id="${item.id}">
+        ${imageHtml}
+        ${textHtml}
+        ${buttonHtml}
+      </div>`;
     }
 
     default:
