@@ -327,7 +327,8 @@
             "assignedStyleId": null,
             "textRole": null,
             "customOverrides": {
-              "src": "https://s7d1.scene7.com/is/image/mcdonalds/gui_nl_main_chili_chicken:nutrition-calculator-tile"
+              "src": "https://s7d1.scene7.com/is/image/mcdonalds/gui_nl_main_chili_chicken:nutrition-calculator-tile",
+              "borderRadius": "24px"
             },
             "responsiveVariants": {
               "mobile": {},
