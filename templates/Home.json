@@ -254,7 +254,7 @@
         "bgVideo": null,
         "padding": 40,
         "margin": 0,
-        "gutter": 24,
+        "gutter": "auto",
         "maxWidth": null,
         "contentAlignment": "left",
         "verticalAlignment": "top",
