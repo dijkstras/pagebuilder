@@ -107,7 +107,7 @@
         "margin": 0,
         "gutter": "auto",
         "maxWidth": null,
-        "contentAlignment": "right",
+        "contentAlignment": "left",
         "verticalAlignment": "top",
         "direction": "column",
         "minHeight": 720,
