@@ -22,7 +22,7 @@
         "maxWidth": null,
         "contentAlignment": "left",
         "verticalAlignment": "top",
-        "direction": "row",
+        "direction": "column",
         "minHeight": 200,
         "borderEnabled": false,
         "borderWidth": 1,
