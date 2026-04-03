@@ -283,6 +283,38 @@
               "desktop": {}
             }
           }
+        },
+        {
+          "id": "image-1775226611764-rh448",
+          "type": "image",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {
+              "src": "https://s7d1.scene7.com/is/image/mcdonalds/ngk_gui_nl_main_big_mac:product-header-desktop?wid=830&hei=456&dpr=off"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
+        },
+        {
+          "id": "image-1775226610051-nueme",
+          "type": "image",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {
+              "src": "https://s7d1.scene7.com/is/image/mcdonalds/ngk_gui_nl_main_big_mac:product-header-desktop?wid=830&hei=456&dpr=off"
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
         }
       ]
     }
