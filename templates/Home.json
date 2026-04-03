@@ -389,6 +389,22 @@
             "bgGradient": null
           },
           "children": []
+        },
+        {
+          "id": "content-1775226425504",
+          "type": "video",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": null,
+            "customOverrides": {
+              "src": ""
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
         }
       ]
     }
