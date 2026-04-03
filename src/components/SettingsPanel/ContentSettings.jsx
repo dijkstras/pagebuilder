@@ -278,19 +278,56 @@ export function ContentSettings() {
 
       {/* ── Video ── */}
       {content.type === CONTENT_TYPES.VIDEO && (
-        <div style={{ marginBottom: '16px' }}>
-          <label style={labelStyle}>YouTube URL</label>
-          <input
-            type="text"
-            value={content.settings.customOverrides.src || ''}
-            onChange={(e) => handleCustomUpdate('src', e.target.value)}
-            placeholder="https://www.youtube.com/watch?v=..."
-            style={inputStyle}
-          />
-          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
-            Paste a YouTube video URL
+        <>
+          <div style={{ marginBottom: '16px' }}>
+            <label style={labelStyle}>YouTube URL</label>
+            <input
+              type="text"
+              value={content.settings.customOverrides.src || ''}
+              onChange={(e) => handleCustomUpdate('src', e.target.value)}
+              placeholder="https://www.youtube.com/watch?v=..."
+              style={inputStyle}
+            />
+            <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+              Paste a YouTube video URL
+            </div>
           </div>
-        </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={labelStyle}>Video Fit</label>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {[
+                { id: 'contain', label: 'Fit' },
+                { id: 'cover', label: 'Fill' },
+                { id: 'stretch', label: 'Stretch' }
+              ].map(fit => {
+                const isActive = (content.settings.customOverrides.objectFit || 'cover') === (fit.id === 'stretch' ? '100% 100%' : fit.id);
+                return (
+                  <button
+                    key={fit.id}
+                    onClick={() => handleCustomUpdate('objectFit', fit.id === 'stretch' ? '100% 100%' : fit.id)}
+                    style={{
+                      flex: 1,
+                      padding: '10px 8px',
+                      backgroundColor: isActive ? '#1d4ed8' : '#374151',
+                      border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: isActive ? '600' : '400',
+                      color: isActive ? '#93c5fd' : '#9ca3af'
+                    }}
+                  >
+                    {fit.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+              Fit: maintain aspect ratio • Fill: crop to fit • Stretch: ignore aspect ratio
+            </div>
+          </div>
+        </>
       )}
 
       {/* ── Button ── */}

@@ -166,7 +166,7 @@ function renderSegment(segment, page) {
   const segmentVideoBg = segment.settings.bgVideo
     ? renderVideo(segment.settings.bgVideo, { 
         isBackground: true,
-        bgSize: segment.settings.bgVideoSize || 'cover',
+        bgSize: segment.settings.bgVideoSize || 'fill',
         bgPositionX: segment.settings.bgVideoPositionX || 'center',
         bgPositionY: segment.settings.bgVideoPositionY || 'center'
       })
@@ -231,7 +231,7 @@ function renderContainer(container, page, parentHasHorizontalScroll = false) {
   const containerVideoBg = container.settings.bgVideo
     ? renderVideo(container.settings.bgVideo, { 
         isBackground: true,
-        bgSize: container.settings.bgVideoSize || 'cover',
+        bgSize: container.settings.bgVideoSize || 'fill',
         bgPositionX: container.settings.bgVideoPositionX || 'center',
         bgPositionY: container.settings.bgVideoPositionY || 'center'
       })
@@ -474,6 +474,7 @@ function renderContentItem(item, page) {
       const { width, height } = sizeOverrides(item);
       const customOverrides = item.settings?.customOverrides || {};
       const videoUrl = customOverrides.src || '';
+      const objectFit = customOverrides.objectFit || 'cover';
       
       if (!videoUrl) {
         return `<div style="${buildStyleString({ width: width ?? '560px', height: height ?? '315px', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px' })}" data-element-id="${item.id}">No video URL set</div>`;
@@ -481,8 +482,16 @@ function renderContentItem(item, page) {
       
       const videoStyle = {
         width: width ?? '560px',
-        height: height ?? '315px'
+        height: height ?? '315px',
+        objectFit: objectFit === '100% 100%' ? 'cover' : objectFit
       };
+      
+      // For stretch mode, we need special handling
+      if (objectFit === '100% 100%') {
+        videoStyle.width = '100%';
+        videoStyle.height = '100%';
+        videoStyle.objectFit = 'cover';
+      }
       
       return renderVideo(videoUrl, { style: videoStyle, isBackground: false });
     }

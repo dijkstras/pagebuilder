@@ -168,6 +168,14 @@ export function renderVideo(url, options = {}) {
       const videoId = extractYouTubeId(url);
       if (!videoId) return '';
       const embedUrl = buildYouTubeEmbedUrl(videoId);
+      
+      // For background videos with fill mode, we need special handling for YouTube
+      if (isBackground && bgSize === 'fill') {
+        return `<div style="position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:0;">
+          <iframe src="${embedUrl}" style="position:absolute;top:50%;left:50%;width:120%;height:120%;transform:translate(-50%,-50%);pointer-events:none;border:none;" frameborder="0" allow="autoplay;encrypted-media"></iframe>
+        </div>`;
+      }
+      
       return `<iframe src="${embedUrl}" style="${styleStr}" frameborder="0" allow="autoplay;encrypted-media" ${!isBackground ? 'allowfullscreen' : ''}></iframe>`;
     }
     
@@ -175,6 +183,14 @@ export function renderVideo(url, options = {}) {
       const videoId = extractVimeoId(url);
       if (!videoId) return '';
       const embedUrl = buildVimeoEmbedUrl(videoId);
+      
+      // For background videos with fill mode, we need special handling for Vimeo
+      if (isBackground && bgSize === 'fill') {
+        return `<div style="position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:0;">
+          <iframe src="${embedUrl}" style="position:absolute;top:50%;left:50%;width:120%;height:120%;transform:translate(-50%,-50%);pointer-events:none;border:none;" frameborder="0" allow="autoplay;encrypted-media"></iframe>
+        </div>`;
+      }
+      
       return `<iframe src="${embedUrl}" style="${styleStr}" frameborder="0" allow="autoplay;encrypted-media" ${!isBackground ? 'allowfullscreen' : ''}></iframe>`;
     }
     

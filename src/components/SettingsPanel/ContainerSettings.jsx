@@ -284,6 +284,46 @@ export function ContainerSettings() {
         </div>
       </div>
 
+      {container.settings.bgVideo && (
+        <div style={{ marginBottom: '12px' }}>
+          <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Video Fit</label>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            {[
+              { value: 'contain', label: 'Fit' },
+              { value: 'cover', label: 'Fill' },
+              { value: 'stretch', label: 'Stretch' }
+            ].map(fit => {
+              const bgVideoSize = container.settings.bgVideoSize || 'fill';
+              const isActive = (fit.value === 'stretch' ? '100% 100%' : (fit.value === 'cover' ? 'fill' : fit.value)) === bgVideoSize;
+              return (
+                <button
+                  key={fit.value}
+                  onClick={() => {
+                    handleUpdate('bgVideoSize', fit.value === 'stretch' ? '100% 100%' : (fit.value === 'cover' ? 'fill' : fit.value));
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: '6px',
+                    fontSize: '12px',
+                    backgroundColor: isActive ? '#3b82f6' : '#374151',
+                    color: isActive ? '#93c5fd' : '#9ca3af',
+                    border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: isActive ? '600' : '400'
+                  }}
+                >
+                  {fit.label}
+                </button>
+              );
+            })}
+          </div>
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+            Fit: maintain aspect ratio • Fill: crop to fit • Stretch: ignore aspect ratio
+          </div>
+        </div>
+      )}
+
       {container.settings.bgImage && (
         <>
           <div style={{ marginBottom: '12px' }}>

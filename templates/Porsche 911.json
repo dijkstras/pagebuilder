@@ -210,7 +210,7 @@
         "contentAlignment": "center",
         "verticalAlignment": "bottom",
         "direction": "row",
-        "minHeight": 596,
+        "minHeight": 600,
         "borderEnabled": false,
         "borderWidth": 1,
         "borderColor": "#000000",
@@ -220,7 +220,7 @@
         "bgType": "gradient",
         "bgGradient": {
           "color1": "#ffffff",
-          "color2": "#808080",
+          "color2": "#999999",
           "angle": 180
         },
         "bgSize": "60% auto",
