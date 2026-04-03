@@ -138,7 +138,7 @@
             "spacing": "auto",
             "bgColor": "transparent",
             "bgImage": null,
-            "bgVideo": "sq",
+            "bgVideo": null,
             "padding": 0,
             "contentAlignment": "left",
             "verticalAlignment": "top",
