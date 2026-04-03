@@ -310,7 +310,8 @@
             "assignedStyleId": null,
             "textRole": null,
             "customOverrides": {
-              "src": "https://s7d1.scene7.com/is/image/mcdonalds/GWS-McDonalds_9465:nutrition-calculator-tile"
+              "src": "https://s7d1.scene7.com/is/image/mcdonalds/GWS-McDonalds_9465:nutrition-calculator-tile",
+              "borderRadius": "24px"
             },
             "responsiveVariants": {
               "mobile": {},
