@@ -178,24 +178,21 @@ export function ContentSettings() {
 
           <div>
             <label style={labelStyle}>Text color</label>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-              <input
-                type="color"
-                value={content.settings.customOverrides.color || state.page.styles.colors?.text || '#1f2937'}
-                onChange={(e) => handleCustomUpdate('color', e.target.value)}
-                style={{ width: '40px', height: '40px', cursor: 'pointer', flexShrink: 0, borderRadius: '4px', border: '1px solid #4b5563' }}
-              />
-              <input
-                type="text"
-                value={content.settings.customOverrides.color || ''}
-                onChange={(e) => handleCustomUpdate('color', e.target.value || undefined)}
-                placeholder="Default"
-                style={inputStyle}
-              />
-            </div>
-            {Object.keys(state.page.styles.colors || {}).length > 0 && (
-              <ColorPresets colors={state.page.styles.colors} onSelectColor={(color) => handleCustomUpdate('color', color)} />
-            )}
+            <GradientPicker
+              bgType={content.settings.customOverrides.textType || 'solid'}
+              bgColor={content.settings.customOverrides.color}
+              bgGradient={content.settings.customOverrides.textGradient}
+              onUpdate={(key, value) => {
+                if (key === 'bgType') {
+                  handleCustomUpdate('textType', value);
+                } else if (key === 'bgColor') {
+                  handleCustomUpdate('color', value);
+                } else if (key === 'bgGradient') {
+                  handleCustomUpdate('textGradient', value);
+                }
+              }}
+              colors={state.page.styles.colors || {}}
+            />
           </div>
         </>
       )}

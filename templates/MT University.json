@@ -54,7 +54,7 @@
         "verticalAlignment": "center",
         "direction": "row",
         "minHeight": 600,
-        "borderEnabled": true,
+        "borderEnabled": false,
         "borderWidth": 1,
         "borderColor": "#000000",
         "elevationEnabled": false,
@@ -72,7 +72,7 @@
       "children": [
         {
           "id": "container-1775217849781",
-          "name": "Container44",
+          "name": "Cards",
           "type": "container",
           "settings": {
             "columnSpan": 12,
@@ -429,7 +429,7 @@
         },
         {
           "id": "container-1775220295083",
-          "name": "Container",
+          "name": "Text",
           "type": "container",
           "settings": {
             "columnSpan": 12,
@@ -459,7 +459,8 @@
                 "assignedStyleId": null,
                 "textRole": "heading1",
                 "customOverrides": {
-                  "content": "Introducing the"
+                  "content": "Introducing the",
+                  "height": "48px"
                 },
                 "responsiveVariants": {
                   "mobile": {},
@@ -477,7 +478,13 @@
                 "customOverrides": {
                   "content": "AI Role Plays Certification Program",
                   "width": "100%",
-                  "color": "#8b5cf6"
+                  "color": "#8b5cf6",
+                  "textType": "gradient",
+                  "textGradient": {
+                    "color1": "#3b82f6",
+                    "color2": "#004d47",
+                    "angle": 160
+                  }
                 },
                 "responsiveVariants": {
                   "mobile": {},

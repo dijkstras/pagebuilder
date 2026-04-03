@@ -11,6 +11,25 @@ function darkenHex(hex, amount = 0.15) {
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 }
 
+function getTextStyle(customOverrides, defaultColor) {
+  const textType = customOverrides.textType;
+  const color = customOverrides.color;
+  const textGradient = customOverrides.textGradient;
+  
+  if (textType === 'gradient' && textGradient) {
+    const gradient = `linear-gradient(${textGradient.angle || 90}deg, ${textGradient.color1 || '#000000'}, ${textGradient.color2 || '#ffffff'})`;
+    return {
+      background: gradient,
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text',
+      color: 'transparent'
+    };
+  }
+  
+  return { color: color || defaultColor };
+}
+
 export function generateHTML(page, selectedElementId) {
   const segments = page.root.map(segment => renderSegment(segment, page)).join('\n');
 
@@ -308,6 +327,7 @@ function renderContentItem(item, page) {
       const customOverrides = item.settings?.customOverrides || {};
 
       if (role === 'heading1') {
+        const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
         const style = buildStyleString({
           margin: '0',
           fontFamily: 'var(--font-heading1-family)',
@@ -317,11 +337,12 @@ function renderContentItem(item, page) {
           width: width ?? 'max-content',
           height,
           textAlign,
-          color: customOverrides.color || page.styles.colors.text
+          ...textStyle
         });
         return `<h1 style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</h1>`;
       }
       if (role === 'heading2') {
+        const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
         const style = buildStyleString({
           margin: '0',
           fontFamily: 'var(--font-heading2-family)',
@@ -331,11 +352,12 @@ function renderContentItem(item, page) {
           width: width ?? 'max-content',
           height,
           textAlign,
-          color: customOverrides.color || page.styles.colors.text
+          ...textStyle
         });
         return `<h2 style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</h2>`;
       }
       if (role === 'body') {
+        const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
         const style = buildStyleString({
           margin: '0',
           fontFamily: 'var(--font-body-family)',
@@ -345,11 +367,12 @@ function renderContentItem(item, page) {
           width: width ?? 'max-content',
           height,
           textAlign,
-          color: customOverrides.color || page.styles.colors.text
+          ...textStyle
         });
         return `<p style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</p>`;
       }
       if (role === 'label') {
+        const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
         const style = buildStyleString({
           margin: '0',
           fontFamily: 'var(--font-label-family)',
@@ -360,11 +383,12 @@ function renderContentItem(item, page) {
           height,
           textAlign,
           display: 'inline-block',
-          color: customOverrides.color || page.styles.colors.text
+          ...textStyle
         });
         return `<span class="label" style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</span>`;
       }
-      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height, textAlign, color: customOverrides.color || page.styles.colors.text })}" data-element-id="${item.id}">${customOverrides.content || ''}</p>`;
+      const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
+      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height, textAlign, ...textStyle })}" data-element-id="${item.id}">${customOverrides.content || ''}</p>`;
     }
 
     case 'image': {
