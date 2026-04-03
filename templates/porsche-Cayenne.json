@@ -127,7 +127,7 @@
         "bgPositionY": "top",
         "bgPositionX": "center",
         "bgOpacity": "20%",
-        "bgVideoSize": "cover"
+        "bgVideoSize": "contain"
       },
       "children": [
         {
