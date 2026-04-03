@@ -102,7 +102,7 @@
         "fullWidth": true,
         "bgColor": "#8b5cf6",
         "bgImage": null,
-        "bgVideo": "https://www.youtube.com/watch?v=2yrlNznB2lE",
+        "bgVideo": null,
         "padding": 80,
         "margin": 0,
         "gutter": "auto",
