@@ -3,6 +3,7 @@ import { usePageStore } from '../../store/pageStore.jsx';
 import { PageSettings } from './PageSettings';
 import { SegmentSettings } from './SegmentSettings';
 import { ContainerSettings } from './ContainerSettings';
+import { SlotSettings } from './SlotSettings';
 import { ContentSettings } from './ContentSettings';
 import { BrandingSettings } from './BrandingSettings';
 import { THEME } from '../../utils/constants';
@@ -42,6 +43,9 @@ export function SettingsPanel() {
   } else if (state.selectedElementType === 'segment') {
     settings = <SegmentSettings />;
     label = '📦 Segment';
+  } else if (state.selectedElementType === 'slot') {
+    settings = <SlotSettings />;
+    label = '⊞ Slot';
   } else if (state.selectedElementType === 'container') {
     settings = <ContainerSettings />;
     label = '📋 Container';

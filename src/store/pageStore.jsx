@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { createEmptyPage, createSegment, createContainer, createContentItem, migratePage } from './pageTypes';
+import { createEmptyPage, createSegment, createSlot, createContentItem, migratePage, LAYOUT_PRESETS } from './pageTypes';
 
 const PageContext = createContext();
 
@@ -161,6 +161,63 @@ function pageReducer(state, action) {
         currentView: action.payload
       };
 
+    case 'SET_LAYOUT': {
+      const { segmentId, layoutKey } = action.payload;
+      const preset = LAYOUT_PRESETS[layoutKey];
+      if (!preset) return state;
+
+      const updateSegmentLayout = (segment) => {
+        if (segment.id !== segmentId) return segment;
+
+        const existingSlots = segment.children.filter(c => c.type === 'slot' || c.type === 'container');
+        const newSlotCount = preset.slots.length;
+        let newSlots;
+
+        if (existingSlots.length <= newSlotCount) {
+          // Keep existing slots, add empty ones as needed
+          newSlots = existingSlots.map((slot, i) => ({
+            ...slot,
+            type: 'slot',
+            settings: { ...slot.settings, gridColumn: preset.slots[i] }
+          }));
+          for (let i = existingSlots.length; i < newSlotCount; i++) {
+            newSlots.push(createSlot(`Column ${i + 1}`, preset.slots[i]));
+          }
+        } else {
+          // Reducing slots — merge overflow content into last remaining slot
+          newSlots = existingSlots.slice(0, newSlotCount).map((slot, i) => ({
+            ...slot,
+            type: 'slot',
+            settings: { ...slot.settings, gridColumn: preset.slots[i] }
+          }));
+          // Merge children from removed slots into the last kept slot
+          const overflow = existingSlots.slice(newSlotCount);
+          const mergedChildren = overflow.reduce((acc, slot) => [...acc, ...(slot.children || [])], []);
+          if (mergedChildren.length > 0) {
+            const lastIdx = newSlots.length - 1;
+            newSlots[lastIdx] = {
+              ...newSlots[lastIdx],
+              children: [...(newSlots[lastIdx].children || []), ...mergedChildren]
+            };
+          }
+        }
+
+        return {
+          ...segment,
+          settings: { ...segment.settings, layout: layoutKey },
+          children: newSlots
+        };
+      };
+
+      return {
+        ...state,
+        page: {
+          ...state.page,
+          root: state.page.root.map(updateSegmentLayout)
+        }
+      };
+    }
+
     default:
       return state;
   }
@@ -272,5 +329,6 @@ export const pageActions = {
     payload: { status, error }
   }),
   clearSaveError: () => ({ type: 'CLEAR_SAVE_ERROR' }),
-  setView: (view) => ({ type: 'SET_VIEW', payload: view })
+  setView: (view) => ({ type: 'SET_VIEW', payload: view }),
+  setLayout: (segmentId, layoutKey) => ({ type: 'SET_LAYOUT', payload: { segmentId, layoutKey } })
 };

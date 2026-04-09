@@ -1,6 +1,18 @@
 import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { GradientPicker } from './GradientPicker.jsx';
+import { LAYOUT_PRESETS, GAP_PRESETS } from '../../store/pageTypes';
+
+const LAYOUT_VISUALS = {
+  'full':       { blocks: [12] },
+  '50-50':      { blocks: [6, 6] },
+  '33-67':      { blocks: [4, 8] },
+  '67-33':      { blocks: [8, 4] },
+  '33-33-33':   { blocks: [4, 4, 4] },
+  '25-75':      { blocks: [3, 9] },
+  '75-25':      { blocks: [9, 3] },
+  '25-50-25':   { blocks: [3, 6, 3] }
+};
 
 function findElement(page, elementId) {
   const search = (element) => {
@@ -23,15 +35,6 @@ function findElement(page, elementId) {
 export function SegmentSettings() {
   const { state, dispatch } = usePageStore();
   const segment = findElement(state.page, state.selectedElementId);
-  const [spacingInput, setSpacingInput] = React.useState('');
-  const isEditingRef = React.useRef(false);
-
-  React.useEffect(() => {
-    if (segment && !isEditingRef.current) {
-      const currentValue = segment.settings.gutter === 'auto' ? 'auto' : segment.settings.gutter?.toString() ?? '24';
-      setSpacingInput(currentValue);
-    }
-  }, [segment?.settings.gutter]);
 
   if (!segment) return null;
 
@@ -42,7 +45,13 @@ export function SegmentSettings() {
     dispatch(pageActions.updateElement(segment.id, updates));
   };
 
+  const handleLayoutChange = (layoutKey) => {
+    dispatch(pageActions.setLayout(segment.id, layoutKey));
+  };
+
   const colors = state.page.styles.colors || {};
+  const currentLayout = segment.settings.layout || 'full';
+  const currentGap = segment.settings.gap || 'md';
 
   return (
     <div>
@@ -57,131 +66,83 @@ export function SegmentSettings() {
         />
       </div>
 
+      {/* Layout Picker */}
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Layout Direction</label>
-        <div style={{ display: 'flex', gap: '6px' }}>
-          {[
-            { value: 'row', label: '→', title: 'Horizontal (left to right)' },
-            { value: 'column', label: '↓', title: 'Vertical (top to bottom)' }
-          ].map(({ value, label, title }) => (
-            <button
-              key={value}
-              title={title}
-              onClick={() => handleUpdate('direction', value)}
-              style={{
-                flex: 1,
-                padding: '6px',
-                fontSize: '16px',
-                backgroundColor: (segment.settings.direction ?? 'row') === value ? '#3b82f6' : '#374151',
-                color: '#f3f4f6',
-                border: '1px solid #4b5563',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
-            >
-              {label} {value === 'row' ? 'Horizontal' : 'Vertical'}
-            </button>
-          ))}
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Layout</label>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+          {Object.entries(LAYOUT_PRESETS).map(([key, preset]) => {
+            const isActive = currentLayout === key;
+            const blocks = LAYOUT_VISUALS[key]?.blocks || [12];
+            return (
+              <button
+                key={key}
+                onClick={() => handleLayoutChange(key)}
+                title={preset.label}
+                style={{
+                  padding: '8px 6px',
+                  backgroundColor: isActive ? '#1d4ed8' : '#374151',
+                  border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}
+              >
+                {/* Visual block representation */}
+                <div style={{ display: 'flex', gap: '2px', width: '100%', height: '16px' }}>
+                  {blocks.map((span, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        flex: span,
+                        backgroundColor: isActive ? '#60a5fa' : '#6b7280',
+                        borderRadius: '2px',
+                        height: '100%'
+                      }}
+                    />
+                  ))}
+                </div>
+                <span style={{
+                  fontSize: '10px',
+                  color: isActive ? '#93c5fd' : '#9ca3af',
+                  whiteSpace: 'nowrap'
+                }}>
+                  {preset.label}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
+      {/* Gap Selector */}
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Alignment</label>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <div style={{ display: 'flex', gap: '4px' }}>
-            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↔</span>
-            {[{ v: 'left', l: '←' }, { v: 'center', l: '—' }, { v: 'right', l: '→' }].map(({ v, l }) => (
-              <button key={v} onClick={() => handleUpdate('contentAlignment', v)} style={{
-                flex: 1, height: '28px', fontSize: '13px',
-                backgroundColor: (segment.settings.contentAlignment ?? 'left') === v ? '#3b82f6' : '#374151',
-                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
-              }}>{l}</button>
-            ))}
-          </div>
-          <div style={{ display: 'flex', gap: '4px' }}>
-            <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↕</span>
-            {[{ v: 'top', l: '↑' }, { v: 'center', l: '—' }, { v: 'bottom', l: '↓' }].map(({ v, l }) => (
-              <button key={v} onClick={() => handleUpdate('verticalAlignment', v)} style={{
-                flex: 1, height: '28px', fontSize: '13px',
-                backgroundColor: (segment.settings.verticalAlignment ?? 'top') === v ? '#3b82f6' : '#374151',
-                color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
-              }}>{l}</button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Spacing</label>
-        <input
-          type="text"
-          value={spacingInput}
-          onChange={(e) => {
-            const value = e.target.value;
-            isEditingRef.current = true;
-            setSpacingInput(value);
-            
-            const trimmedValue = value.trim();
-            if (trimmedValue.toLowerCase() === 'auto') {
-              handleUpdate('gutter', 'auto');
-              isEditingRef.current = false;
-            } else if (trimmedValue === '') {
-              // Don't reset immediately, allow user to type
-              // Only reset on blur if still empty
-            } else {
-              // Allow numbers with optional % or px suffix
-              const numericMatch = trimmedValue.match(/^(\d+(?:\.\d+)?)\s*(px|%)?$/i);
-              if (numericMatch) {
-                const numValue = parseFloat(numericMatch[1]);
-                if (numValue >= 0) {
-                  handleUpdate('gutter', numValue);
-                }
-              }
-              isEditingRef.current = false;
-            }
-          }}
-          onBlur={() => {
-            isEditingRef.current = false;
-            // If field is empty when losing focus, reset to default
-            if (spacingInput.trim() === '') {
-              handleUpdate('gutter', 24);
-              setSpacingInput('24');
-            } else {
-              // Sync with actual value when losing focus
-              if (segment) {
-                const currentValue = segment.settings.gutter === 'auto' ? 'auto' : segment.settings.gutter?.toString() ?? '24';
-                setSpacingInput(currentValue);
-              }
-            }
-          }}
-          placeholder="24px or auto"
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            fontSize: '12px',
-            boxSizing: 'border-box'
-          }}
-        />
-        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
-          Enter pixel value (e.g. 24), percentage (e.g. 10%), or "auto" to distribute evenly
-        </div>
-      </div>
-
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', marginBottom: '6px', cursor: 'pointer' }}>
-          <input
-            type="checkbox"
-            checked={segment.settings.scrollEnabled || false}
-            onChange={(e) => handleUpdate('scrollEnabled', e.target.checked)}
-          />
-          <span>Scroll</span>
-        </label>
-        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
-          Enable scrolling when content overflows the segment bounds
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Gap</label>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          {Object.entries(GAP_PRESETS).map(([key, preset]) => {
+            const isActive = currentGap === key;
+            return (
+              <button
+                key={key}
+                onClick={() => handleUpdate('gap', key)}
+                style={{
+                  flex: 1,
+                  padding: '6px 2px',
+                  fontSize: '11px',
+                  backgroundColor: isActive ? '#3b82f6' : '#374151',
+                  color: isActive ? '#ffffff' : '#9ca3af',
+                  border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: isActive ? 600 : 400
+                }}
+              >
+                {preset.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 

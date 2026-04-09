@@ -1168,6 +1168,49 @@ export function ContentSettings() {
           </div>
         </div>
       )}
+
+      {/* ── Responsive ── */}
+      <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151' }}>
+        <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Responsive</label>
+        {(() => {
+          const responsive = content.settings.responsive || {};
+          const bothHidden = responsive.hideOnMobile && responsive.hideOnDesktop;
+          const handleResponsiveUpdate = (key, value) => {
+            handleSettingUpdate('responsive', { ...responsive, [key]: value });
+          };
+          return (
+            <>
+              <div style={{ marginBottom: '6px' }}>
+                <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={responsive.hideOnMobile || false}
+                    onChange={(e) => handleResponsiveUpdate('hideOnMobile', e.target.checked)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  Hide on mobile
+                </label>
+              </div>
+              <div style={{ marginBottom: '6px' }}>
+                <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={responsive.hideOnDesktop || false}
+                    onChange={(e) => handleResponsiveUpdate('hideOnDesktop', e.target.checked)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  Hide on desktop (show mobile only)
+                </label>
+              </div>
+              {bothHidden && (
+                <div style={{ fontSize: '11px', color: '#f59e0b', marginTop: '4px' }}>
+                  Warning: This element is hidden on both mobile and desktop.
+                </div>
+              )}
+            </>
+          );
+        })()}
+      </div>
     </div>
   );
 }
