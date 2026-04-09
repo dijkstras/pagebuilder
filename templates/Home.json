@@ -532,7 +532,7 @@
         "layout": "full",
         "gap": "md",
         "fullWidth": true,
-        "bgColor": "#ffffff",
+        "bgColor": "#3b82f6",
         "bgImage": null,
         "bgVideo": null,
         "padding": 40,
