@@ -359,7 +359,7 @@
                 "textRole": null,
                 "customOverrides": {
                   "src": "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
-                  "width": "40px"
+                  "width": "60px"
                 },
                 "responsive": {
                   "hideOnMobile": false,
