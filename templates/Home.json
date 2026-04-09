@@ -252,7 +252,7 @@
             "elevation": 4,
             "borderRadius": 0,
             "width": "30%",
-            "height": "300px",
+            "height": "auto",
             "bgSize": "cover",
             "bgType": "solid",
             "bgGradient": null,
