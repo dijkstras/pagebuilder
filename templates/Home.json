@@ -357,7 +357,7 @@
             "height": "auto",
             "spacing": 16,
             "bgColor": "transparent",
-            "bgImage": null,
+            "bgImage": "https://s7d1.scene7.com/is/image/mcdonalds/gui_nl_main_big_tasty_bacon:nutrition-calculator-tile",
             "bgVideo": null,
             "padding": 20,
             "contentAlignment": "left",
