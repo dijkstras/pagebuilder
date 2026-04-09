@@ -419,7 +419,7 @@
       "name": "New Segment",
       "type": "segment",
       "settings": {
-        "layout": "full",
+        "layout": "33-33-33",
         "gap": "md",
         "fullWidth": true,
         "bgColor": "#ffffff",
@@ -444,7 +444,65 @@
           "name": "Content",
           "type": "slot",
           "settings": {
-            "gridColumn": 12,
+            "gridColumn": 4,
+            "height": "200px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "scroll": false,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
+          },
+          "children": []
+        },
+        {
+          "id": "slot-1775747297115-z3w3",
+          "name": "Column 2",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 4,
+            "height": "200px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "scroll": false,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
+          },
+          "children": []
+        },
+        {
+          "id": "slot-1775747297115-t18h",
+          "name": "Column 3",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 4,
             "height": "200px",
             "spacing": 16,
             "bgColor": "transparent",
