@@ -8,65 +8,6 @@
   },
   "root": [
     {
-      "id": "segment-1775745875499",
-      "name": "New Segment",
-      "type": "segment",
-      "settings": {
-        "layout": "full",
-        "gap": "md",
-        "fullWidth": true,
-        "bgColor": "#ffffff",
-        "bgImage": null,
-        "bgVideo": null,
-        "padding": 40,
-        "margin": 0,
-        "maxWidth": null,
-        "contentAlignment": "left",
-        "verticalAlignment": "top",
-        "minHeight": 200,
-        "borderEnabled": false,
-        "borderWidth": 1,
-        "borderColor": "#000000",
-        "elevationEnabled": false,
-        "elevation": 4,
-        "borderRadius": 0,
-        "bgType": "solid",
-        "bgGradient": null
-      },
-      "children": [
-        {
-          "id": "slot-1775746316094-kc8q",
-          "name": "Content",
-          "type": "slot",
-          "settings": {
-            "gridColumn": 12,
-            "height": "auto",
-            "spacing": 16,
-            "bgColor": "transparent",
-            "bgImage": null,
-            "bgVideo": null,
-            "padding": 20,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
-            "direction": "column",
-            "borderEnabled": false,
-            "borderWidth": 1,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "responsive": {
-              "hideOnMobile": false,
-              "mobileOrder": null
-            },
-            "bgType": "solid",
-            "bgGradient": null
-          },
-          "children": []
-        }
-      ]
-    },
-    {
       "id": "segment-1775134799114",
       "name": "New Segment",
       "type": "segment",
@@ -180,7 +121,7 @@
       ]
     },
     {
-      "id": "segment-1775746297084",
+      "id": "segment-1775746323155",
       "name": "New Segment",
       "type": "segment",
       "settings": {
@@ -201,13 +142,11 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0,
-        "bgType": "solid",
-        "bgGradient": null
+        "borderRadius": 0
       },
       "children": [
         {
-          "id": "slot-1775746316094-lzfh",
+          "id": "slot-1775746323155-6s7d",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -230,9 +169,7 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            },
-            "bgType": "solid",
-            "bgGradient": null
+            }
           },
           "children": []
         }
