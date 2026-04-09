@@ -370,6 +370,55 @@
                   "desktop": {}
                 }
               }
+            },
+            {
+              "id": "content-1775756462086",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "content-1775756464295",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Button",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
             }
           ]
         }
