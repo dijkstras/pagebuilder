@@ -599,7 +599,7 @@
         "borderRadius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "layout": "33-67",
+        "layout": "67-33",
         "gap": "md"
       },
       "children": [
