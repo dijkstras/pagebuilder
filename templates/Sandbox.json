@@ -37,7 +37,7 @@
       },
       "children": [
         {
-          "id": "slot-1775752472416-p03h",
+          "id": "slot-1775752640599-dh8j",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -149,7 +149,7 @@
       },
       "children": [
         {
-          "id": "slot-1775752472416-txft",
+          "id": "slot-1775752640599-0hqw",
           "name": "Card slider",
           "type": "slot",
           "settings": {
@@ -502,7 +502,7 @@
       },
       "children": [
         {
-          "id": "slot-1775752472416-zcn1",
+          "id": "slot-1775752640599-mc2d",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -533,7 +533,7 @@
           "children": []
         },
         {
-          "id": "slot-1775752472416-aiv2",
+          "id": "slot-1775752640599-gw8q",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -564,7 +564,7 @@
           "children": []
         },
         {
-          "id": "slot-1775752472416-xl3y",
+          "id": "slot-1775752640599-avys",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -624,7 +624,7 @@
       },
       "children": [
         {
-          "id": "slot-1775752472416-zsvs",
+          "id": "slot-1775752640599-5rhp",
           "name": "Content",
           "type": "slot",
           "settings": {
