@@ -175,7 +175,7 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "scroll": false
+            "scroll": true
           },
           "children": [
             {
