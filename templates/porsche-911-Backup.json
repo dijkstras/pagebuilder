@@ -832,7 +832,7 @@
                 "customOverrides": {
                   "src": "https://a.storyblok.com/f/322327/1720x1210/4dd129a813/cz25w25ix0011-911-carrera-t-front.png",
                   "objectFit": "contain",
-                  "width": "55%"
+                  "width": "auto"
                 },
                 "responsiveVariants": {
                   "mobile": {},
