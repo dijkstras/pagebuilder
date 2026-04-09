@@ -343,7 +343,7 @@
               "hideOnMobile": false,
               "mobileOrder": null
             },
-            "bgType": "solid",
+            "bgType": "gradient",
             "bgGradient": {
               "color1": "#a84900",
               "color2": "#ee4d8c",
