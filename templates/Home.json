@@ -131,7 +131,7 @@
       "children": [
         {
           "id": "slot-1775742509092-1ycf",
-          "name": "Container",
+          "name": "Text and button",
           "type": "slot",
           "settings": {
             "columnSpan": 12,
