@@ -37,7 +37,7 @@
       },
       "children": [
         {
-          "id": "slot-1775747276664-pskr",
+          "id": "slot-1775747382006-3f5f",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -149,7 +149,7 @@
       },
       "children": [
         {
-          "id": "slot-1775747276664-e7f7",
+          "id": "slot-1775747382006-tm6x",
           "name": "Card slider",
           "type": "slot",
           "settings": {
@@ -436,11 +436,13 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
       },
       "children": [
         {
-          "id": "slot-1775747292485-45tn",
+          "id": "slot-1775747382006-vl2y",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -464,12 +466,14 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": []
         },
         {
-          "id": "slot-1775747297115-z3w3",
+          "id": "slot-1775747382006-qnmy",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -493,12 +497,14 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": []
         },
         {
-          "id": "slot-1775747297115-t18h",
+          "id": "slot-1775747382006-96s3",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -522,7 +528,9 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": []
         }
