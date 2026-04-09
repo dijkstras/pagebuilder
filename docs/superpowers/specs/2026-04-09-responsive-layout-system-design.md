@@ -170,6 +170,9 @@ Rename `type: 'container'` to `type: 'slot'` in the data model. The slot concept
     contentAlignment: 'left',
     verticalAlignment: 'top',
 
+    // Size — height only (width is preset-driven)
+    height: 'auto',          // optional, user-editable
+
     // Visual — unchanged
     bgColor: 'transparent',
     bgImage: null,
@@ -213,6 +216,19 @@ This enables patterns like:
 
 ---
 
+## Breakpoints
+
+Two breakpoints. Simple.
+
+| Name | Width | Tailwind prefix | Behaviour |
+|------|-------|-----------------|-----------|
+| **Mobile** | < 768px | *(default — mobile-first)* | All slots stack to single full-width column. `hideOnMobile` elements hidden. |
+| **Desktop** | >= 768px | `md:` | Layout preset applies. `hideOnDesktop` elements hidden. |
+
+Tailwind is mobile-first, so the base styles target mobile and `md:` overrides kick in at 768px. The existing preview toggle (Desktop / Mobile at 375px) maps directly to these two states.
+
+---
+
 ## Slot Management
 
 ### Automatic Slot Creation
@@ -220,14 +236,14 @@ This enables patterns like:
 When a user selects a layout preset, the system auto-manages slots:
 
 1. **New segment** — Creating a segment with `layout: '50-50'` auto-creates 2 empty slots with the correct `gridColumn` values.
-2. **Changing layout** — If a segment has `layout: '50-50'` (2 slots) and the user switches to `'33-33-33'` (3 slots):
+2. **Changing layout (more slots)** — If a segment has `layout: '50-50'` (2 slots) and the user switches to `'33-33-33'` (3 slots):
    - Existing slots are preserved in order
    - A new empty slot is appended
    - `gridColumn` values are recalculated
-3. **Reducing slots** — If switching from 3 slots to 2 slots:
-   - The last slot's children are merged into the second-to-last slot
-   - The empty slot is removed
-   - User sees a brief confirmation if content would be moved
+3. **Changing layout (fewer slots)** — If switching from 3 slots to 2 slots:
+   - The last slot's children are **merged** into the second-to-last slot (content is never deleted)
+   - The now-empty slot is removed
+   - A **warning toast** is shown: "Content from slot 3 was moved to slot 2"
 
 ### Rules
 
@@ -293,7 +309,9 @@ When a slot is selected, show:
    - **Hide on mobile** — checkbox. "This slot won't appear on screens smaller than 768px."
    - **Mobile order** — number input (optional). "Override the stacking order on mobile."
 
-Remove: **Size** (width/height) inputs and **columnSpan**. Slot width is now driven by the layout preset.
+Remove: **Width** input and **columnSpan**. Slot width is driven by the layout preset.
+
+Keep: **Height** input (optional, default `auto`). Useful for fixed-height banner areas or keeping slots balanced.
 
 ### Content Item Settings — Responsive Section
 
@@ -320,6 +338,30 @@ Every content type (text, image, button, video, card) gets a new collapsible **R
 - **Mobile mode** (375px toggle, already exists) — shows the stacked single-column layout with responsive visibility applied
 - Elements with `hideOnMobile` actually disappear in mobile preview
 - Elements with `hideOnDesktop` only appear in mobile preview
+
+### Grid Overlay Toggle (Preview Header)
+
+A checkbox in the preview header bar (next to the existing Desktop/Mobile viewport toggle):
+
+```
+[ Desktop | Mobile ]    [x] Show grid
+```
+
+When enabled, renders a semi-transparent 12-column overlay on top of the preview iframe. The overlay is **purely visual** — it does not affect layout or enable snapping. It helps users see the underlying column structure and understand why their chosen layout looks the way it does.
+
+Implementation: inject an absolutely-positioned overlay `<div>` into the generated HTML when the toggle is on. The overlay uses the same Tailwind grid (`grid grid-cols-12`) with 12 columns filled with semi-transparent coloured blocks (e.g., `rgba(99, 102, 241, 0.08)` — faint indigo). The overlay sits above content with `pointer-events: none` so it doesn't interfere with selection. Respects the segment's `maxWidth` and `gap` settings so the grid lines align with the actual slot boundaries.
+
+```html
+<!-- Injected when grid overlay is enabled -->
+<div style="position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:9999">
+  <div class="grid grid-cols-12 gap-6 max-w-[1200px] mx-auto h-full">
+    <div class="col-span-1 bg-indigo-500/[0.08] h-full"></div>
+    <!-- repeated 12 times -->
+  </div>
+</div>
+```
+
+The toggle state lives in the editor's local component state (not in page data — it's a preview tool, not a page setting). Off by default.
 
 ---
 
@@ -456,23 +498,70 @@ function migrateContainerToSlot(container) {
 }
 ```
 
+**Loose content items** — segments that contain content items directly (not wrapped in a container) get those items wrapped in a single full-width slot:
+
+```javascript
+function migrateSegmentChildren(segment) {
+  const children = segment.children ?? [];
+  const hasLooseContent = children.some(c => c.type !== 'container' && c.type !== 'slot');
+
+  if (hasLooseContent) {
+    // Separate containers/slots from loose content
+    const slots = children.filter(c => c.type === 'container' || c.type === 'slot');
+    const looseItems = children.filter(c => c.type !== 'container' && c.type !== 'slot');
+
+    // Wrap loose items in a full-width slot
+    const wrapperSlot = {
+      id: `slot-${Date.now()}`,
+      name: 'Content',
+      type: 'slot',
+      settings: { gridColumn: 12, direction: 'column', spacing: 16, /* ...defaults */ },
+      children: looseItems
+    };
+
+    return [...slots.map(migrateContainerToSlot), wrapperSlot];
+  }
+
+  return children.map(child =>
+    child.type === 'container' ? migrateContainerToSlot(child) : child
+  );
+}
+```
+
 **Layout inference from existing data:**
 
 ```javascript
 function inferLayout(segment) {
-  const children = segment.children?.filter(c => c.type === 'container') ?? [];
+  const children = segment.children?.filter(c =>
+    c.type === 'container' || c.type === 'slot'
+  ) ?? [];
   if (children.length === 0) return 'full';
   if (children.length === 1) return 'full';
 
-  const spans = children.map(c => c.settings?.columnSpan ?? 12);
+  const spans = children.map(c => c.settings?.columnSpan ?? c.settings?.gridColumn ?? 12);
 
-  // Try to match to a preset
+  // Try exact match to a preset
   const presetMatch = Object.entries(LAYOUT_PRESETS).find(([key, preset]) =>
     preset.slots.length === spans.length &&
     preset.slots.every((s, i) => s === spans[i])
   );
 
-  return presetMatch ? presetMatch[0] : 'full';
+  if (presetMatch) return presetMatch[0];
+
+  // No exact match — find nearest preset with same slot count
+  const sameLengthPresets = Object.entries(LAYOUT_PRESETS)
+    .filter(([, preset]) => preset.slots.length === spans.length);
+
+  if (sameLengthPresets.length > 0) {
+    // Pick the preset with smallest total column difference
+    const nearest = sameLengthPresets.reduce((best, [key, preset]) => {
+      const diff = preset.slots.reduce((sum, s, i) => sum + Math.abs(s - spans[i]), 0);
+      return diff < best.diff ? { key, diff } : best;
+    }, { key: 'full', diff: Infinity });
+    return nearest.key;
+  }
+
+  return 'full';
 }
 
 function inferGap(gutter) {
@@ -533,18 +622,27 @@ How the system prevents bad-looking pages:
 | `src/components/SettingsPanel/ContentSettings.jsx` | Add responsive section (hideOnMobile, hideOnDesktop) to all content types. |
 | `src/components/SettingsPanel/SettingsPanel.jsx` | Route `type: 'slot'` to the new `SlotSettings` component. |
 | `src/components/StructureTree/` | Show layout label on segments. Update icons for slots. Disable delete on slots. Remove "Add Container" from segment's add menu. Show mobile-hidden indicator on content items. |
-| `src/services/pageGenerator.js` | Add Tailwind CDN `<script>`. Rewrite `renderSegment` inner wrapper to use grid classes. Rename `renderContainer` to `renderSlot` with Tailwind column classes. Add responsive visibility classes to content items. Add gap class mapping. |
+| `src/services/pageGenerator.js` | Add Tailwind CDN `<script>`. Rewrite `renderSegment` inner wrapper to use grid classes. Rename `renderContainer` to `renderSlot` with Tailwind column classes. Add responsive visibility classes to content items. Add gap class mapping. Add grid overlay injection when enabled. |
 | `src/store/pageStore.jsx` | Add a `setLayout(segmentId, presetKey)` action that auto-manages slot creation/removal/merging when layout changes. |
+| `src/components/Preview/Preview.jsx` | Add grid overlay toggle checkbox to preview header. Pass overlay state to page generator. |
 
 ---
+
+## Decisions Log
+
+| Question | Decision |
+|----------|----------|
+| Breakpoints | Two breakpoints: mobile (<768px) and desktop (>=768px). No separate tablet breakpoint for V1. |
+| Reducing slots | Content from removed slots merges into the last remaining slot. A warning toast is shown. Content is never deleted. |
+| Non-standard column spans | Migration maps to the nearest matching preset (by slot count, then smallest column difference). No "custom" layout type. |
+| Slot width/height | Width is preset-driven (not user-editable). Height is an optional input (default `auto`). |
+| Loose content in segments | Auto-wrapped into a single full-width slot during migration. |
+| Grid overlay | Visual-only toggle in preview header. No snap-to-grid behaviour. |
 
 ## Open Questions
 
 1. **Tailwind CDN dependency** — The CDN play version adds ~300KB on first load. For production output, we could generate static CSS instead. Is CDN acceptable for V1?
-2. **Tablet breakpoint** — This spec uses a single breakpoint at 768px (mobile vs. desktop). Should we add a third breakpoint for tablet (e.g., 1024px) with per-preset tablet behaviour?
-3. **Custom layouts** — Should we support a "Custom" option where users define their own column ratios (still constrained to the 12-col grid)? Or keep it purely preset-based?
-4. **Slot backgrounds on mobile** — When slots stack, should their individual backgrounds (colour, image) still render? Or should they inherit the segment background?
-5. **Existing pages** — The migration infers layout from `columnSpan`. For pages with non-standard spans (e.g., `columnSpan: 5 + 7`), should we silently map to the nearest preset or introduce a `custom` layout type?
+2. **Slot backgrounds on mobile** — When slots stack, should their individual backgrounds (colour, image) still render? Or should they inherit the segment background?
 
 ---
 
@@ -554,5 +652,7 @@ How the system prevents bad-looking pages:
 - Nested grids (grid inside a slot)
 - Per-breakpoint font size overrides (existing `responsiveVariants` on text)
 - Animation on responsive transitions
-- Grid line visualisation in the editor
+- Snap-to-grid or interactive grid manipulation
+- Custom layout presets (user-defined column ratios)
+- Third breakpoint for tablet
 - Migrating the editor UI itself to Tailwind (stays inline styles)
