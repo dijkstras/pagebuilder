@@ -245,7 +245,7 @@
             "contentAlignment": "left",
             "verticalAlignment": "top",
             "direction": "column",
-            "borderEnabled": false,
+            "borderEnabled": true,
             "borderWidth": 1,
             "borderColor": "#000000",
             "elevationEnabled": false,
