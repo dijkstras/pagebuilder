@@ -61,7 +61,7 @@
       {
         "id": "secondary",
         "label": "Secondary",
-        "bgColor": "#e5e7eb",
+        "bgColor": "#ffb380",
         "textColor": "#1f2937",
         "padding": 12,
         "radius": 6,
