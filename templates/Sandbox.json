@@ -691,7 +691,7 @@
       "name": "New Segment",
       "type": "segment",
       "settings": {
-        "layout": "25-50-25",
+        "layout": "33-67",
         "gap": "md",
         "fullWidth": true,
         "bgColor": "#ffffff",
@@ -716,7 +716,7 @@
           "name": "Content",
           "type": "slot",
           "settings": {
-            "gridColumn": 3,
+            "gridColumn": 4,
             "height": "200px",
             "spacing": 16,
             "bgColor": "transparent",
@@ -744,35 +744,7 @@
           "name": "Column 2",
           "type": "slot",
           "settings": {
-            "gridColumn": 6,
-            "height": "200px",
-            "spacing": 16,
-            "bgColor": "transparent",
-            "bgImage": null,
-            "bgVideo": null,
-            "padding": 0,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
-            "direction": "column",
-            "borderEnabled": false,
-            "borderWidth": 1,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "responsive": {
-              "hideOnMobile": false,
-              "mobileOrder": null
-            }
-          },
-          "children": []
-        },
-        {
-          "id": "slot-1775753331998-yr4n",
-          "name": "Column 3",
-          "type": "slot",
-          "settings": {
-            "gridColumn": 3,
+            "gridColumn": 8,
             "height": "200px",
             "spacing": 16,
             "bgColor": "transparent",
