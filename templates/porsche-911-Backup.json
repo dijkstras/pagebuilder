@@ -118,79 +118,122 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "content-1775122404870",
-          "type": "button",
+          "id": "slot-1775741000761-wrap",
+          "name": "Content",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": "secondary",
-            "textRole": null,
-            "customOverrides": {
-              "label": "Menu",
-              "icon": {
-                "key": "hamburger",
-                "position": "before"
-              },
-              "sizeOverride": {
-                "enabled": false,
-                "width": "auto",
-                "height": "auto"
-              },
-              "width": "140px"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
           },
-          "name": "Menu"
-        },
-        {
-          "id": "content-1775051334084",
-          "type": "image",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Porsche_wordmark.png",
-              "objectFit": "contain"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          },
-          "name": "Logo"
-        },
-        {
-          "id": "content-1775123709772",
-          "type": "button",
-          "settings": {
-            "assignedStyleId": "primary",
-            "textRole": null,
-            "customOverrides": {
-              "label": "Find a Dealer",
-              "icon": {
-                "key": null,
-                "position": "none"
+          "children": [
+            {
+              "id": "content-1775122404870",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "secondary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Menu",
+                  "icon": {
+                    "key": "hamburger",
+                    "position": "before"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  },
+                  "width": "140px"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
               },
-              "sizeOverride": {
-                "enabled": false,
-                "width": "auto",
-                "height": "auto"
-              },
-              "width": "140px"
+              "name": "Menu"
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            {
+              "id": "content-1775051334084",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Porsche_wordmark.png",
+                  "objectFit": "contain"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              },
+              "name": "Logo"
+            },
+            {
+              "id": "content-1775123709772",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Find a Dealer",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  },
+                  "width": "140px"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             }
-          }
+          ]
         }
       ]
     },
@@ -226,25 +269,60 @@
         "bgSize": "50% auto",
         "bgPositionY": "top",
         "bgPositionX": "center",
-        "bgOpacity": "20%"
+        "bgOpacity": "20%",
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "content-1775056982689",
-          "type": "image",
+          "id": "slot-1775741000761-wrap",
+          "name": "Content",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://a.storyblok.com/f/322327/2616x712/7e18df530b/cz25w25ix0010-911-carrera-t-side.png/m/2500x680/smart/filters:format(avif)?dpl=dpl_2vaEL1EGxMUkVrCN2Vnus9uZqidn",
-              "objectFit": "100% 100%"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
-          }
+          },
+          "children": [
+            {
+              "id": "content-1775056982689",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://a.storyblok.com/f/322327/2616x712/7e18df530b/cz25w25ix0010-911-carrera-t-side.png/m/2500x680/smart/filters:format(avif)?dpl=dpl_2vaEL1EGxMUkVrCN2Vnus9uZqidn",
+                  "objectFit": "100% 100%"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -272,46 +350,15 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "content-1775050635336",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "heading1",
-            "customOverrides": {
-              "content": "911 Carrera T"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          },
-          "name": "Car Name"
-        },
-        {
-          "id": "content-1775052128467",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "From $218.000"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
           "id": "container-1775057281766",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -329,7 +376,13 @@
             "elevation": 4,
             "borderRadius": 0,
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "gridColumn": 12,
+            "height": "auto",
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -354,6 +407,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -379,6 +436,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -404,28 +465,106 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
           ]
         },
         {
-          "id": "content-1775057493204",
-          "type": "text",
+          "id": "slot-1775741000761-wrap",
+          "name": "Content",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": "label",
-            "customOverrides": {
-              "content": "Manufacturer’s Suggested Retail Price. Excludes options; taxes; title; registration; delivery, processing and handling fee; dealer charges; potential tariffs. Dealer sets actual selling price.",
-              "color": "#6b7280"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
           },
-          "name": "Disclaimer"
+          "children": [
+            {
+              "id": "content-1775050635336",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "911 Carrera T"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              },
+              "name": "Car Name"
+            },
+            {
+              "id": "content-1775052128467",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "From $218.000"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
+            },
+            {
+              "id": "content-1775057493204",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "label",
+                "customOverrides": {
+                  "content": "Manufacturer’s Suggested Retail Price. Excludes options; taxes; title; registration; delivery, processing and handling fee; dealer charges; potential tariffs. Dealer sets actual selling price.",
+                  "color": "#6b7280"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              },
+              "name": "Disclaimer"
+            }
+          ]
         }
       ]
     },
@@ -453,13 +592,15 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
           "id": "container-1775057619394",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -478,7 +619,13 @@
             "borderRadius": 0,
             "bgType": "solid",
             "bgGradient": null,
-            "width": "40%"
+            "width": "40%",
+            "gridColumn": 12,
+            "height": "auto",
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -495,6 +642,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -513,6 +664,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -530,6 +685,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -548,6 +707,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -565,6 +728,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -583,6 +750,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -608,28 +779,65 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
           ]
         },
         {
-          "id": "content-1775058123606",
-          "type": "image",
+          "id": "slot-1775741000761-wrap",
+          "name": "Content",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://a.storyblok.com/f/322327/1720x1210/4dd129a813/cz25w25ix0011-911-carrera-t-front.png",
-              "objectFit": "cover",
-              "width": "55%"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
-          }
+          },
+          "children": [
+            {
+              "id": "content-1775058123606",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://a.storyblok.com/f/322327/1720x1210/4dd129a813/cz25w25ix0011-911-carrera-t-front.png",
+                  "objectFit": "cover",
+                  "width": "55%"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -657,33 +865,15 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "content-1775059186126",
-          "type": "image",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://a.storyblok.com/f/322327/1720x1232/fab0d7cd9a/cz25w25ox0002-911-carrera-t-side.jpg/m/1720x1291/smart/filters:format(avif)?dpl=dpl_2vaEL1EGxMUkVrCN2Vnus9uZqidn",
-              "objectFit": "cover",
-              "width": "45%",
-              "borderRadius": "24px",
-              "opacity": ""
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
           "id": "container-1775059319892",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -702,7 +892,13 @@
             "borderRadius": 0,
             "width": "40%",
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "gridColumn": 12,
+            "height": "auto",
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -719,6 +915,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -737,6 +937,63 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "slot-1775741000761-wrap",
+          "name": "Content",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
+          },
+          "children": [
+            {
+              "id": "content-1775059186126",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://a.storyblok.com/f/322327/1720x1232/fab0d7cd9a/cz25w25ox0002-911-carrera-t-side.jpg/m/1720x1291/smart/filters:format(avif)?dpl=dpl_2vaEL1EGxMUkVrCN2Vnus9uZqidn",
+                  "objectFit": "cover",
+                  "width": "45%",
+                  "borderRadius": "24px",
+                  "opacity": ""
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
@@ -768,24 +1025,59 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "content-1775060937633",
-          "type": "text",
+          "id": "slot-1775741000761-wrap",
+          "name": "Content",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": "heading1",
-            "customOverrides": {
-              "content": "Dreams become reality"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
-          }
+          },
+          "children": [
+            {
+              "id": "content-1775060937633",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "Dreams become reality"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -813,13 +1105,15 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "50-50",
+        "gap": "md"
       },
       "children": [
         {
           "id": "container-1775059799692",
           "name": "Touring",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -840,7 +1134,12 @@
             "bgGradient": null,
             "width": "820px",
             "height": "620px",
-            "bgOpacity": ""
+            "bgOpacity": "",
+            "gridColumn": 12,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -857,6 +1156,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -875,6 +1178,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
@@ -883,7 +1190,7 @@
         {
           "id": "container-1775060336261-potlp",
           "name": "Shifter",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -903,7 +1210,12 @@
             "bgType": "solid",
             "bgGradient": null,
             "width": "420px",
-            "height": "620px"
+            "height": "620px",
+            "gridColumn": 12,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -920,6 +1232,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -938,6 +1254,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
@@ -969,9 +1289,40 @@
         "elevation": 4,
         "borderRadius": 24,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
       },
-      "children": []
+      "children": [
+        {
+          "id": "slot-1775741000761-g2fy",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
+          },
+          "children": []
+        }
+      ]
     },
     {
       "id": "segment-1775124898904-lf5cb",
@@ -997,24 +1348,59 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "text-1775124898904-rnlg3",
-          "type": "text",
+          "id": "slot-1775741000762-wrap",
+          "name": "Content",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": "heading1",
-            "customOverrides": {
-              "content": "You deserve to drive it"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
-          }
+          },
+          "children": [
+            {
+              "id": "text-1775124898904-rnlg3",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "You deserve to drive it"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -1042,13 +1428,15 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
           "id": "container-1775124517921",
           "name": "Copyright",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -1065,7 +1453,15 @@
             "elevationEnabled": true,
             "elevation": 16,
             "borderRadius": 0,
-            "width": "100%"
+            "width": "100%",
+            "gridColumn": 12,
+            "height": "auto",
+            "bgType": "solid",
+            "bgGradient": null,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -1082,6 +1478,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
