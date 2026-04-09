@@ -1,5 +1,6 @@
 import { renderVideo } from '../utils/video.js';
 import { getButtonIcon } from '../utils/buttonIcons';
+import { GAP_PRESETS } from '../store/pageTypes';
 
 function darkenHex(hex, amount = 0.15) {
   if (!hex || typeof hex !== 'string') return hex;
@@ -30,7 +31,8 @@ function getTextStyle(customOverrides, defaultColor) {
   return { color: color || defaultColor };
 }
 
-export function generateHTML(page, selectedElementId) {
+export function generateHTML(page, selectedElementId, options = {}) {
+  const { showGridOverlay = false } = options;
   const segments = page.root.map(segment => renderSegment(segment, page)).join('\n');
 
   const selectionStyle = selectedElementId ? `
@@ -58,11 +60,19 @@ export function generateHTML(page, selectedElementId) {
     }
   </style>` : '';
 
+  const gridOverlayHtml = showGridOverlay ? `
+  <div style="position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:9999">
+    <div class="grid grid-cols-12 gap-6 max-w-[1200px] mx-auto h-full" style="padding:0 40px">
+      ${Array.from({ length: 12 }, () => '<div class="col-span-1" style="background:rgba(99,102,241,0.08);height:100%"></div>').join('\n      ')}
+    </div>
+  </div>` : '';
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
   <title>${page.title}</title>
   <style>
     ${generateCSS(page)}
@@ -72,15 +82,16 @@ export function generateHTML(page, selectedElementId) {
   <div id="app">
     ${segments}
   </div>
+  ${gridOverlayHtml}
 </body>
 </html>`;
 }
 
 function renderSegment(segment, page) {
-  const gutter = segment.settings.gutter ?? 24;
   const maxWidth = segment.settings.maxWidth;
   const bgSize = segment.settings.bgSize || 'cover';
-  const isAutoSpacing = segment.settings.gutter === 'auto';
+  const gapKey = segment.settings.gap || 'md';
+  const gapPreset = GAP_PRESETS[gapKey] || GAP_PRESETS.md;
 
   const getBackgroundPosition = (hAlign, vAlign) => {
     const hMap = { left: 'left', center: 'center', right: 'right' };
@@ -91,7 +102,7 @@ function renderSegment(segment, page) {
   };
   const bgPosition = segment.settings.bgImage
     ? getBackgroundPosition(
-        segment.settings.bgPositionX || segment.settings.contentAlignment || 'left', 
+        segment.settings.bgPositionX || segment.settings.contentAlignment || 'left',
         segment.settings.bgPositionY || segment.settings.verticalAlignment || 'top'
       )
     : undefined;
@@ -101,15 +112,6 @@ function renderSegment(segment, page) {
     ? `linear-gradient(${segment.settings.bgGradient.angle}deg, ${segment.settings.bgGradient.color1}, ${segment.settings.bgGradient.color2})`
     : undefined;
   const hasBgImage = !!segment.settings.bgImage;
-
-  let backgroundImage;
-  if (hasBgImage && isGradient) {
-    backgroundImage = `url(${segment.settings.bgImage}), ${gradientBg}`;
-  } else if (hasBgImage) {
-    backgroundImage = `url(${segment.settings.bgImage})`;
-  } else {
-    backgroundImage = gradientBg;
-  }
 
   const outerStyle = buildStyleString({
     display: 'flex',
@@ -130,48 +132,35 @@ function renderSegment(segment, page) {
       ? `drop-shadow(0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02}))`
       : undefined,
     borderRadius: `${segment.settings.borderRadius ?? 0}px`,
-    overflow: segment.settings.bgVideo ? 'hidden' : (segment.settings.scrollEnabled ? 'auto' : 'visible'),
+    overflow: segment.settings.bgVideo ? 'hidden' : 'visible',
     position: (segment.settings.bgVideo || hasBgImage || isGradient) ? 'relative' : undefined
   });
 
-  const direction = segment.settings.direction ?? 'row';
-  const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
-  const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
-  const hAlign = hMap[segment.settings.contentAlignment] || 'flex-start';
-  const vAlign = vMap[segment.settings.verticalAlignment] || 'flex-start';
-
-  const innerStyle = buildStyleString({
-    flex: segment.settings.scrollEnabled && direction === 'row' ? 'none' : '1',
-    display: 'flex',
-    flexDirection: direction,
-    flexWrap: (direction === 'row' && !segment.settings.scrollEnabled) ? 'wrap' : undefined,
-    gap: isAutoSpacing ? undefined : `${gutter}px`,
-    justifyContent: isAutoSpacing 
-      ? 'space-between'
-      : (direction === 'row' ? hAlign : vAlign),
-    alignItems: direction === 'row' ? vAlign : hAlign,
-    maxWidth: maxWidth ? `${maxWidth}px` : undefined,
-    marginLeft: maxWidth ? 'auto' : undefined,
-    marginRight: maxWidth ? 'auto' : undefined
-  });
+  // Build Tailwind grid classes for the inner wrapper
+  const gridClasses = [
+    'grid', 'grid-cols-12',
+    gapPreset.twClass
+  ];
+  if (maxWidth) gridClasses.push(`max-w-[${maxWidth}px]`, 'mx-auto');
 
   const children = segment.children.map(child => {
-    if (child.type === 'container') {
-      return renderContainer(child, page, segment.settings.scrollEnabled && direction === 'row');
+    if (child.type === 'slot' || child.type === 'container') {
+      return renderSlot(child, page);
     } else {
       return renderContentItem(child, page);
     }
   }).join('\n');
 
   const segmentVideoBg = segment.settings.bgVideo
-    ? renderVideo(segment.settings.bgVideo, { 
+    ? renderVideo(segment.settings.bgVideo, {
         isBackground: true,
         bgSize: segment.settings.bgVideoSize || 'fill',
         bgPositionX: segment.settings.bgVideoPositionX || 'center',
         bgPositionY: segment.settings.bgVideoPositionY || 'center'
       })
     : '';
-  const innerZIndex = hasBgImage || segment.settings.bgVideo ? `${innerStyle}; position: relative; z-index: 1` : innerStyle;
+
+  const innerZIndexStyle = hasBgImage || segment.settings.bgVideo ? ' style="position:relative;z-index:1"' : '';
 
   // Add pseudo-element for background image when needed
   const bgImageOverlay = hasBgImage ? `
@@ -196,119 +185,126 @@ function renderSegment(segment, page) {
   return `<section style="${outerStyle}" data-element-id="${segment.id}">
   ${segmentVideoBg}
   ${bgImageOverlay}
-  <div style="${innerZIndex}">
+  <div class="${gridClasses.join(' ')}"${innerZIndexStyle}>
     ${children}
   </div>
 </section>`;
 }
 
-function renderContainer(container, page, parentHasHorizontalScroll = false) {
+function renderSlot(slot, page) {
   const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
   const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
-  const direction = container.settings.direction ?? 'column';
-  const hAlign = hMap[container.settings.contentAlignment] || 'flex-start';
-  const vAlign = vMap[container.settings.verticalAlignment] || 'flex-start';
-  const bgSize = container.settings.bgSize || 'cover';
-  const spacing = container.settings.spacing;
+  const direction = slot.settings.direction ?? 'column';
+  const hAlign = hMap[slot.settings.contentAlignment] || 'flex-start';
+  const vAlign = vMap[slot.settings.verticalAlignment] || 'flex-start';
+  const bgSize = slot.settings.bgSize || 'cover';
+  const spacing = slot.settings.spacing;
   const isAutoSpacing = spacing === 'auto';
 
-  const getBackgroundPosition = (hAlign, vAlign) => {
-    const hMap = { left: 'left', center: 'center', right: 'right' };
-    const vMap = { top: 'top', center: 'center', bottom: 'bottom' };
-    const h = hMap[hAlign] || 'center';
-    const v = vMap[vAlign] || 'center';
-    return `${h} ${v}`;
+  const getBackgroundPosition = (hAlignVal, vAlignVal) => {
+    const hMapLocal = { left: 'left', center: 'center', right: 'right' };
+    const vMapLocal = { top: 'top', center: 'center', bottom: 'bottom' };
+    return `${hMapLocal[hAlignVal] || 'center'} ${vMapLocal[vAlignVal] || 'center'}`;
   };
-  const bgPosition = container.settings.bgImage
+  const bgPosition = slot.settings.bgImage
     ? getBackgroundPosition(
-        container.settings.bgPositionX || container.settings.contentAlignment || 'left', 
-        container.settings.bgPositionY || container.settings.verticalAlignment || 'top'
+        slot.settings.bgPositionX || slot.settings.contentAlignment || 'left',
+        slot.settings.bgPositionY || slot.settings.verticalAlignment || 'top'
       )
     : undefined;
 
-  const isGradient = container.settings.bgType === 'gradient' && container.settings.bgGradient;
-  const hasBgImage = !!container.settings.bgImage;
-  const containerVideoBg = container.settings.bgVideo
-    ? renderVideo(container.settings.bgVideo, { 
+  const isGradient = slot.settings.bgType === 'gradient' && slot.settings.bgGradient;
+  const hasBgImage = !!slot.settings.bgImage;
+  const slotVideoBg = slot.settings.bgVideo
+    ? renderVideo(slot.settings.bgVideo, {
         isBackground: true,
-        bgSize: container.settings.bgVideoSize || 'fill',
-        bgPositionX: container.settings.bgVideoPositionX || 'center',
-        bgPositionY: container.settings.bgVideoPositionY || 'center'
+        bgSize: slot.settings.bgVideoSize || 'fill',
+        bgPositionX: slot.settings.bgVideoPositionX || 'center',
+        bgPositionY: slot.settings.bgVideoPositionY || 'center'
       })
     : '';
 
+  // Tailwind classes for grid column and responsive behaviour
+  const span = slot.settings.gridColumn ?? 12;
+  const twClasses = ['col-span-12'];
+  if (span !== 12) twClasses.push(`md:col-span-${span}`);
+
+  // Responsive visibility
+  const resp = slot.settings.responsive;
+  if (resp?.hideOnMobile) twClasses.push('hidden', 'md:block');
+  if (resp?.mobileOrder != null) {
+    twClasses.push(`order-${resp.mobileOrder}`, 'md:order-none');
+  }
+
+  // Inline styles for visual properties
   const styleObj = {
-    width: container.settings.width || 'auto',
-    height: container.settings.height || undefined,
-    minWidth: (container.settings.scrollEnabled && direction === 'row') || parentHasHorizontalScroll ? 'auto' : '0',
-    flexShrink: (container.settings.scrollEnabled && direction === 'row') || parentHasHorizontalScroll ? '0' : '1',
-    display: (container.settings.bgVideo || hasBgImage) ? 'block' : 'flex',
-    ...(container.settings.bgVideo || hasBgImage ? {} : {
+    height: (slot.settings.height && slot.settings.height !== 'auto') ? slot.settings.height : undefined,
+    display: (slot.settings.bgVideo || hasBgImage) ? 'block' : 'flex',
+    ...(slot.settings.bgVideo || hasBgImage ? {} : {
       flexDirection: direction,
-      flexWrap: (direction === 'row' && !container.settings.scrollEnabled) ? 'wrap' : undefined,
+      flexWrap: (direction === 'row') ? 'wrap' : undefined,
       gap: isAutoSpacing ? undefined : `${typeof spacing === 'number' ? spacing : 16}px`,
-      justifyContent: isAutoSpacing 
+      justifyContent: isAutoSpacing
         ? 'space-between'
         : (direction === 'row' ? hAlign : vAlign),
       alignItems: direction === 'row' ? vAlign : hAlign
     })
   };
 
-  if (!isGradient && container.settings.bgColor && container.settings.bgColor !== 'transparent') {
-    styleObj.backgroundColor = container.settings.bgColor;
+  if (!isGradient && slot.settings.bgColor && slot.settings.bgColor !== 'transparent') {
+    styleObj.backgroundColor = slot.settings.bgColor;
   }
   if (isGradient) {
-    const { angle, color1, color2 } = container.settings.bgGradient;
+    const { angle, color1, color2 } = slot.settings.bgGradient;
     styleObj.backgroundImage = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
     styleObj.backgroundSize = 'cover';
     styleObj.backgroundPosition = 'center';
     styleObj.backgroundRepeat = 'no-repeat';
   }
-  if (container.settings.padding) {
-    styleObj.padding = `${container.settings.padding}px`;
+  if (slot.settings.padding) {
+    styleObj.padding = `${slot.settings.padding}px`;
   }
 
-  styleObj.border = container.settings.borderEnabled
-    ? `${container.settings.borderWidth ?? 1}px solid ${container.settings.borderColor ?? '#000000'}`
+  styleObj.border = slot.settings.borderEnabled
+    ? `${slot.settings.borderWidth ?? 1}px solid ${slot.settings.borderColor ?? '#000000'}`
     : undefined;
-  styleObj.filter = container.settings.elevationEnabled
-    ? `drop-shadow(0 ${container.settings.elevation ?? 4}px ${(container.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (container.settings.elevation ?? 4) * 0.02}))`
+  styleObj.filter = slot.settings.elevationEnabled
+    ? `drop-shadow(0 ${slot.settings.elevation ?? 4}px ${(slot.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (slot.settings.elevation ?? 4) * 0.02}))`
     : undefined;
-  styleObj.borderRadius = `${container.settings.borderRadius ?? 0}px`;
-  styleObj.overflow = container.settings.scrollEnabled ? 'auto' : 
-    (container.settings.bgVideo || container.settings.borderRadius > 0) ? 'hidden' : 'visible';
-  if (container.settings.bgVideo || hasBgImage || isGradient) styleObj.position = 'relative';
+  styleObj.borderRadius = `${slot.settings.borderRadius ?? 0}px`;
+  styleObj.overflow = (slot.settings.bgVideo || slot.settings.borderRadius > 0) ? 'hidden' : 'visible';
+  if (slot.settings.bgVideo || hasBgImage || isGradient) styleObj.position = 'relative';
 
   const style = buildStyleString(styleObj);
-  const children = container.children.map(child => renderContentItem(child, page)).join('\n');
+  const children = slot.children.map(child => renderContentItem(child, page)).join('\n');
 
-  const childrenWrapped = (container.settings.bgVideo || hasBgImage)
-    ? `<div style="position:relative;z-index:1;display:flex;flex-direction:${direction};flex-wrap:${(direction === 'row' && !container.settings.scrollEnabled) ? 'wrap' : 'unset'};gap:${isAutoSpacing ? 'unset' : `${typeof spacing === 'number' ? spacing : 16}px`};justify-content:${isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign)};align-items:${direction === 'row' ? vAlign : hAlign};width:100%;height:100%">${children}</div>`
-    : children;
+  const childrenWrapped = (slot.settings.bgVideo || hasBgImage)
+    ? `<div style="position:relative;z-index:1;display:flex;flex-direction:${direction};flex-wrap:${direction === 'row' ? 'wrap' : 'unset'};gap:${isAutoSpacing ? 'unset' : `${typeof spacing === 'number' ? spacing : 16}px`};justify-content:${isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign)};align-items:${direction === 'row' ? vAlign : hAlign};width:100%;height:100%">${children}</div>`
+    : (children || '<div style="padding:20px;text-align:center;color:#9ca3af;font-size:13px;border:1px dashed #d1d5db;border-radius:4px">Drop content here</div>');
 
   // Add pseudo-element for background image when needed
-  const containerBgImageOverlay = hasBgImage ? `
+  const slotBgImageOverlay = hasBgImage ? `
     <style>
-      [data-element-id="${container.id}"]::before {
+      [data-element-id="${slot.id}"]::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: url(${container.settings.bgImage});
+        background-image: url(${slot.settings.bgImage});
         background-size: ${bgSize};
         background-position: ${bgPosition};
-        background-repeat: ${container.settings.bgRepeat ? 'repeat' : 'no-repeat'};
-        ${container.settings.bgOpacity ? `opacity: ${container.settings.bgOpacity};` : ''}
+        background-repeat: ${slot.settings.bgRepeat ? 'repeat' : 'no-repeat'};
+        ${slot.settings.bgOpacity ? `opacity: ${slot.settings.bgOpacity};` : ''}
         z-index: 0;
-        border-radius: ${container.settings.borderRadius ?? 0}px;
+        border-radius: ${slot.settings.borderRadius ?? 0}px;
       }
     </style>` : '';
 
-  return `<div style="${style}" data-element-id="${container.id}">
-    ${containerVideoBg}
-    ${containerBgImageOverlay}
+  return `<div class="${twClasses.join(' ')}" style="${style}" data-element-id="${slot.id}">
+    ${slotVideoBg}
+    ${slotBgImageOverlay}
     ${childrenWrapped}
   </div>`;
 }
@@ -318,7 +314,27 @@ function sizeOverrides(item) {
   return { width: overrides.width || undefined, height: overrides.height || undefined };
 }
 
+function getContentResponsiveClasses(item) {
+  const r = item.settings?.responsive;
+  if (!r) return '';
+  const classes = [];
+  if (r.hideOnMobile) classes.push('hidden md:block');
+  if (r.hideOnDesktop) classes.push('md:hidden');
+  return classes.join(' ');
+}
+
+function wrapWithResponsive(html, item) {
+  const classes = getContentResponsiveClasses(item);
+  if (!classes) return html;
+  return `<div class="${classes}">${html}</div>`;
+}
+
 function renderContentItem(item, page) {
+  const rendered = renderContentItemInner(item, page);
+  return wrapWithResponsive(rendered, item);
+}
+
+function renderContentItemInner(item, page) {
   switch (item.type) {
     case 'text': {
       const role = item.settings.textRole || 'body';

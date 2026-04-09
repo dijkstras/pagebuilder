@@ -20,6 +20,25 @@ export const MAX_WIDTH_PRESETS = [
   { label: 'Custom', value: 'custom' }
 ];
 
+export const LAYOUT_PRESETS = {
+  'full':       { label: 'Full width',     slots: [12] },
+  '50-50':      { label: '50 / 50',        slots: [6, 6] },
+  '33-67':      { label: '1/3 + 2/3',      slots: [4, 8] },
+  '67-33':      { label: '2/3 + 1/3',      slots: [8, 4] },
+  '33-33-33':   { label: '3 equal',         slots: [4, 4, 4] },
+  '25-75':      { label: '1/4 + 3/4',      slots: [3, 9] },
+  '75-25':      { label: '3/4 + 1/4',      slots: [9, 3] },
+  '25-50-25':   { label: 'Sidebar layout',  slots: [3, 6, 3] }
+};
+
+export const GAP_PRESETS = {
+  none: { label: 'None',    twClass: 'gap-0',  px: 0 },
+  sm:   { label: 'Small',   twClass: 'gap-3',  px: 12 },
+  md:   { label: 'Medium',  twClass: 'gap-6',  px: 24 },
+  lg:   { label: 'Large',   twClass: 'gap-10', px: 40 },
+  xl:   { label: 'X-Large', twClass: 'gap-16', px: 64 }
+};
+
 // Default empty page structure
 export const createEmptyPage = () => ({
   id: `page-${Date.now()}`,
@@ -84,39 +103,47 @@ export const createEmptyPage = () => ({
   root: []
 });
 
-export const createSegment = (name = 'Segment') => ({
-  id: `segment-${Date.now()}`,
-  name,
-  type: 'segment',
-  settings: {
-    fullWidth: true,
-    bgColor: '#ffffff',
-    bgImage: null,
-    bgVideo: null,
-    padding: 40,
-    margin: 0,
-    gutter: 24,
-    maxWidth: null,
-    contentAlignment: 'left',
-    verticalAlignment: 'top',
-    direction: 'row',
-    minHeight: 200,
-    borderEnabled: false,
-    borderWidth: 1,
-    borderColor: '#000000',
-    elevationEnabled: false,
-    elevation: 4,
-    borderRadius: 0
-  },
-  children: []
-});
+export const createSegment = (name = 'Segment', layout = 'full') => {
+  const preset = LAYOUT_PRESETS[layout] || LAYOUT_PRESETS['full'];
+  const slots = preset.slots.map((span, i) => createSlot(
+    preset.slots.length === 1 ? 'Content' : `Column ${i + 1}`,
+    span
+  ));
+  return {
+    id: `segment-${Date.now()}`,
+    name,
+    type: 'segment',
+    settings: {
+      layout,
+      gap: 'md',
+      fullWidth: true,
+      bgColor: '#ffffff',
+      bgImage: null,
+      bgVideo: null,
+      padding: 40,
+      margin: 0,
+      maxWidth: null,
+      contentAlignment: 'left',
+      verticalAlignment: 'top',
+      minHeight: 200,
+      borderEnabled: false,
+      borderWidth: 1,
+      borderColor: '#000000',
+      elevationEnabled: false,
+      elevation: 4,
+      borderRadius: 0
+    },
+    children: slots
+  };
+};
 
-export const createContainer = (name = 'Container') => ({
-  id: `container-${Date.now()}`,
+export const createSlot = (name = 'Column', gridColumn = 12) => ({
+  id: `slot-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
   name,
-  type: 'container',
+  type: 'slot',
   settings: {
-    columnSpan: 12,
+    gridColumn,
+    height: 'auto',
     spacing: 16,
     bgColor: 'transparent',
     bgImage: null,
@@ -130,10 +157,17 @@ export const createContainer = (name = 'Container') => ({
     borderColor: '#000000',
     elevationEnabled: false,
     elevation: 4,
-    borderRadius: 0
+    borderRadius: 0,
+    responsive: {
+      hideOnMobile: false,
+      mobileOrder: null
+    }
   },
   children: []
 });
+
+// Backward compat alias
+export const createContainer = (name = 'Container') => createSlot(name, 12);
 
 export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
   if (contentType === CONTENT_TYPES.CARD) {
@@ -202,6 +236,10 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
             : contentType === CONTENT_TYPES.VIDEO
               ? { src: '' }
               : {},
+      responsive: {
+        hideOnMobile: false,
+        hideOnDesktop: false
+      },
       responsiveVariants: {
         mobile: {},
         tablet: {},
@@ -268,30 +306,132 @@ function migrateFontToken(font, defaults) {
 }
 
 function migrateContentItem(item) {
-  if (item.type !== 'button') return item;
-  const overrides = item.settings?.customOverrides ?? {};
-  const needsIcon = !overrides.icon;
-  const needsSize = !overrides.sizeOverride;
-  if (!needsIcon && !needsSize) return item;
+  const settings = item.settings ?? {};
+  const responsive = settings.responsive ?? { hideOnMobile: false, hideOnDesktop: false };
+
+  if (item.type === 'button') {
+    const overrides = settings.customOverrides ?? {};
+    const needsIcon = !overrides.icon;
+    const needsSize = !overrides.sizeOverride;
+    return {
+      ...item,
+      settings: {
+        ...settings,
+        responsive,
+        customOverrides: {
+          ...overrides,
+          ...(needsIcon ? { icon: { key: null, position: 'none' } } : {}),
+          ...(needsSize ? { sizeOverride: { enabled: false, width: 'auto', height: 'auto' } } : {})
+        }
+      }
+    };
+  }
+
+  // All other types: just ensure responsive exists
   return {
     ...item,
-    settings: {
-      ...item.settings,
-      customOverrides: {
-        ...overrides,
-        ...(needsIcon ? { icon: { key: null, position: 'none' } } : {}),
-        ...(needsSize ? { sizeOverride: { enabled: false, width: 'auto', height: 'auto' } } : {})
-      }
-    }
+    settings: { ...settings, responsive }
   };
+}
+
+function inferLayoutFromChildren(segment) {
+  const containers = (segment.children ?? []).filter(c => c.type === 'container' || c.type === 'slot');
+  if (containers.length === 0 || containers.length === 1) return 'full';
+
+  const legacyColumnMap = { 1: 12, 2: 6, 3: 4, 4: 3 };
+  const spans = containers.map(c => {
+    const s = c.settings ?? {};
+    return s.gridColumn ?? s.columnSpan ?? (s.columns ? (legacyColumnMap[s.columns] ?? 12) : 12);
+  });
+
+  // Try exact match
+  const exact = Object.entries(LAYOUT_PRESETS).find(([, preset]) =>
+    preset.slots.length === spans.length &&
+    preset.slots.every((s, i) => s === spans[i])
+  );
+  if (exact) return exact[0];
+
+  // Nearest match with same slot count
+  const sameLengthPresets = Object.entries(LAYOUT_PRESETS)
+    .filter(([, preset]) => preset.slots.length === spans.length);
+  if (sameLengthPresets.length > 0) {
+    const nearest = sameLengthPresets.reduce((best, [key, preset]) => {
+      const diff = preset.slots.reduce((sum, s, i) => sum + Math.abs(s - spans[i]), 0);
+      return diff < best.diff ? { key, diff } : best;
+    }, { key: 'full', diff: Infinity });
+    return nearest.key;
+  }
+
+  return 'full';
+}
+
+function inferGap(gutter) {
+  if (gutter == null || gutter === 'auto') return 'md';
+  if (gutter === 0) return 'none';
+  if (gutter <= 16) return 'sm';
+  if (gutter <= 32) return 'md';
+  if (gutter <= 48) return 'lg';
+  return 'xl';
 }
 
 function migrateSegment(segment) {
   const s = segment.settings ?? {};
+
+  // Infer layout and gap from existing data if not set
+  const layout = s.layout ?? inferLayoutFromChildren(segment);
+  const gap = s.gap ?? inferGap(s.gutter);
+  const preset = LAYOUT_PRESETS[layout] || LAYOUT_PRESETS['full'];
+
+  // Migrate children: separate slots/containers from loose content
+  const rawChildren = segment.children ?? [];
+  const slotsOrContainers = rawChildren.filter(c => c.type === 'container' || c.type === 'slot');
+  const looseContent = rawChildren.filter(c => c.type !== 'container' && c.type !== 'slot');
+
+  let migratedChildren = slotsOrContainers.map((child, i) => migrateContainerToSlot(child, preset.slots[i]));
+
+  // Wrap loose content in a slot
+  if (looseContent.length > 0) {
+    migratedChildren.push({
+      id: `slot-${Date.now()}-wrap`,
+      name: 'Content',
+      type: 'slot',
+      settings: {
+        gridColumn: 12,
+        height: 'auto',
+        spacing: 16,
+        bgColor: 'transparent',
+        bgImage: null,
+        bgVideo: null,
+        padding: 20,
+        contentAlignment: 'left',
+        verticalAlignment: 'top',
+        direction: 'column',
+        borderEnabled: false,
+        borderWidth: 1,
+        borderColor: '#000000',
+        elevationEnabled: false,
+        elevation: 4,
+        borderRadius: 0,
+        responsive: { hideOnMobile: false, mobileOrder: null }
+      },
+      children: looseContent.map(migrateContentItem)
+    });
+  }
+
+  // Ensure slot count matches preset
+  while (migratedChildren.length < preset.slots.length) {
+    migratedChildren.push(createSlot(
+      `Column ${migratedChildren.length + 1}`,
+      preset.slots[migratedChildren.length]
+    ));
+  }
+
   return {
     ...segment,
     settings: {
       ...s,
+      layout,
+      gap,
       fullWidth: s.fullWidth ?? true,
       bgColor: s.bgColor ?? '#ffffff',
       bgImage: s.bgImage ?? null,
@@ -300,11 +440,9 @@ function migrateSegment(segment) {
       bgGradient: s.bgGradient ?? null,
       padding: s.padding ?? 40,
       margin: s.margin ?? 0,
-      gutter: s.gutter ?? 24,
       maxWidth: s.maxWidth ?? null,
       contentAlignment: s.contentAlignment ?? 'left',
       verticalAlignment: s.verticalAlignment ?? 'top',
-      direction: s.direction ?? 'row',
       minHeight: s.minHeight ?? 200,
       borderEnabled: s.borderEnabled ?? false,
       borderWidth: s.borderWidth ?? 1,
@@ -313,21 +451,22 @@ function migrateSegment(segment) {
       elevation: s.elevation ?? 4,
       borderRadius: s.borderRadius ?? 0
     },
-    children: (segment.children ?? []).map(child =>
-      child.type === 'container' ? migrateContainer(child) : migrateContentItem(child)
-    )
+    children: migratedChildren
   };
 }
 
-function migrateContainer(container) {
+function migrateContainerToSlot(container, presetSpan) {
   const s = container.settings ?? {};
   const legacyColumnMap = { 1: 12, 2: 6, 3: 4, 4: 3 };
-  const columnSpan = s.columnSpan ?? (s.columns ? (legacyColumnMap[s.columns] ?? 12) : 12);
+  const gridColumn = s.gridColumn ?? s.columnSpan ?? (s.columns ? (legacyColumnMap[s.columns] ?? 12) : presetSpan ?? 12);
+
   return {
     ...container,
+    type: 'slot',
     settings: {
       ...s,
-      columnSpan,
+      gridColumn,
+      height: s.height ?? 'auto',
       spacing: s.spacing ?? 16,
       bgColor: s.bgColor ?? 'transparent',
       bgImage: s.bgImage ?? null,
@@ -343,10 +482,9 @@ function migrateContainer(container) {
       borderColor: s.borderColor ?? '#000000',
       elevationEnabled: s.elevationEnabled ?? false,
       elevation: s.elevation ?? 4,
-      borderRadius: s.borderRadius ?? 0
+      borderRadius: s.borderRadius ?? 0,
+      responsive: s.responsive ?? { hideOnMobile: false, mobileOrder: null }
     },
-    children: (container.children ?? []).map(child =>
-      child.type === 'container' ? migrateContainer(child) : migrateContentItem(child)
-    )
+    children: (container.children ?? []).map(migrateContentItem)
   };
 }

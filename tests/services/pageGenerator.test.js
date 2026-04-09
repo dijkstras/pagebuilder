@@ -71,32 +71,20 @@ describe('pageGenerator', () => {
     expect(html).toContain('https://example.com/image.jpg');
   });
 
-  it('should render nested containers', () => {
+  it('should render slots within Tailwind grid', () => {
     const page = createEmptyPage();
-    const segment = createSegment();
-    const container = {
-      id: 'container-1',
-      type: 'container',
-      settings: {
-        layout: 'grid',
-        columns: 2,
-        spacing: 16
-      },
-      children: []
-    };
-    segment.children.push(container);
+    const segment = createSegment('Test', '50-50');
     page.root.push(segment);
     const html = generateHTML(page);
-    expect(html).toContain('display: grid');
-    expect(html).toContain('grid-template-columns: repeat(2, 1fr)');
+    expect(html).toContain('grid grid-cols-12');
+    expect(html).toContain('col-span-12');
+    expect(html).toContain('md:col-span-6');
   });
 
-  it('should include responsive breakpoints in CSS', () => {
+  it('should include Tailwind CDN for responsive layout', () => {
     const page = createEmptyPage();
     const html = generateHTML(page);
-    expect(html).toContain('@media (max-width: 320px)');
-    expect(html).toContain('@media (max-width: 768px)');
-    expect(html).toContain('@media (max-width: 1024px)');
+    expect(html).toContain('cdn.tailwindcss.com');
   });
 
   it('should generate valid HTML structure', () => {
@@ -118,7 +106,7 @@ describe('generateGoogleFontsImport', () => {
     expect(generateGoogleFontsImport({})).toBe('');
   });
 
-  it('generates import for single font with single weight', () => {
+  it('generates import for single font family', () => {
     const fonts = {
       heading1: { family: 'Inter', size: 48, weight: 700 },
       heading2: { family: 'Inter', size: 32, weight: 600 },
@@ -128,7 +116,6 @@ describe('generateGoogleFontsImport', () => {
     const result = generateGoogleFontsImport(fonts);
     expect(result).toContain('fonts.googleapis.com/css2');
     expect(result).toContain('Inter');
-    expect(result).toContain('wght@400;500;600;700');
     expect(result).toContain('display=swap');
   });
 
@@ -144,14 +131,14 @@ describe('generateGoogleFontsImport', () => {
     expect(result).toContain('display=swap');
   });
 
-  it('deduplicates weights for same font', () => {
+  it('deduplicates same font family', () => {
     const fonts = {
       heading1: { family: 'Roboto', size: 48, weight: 700 },
       body: { family: 'Roboto', size: 16, weight: 700 }
     };
     const result = generateGoogleFontsImport(fonts);
-    // Should only have one wght@700, not two
-    const matches = result.match(/wght@700/g);
+    // Should only have one Roboto family entry, not two
+    const matches = result.match(/family=Roboto/g);
     expect(matches.length).toBe(1);
   });
 
@@ -163,15 +150,15 @@ describe('generateGoogleFontsImport', () => {
     expect(result).toMatch(/^@import url\(.*\);$/);
   });
 
-  it('skips fonts without weights', () => {
+  it('includes fonts regardless of weight specification', () => {
     const fonts = {
       heading1: { family: 'Roboto' }, // no weight
       body: { family: 'Inter', weight: 400 }
     };
     const result = generateGoogleFontsImport(fonts);
-    // Should only contain Inter, not Roboto with empty wght@
+    // Both fonts should be included (no weight specs in URL)
     expect(result).toContain('Inter');
-    expect(result).not.toContain('Roboto');
+    expect(result).toContain('Roboto');
   });
 
   it('handles special characters in font names', () => {
@@ -193,12 +180,13 @@ describe('generateGoogleFontsImport', () => {
     expect(result).toContain('Display');
   });
 
-  it('returns empty string when all fonts lack weights', () => {
+  it('includes fonts even when no weights specified', () => {
     const fonts = {
       heading1: { family: 'Roboto' },
       body: { family: 'Inter' }
     };
     const result = generateGoogleFontsImport(fonts);
-    expect(result).toBe('');
+    expect(result).toContain('Roboto');
+    expect(result).toContain('Inter');
   });
 });

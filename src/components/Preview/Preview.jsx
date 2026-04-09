@@ -6,13 +6,14 @@ import { THEME } from '../../utils/constants';
 export function Preview() {
   const { state } = usePageStore();
   const [viewportMode, setViewportMode] = useState('desktop');
+  const [showGridOverlay, setShowGridOverlay] = useState(false);
   const iframeRef = useRef(null);
   const savedScrollRef = useRef(0);
   const pendingScrollToIdRef = useRef(null);
 
   const htmlContent = useMemo(() => {
     try {
-      return generateHTML(state.page, state.selectedElementId);
+      return generateHTML(state.page, state.selectedElementId, { showGridOverlay });
     } catch (error) {
       console.error('Error generating HTML:', error);
       console.error('Page data:', state.page);
@@ -26,7 +27,7 @@ export function Preview() {
 </body>
 </html>`;
     }
-  }, [state.page, state.selectedElementId]);
+  }, [state.page, state.selectedElementId, showGridOverlay]);
 
   // When selection changes, mark the element to scroll to on next iframe load
   useEffect(() => {
@@ -84,7 +85,8 @@ export function Preview() {
         }}>
           Live Preview
         </h2>
-        <div style={{ display: 'flex', gap: '4px' }}>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '4px' }}>
           <button
             onClick={() => setViewportMode('desktop')}
             style={{
@@ -115,6 +117,19 @@ export function Preview() {
           >
             Mobile
           </button>
+          </div>
+          <label style={{
+            display: 'flex', alignItems: 'center', gap: '4px',
+            fontSize: '12px', color: THEME.textMuted, cursor: 'pointer', userSelect: 'none'
+          }}>
+            <input
+              type="checkbox"
+              checked={showGridOverlay}
+              onChange={(e) => setShowGridOverlay(e.target.checked)}
+              style={{ cursor: 'pointer' }}
+            />
+            Grid
+          </label>
         </div>
       </div>
 

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPE_LABELS } from '../../utils/constants';
-import { createContainer, createContentItem, CONTENT_TYPES } from '../../store/pageTypes';
+import { createContentItem, CONTENT_TYPES, LAYOUT_PRESETS } from '../../store/pageTypes';
 
 const TYPE_ICONS = {
   segment: '▦',
+  slot: '⊞',
   container: '⊞',
   text: 'T',
   image: '▣',
@@ -37,7 +38,6 @@ function canMoveElement(element, direction, parentChildren) {
 
 function AddMenu({ element, onClose }) {
   const { dispatch } = usePageStore();
-  const canAddContainer = element.type === 'segment';
 
   const add = (fn) => (e) => { e.stopPropagation(); fn(); onClose(); };
 
@@ -57,16 +57,6 @@ function AddMenu({ element, onClose }) {
       borderRadius: '5px', minWidth: '120px', zIndex: 1000,
       boxShadow: '0 6px 16px rgba(0,0,0,0.5)'
     }}>
-      {canAddContainer && (
-        <button
-          onClick={add(() => dispatch(pageActions.updateElement(element.id, {
-            children: [...(element.children || []), createContainer()]
-          })))}
-          style={itemStyle(false)}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#374151'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-        >Container</button>
-      )}
       {types.map((type, idx) => (
         <button
           key={type}
@@ -91,10 +81,12 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
 
   const isSelected = state.selectedElementId === element.id;
   const isSegment = element.type === 'segment';
+  const isSlot = element.type === 'slot';
   const isContainer = element.type === 'container';
   const hasChildren = element.children && element.children.length > 0;
-  const canAdd = isSegment || isContainer;
+  const canAdd = isSlot || isContainer;  // Slots get "+" for content, segments don't (they auto-manage slots)
   const showActions = isHovered || isSelected;
+  const isHiddenOnMobile = element.settings?.responsive?.hideOnMobile;
 
   // Update shouldStayOpen when selection changes
   React.useEffect(() => {
@@ -122,7 +114,11 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
   const segmentOpen = isSegment ? (shouldBeOpenNow || shouldStayOpen) : null;
   const effectiveIsOpen = isSegment ? segmentOpen : ((shouldBeOpenNow || shouldStayOpen) ? true : isOpen);
 
-  const labelText = element.name || CONTENT_TYPE_LABELS[element.type] || 'Element';
+  const baseName = element.name || CONTENT_TYPE_LABELS[element.type] || 'Element';
+  const layoutLabel = isSegment && element.settings?.layout
+    ? LAYOUT_PRESETS[element.settings.layout]?.label
+    : null;
+  const labelText = layoutLabel ? `${baseName}` : baseName;
 
   const handleSelect = () => dispatch(pageActions.selectElement(element.id, element.type));
   const handleDelete = (e) => { e.stopPropagation(); dispatch(pageActions.deleteElement(element.id)); };
@@ -149,12 +145,14 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
     padding: '2px 3px', lineHeight: 1, flexShrink: 0
   };
 
-  const addBtn = canAdd && (
+  // Segments don't get a "+" button (slots are managed by layout picker)
+  // Slots get a "+" button to add content
+  const addBtn = canAdd && !isSegment && (
     <div style={{ position: 'relative' }}>
       <button
         onClick={(e) => { e.stopPropagation(); setShowAddMenu(!showAddMenu); }}
         style={{ ...btn, width: '20px', height: '20px', background: '#4299e1', borderRadius: '3px', color: 'white', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        title="Add"
+        title="Add content"
       >+</button>
       {showAddMenu && <AddMenu element={element} onClose={() => setShowAddMenu(false)} />}
     </div>
@@ -191,9 +189,20 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
           <span style={{
             flex: 1, fontSize: '14px', fontWeight: 600,
             color: isSelected ? '#f7fafc' : segmentOpen ? '#e2e8f0' : '#a0aec0',
-            letterSpacing: '0.01em'
+            letterSpacing: '0.01em',
+            display: 'flex', alignItems: 'center', gap: '6px'
           }}>
             {labelText}
+            {layoutLabel && (
+              <span style={{
+                fontSize: '10px', fontWeight: 400,
+                color: isSelected ? '#93c5fd' : '#718096',
+                backgroundColor: isSelected ? 'rgba(147,197,253,0.15)' : 'rgba(113,128,150,0.15)',
+                padding: '1px 5px', borderRadius: '3px'
+              }}>
+                {layoutLabel}
+              </span>
+            )}
           </span>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1px', opacity: showActions ? 1 : 0, transition: 'opacity 0.1s' }}>
@@ -224,8 +233,9 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
     );
   }
 
-  // ── CONTAINER / CONTENT ITEM ──────────────────────────────
+  // ── SLOT / CONTAINER / CONTENT ITEM ──────────────────────────────
   const indent = (level - 1) * 12;
+  const isSlotOrContainer = isSlot || isContainer;
 
   return (
     <div style={{ marginLeft: `${indent}px` }}>
@@ -235,11 +245,11 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
         onMouseLeave={() => setIsHovered(false)}
         style={{
           display: 'flex', alignItems: 'center', gap: '5px',
-          padding: isContainer ? '7px 9px' : '5px 9px',
+          padding: isSlotOrContainer ? '7px 9px' : '5px 9px',
           cursor: 'pointer', userSelect: 'none',
           backgroundColor: isSelected ? '#2b6cb0' : isHovered ? '#374151' : 'transparent',
           borderRadius: '4px',
-          borderLeft: isContainer ? `3px solid ${isSelected ? '#4299e1' : '#718096'}` : '3px solid transparent',
+          borderLeft: isSlotOrContainer ? `3px solid ${isSelected ? '#4299e1' : '#718096'}` : '3px solid transparent',
           marginBottom: '2px',
           transition: 'all 0.15s'
         }}
@@ -261,19 +271,23 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
 
         <span style={{
           fontSize: '10px', width: '14px', textAlign: 'center', flexShrink: 0,
-          color: isSelected ? '#90cdf4' : isContainer ? '#718096' : '#4a5568',
-          fontWeight: isContainer ? 600 : 400
+          color: isSelected ? '#90cdf4' : isSlotOrContainer ? '#718096' : '#4a5568',
+          fontWeight: isSlotOrContainer ? 600 : 400
         }}>
           {TYPE_ICONS[element.type] || '•'}
         </span>
 
         <span style={{
           flex: 1,
-          fontSize: isContainer ? '12px' : '11px',
-          color: isSelected ? '#f7fafc' : isContainer ? '#e2e8f0' : '#a0aec0',
-          fontWeight: isContainer ? 500 : 400
+          fontSize: isSlotOrContainer ? '12px' : '11px',
+          color: isSelected ? '#f7fafc' : isSlotOrContainer ? '#e2e8f0' : '#a0aec0',
+          fontWeight: isSlotOrContainer ? 500 : 400,
+          display: 'flex', alignItems: 'center', gap: '4px'
         }}>
           {labelText}
+          {isHiddenOnMobile && (
+            <span title="Hidden on mobile" style={{ fontSize: '9px', color: '#f59e0b', opacity: 0.8 }}>📱✕</span>
+          )}
         </span>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1px', opacity: showActions ? 1 : 0, transition: 'opacity 0.1s' }}>
@@ -303,10 +317,17 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
               >▼</button>
             </>
           )}
-          <button onClick={handleDuplicate} title="Duplicate"
-            style={{ ...btn, color: '#718096', fontSize: '12px' }}>⧉</button>
-          <button onClick={handleDelete}
-            style={{ ...btn, color: '#fc8181', fontSize: '10px', opacity: 0.8 }}>✕</button>
+          {!isSlot && (
+            <button onClick={handleDuplicate} title="Duplicate"
+              style={{ ...btn, color: '#718096', fontSize: '12px' }}>⧉</button>
+          )}
+          {!isSlot ? (
+            <button onClick={handleDelete}
+              style={{ ...btn, color: '#fc8181', fontSize: '10px', opacity: 0.8 }}>✕</button>
+          ) : (
+            <button disabled title="Change the segment layout to adjust slots"
+              style={{ ...btn, color: '#4a5568', fontSize: '10px', opacity: 0.4, cursor: 'not-allowed' }}>✕</button>
+          )}
           {canAdd && (
             <div style={{ position: 'relative' }}>
               <button
