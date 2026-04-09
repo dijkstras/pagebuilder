@@ -401,7 +401,7 @@
                 "assignedStyleId": "secondary",
                 "textRole": null,
                 "customOverrides": {
-                  "label": "Button",
+                  "label": "CLAIM THAT BACON!",
                   "icon": {
                     "key": null,
                     "position": "none"
