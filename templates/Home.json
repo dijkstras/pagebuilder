@@ -64,7 +64,7 @@
         "bgColor": "#ffb380",
         "textColor": "#1f2937",
         "padding": 12,
-        "radius": 6,
+        "radius": 999,
         "bgType": "solid",
         "bgGradient": null,
         "fontSize": 16
