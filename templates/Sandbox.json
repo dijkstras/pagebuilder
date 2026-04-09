@@ -33,13 +33,15 @@
         "bgType": "solid",
         "bgGradient": null,
         "scrollEnabled": true,
-        "maxHeight": null
+        "maxHeight": null,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "container-1775131548723-jyrwb",
+          "id": "slot-1775744338514-h98c",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -59,7 +61,12 @@
             "width": "240px",
             "height": "auto",
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "gridColumn": 12,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -78,6 +85,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -94,6 +105,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -112,6 +127,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -138,15 +157,19 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
           ]
         },
         {
-          "id": "container-1775132792470-w6rpj",
+          "id": "slot-1775744338514-ttfo",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -166,7 +189,12 @@
             "width": "240px",
             "height": "auto",
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "gridColumn": 12,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -185,6 +213,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -201,6 +233,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -219,6 +255,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -245,15 +285,19 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
           ]
         },
         {
-          "id": "container-1775132791810-l50cb",
+          "id": "slot-1775744338514-4tot",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -273,7 +317,12 @@
             "width": "240px",
             "height": "auto",
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "gridColumn": 12,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -292,6 +341,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -308,6 +361,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -326,6 +383,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -352,15 +413,19 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
           ]
         },
         {
-          "id": "container-1775132791525-ud32l",
+          "id": "slot-1775744338514-wlvz",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -380,7 +445,12 @@
             "width": "240px",
             "height": "auto",
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "gridColumn": 12,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -399,6 +469,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -415,6 +489,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -433,6 +511,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -459,15 +541,19 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
           ]
         },
         {
-          "id": "container-1775132791286-ivfc4",
+          "id": "slot-1775744338514-jd7o",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -487,7 +573,12 @@
             "width": "240px",
             "height": "auto",
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "gridColumn": 12,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -506,6 +597,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -522,6 +617,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -540,6 +639,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -566,15 +669,19 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
           ]
         },
         {
-          "id": "container-1775132157770-x7gx0",
+          "id": "slot-1775744338514-que5",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -595,7 +702,12 @@
             "height": "auto",
             "bgType": "solid",
             "bgGradient": null,
-            "scrollEnabled": true
+            "scrollEnabled": true,
+            "gridColumn": 12,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -614,6 +726,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -630,6 +746,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -648,6 +768,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -674,26 +798,63 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
           ]
         },
         {
-          "id": "content-1775132711970",
-          "type": "image",
+          "id": "slot-1775744338514-3rgi-wrap",
+          "name": "Content",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
-          }
+          },
+          "children": [
+            {
+              "id": "content-1775132711970",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
+            }
+          ]
         }
       ]
     },
@@ -722,232 +883,319 @@
         "borderRadius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "scrollEnabled": true
+        "scrollEnabled": true,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "content-1775132369534",
-          "type": "text",
+          "id": "slot-1775744338514-9kby-wrap",
+          "name": "Content",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
-          }
-        },
-        {
-          "id": "text-1775132376317-iw674",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+          },
+          "children": [
+            {
+              "id": "content-1775132369534",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132376067-ur62s",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132376317-iw674",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132375850-l30za",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132376067-ur62s",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132375634-kp1bq",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132375850-l30za",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132375434-t7rsq",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132375634-kp1bq",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132375217-lko5w",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132375434-t7rsq",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132375017-6b1t5",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132375217-lko5w",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132374800-zafe3",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132375017-6b1t5",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132374584-78imt",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132374800-zafe3",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132374350-3ekw7",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132374584-78imt",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132374134-2um1j",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132374350-3ekw7",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132373800-w1ot9",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132374134-2um1j",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
-        },
-        {
-          "id": "text-1775132372517-wfs03",
-          "type": "text",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": "body",
-            "customOverrides": {
-              "content": "Your text here"
+            {
+              "id": "text-1775132373800-w1ot9",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            {
+              "id": "text-1775132372517-wfs03",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
             }
-          }
+          ]
         }
       ]
     },
@@ -975,13 +1223,15 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "container-1775134804932",
+          "id": "slot-1775744338514-37ye",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -1000,7 +1250,13 @@
             "borderRadius": 0,
             "bgType": "solid",
             "bgGradient": null,
-            "width": "500"
+            "width": "500",
+            "gridColumn": 12,
+            "height": "auto",
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -1016,6 +1272,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -1041,6 +1301,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
