@@ -330,7 +330,7 @@
             "bgImage": null,
             "bgVideo": null,
             "padding": 0,
-            "contentAlignment": "right",
+            "contentAlignment": "left",
             "verticalAlignment": "center",
             "direction": "row",
             "borderEnabled": false,
