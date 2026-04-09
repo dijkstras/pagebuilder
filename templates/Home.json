@@ -259,7 +259,7 @@
             "gridColumn": 4,
             "responsive": {
               "hideOnMobile": false,
-              "mobileOrder": null
+              "mobileOrder": 1
             }
           },
           "children": [
