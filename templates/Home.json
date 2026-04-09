@@ -456,7 +456,9 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "bgSize": "contain"
+            "bgSize": "contain",
+            "bgPositionX": "center",
+            "bgPositionY": "center"
           },
           "children": []
         },
