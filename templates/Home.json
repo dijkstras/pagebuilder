@@ -517,7 +517,8 @@
               "mobileOrder": null
             },
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "bgSize": "contain"
           },
           "children": []
         }
