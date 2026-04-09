@@ -638,11 +638,8 @@ How the system prevents bad-looking pages:
 | Slot width/height | Width is preset-driven (not user-editable). Height is an optional input (default `auto`). |
 | Loose content in segments | Auto-wrapped into a single full-width slot during migration. |
 | Grid overlay | Visual-only toggle in preview header. No snap-to-grid behaviour. |
-
-## Open Questions
-
-1. **Tailwind CDN dependency** — The CDN play version adds ~300KB on first load. For production output, we could generate static CSS instead. Is CDN acceptable for V1?
-2. **Slot backgrounds on mobile** — When slots stack, should their individual backgrounds (colour, image) still render? Or should they inherit the segment background?
+| Tailwind CDN | CDN play version (~300KB first load) is acceptable for V1. Can generate static CSS later if needed. |
+| Slot backgrounds on mobile | Slot backgrounds render as-is when stacked on mobile. No special handling for V1 — iterate if it doesn't look right. |
 
 ---
 
