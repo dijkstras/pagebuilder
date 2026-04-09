@@ -144,7 +144,7 @@
             "verticalAlignment": "top",
             "direction": "row",
             "borderEnabled": true,
-            "borderWidth": 1,
+            "borderWidth": 2,
             "borderColor": "#000000",
             "elevationEnabled": false,
             "elevation": 4,
