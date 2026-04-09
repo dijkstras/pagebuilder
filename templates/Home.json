@@ -130,7 +130,7 @@
       },
       "children": [
         {
-          "id": "slot-1775753538700-vy0b",
+          "id": "slot-1775753615737-50cu",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -232,7 +232,7 @@
           ]
         },
         {
-          "id": "slot-1775753538700-qhat",
+          "id": "slot-1775753615737-hyp9",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -319,7 +319,7 @@
       },
       "children": [
         {
-          "id": "slot-1775753538700-ntli",
+          "id": "slot-1775753615737-u9hn",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -349,7 +349,7 @@
           "children": []
         },
         {
-          "id": "slot-1775753538700-k67x",
+          "id": "slot-1775753615737-zqca",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -379,7 +379,7 @@
           "children": []
         },
         {
-          "id": "slot-1775753538700-08aq",
+          "id": "slot-1775753615737-ewpj",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -405,6 +405,61 @@
             },
             "bgType": "solid",
             "bgGradient": null
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "segment-1775753617338",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "layout": "full",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 40,
+        "margin": 0,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0
+      },
+      "children": [
+        {
+          "id": "slot-1775753617338-a8pf",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "250px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": []
         }
