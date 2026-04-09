@@ -37,7 +37,7 @@
       },
       "children": [
         {
-          "id": "slot-1775746382004-impr",
+          "id": "slot-1775746707085-hf7e",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -64,7 +64,8 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "scroll": false
           },
           "children": [
             {
@@ -142,11 +143,13 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
       },
       "children": [
         {
-          "id": "slot-1775746385215-0fkj",
+          "id": "slot-1775746707085-buha",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -169,7 +172,10 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "scroll": false
           },
           "children": [
             {
@@ -218,6 +224,10 @@
                     "width": "auto",
                     "height": "auto"
                   }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               },
               "responsiveVariants": {
@@ -272,6 +282,10 @@
                     "width": "auto",
                     "height": "auto"
                   }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               },
               "responsiveVariants": {
@@ -326,6 +340,10 @@
                     "width": "auto",
                     "height": "auto"
                   }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               },
               "responsiveVariants": {
@@ -380,6 +398,10 @@
                     "width": "auto",
                     "height": "auto"
                   }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               },
               "responsiveVariants": {
