@@ -640,7 +640,7 @@
             "elevationEnabled": false,
             "elevation": 4,
             "borderRadius": 0,
-            "scroll": false,
+            "scroll": true,
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
