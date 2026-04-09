@@ -37,7 +37,7 @@
       },
       "children": [
         {
-          "id": "slot-1775748506492-5ly2",
+          "id": "slot-1775748962435-94da",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -149,7 +149,7 @@
       },
       "children": [
         {
-          "id": "slot-1775748506492-tcub",
+          "id": "slot-1775748962435-f9yh",
           "name": "Card slider",
           "type": "slot",
           "settings": {
@@ -500,7 +500,7 @@
       },
       "children": [
         {
-          "id": "slot-1775748506492-apm8",
+          "id": "slot-1775748962435-j1v4",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -531,7 +531,7 @@
           "children": []
         },
         {
-          "id": "slot-1775748506492-4u6s",
+          "id": "slot-1775748962435-a5q1",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -562,7 +562,7 @@
           "children": []
         },
         {
-          "id": "slot-1775748506492-vh1g",
+          "id": "slot-1775748962435-y6ke",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -616,11 +616,13 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
       },
       "children": [
         {
-          "id": "slot-1775748553426-4wec",
+          "id": "slot-1775748962435-38cj",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -644,7 +646,9 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": [
             {
