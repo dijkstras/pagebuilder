@@ -329,7 +329,7 @@
             "bgColor": "#d1e8ff",
             "bgImage": null,
             "bgVideo": null,
-            "padding": 60,
+            "padding": 58,
             "contentAlignment": "left",
             "verticalAlignment": "center",
             "direction": "row",
