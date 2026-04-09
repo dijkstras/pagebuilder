@@ -67,7 +67,7 @@
         "radius": 6,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 16
       },
       {
         "id": "tertiary",
