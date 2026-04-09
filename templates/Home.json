@@ -233,7 +233,7 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 8,
-        "borderRadius": 32,
+        "borderRadius": 0,
         "bgSize": "contain",
         "bgPositionX": "right",
         "layout": "67-33",
