@@ -125,7 +125,7 @@
         "borderRadius": 32,
         "bgSize": "contain",
         "bgPositionX": "right",
-        "layout": "50-50",
+        "layout": "67-33",
         "gap": "md"
       },
       "children": [
@@ -152,7 +152,7 @@
             "width": "65%",
             "bgType": "solid",
             "bgGradient": null,
-            "gridColumn": 12,
+            "gridColumn": 8,
             "height": "auto",
             "responsive": {
               "hideOnMobile": false,
@@ -258,7 +258,7 @@
             "bgSize": "contain",
             "bgType": "solid",
             "bgGradient": null,
-            "gridColumn": 12,
+            "gridColumn": 4,
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
