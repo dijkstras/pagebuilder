@@ -29,11 +29,13 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
       },
       "children": [
         {
-          "id": "slot-1775745952065-aehe",
+          "id": "slot-1775747501975-l7ev",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -56,12 +58,15 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "scroll": false
           },
           "children": []
         },
         {
-          "id": "slot-1775746186571-lgem",
+          "id": "slot-1775747501975-w36o",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -84,7 +89,10 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "scroll": false
           },
           "children": []
         }
@@ -120,7 +128,7 @@
       },
       "children": [
         {
-          "id": "slot-1775745923102-vz43",
+          "id": "slot-1775747501975-ye90",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -143,7 +151,10 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "scroll": false
           },
           "children": []
         }
@@ -179,7 +190,7 @@
       },
       "children": [
         {
-          "id": "slot-1775745923102-nolz-wrap",
+          "id": "slot-1775747501975-edyd",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -202,7 +213,10 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "scroll": false
           },
           "children": [
             {
