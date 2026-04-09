@@ -103,7 +103,7 @@
         "bgColor": "transparent",
         "bgImage": null,
         "padding": 0,
-        "margin": 32,
+        "margin": null,
         "gutter": "auto",
         "maxWidth": null,
         "contentAlignment": "left",
