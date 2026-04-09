@@ -599,7 +599,7 @@
         "borderRadius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "layout": "67-33",
+        "layout": "25-75",
         "gap": "md"
       },
       "children": [
@@ -626,7 +626,7 @@
             "bgType": "solid",
             "bgGradient": null,
             "width": "40%",
-            "gridColumn": 8,
+            "gridColumn": 3,
             "height": "auto",
             "responsive": {
               "hideOnMobile": false,
@@ -799,7 +799,7 @@
           "name": "Content",
           "type": "slot",
           "settings": {
-            "gridColumn": 4,
+            "gridColumn": 9,
             "height": "400px",
             "spacing": 16,
             "bgColor": "#ec4899",
