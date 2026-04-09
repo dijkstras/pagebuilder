@@ -96,7 +96,7 @@
   "root": [
     {
       "id": "segment-1774979222050",
-      "name": "New Segment",
+      "name": "Header",
       "type": "segment",
       "settings": {
         "fullWidth": true,
