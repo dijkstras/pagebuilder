@@ -156,7 +156,7 @@
             "height": "auto",
             "responsive": {
               "hideOnMobile": false,
-              "mobileOrder": 1
+              "mobileOrder": 2
             }
           },
           "children": [
