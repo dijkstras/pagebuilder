@@ -286,7 +286,8 @@
                 "assignedStyleId": null,
                 "textRole": "heading1",
                 "customOverrides": {
-                  "content": "I Love Hamburgers"
+                  "content": "I Love Hamburgers",
+                  "color": "#8b5cf6"
                 },
                 "responsiveVariants": {
                   "mobile": {},
