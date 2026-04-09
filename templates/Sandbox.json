@@ -420,7 +420,7 @@
                 "bgType": "solid",
                 "bgGradient": null,
                 "padding": 20,
-                "direction": "row",
+                "direction": "column",
                 "contentAlignment": "left",
                 "verticalAlignment": "top",
                 "spacing": 12,
