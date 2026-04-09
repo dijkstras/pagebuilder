@@ -802,7 +802,7 @@
             "gridColumn": 4,
             "height": "400px",
             "spacing": 16,
-            "bgColor": "transparent",
+            "bgColor": "#ec4899",
             "bgImage": null,
             "bgVideo": null,
             "padding": 20,
