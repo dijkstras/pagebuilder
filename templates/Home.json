@@ -377,7 +377,7 @@
               "type": "text",
               "settings": {
                 "assignedStyleId": null,
-                "textRole": "body",
+                "textRole": "heading2",
                 "customOverrides": {
                   "content": "Claim your discount now!",
                   "width": "100"
