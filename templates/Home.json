@@ -124,13 +124,15 @@
         "elevation": 8,
         "borderRadius": 32,
         "bgSize": "contain",
-        "bgPositionX": "right"
+        "bgPositionX": "right",
+        "layout": "50-50",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "container-1775140899142",
+          "id": "slot-1775742509092-1ycf",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 40,
@@ -149,7 +151,13 @@
             "borderRadius": 0,
             "width": "65%",
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "gridColumn": 12,
+            "height": "auto",
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": [
             {
@@ -166,6 +174,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -183,6 +195,10 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             },
@@ -208,15 +224,19 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
                 }
               }
             }
           ]
         },
         {
-          "id": "container-1775140901813",
+          "id": "slot-1775742509092-4scd",
           "name": "Container",
-          "type": "container",
+          "type": "slot",
           "settings": {
             "columnSpan": 12,
             "spacing": 16,
@@ -237,7 +257,12 @@
             "height": "300px",
             "bgSize": "contain",
             "bgType": "solid",
-            "bgGradient": null
+            "bgGradient": null,
+            "gridColumn": 12,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
           },
           "children": []
         }
@@ -268,11 +293,12 @@
         "borderRadius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "layout": "33-33-33"
+        "layout": "33-33-33",
+        "gap": "md"
       },
       "children": [
         {
-          "id": "slot-1775741923252-8kfk",
+          "id": "slot-1775742509092-gtsl",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -295,12 +321,14 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": []
         },
         {
-          "id": "slot-1775741923252-ctnk",
+          "id": "slot-1775742509092-tktt",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -323,12 +351,14 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": []
         },
         {
-          "id": "slot-1775741923252-1oms",
+          "id": "slot-1775742509092-cwza",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -351,7 +381,9 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": []
         }
