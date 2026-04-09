@@ -403,7 +403,7 @@
                 "customOverrides": {
                   "label": "CLAIM THAT BACON",
                   "icon": {
-                    "key": null,
+                    "key": "arrow-right",
                     "position": "after"
                   },
                   "sizeOverride": {
