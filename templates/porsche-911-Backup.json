@@ -822,30 +822,7 @@
             "bgType": "solid",
             "bgGradient": null
           },
-          "children": [
-            {
-              "id": "content-1775058123606",
-              "type": "image",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": null,
-                "customOverrides": {
-                  "src": "https://a.storyblok.com/f/322327/1720x1210/4dd129a813/cz25w25ix0011-911-carrera-t-front.png",
-                  "objectFit": "contain",
-                  "width": "auto"
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                }
-              }
-            }
-          ]
+          "children": []
         }
       ]
     },
