@@ -401,10 +401,10 @@
                 "assignedStyleId": "secondary",
                 "textRole": null,
                 "customOverrides": {
-                  "label": "CLAIM THAT BACON!",
+                  "label": "CLAIM THAT BACON",
                   "icon": {
                     "key": null,
-                    "position": "none"
+                    "position": "after"
                   },
                   "sizeOverride": {
                     "enabled": false,
