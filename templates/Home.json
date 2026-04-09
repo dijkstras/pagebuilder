@@ -231,7 +231,7 @@
         "borderEnabled": false,
         "borderWidth": 1,
         "borderColor": "#000000",
-        "elevationEnabled": true,
+        "elevationEnabled": false,
         "elevation": 8,
         "borderRadius": 32,
         "bgSize": "contain",
