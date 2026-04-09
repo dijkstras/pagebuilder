@@ -152,7 +152,7 @@
           "settings": {
             "gridColumn": 12,
             "height": "auto",
-            "spacing": 16,
+            "spacing": "auto",
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
