@@ -915,7 +915,7 @@
                 "textRole": null,
                 "customOverrides": {
                   "src": "https://a.storyblok.com/f/322327/1720x1232/fab0d7cd9a/cz25w25ox0002-911-carrera-t-side.jpg/m/1720x1291/smart/filters:format(avif)?dpl=dpl_2vaEL1EGxMUkVrCN2Vnus9uZqidn",
-                  "objectFit": "cover",
+                  "objectFit": "100% 100%",
                   "borderRadius": "24px",
                   "opacity": ""
                 },
