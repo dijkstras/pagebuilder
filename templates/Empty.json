@@ -8,6 +8,61 @@
   },
   "root": [
     {
+      "id": "segment-1775745952065",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "layout": "full",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 40,
+        "margin": 0,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0
+      },
+      "children": [
+        {
+          "id": "slot-1775745952065-aehe",
+          "name": "Content",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    {
       "id": "segment-1775228469358",
       "name": "New Segment",
       "type": "segment",
