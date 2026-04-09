@@ -1,22 +1,46 @@
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
-import { usePageStore } from '../../store/pageStore.jsx';
+import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { generateHTML } from '../../services/pageGenerator';
 import { THEME } from '../../utils/constants';
 
 export function Preview() {
-  const { state } = usePageStore();
+  const { state, dispatch } = usePageStore();
   const [viewportMode, setViewportMode] = useState('desktop');
   const [showGridOverlay, setShowGridOverlay] = useState(false);
   const iframeRef = useRef(null);
   const savedScrollRef = useRef(0);
   const pendingScrollToIdRef = useRef(null);
 
+  const handleMessage = useCallback((event) => {
+    // Only handle messages from our iframe
+    if (event.data && event.data.type === 'SELECT_ELEMENT') {
+      const elementId = event.data.elementId;
+      if (elementId) {
+        // Find the element in the page to get its type
+        const findElement = (elements) => {
+          for (const element of elements) {
+            if (element.id === elementId) return element;
+            if (element.children) {
+              const found = findElement(element.children);
+              if (found) return found;
+            }
+          }
+          return null;
+        };
+        
+        const element = findElement(state.page.root);
+        if (element) {
+          dispatch(pageActions.selectElement(elementId, element.type));
+        }
+      }
+    }
+  }, [state.page.root, dispatch]);
+
   const htmlContent = useMemo(() => {
     try {
       return generateHTML(state.page, state.selectedElementId, { showGridOverlay });
     } catch (error) {
       console.error('Error generating HTML:', error);
-      console.error('Page data:', state.page);
       return `<!DOCTYPE html>
 <html>
 <head><title>Error</title></head>
@@ -28,6 +52,14 @@ export function Preview() {
 </html>`;
     }
   }, [state.page, state.selectedElementId, showGridOverlay]);
+
+  // Set up message listener for iframe communication
+  useEffect(() => {
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [handleMessage]);
 
   // When selection changes, mark the element to scroll to on next iframe load
   useEffect(() => {
@@ -44,21 +76,22 @@ export function Preview() {
       savedScrollRef.current = iframe.contentWindow.scrollY;
     });
 
-    const targetId = pendingScrollToIdRef.current;
-    if (targetId) {
-      pendingScrollToIdRef.current = null;
-      const el = iframe.contentDocument?.querySelector(`[data-element-id="${targetId}"]`);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        return;
-      }
-    }
+    // Disable auto-scroll to prevent jumping when selecting elements
+    // const targetId = pendingScrollToIdRef.current;
+    // if (targetId) {
+    //   pendingScrollToIdRef.current = null;
+    //   const el = iframe.contentDocument?.querySelector(`[data-element-id="${targetId}"]`);
+    //   if (el) {
+    //     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    //     return;
+    //   }
+    // }
 
     iframe.contentWindow.scrollTo(0, savedScrollRef.current);
   }, []);
 
   const isMobileMode = viewportMode === 'mobile';
-  const previewWidth = isMobileMode ? '375px' : '100%';
+  const previewWidth = isMobileMode ? '480px' : '100%';
 
   return (
     <div style={{

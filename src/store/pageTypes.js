@@ -392,7 +392,7 @@ function migrateSegment(segment) {
   // Wrap loose content in a slot
   if (looseContent.length > 0) {
     migratedChildren.push({
-      id: `slot-${Date.now()}-wrap`,
+      id: `slot-${Date.now()}-${Math.random().toString(36).slice(2, 6)}-wrap`,
       name: 'Content',
       type: 'slot',
       settings: {
@@ -462,6 +462,7 @@ function migrateContainerToSlot(container, presetSpan) {
 
   return {
     ...container,
+    id: `slot-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, // Generate unique ID
     type: 'slot',
     settings: {
       ...s,

@@ -35,6 +35,7 @@ export function generateHTML(page, selectedElementId, options = {}) {
   const { showGridOverlay = false } = options;
   const segments = page.root.map(segment => renderSegment(segment, page)).join('\n');
 
+  
   const selectionStyle = selectedElementId ? `
   <style>
     @keyframes selection-pulse {
@@ -78,11 +79,27 @@ export function generateHTML(page, selectedElementId, options = {}) {
     ${generateCSS(page)}
   </style>${selectionStyle}
 </head>
-<body>
-  <div id="app">
+<body style="margin: 0; padding: 0; overflow-x: hidden;">
+  <div id="app" style="max-width: 100vw; overflow-x: hidden;">
     ${segments}
   </div>
   ${gridOverlayHtml}
+  <script>
+    // Handle clicks on elements with data-element-id
+    document.addEventListener('click', function(event) {
+      const element = event.target.closest('[data-element-id]');
+      if (element) {
+        const elementId = element.getAttribute('data-element-id');
+        if (elementId) {
+          // Send message to parent window
+          window.parent.postMessage({
+            type: 'SELECT_ELEMENT',
+            elementId: elementId
+          }, '*');
+        }
+      }
+    });
+  </script>
 </body>
 </html>`;
 }
@@ -133,7 +150,9 @@ function renderSegment(segment, page) {
       : undefined,
     borderRadius: `${segment.settings.borderRadius ?? 0}px`,
     overflow: segment.settings.bgVideo ? 'hidden' : 'visible',
-    position: (segment.settings.bgVideo || hasBgImage || isGradient) ? 'relative' : undefined
+    position: (segment.settings.bgVideo || hasBgImage || isGradient) ? 'relative' : undefined,
+    // Add mobile max-width constraint to prevent overflow
+    maxWidth: '100%'
   });
 
   // Build Tailwind grid classes for the inner wrapper
@@ -141,7 +160,9 @@ function renderSegment(segment, page) {
     'grid', 'grid-cols-12',
     gapPreset.twClass
   ];
-  if (maxWidth) gridClasses.push(`max-w-[${maxWidth}px]`, 'mx-auto');
+  // Add mobile max-width constraint to prevent overflow
+  gridClasses.push('max-w-full', 'w-full');
+  if (maxWidth) gridClasses.push(`md:max-w-[${maxWidth}px]`, 'mx-auto');
 
   const children = segment.children.map(child => {
     if (child.type === 'slot' || child.type === 'container') {
@@ -274,6 +295,13 @@ function renderSlot(slot, page) {
   styleObj.borderRadius = `${slot.settings.borderRadius ?? 0}px`;
   styleObj.overflow = (slot.settings.bgVideo || slot.settings.borderRadius > 0) ? 'hidden' : 'visible';
   if (slot.settings.bgVideo || hasBgImage || isGradient) styleObj.position = 'relative';
+  // Add responsive width constraints to prevent overflow
+  styleObj.maxWidth = '100%';
+  styleObj.boxSizing = 'border-box';
+  styleObj.minWidth = '0';
+  styleObj.flexShrink = '1';
+  // Ensure slot doesn't exceed grid container width
+  styleObj.width = 'auto';
 
   const style = buildStyleString(styleObj);
   const children = slot.children.map(child => renderContentItem(child, page)).join('\n');
@@ -326,7 +354,9 @@ function getContentResponsiveClasses(item) {
 function wrapWithResponsive(html, item) {
   const classes = getContentResponsiveClasses(item);
   if (!classes) return html;
-  return `<div class="${classes}">${html}</div>`;
+  // Remove data-element-id from inner HTML to avoid duplicates
+  const cleanHtml = html.replace(/data-element-id="${item.id}"/g, '');
+  return `<div class="${classes}" data-element-id="${item.id}">${cleanHtml}</div>`;
 }
 
 function renderContentItem(item, page) {
@@ -350,7 +380,7 @@ function renderContentItemInner(item, page) {
           fontSize: 'var(--font-heading1-size)',
           fontWeight: 'var(--font-heading1-weight)',
           lineHeight: '1.2',
-          width: width ?? 'max-content',
+          width: width ?? '100%',
           height,
           textAlign,
           ...textStyle
@@ -365,7 +395,7 @@ function renderContentItemInner(item, page) {
           fontSize: 'var(--font-heading2-size)',
           fontWeight: 'var(--font-heading2-weight)',
           lineHeight: '1.3',
-          width: width ?? 'max-content',
+          width: width ?? '100%',
           height,
           textAlign,
           ...textStyle
@@ -380,7 +410,7 @@ function renderContentItemInner(item, page) {
           fontSize: 'var(--font-body-size)',
           fontWeight: 'var(--font-body-weight)',
           lineHeight: '1.6',
-          width: width ?? 'max-content',
+          width: width ?? '100%',
           height,
           textAlign,
           ...textStyle
@@ -395,7 +425,7 @@ function renderContentItemInner(item, page) {
           fontSize: 'var(--font-label-size)',
           fontWeight: 'var(--font-label-weight)',
           lineHeight: '1.4',
-          width: width ?? 'max-content',
+          width: width ?? '100%',
           height,
           textAlign,
           display: 'inline-block',
@@ -404,7 +434,7 @@ function renderContentItemInner(item, page) {
         return `<span class="label" style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</span>`;
       }
       const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
-      return `<p style="${buildStyleString({ margin: '0', width: width ?? 'max-content', height, textAlign, ...textStyle })}" data-element-id="${item.id}">${customOverrides.content || ''}</p>`;
+      return `<p style="${buildStyleString({ margin: '0', width: width ?? '100%', height, textAlign, ...textStyle })}" data-element-id="${item.id}">${customOverrides.content || ''}</p>`;
     }
 
     case 'image': {
@@ -415,9 +445,10 @@ function renderContentItemInner(item, page) {
       const opacity = customOverrides.opacity;
       const imgStyle = buildStyleString({
         display: 'block',
-        width: width ?? '300px',
+        width: width ?? '100%',
         height: height ?? 'auto',
         maxWidth: '100%',
+        boxSizing: 'border-box',
         objectFit: objectFit === '100% 100%' ? undefined : objectFit,
         objectPosition: 'center',
         ...(borderRadius && { borderRadius }),
@@ -476,7 +507,6 @@ function renderContentItemInner(item, page) {
         fontFamily: 'var(--font-button-family)',
         fontWeight: 'var(--font-button-weight)',
         fontSize,
-        whiteSpace: 'nowrap',
         textDecoration: 'none',
         width,
         height
@@ -493,11 +523,11 @@ function renderContentItemInner(item, page) {
       const objectFit = customOverrides.objectFit || 'cover';
       
       if (!videoUrl) {
-        return `<div style="${buildStyleString({ width: width ?? '560px', height: height ?? '315px', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px' })}" data-element-id="${item.id}">No video URL set</div>`;
+        return `<div style="${buildStyleString({ width: width ?? '100%', height: height ?? '315px', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px' })}" data-element-id="${item.id}">No video URL set</div>`;
       }
       
       const videoStyle = {
-        width: width ?? '560px',
+        width: width ?? '100%',
         height: height ?? '315px',
         objectFit: objectFit === '100% 100%' ? 'cover' : objectFit
       };
@@ -523,7 +553,7 @@ function renderContentItemInner(item, page) {
       const vAlign = vMap[settings.verticalAlignment] || 'flex-start';
       
       const cardStyle = buildStyleString({
-        width: settings.width || (width ?? '300px'),
+        width: settings.width || (width ?? '100%'),
         height: settings.height || (height ?? 'auto'),
         minWidth: '200px',
         backgroundColor: settings.bgType === 'gradient' 

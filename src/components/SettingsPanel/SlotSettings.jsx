@@ -189,6 +189,225 @@ export function SlotSettings() {
       </div>
 
       <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Image URL</label>
+        <input
+          type="text"
+          value={slot.settings.bgImage || ''}
+          onChange={(e) => handleUpdate('bgImage', e.target.value || null)}
+          placeholder="https://..."
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            fontSize: '12px',
+            boxSizing: 'border-box'
+          }}
+        />
+      </div>
+
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Video URL</label>
+        <input
+          type="text"
+          value={slot.settings.bgVideo || ''}
+          onChange={(e) => handleUpdate('bgVideo', e.target.value || null)}
+          placeholder="https://www.youtube.com/watch?v=..."
+          style={{
+            width: '100%',
+            padding: '6px',
+            backgroundColor: '#374151',
+            color: '#f3f4f6',
+            border: '1px solid #4b5563',
+            borderRadius: '4px',
+            fontSize: '12px',
+            boxSizing: 'border-box'
+          }}
+        />
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+          Plays muted in background. Paste a YouTube URL.
+        </div>
+      </div>
+
+      {slot.settings.bgVideo && (
+        <div style={{ marginBottom: '12px' }}>
+          <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Video Fit</label>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            {[
+              { value: 'contain', label: 'Fit' },
+              { value: 'cover', label: 'Fill' },
+              { value: 'stretch', label: 'Stretch' }
+            ].map(fit => {
+              const bgVideoSize = slot.settings.bgVideoSize || 'fill';
+              const isActive = (fit.value === 'stretch' ? '100% 100%' : (fit.value === 'cover' ? 'fill' : fit.value)) === bgVideoSize;
+              return (
+                <button
+                  key={fit.value}
+                  onClick={() => {
+                    handleUpdate('bgVideoSize', fit.value === 'stretch' ? '100% 100%' : (fit.value === 'cover' ? 'fill' : fit.value));
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: '6px',
+                    fontSize: '12px',
+                    backgroundColor: isActive ? '#3b82f6' : '#374151',
+                    color: isActive ? '#93c5fd' : '#9ca3af',
+                    border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: isActive ? '600' : '400'
+                  }}
+                >
+                  {fit.label}
+                </button>
+              );
+            })}
+          </div>
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+            Fit: maintain aspect ratio, Fill: crop to fit, Stretch: ignore aspect ratio
+          </div>
+        </div>
+      )}
+
+      {slot.settings.bgImage && (
+        <>
+          <div style={{ marginBottom: '12px' }}>
+            <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Background Fit</label>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              {[
+                { value: 'contain', label: 'Fit' },
+                { value: 'cover', label: 'Fill' },
+                { value: 'custom', label: 'Size' }
+              ].map(fit => {
+                const bgSize = slot.settings.bgSize || 'cover';
+                const isActive = fit.value === 'custom' ? bgSize !== 'contain' && bgSize !== 'cover' : bgSize === fit.value;
+                return (
+                  <button
+                    key={fit.value}
+                    onClick={() => {
+                      if (fit.value === 'custom') {
+                        handleUpdate('bgSize', '200px 200px');
+                      } else {
+                        handleUpdate('bgSize', fit.value);
+                      }
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: '6px',
+                      fontSize: '12px',
+                      backgroundColor: isActive ? '#3b82f6' : '#374151',
+                      color: isActive ? '#93c5fd' : '#9ca3af',
+                      border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontWeight: isActive ? '600' : '400'
+                    }}
+                  >
+                    {fit.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {slot.settings.bgSize && slot.settings.bgSize !== 'contain' && slot.settings.bgSize !== 'cover' && (
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Background Size</label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Width</label>
+                  <input
+                    type="text"
+                    placeholder="200px"
+                    value={(slot.settings.bgSize || '').split(' ')[0] || ''}
+                    onChange={(e) => {
+                      const height = (slot.settings.bgSize || '').split(' ')[1] || '200px';
+                      handleUpdate('bgSize', `${e.target.value || '200px'} ${height}`);
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: '6px',
+                      backgroundColor: '#374151',
+                      color: '#f3f4f6',
+                      border: '1px solid #4b5563',
+                      borderRadius: '4px',
+                      fontSize: '12px',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Height</label>
+                  <input
+                    type="text"
+                    placeholder="200px"
+                    value={(slot.settings.bgSize || '').split(' ')[1] || ''}
+                    onChange={(e) => {
+                      const width = (slot.settings.bgSize || '').split(' ')[0] || '200px';
+                      handleUpdate('bgSize', `${width} ${e.target.value || '200px'}`);
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: '6px',
+                      backgroundColor: '#374151',
+                      color: '#f3f4f6',
+                      border: '1px solid #4b5563',
+                      borderRadius: '4px',
+                      fontSize: '12px',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
+              </div>
+              <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+                e.g. 200px, 50%, auto
+              </div>
+            </div>
+          )}
+
+          <div style={{ marginBottom: '12px' }}>
+            <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Background Alignment</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div style={{ display: 'flex', gap: '4px' }}>
+                <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>leftrightarrow;</span>
+                {[{ v: 'left', l: 'leftarrow;' }, { v: 'center', l: 'mdash;' }, { v: 'right', l: 'rightarrow;' }].map(({ v, l }) => (
+                  <button key={v} onClick={() => handleUpdate('bgPositionX', v)} style={{
+                    flex: 1, height: '28px', fontSize: '13px',
+                    backgroundColor: (slot.settings.bgPositionX ?? 'left') === v ? '#3b82f6' : '#374151',
+                    color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+                  }}>{l}</button>
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: '4px' }}>
+                <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>updownarrow;</span>
+                {[{ v: 'top', l: 'uparrow;' }, { v: 'center', l: 'mdash;' }, { v: 'bottom', l: 'downarrow;' }].map(({ v, l }) => (
+                  <button key={v} onClick={() => handleUpdate('bgPositionY', v)} style={{
+                    flex: 1, height: '28px', fontSize: '13px',
+                    backgroundColor: (slot.settings.bgPositionY ?? 'top') === v ? '#3b82f6' : '#374151',
+                    color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
+                  }}>{l}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '12px' }}>
+            <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={slot.settings.bgRepeat || false}
+                onChange={(e) => handleUpdate('bgRepeat', e.target.checked)}
+                style={{ cursor: 'pointer' }}
+              />
+              Repeat background
+            </label>
+          </div>
+        </>
+      )}
+
+      <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Padding (px)</label>
         <input
           type="number"

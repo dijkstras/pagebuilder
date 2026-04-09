@@ -15,10 +15,13 @@ export function AppContent() {
       const page = await storage.loadPage(pageName);
       console.log('AppContent: Page loaded:', page);
       if (page) {
+        console.log('AppContent: Page root length:', page.root?.length || 0);
+        console.log('AppContent: Page title:', page.title);
         dispatch(pageActions.setPage(page));
         dispatch(pageActions.setView('editor'));
         console.log('AppContent: View switched to editor');
       } else {
+        console.error('AppContent: Page not found');
         alert('Page not found');
       }
     } catch (error) {
