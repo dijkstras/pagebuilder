@@ -102,7 +102,7 @@
         "fullWidth": true,
         "bgColor": "transparent",
         "bgImage": null,
-        "padding": 40,
+        "padding": 28,
         "margin": 32,
         "gutter": "auto",
         "maxWidth": null,
