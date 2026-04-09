@@ -351,6 +351,26 @@
                   "desktop": {}
                 }
               }
+            },
+            {
+              "id": "content-1775752418521",
+              "type": "video",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": ""
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
             }
           ]
         }
