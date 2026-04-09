@@ -305,7 +305,7 @@
         "contentAlignment": "left",
         "verticalAlignment": "top",
         "direction": "row",
-        "minHeight": 200,
+        "minHeight": null,
         "borderEnabled": false,
         "borderWidth": 1,
         "borderColor": "#000000",
