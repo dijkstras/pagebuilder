@@ -352,7 +352,7 @@
                 "borderWidth": 1,
                 "borderColor": "#e5e7eb",
                 "borderRadius": 8,
-                "elevationEnabled": false,
+                "elevationEnabled": true,
                 "elevation": 4,
                 "showImage": true,
                 "showText": true,
