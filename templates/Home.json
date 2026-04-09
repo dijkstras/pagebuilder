@@ -345,7 +345,7 @@
             },
             "bgType": "gradient",
             "bgGradient": {
-              "color1": "#f9fafb",
+              "color1": "#fe770e",
               "color2": "#000000",
               "angle": 66
             }
