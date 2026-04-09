@@ -246,7 +246,7 @@
             "verticalAlignment": "top",
             "direction": "column",
             "borderEnabled": true,
-            "borderWidth": 1,
+            "borderWidth": 3,
             "borderColor": "#000000",
             "elevationEnabled": false,
             "elevation": 4,
