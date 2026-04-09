@@ -127,7 +127,7 @@
             "gridColumn": 4,
             "height": "250px",
             "spacing": 16,
-            "bgColor": "transparent",
+            "bgColor": "#ec4899",
             "bgImage": null,
             "bgVideo": null,
             "padding": 0,
