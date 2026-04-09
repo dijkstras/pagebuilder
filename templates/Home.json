@@ -75,7 +75,7 @@
         "bgColor": "transparent",
         "textColor": "#3b82f6",
         "padding": 12,
-        "radius": 6,
+        "radius": 999,
         "bgType": "solid",
         "bgGradient": null,
         "fontSize": 14
