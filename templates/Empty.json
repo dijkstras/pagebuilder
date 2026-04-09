@@ -43,7 +43,7 @@
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
-            "padding": 20,
+            "padding": 0,
             "contentAlignment": "left",
             "verticalAlignment": "top",
             "direction": "column",
