@@ -356,7 +356,7 @@
             "contentAlignment": "left",
             "verticalAlignment": "top",
             "direction": "column",
-            "borderEnabled": true,
+            "borderEnabled": false,
             "borderWidth": 3,
             "borderColor": "#000000",
             "elevationEnabled": false,
