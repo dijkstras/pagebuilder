@@ -8,6 +8,119 @@
   },
   "root": [
     {
+      "id": "segment-1775134799114",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md"
+      },
+      "children": [
+        {
+          "id": "slot-1775745857809-61ug",
+          "name": "Container",
+          "type": "slot",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "row",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "bgType": "solid",
+            "bgGradient": null,
+            "width": "500",
+            "gridColumn": 12,
+            "height": "auto",
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
+          },
+          "children": [
+            {
+              "id": "content-1775134969832",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
+            },
+            {
+              "id": "content-1775134972082",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Button",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "segment-1775131464406",
       "name": "New Segment",
       "type": "segment",
@@ -351,115 +464,57 @@
       ]
     },
     {
-      "id": "segment-1775134799114",
+      "id": "segment-1775745875499",
       "name": "New Segment",
       "type": "segment",
       "settings": {
+        "layout": "full",
+        "gap": "md",
         "fullWidth": true,
         "bgColor": "#ffffff",
         "bgImage": null,
         "bgVideo": null,
         "padding": 40,
         "margin": 0,
-        "gutter": 24,
         "maxWidth": null,
         "contentAlignment": "left",
         "verticalAlignment": "top",
-        "direction": "row",
         "minHeight": 200,
         "borderEnabled": false,
         "borderWidth": 1,
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0,
-        "bgType": "solid",
-        "bgGradient": null,
-        "layout": "full",
-        "gap": "md"
+        "borderRadius": 0
       },
       "children": [
         {
-          "id": "slot-1775745857809-61ug",
-          "name": "Container",
+          "id": "slot-1775745875499-4ar9",
+          "name": "Content",
           "type": "slot",
           "settings": {
-            "columnSpan": 12,
+            "gridColumn": 12,
+            "height": "auto",
             "spacing": 16,
             "bgColor": "transparent",
-            "bgImage": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "bgImage": null,
             "bgVideo": null,
             "padding": 20,
             "contentAlignment": "left",
             "verticalAlignment": "top",
-            "direction": "row",
+            "direction": "column",
             "borderEnabled": false,
             "borderWidth": 1,
             "borderColor": "#000000",
             "elevationEnabled": false,
             "elevation": 4,
             "borderRadius": 0,
-            "bgType": "solid",
-            "bgGradient": null,
-            "width": "500",
-            "gridColumn": 12,
-            "height": "auto",
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
             }
           },
-          "children": [
-            {
-              "id": "content-1775134969832",
-              "type": "text",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": "body",
-                "customOverrides": {
-                  "content": "Your text here"
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                }
-              }
-            },
-            {
-              "id": "content-1775134972082",
-              "type": "button",
-              "settings": {
-                "assignedStyleId": "primary",
-                "textRole": null,
-                "customOverrides": {
-                  "label": "Button",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                }
-              }
-            }
-          ]
+          "children": []
         }
       ]
     }
