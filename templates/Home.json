@@ -476,7 +476,7 @@
           "type": "slot",
           "settings": {
             "gridColumn": 4,
-            "height": "auto",
+            "height": "300px",
             "spacing": 16,
             "bgColor": "transparent",
             "bgImage": "https://s7d1.scene7.com/is/image/mcdonalds/gui_nl_main_big_tasty_bacon:nutrition-calculator-tile",
