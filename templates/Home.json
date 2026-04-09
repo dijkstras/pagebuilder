@@ -380,7 +380,8 @@
                 "textRole": "heading2",
                 "customOverrides": {
                   "content": "Claim your discount now!",
-                  "width": "100"
+                  "width": "100",
+                  "color": "#f9fafb"
                 },
                 "responsive": {
                   "hideOnMobile": false,
