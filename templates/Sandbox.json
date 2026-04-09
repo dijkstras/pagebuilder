@@ -150,7 +150,7 @@
       "children": [
         {
           "id": "slot-1775746707085-buha",
-          "name": "Content",
+          "name": "Card slider",
           "type": "slot",
           "settings": {
             "gridColumn": 12,
