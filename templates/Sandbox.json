@@ -154,7 +154,7 @@
           "type": "slot",
           "settings": {
             "gridColumn": 12,
-            "height": "400px",
+            "height": "auto",
             "spacing": 24,
             "bgColor": "#1f2937",
             "bgImage": null,
