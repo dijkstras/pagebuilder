@@ -129,7 +129,7 @@
           "type": "slot",
           "settings": {
             "gridColumn": 12,
-            "height": "auto",
+            "height": "400px",
             "spacing": 16,
             "bgColor": "transparent",
             "bgImage": null,
@@ -280,7 +280,7 @@
           "type": "slot",
           "settings": {
             "gridColumn": 12,
-            "height": "auto",
+            "height": "400px",
             "spacing": 16,
             "bgColor": "transparent",
             "bgImage": null,
@@ -361,7 +361,7 @@
           "type": "slot",
           "settings": {
             "gridColumn": 12,
-            "height": "auto",
+            "height": "400px",
             "spacing": 16,
             "bgColor": "transparent",
             "bgImage": null,
@@ -603,7 +603,7 @@
           "type": "slot",
           "settings": {
             "gridColumn": 12,
-            "height": "auto",
+            "height": "400px",
             "spacing": 16,
             "bgColor": "transparent",
             "bgImage": null,
@@ -876,7 +876,7 @@
           "type": "slot",
           "settings": {
             "gridColumn": 12,
-            "height": "auto",
+            "height": "400px",
             "spacing": 16,
             "bgColor": "transparent",
             "bgImage": null,
@@ -1035,7 +1035,7 @@
           "type": "slot",
           "settings": {
             "gridColumn": 12,
-            "height": "auto",
+            "height": "400px",
             "spacing": 16,
             "bgColor": "transparent",
             "bgImage": null,
