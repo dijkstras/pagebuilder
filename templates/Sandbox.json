@@ -162,7 +162,7 @@
             "padding": 32,
             "contentAlignment": "left",
             "verticalAlignment": "top",
-            "direction": "column",
+            "direction": "row",
             "borderEnabled": false,
             "borderWidth": 1,
             "borderColor": "#000000",
@@ -175,7 +175,7 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "scroll": false
+            "scroll": true
           },
           "children": [
             {
