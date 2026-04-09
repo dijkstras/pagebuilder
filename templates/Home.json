@@ -267,81 +267,93 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "layout": "33-33-33"
       },
       "children": [
         {
-          "id": "content-1775226545607",
-          "type": "image",
+          "id": "slot-1775741923252-8kfk",
+          "name": "Column 1",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://s7d1.scene7.com/is/image/mcdonalds/ngk_gui_nl_main_big_mac:nutrition-calculator-tile",
-              "objectFit": "contain",
-              "borderRadius": "24px",
-              "width": "250px"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 4,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
-          }
+          },
+          "children": []
         },
         {
-          "id": "image-1775226611764-rh448",
-          "type": "image",
+          "id": "slot-1775741923252-ctnk",
+          "name": "Column 2",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://s7d1.scene7.com/is/image/mcdonalds/ngk_gui_nl_main_Big%20tasty_double:nutrition-calculator-tile",
-              "borderRadius": "24px",
-              "width": "250px"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 4,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
-          }
+          },
+          "children": []
         },
         {
-          "id": "image-1775226610051-nueme",
-          "type": "image",
+          "id": "slot-1775741923252-1oms",
+          "name": "Column 3",
+          "type": "slot",
           "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://s7d1.scene7.com/is/image/mcdonalds/GWS-McDonalds_9465:nutrition-calculator-tile",
-              "borderRadius": "24px",
-              "width": "250px"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
+            "gridColumn": 4,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
             }
-          }
-        },
-        {
-          "id": "image-1775226697898-zrqn7",
-          "type": "image",
-          "settings": {
-            "assignedStyleId": null,
-            "textRole": null,
-            "customOverrides": {
-              "src": "https://s7d1.scene7.com/is/image/mcdonalds/gui_nl_main_chili_chicken:nutrition-calculator-tile",
-              "borderRadius": "24px",
-              "width": "250px"
-            },
-            "responsiveVariants": {
-              "mobile": {},
-              "tablet": {},
-              "desktop": {}
-            }
-          }
+          },
+          "children": []
         }
       ]
     }
