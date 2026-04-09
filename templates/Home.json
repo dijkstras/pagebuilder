@@ -167,8 +167,7 @@
                 "assignedStyleId": null,
                 "textRole": "heading1",
                 "customOverrides": {
-                  "content": "I Love Hamburgers",
-                  "width": "100%"
+                  "content": "I Love Hamburgers"
                 },
                 "responsiveVariants": {
                   "mobile": {},
