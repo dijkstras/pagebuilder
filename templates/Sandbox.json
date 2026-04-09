@@ -39,7 +39,7 @@
       },
       "children": [
         {
-          "id": "slot-1775744338514-h98c",
+          "id": "slot-1775745857809-z47h",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -167,7 +167,7 @@
           ]
         },
         {
-          "id": "slot-1775744338514-ttfo",
+          "id": "slot-1775745857809-3ieo",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -295,7 +295,7 @@
           ]
         },
         {
-          "id": "slot-1775744338514-4tot",
+          "id": "slot-1775745857809-2nb5",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -423,7 +423,7 @@
           ]
         },
         {
-          "id": "slot-1775744338514-wlvz",
+          "id": "slot-1775745857809-fawa",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -551,7 +551,7 @@
           ]
         },
         {
-          "id": "slot-1775744338514-jd7o",
+          "id": "slot-1775745857809-ahh4",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -679,7 +679,7 @@
           ]
         },
         {
-          "id": "slot-1775744338514-que5",
+          "id": "slot-1775745857809-1m7z",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -808,7 +808,7 @@
           ]
         },
         {
-          "id": "slot-1775744338514-3rgi-wrap",
+          "id": "slot-1775745857809-zvri",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -831,7 +831,9 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": [
             {
@@ -889,7 +891,7 @@
       },
       "children": [
         {
-          "id": "slot-1775744338514-9kby-wrap",
+          "id": "slot-1775745857809-aehs",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -912,7 +914,9 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": [
             {
@@ -1229,7 +1233,7 @@
       },
       "children": [
         {
-          "id": "slot-1775744338514-37ye",
+          "id": "slot-1775745857809-61ug",
           "name": "Container",
           "type": "slot",
           "settings": {
