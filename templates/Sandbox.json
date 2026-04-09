@@ -35,7 +35,7 @@
       },
       "children": [
         {
-          "id": "slot-1775746287507-6pgz",
+          "id": "slot-1775746316094-kc8q",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -96,7 +96,7 @@
       },
       "children": [
         {
-          "id": "slot-1775746287507-p5yw",
+          "id": "slot-1775746316094-8ur6",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -201,11 +201,13 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null
       },
       "children": [
         {
-          "id": "slot-1775746297084-vllc",
+          "id": "slot-1775746316094-lzfh",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -228,7 +230,9 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null
           },
           "children": []
         }
