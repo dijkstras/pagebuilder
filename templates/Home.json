@@ -445,7 +445,7 @@
         "borderRadius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "bgSize": "contain"
+        "bgSize": "cover"
       },
       "children": [
         {
