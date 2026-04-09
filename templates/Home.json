@@ -302,7 +302,7 @@
         "bgImage": null,
         "bgVideo": null,
         "padding": 40,
-        "margin": 0,
+        "margin": 80,
         "maxWidth": null,
         "contentAlignment": "left",
         "verticalAlignment": "top",
