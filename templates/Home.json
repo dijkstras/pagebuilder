@@ -271,7 +271,8 @@
                 "textRole": null,
                 "customOverrides": {
                   "src": "https://png.pngtree.com/png-clipart/20240523/original/pngtree-3d-burger-on-transparent-background-png-image_15157990.png",
-                  "objectFit": "contain"
+                  "objectFit": "contain",
+                  "width": "100%"
                 },
                 "responsive": {
                   "hideOnMobile": false,
