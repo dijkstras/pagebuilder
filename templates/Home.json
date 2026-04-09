@@ -338,7 +338,7 @@
             "borderColor": "#000000",
             "elevationEnabled": false,
             "elevation": 4,
-            "borderRadius": 60,
+            "borderRadius": 100,
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
