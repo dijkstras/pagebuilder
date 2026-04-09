@@ -126,7 +126,7 @@
         "bgSize": "contain",
         "bgPositionX": "right",
         "layout": "67-33",
-        "gap": "md"
+        "gap": "lg"
       },
       "children": [
         {
