@@ -187,8 +187,7 @@
                 "assignedStyleId": null,
                 "textRole": "heading2",
                 "customOverrides": {
-                  "content": "My name is Sjoerd Dijkstra, and I love hamburgers. They make me feel happy and warm inside. ",
-                  "width": "100%"
+                  "content": "My name is Sjoerd Dijkstra, and I love hamburgers. They make me feel happy and warm inside. "
                 },
                 "responsiveVariants": {
                   "mobile": {},
