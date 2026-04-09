@@ -883,7 +883,7 @@
           "name": "Content",
           "type": "slot",
           "settings": {
-            "gridColumn": 12,
+            "gridColumn": 6,
             "height": "400px",
             "spacing": 16,
             "bgColor": "transparent",
