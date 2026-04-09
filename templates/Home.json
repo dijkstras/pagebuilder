@@ -332,7 +332,7 @@
             "padding": 0,
             "contentAlignment": "left",
             "verticalAlignment": "top",
-            "direction": "column",
+            "direction": "row",
             "borderEnabled": false,
             "borderWidth": 1,
             "borderColor": "#000000",
