@@ -831,7 +831,7 @@
                 "textRole": null,
                 "customOverrides": {
                   "src": "https://a.storyblok.com/f/322327/1720x1210/4dd129a813/cz25w25ix0011-911-carrera-t-front.png",
-                  "objectFit": "cover",
+                  "objectFit": "100% 100%",
                   "width": "55%"
                 },
                 "responsiveVariants": {
