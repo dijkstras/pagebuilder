@@ -397,7 +397,7 @@
               "id": "content-1775756464295",
               "type": "button",
               "settings": {
-                "assignedStyleId": "primary",
+                "assignedStyleId": "secondary",
                 "textRole": null,
                 "customOverrides": {
                   "label": "Button",
