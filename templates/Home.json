@@ -105,7 +105,7 @@
         "bgColor": "#ffffff",
         "bgImage": null,
         "bgVideo": null,
-        "padding": 40,
+        "padding": 60,
         "margin": 0,
         "maxWidth": null,
         "contentAlignment": "left",
