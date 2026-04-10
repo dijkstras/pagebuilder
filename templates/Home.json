@@ -645,7 +645,7 @@
     }
   ],
   "mobileOverrides": {
-    "segmentSpacing": "md",
-    "bgColor": "#ec4899"
+    "segmentSpacing": "sm",
+    "bgColor": "#6b7280"
   }
 }
