@@ -276,7 +276,9 @@
               "hideOnMobile": false,
               "mobileOrder": 1
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {
+              "contentAlignment": "center"
+            }
           },
           "children": [
             {
