@@ -4,6 +4,7 @@ import { CONTENT_TYPES } from '../../store/pageTypes';
 import { ColorPresets } from './ColorPresets.jsx';
 import { BUTTON_ICONS } from '../../utils/buttonIcons';
 import { GradientPicker } from './GradientPicker.jsx';
+import { useMobileSettings, MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
 
 function findElement(page, elementId) {
   const search = (element) => {
@@ -41,16 +42,24 @@ const labelStyle = {
   marginBottom: '5px'
 };
 
+const MobileOverrideDot = MobileOverrideIcon;
+
 export function ContentSettings() {
   const { state, dispatch } = usePageStore();
   const content = findElement(state.page, state.selectedElementId);
 
   if (!content) return null;
 
+  const { isMobile, getSetting, updateSetting, hasOverride, clearOverride } = useMobileSettings(content);
+
   const handleSettingUpdate = (key, value) => {
-    dispatch(pageActions.updateElement(content.id, {
-      settings: { ...content.settings, [key]: value }
-    }));
+    if (isMobile) {
+      updateSetting(key, value);
+    } else {
+      dispatch(pageActions.updateElement(content.id, {
+        settings: { ...content.settings, [key]: value }
+      }));
+    }
   };
 
   const handleCustomUpdate = (key, value) => {
@@ -64,6 +73,7 @@ export function ContentSettings() {
 
   return (
     <div>
+
       <div style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #1f2937' }}>
         <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</label>
         <input
@@ -78,8 +88,8 @@ export function ContentSettings() {
       {/* ── Text ── */}
       {content.type === CONTENT_TYPES.TEXT && (
         <>
-          <div style={{ marginBottom: '16px' }}>
-            <label style={labelStyle}>Text style</label>
+          <MobileOverrideWrap hasOverride={hasOverride('textRole')} style={{ marginBottom: '16px' }}>
+            <label style={{ ...labelStyle, display: 'inline-block' }}>Text style<MobileOverrideDot hasOverride={hasOverride('textRole')} onClear={() => clearOverride('textRole')} /></label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {[
                 { id: 'heading1', label: 'Heading 1' },
@@ -88,7 +98,7 @@ export function ContentSettings() {
                 { id: 'label', label: 'Label' }
               ].map(role => {
                 const preview = state.page.styles.fonts[role.id];
-                const isActive = content.settings.textRole === role.id;
+                const isActive = getSetting('textRole', 'body') === role.id;
                 return (
                   <button
                     key={role.id}
@@ -127,17 +137,17 @@ export function ContentSettings() {
                 );
               })}
             </div>
-          </div>
+          </MobileOverrideWrap>
 
-          <div style={{ marginBottom: '16px' }}>
-            <label style={labelStyle}>Alignment</label>
+          <MobileOverrideWrap hasOverride={hasOverride('textAlign')} style={{ marginBottom: '16px' }}>
+            <label style={{ ...labelStyle, display: 'inline-block' }}>Alignment<MobileOverrideDot hasOverride={hasOverride('textAlign')} onClear={() => clearOverride('textAlign')} /></label>
             <div style={{ display: 'flex', gap: '8px' }}>
               {[
                 { id: 'left', label: 'Left', icon: '◄' },
                 { id: 'center', label: 'Center', icon: '═' },
                 { id: 'right', label: 'Right', icon: '►' }
               ].map(alignment => {
-                const isActive = (content.settings.textAlign || 'left') === alignment.id;
+                const isActive = getSetting('textAlign', 'left') === alignment.id;
                 return (
                   <button
                     key={alignment.id}
@@ -160,7 +170,7 @@ export function ContentSettings() {
                 );
               })}
             </div>
-          </div>
+          </MobileOverrideWrap>
 
           <div style={{ marginBottom: '16px' }}>
             <label style={labelStyle}>Content</label>
@@ -1169,48 +1179,69 @@ export function ContentSettings() {
         </div>
       )}
 
-      {/* ── Responsive ── */}
-      <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151' }}>
-        <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Responsive</label>
+      {/* ── Visibility ── */}
+      <MobileOverrideWrap hasOverride={hasOverride('hidden')} style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
+        <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Visibility</label>
         {(() => {
           const responsive = content.settings.responsive || {};
-          const bothHidden = responsive.hideOnMobile && responsive.hideOnDesktop;
           const handleResponsiveUpdate = (key, value) => {
-            handleSettingUpdate('responsive', { ...responsive, [key]: value });
+            dispatch(pageActions.updateElement(content.id, {
+              settings: { ...content.settings, responsive: { ...responsive, [key]: value } }
+            }));
           };
+          const bothHidden = responsive.hideOnMobile && responsive.hideOnDesktop;
           return (
             <>
-              <div style={{ marginBottom: '6px' }}>
-                <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    checked={responsive.hideOnMobile || false}
-                    onChange={(e) => handleResponsiveUpdate('hideOnMobile', e.target.checked)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  Hide on mobile
-                </label>
-              </div>
-              <div style={{ marginBottom: '6px' }}>
-                <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    checked={responsive.hideOnDesktop || false}
-                    onChange={(e) => handleResponsiveUpdate('hideOnDesktop', e.target.checked)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  Hide on desktop (show mobile only)
-                </label>
-              </div>
-              {bothHidden && (
-                <div style={{ fontSize: '11px', color: '#f59e0b', marginTop: '4px' }}>
-                  Warning: This element is hidden on both mobile and desktop.
+              <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
+                <input
+                  type="checkbox"
+                  checked={isMobile ? !(getSetting('hidden', false)) : !(content.settings.hidden || false)}
+                  onChange={(e) => handleSettingUpdate('hidden', !e.target.checked)}
+                  style={{ cursor: 'pointer' }}
+                />
+                Visible{isMobile ? ' on mobile' : ''}
+                <MobileOverrideDot hasOverride={hasOverride('hidden')} onClear={() => clearOverride('hidden')} />
+              </label>
+              {isMobile && (
+                <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '8px', marginLeft: '24px' }}>
+                  Overrides desktop visibility on mobile
                 </div>
+              )}
+              {!isMobile && (
+                <>
+                  <div style={{ marginBottom: '6px' }}>
+                    <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        checked={responsive.hideOnMobile || false}
+                        onChange={(e) => handleResponsiveUpdate('hideOnMobile', e.target.checked)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                      Hide on mobile
+                    </label>
+                  </div>
+                  <div style={{ marginBottom: '6px' }}>
+                    <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        checked={responsive.hideOnDesktop || false}
+                        onChange={(e) => handleResponsiveUpdate('hideOnDesktop', e.target.checked)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                      Hide on desktop
+                    </label>
+                  </div>
+                  {bothHidden && (
+                    <div style={{ fontSize: '11px', color: '#f59e0b', marginTop: '4px' }}>
+                      Warning: hidden on both mobile and desktop.
+                    </div>
+                  )}
+                </>
               )}
             </>
           );
         })()}
-      </div>
+      </MobileOverrideWrap>
     </div>
   );
 }

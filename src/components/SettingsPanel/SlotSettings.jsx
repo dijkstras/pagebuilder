@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
+import { useMobileSettings, MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
 import { GradientPicker } from './GradientPicker.jsx';
 
 function findElement(page, elementId) {
@@ -20,33 +21,41 @@ function findElement(page, elementId) {
   return null;
 }
 
+const MobileOverrideDot = MobileOverrideIcon;
+
 export function SlotSettings() {
   const { state, dispatch } = usePageStore();
   const slot = findElement(state.page, state.selectedElementId);
   const [spacingInput, setSpacingInput] = React.useState('');
   const isEditingRef = React.useRef(false);
 
+  const effectiveSpacing = slot ? (slot.settings.mobileOverrides?.spacing ?? slot.settings.spacing) : slot?.settings.spacing;
+
   React.useEffect(() => {
     if (slot && !isEditingRef.current) {
-      const currentValue = slot.settings.spacing === 'auto' ? 'auto' : slot.settings.spacing?.toString() ?? '16';
+      const currentValue = effectiveSpacing === 'auto' ? 'auto' : effectiveSpacing?.toString() ?? '16';
       setSpacingInput(currentValue);
     }
-  }, [slot?.settings.spacing]);
+  }, [effectiveSpacing]);
 
   if (!slot) return null;
 
+  const { isMobile, getSetting, updateSetting, hasOverride, clearOverride } = useMobileSettings(slot);
+
   const handleUpdate = (key, value) => {
-    const updates = {
-      settings: { ...slot.settings, [key]: value }
-    };
-    dispatch(pageActions.updateElement(slot.id, updates));
+    if (isMobile) {
+      updateSetting(key, value);
+    } else {
+      dispatch(pageActions.updateElement(slot.id, {
+        settings: { ...slot.settings, [key]: value }
+      }));
+    }
   };
 
   const handleResponsiveUpdate = (key, value) => {
-    handleUpdate('responsive', {
-      ...(slot.settings.responsive || {}),
-      [key]: value
-    });
+    dispatch(pageActions.updateElement(slot.id, {
+      settings: { ...slot.settings, responsive: { ...(slot.settings.responsive || {}), [key]: value } }
+    }));
   };
 
   const colors = state.page.styles.colors || {};
@@ -54,6 +63,7 @@ export function SlotSettings() {
 
   return (
     <div>
+
       <div style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #1f2937' }}>
         <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</label>
         <input
@@ -65,8 +75,8 @@ export function SlotSettings() {
         />
       </div>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Content Direction</label>
+      <MobileOverrideWrap hasOverride={hasOverride('direction')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Content Direction<MobileOverrideDot hasOverride={hasOverride('direction')} onClear={() => clearOverride('direction')} /></label>
         <div style={{ display: 'flex', gap: '6px' }}>
           {[
             { value: 'column', label: '↓', title: 'Vertical (top to bottom)' },
@@ -80,7 +90,7 @@ export function SlotSettings() {
                 flex: 1,
                 padding: '6px',
                 fontSize: '16px',
-                backgroundColor: (slot.settings.direction ?? 'column') === value ? '#3b82f6' : '#374151',
+                backgroundColor: (getSetting('direction', 'column')) === value ? '#3b82f6' : '#374151',
                 color: '#f3f4f6',
                 border: '1px solid #4b5563',
                 borderRadius: '4px',
@@ -91,17 +101,17 @@ export function SlotSettings() {
             </button>
           ))}
         </div>
-      </div>
+      </MobileOverrideWrap>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Alignment</label>
+      <MobileOverrideWrap hasOverride={hasOverride('contentAlignment') || hasOverride('verticalAlignment')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Alignment<MobileOverrideDot hasOverride={hasOverride('contentAlignment') || hasOverride('verticalAlignment')} onClear={() => { clearOverride('contentAlignment'); clearOverride('verticalAlignment'); }} /></label>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <div style={{ display: 'flex', gap: '4px' }}>
             <span style={{ fontSize: '11px', color: '#9ca3af', width: '24px', lineHeight: '28px' }}>↔</span>
             {[{ v: 'left', l: '←' }, { v: 'center', l: '—' }, { v: 'right', l: '→' }].map(({ v, l }) => (
               <button key={v} onClick={() => handleUpdate('contentAlignment', v)} style={{
                 flex: 1, height: '28px', fontSize: '13px',
-                backgroundColor: (slot.settings.contentAlignment ?? 'left') === v ? '#3b82f6' : '#374151',
+                backgroundColor: (getSetting('contentAlignment', 'left')) === v ? '#3b82f6' : '#374151',
                 color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
               }}>{l}</button>
             ))}
@@ -111,16 +121,16 @@ export function SlotSettings() {
             {[{ v: 'top', l: '↑' }, { v: 'center', l: '—' }, { v: 'bottom', l: '↓' }].map(({ v, l }) => (
               <button key={v} onClick={() => handleUpdate('verticalAlignment', v)} style={{
                 flex: 1, height: '28px', fontSize: '13px',
-                backgroundColor: (slot.settings.verticalAlignment ?? 'top') === v ? '#3b82f6' : '#374151',
+                backgroundColor: (getSetting('verticalAlignment', 'top')) === v ? '#3b82f6' : '#374151',
                 color: '#f3f4f6', border: '1px solid #4b5563', borderRadius: '4px', cursor: 'pointer'
               }}>{l}</button>
             ))}
           </div>
         </div>
-      </div>
+      </MobileOverrideWrap>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Content Spacing</label>
+      <MobileOverrideWrap hasOverride={hasOverride('spacing')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Content Spacing<MobileOverrideDot hasOverride={hasOverride('spacing')} onClear={() => clearOverride('spacing')} /></label>
         <input
           type="text"
           value={spacingInput}
@@ -147,7 +157,7 @@ export function SlotSettings() {
               handleUpdate('spacing', 16);
               setSpacingInput('16');
             } else if (slot) {
-              const currentValue = slot.settings.spacing === 'auto' ? 'auto' : slot.settings.spacing?.toString() ?? '16';
+              const currentValue = effectiveSpacing === 'auto' ? 'auto' : effectiveSpacing?.toString() ?? '16';
               setSpacingInput(currentValue);
             }
           }}
@@ -160,13 +170,13 @@ export function SlotSettings() {
         <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
           Gap between items inside this slot
         </div>
-      </div>
+      </MobileOverrideWrap>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Min Height</label>
+      <MobileOverrideWrap hasOverride={hasOverride('height')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Min Height<MobileOverrideDot hasOverride={hasOverride('height')} onClear={() => clearOverride('height')} /></label>
         <input
           type="text"
-          value={(slot.settings.height && slot.settings.height !== 'auto') ? slot.settings.height : ''}
+          value={(() => { const h = getSetting('height', 'auto'); return (h && h !== 'auto') ? h : ''; })()}
           onChange={(e) => handleUpdate('height', e.target.value || 'auto')}
           placeholder="auto"
           style={{
@@ -175,18 +185,18 @@ export function SlotSettings() {
           }}
         />
         <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>e.g. 200px, 50%, auto</div>
-      </div>
+      </MobileOverrideWrap>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Background</label>
+      <MobileOverrideWrap hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Background<MobileOverrideDot hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')} onClear={() => { clearOverride('bgColor'); clearOverride('bgType'); clearOverride('bgGradient'); }} /></label>
         <GradientPicker
-          bgType={slot.settings.bgType || 'solid'}
-          bgColor={slot.settings.bgColor}
-          bgGradient={slot.settings.bgGradient}
+          bgType={getSetting('bgType', 'solid')}
+          bgColor={getSetting('bgColor', slot.settings.bgColor)}
+          bgGradient={getSetting('bgGradient', slot.settings.bgGradient)}
           onUpdate={handleUpdate}
           colors={colors}
         />
-      </div>
+      </MobileOverrideWrap>
 
       <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Image URL</label>
@@ -407,24 +417,24 @@ export function SlotSettings() {
         </>
       )}
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Padding (px)</label>
+      <MobileOverrideWrap hasOverride={hasOverride('padding')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Padding (px)<MobileOverrideDot hasOverride={hasOverride('padding')} onClear={() => clearOverride('padding')} /></label>
         <input
           type="number"
-          value={slot.settings.padding}
+          value={getSetting('padding', 0)}
           onChange={(e) => handleUpdate('padding', parseInt(e.target.value))}
           style={{
             width: '100%', padding: '6px', backgroundColor: '#374151', color: '#f3f4f6',
             border: '1px solid #4b5563', borderRadius: '4px', boxSizing: 'border-box'
           }}
         />
-      </div>
+      </MobileOverrideWrap>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Corner Radius (px)</label>
+      <MobileOverrideWrap hasOverride={hasOverride('borderRadius')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Corner Radius (px)<MobileOverrideDot hasOverride={hasOverride('borderRadius')} onClear={() => clearOverride('borderRadius')} /></label>
         <input
           type="number"
-          value={slot.settings.borderRadius ?? 0}
+          value={getSetting('borderRadius', 0)}
           min={0}
           onChange={(e) => handleUpdate('borderRadius', parseInt(e.target.value) || 0)}
           style={{
@@ -432,7 +442,7 @@ export function SlotSettings() {
             border: '1px solid #4b5563', borderRadius: '4px', boxSizing: 'border-box'
           }}
         />
-      </div>
+      </MobileOverrideWrap>
 
       <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
@@ -503,6 +513,26 @@ export function SlotSettings() {
           </div>
         )}
       </div>
+
+      {/* Visibility */}
+      <MobileOverrideWrap hasOverride={hasOverride('hidden')} style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
+        <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Visibility</label>
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={isMobile ? !(getSetting('hidden', false)) : !(slot.settings.hidden || false)}
+            onChange={(e) => handleUpdate('hidden', !e.target.checked)}
+            style={{ cursor: 'pointer' }}
+          />
+          Visible{isMobile ? ' on mobile' : ''}
+          <MobileOverrideDot hasOverride={hasOverride('hidden')} onClear={() => clearOverride('hidden')} />
+        </label>
+        {isMobile && (
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px', marginLeft: '24px' }}>
+            Overrides desktop visibility on mobile
+          </div>
+        )}
+      </MobileOverrideWrap>
 
       {/* Responsive Section */}
       <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151' }}>

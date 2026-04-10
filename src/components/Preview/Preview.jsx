@@ -5,7 +5,8 @@ import { THEME } from '../../utils/constants';
 
 export function Preview() {
   const { state, dispatch } = usePageStore();
-  const [viewportMode, setViewportMode] = useState('desktop');
+  const viewportMode = state.viewportMode;
+  const setViewportMode = (mode) => dispatch(pageActions.setViewportMode(mode));
   const [showGridOverlay, setShowGridOverlay] = useState(false);
   const iframeRef = useRef(null);
   const savedScrollRef = useRef(0);
@@ -38,7 +39,7 @@ export function Preview() {
 
   const htmlContent = useMemo(() => {
     try {
-      return generateHTML(state.page, state.selectedElementId, { showGridOverlay });
+      return generateHTML(state.page, state.selectedElementId, { showGridOverlay, isMobilePreview: viewportMode === 'mobile' });
     } catch (error) {
       console.error('Error generating HTML:', error);
       return `<!DOCTYPE html>
@@ -51,7 +52,7 @@ export function Preview() {
 </body>
 </html>`;
     }
-  }, [state.page, state.selectedElementId, showGridOverlay]);
+  }, [state.page, state.selectedElementId, showGridOverlay, viewportMode]);
 
   // Set up message listener for iframe communication
   useEffect(() => {

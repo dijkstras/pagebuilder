@@ -11,7 +11,8 @@ const initialState = {
   saveStatus: 'idle', // 'idle' | 'saving' | 'saved' | 'error'
   saveError: null,
   lastSaved: null,
-  currentView: 'grid' // 'grid' | 'editor'
+  currentView: 'grid', // 'grid' | 'editor'
+  viewportMode: 'desktop' // 'desktop' | 'mobile'
 };
 
 function pageReducer(state, action) {
@@ -41,6 +42,15 @@ function pageReducer(state, action) {
         page: {
           ...state.page,
           styles: { ...state.page.styles, ...action.payload }
+        }
+      };
+
+    case 'UPDATE_PAGE_MOBILE_OVERRIDES':
+      return {
+        ...state,
+        page: {
+          ...state.page,
+          mobileOverrides: { ...(state.page.mobileOverrides ?? {}), ...action.payload }
         }
       };
 
@@ -159,6 +169,12 @@ function pageReducer(state, action) {
       return {
         ...state,
         currentView: action.payload
+      };
+
+    case 'SET_VIEWPORT_MODE':
+      return {
+        ...state,
+        viewportMode: action.payload
       };
 
     case 'SET_LAYOUT': {
@@ -315,6 +331,7 @@ export const pageActions = {
   setPage: (page) => ({ type: 'SET_PAGE', payload: page }),
   updatePageSettings: (updates) => ({ type: 'UPDATE_PAGE_SETTINGS', payload: updates }),
   updatePageStyles: (styles) => ({ type: 'UPDATE_PAGE_STYLES', payload: styles }),
+  updatePageMobileOverrides: (overrides) => ({ type: 'UPDATE_PAGE_MOBILE_OVERRIDES', payload: overrides }),
   addSegment: (name) => ({ type: 'ADD_SEGMENT', payload: name }),
   updateElement: (id, updates) => ({ type: 'UPDATE_ELEMENT', payload: { id, updates } }),
   moveElement: (id, direction) => ({ type: 'MOVE_ELEMENT', payload: { id, direction } }),
@@ -330,5 +347,6 @@ export const pageActions = {
   }),
   clearSaveError: () => ({ type: 'CLEAR_SAVE_ERROR' }),
   setView: (view) => ({ type: 'SET_VIEW', payload: view }),
+  setViewportMode: (mode) => ({ type: 'SET_VIEWPORT_MODE', payload: mode }),
   setLayout: (segmentId, layoutKey) => ({ type: 'SET_LAYOUT', payload: { segmentId, layoutKey } })
 };

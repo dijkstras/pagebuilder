@@ -1,0 +1,253 @@
+{
+  "id": "page-1775227305967",
+  "title": "Elements to store",
+  "breakpoints": {
+    "mobile": 320,
+    "tablet": 768,
+    "desktop": 1024
+  },
+  "root": [
+    {
+      "id": "segment-1775745952065",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "layout": "50-50",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 40,
+        "margin": 0,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null,
+        "mobileOverrides": {}
+      },
+      "children": [
+        {
+          "id": "slot-1775829189035-rblj",
+          "name": "Content",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 6,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "scroll": false,
+            "mobileOverrides": {}
+          },
+          "children": []
+        },
+        {
+          "id": "slot-1775829189035-90aj",
+          "name": "Column 2",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 6,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "scroll": false,
+            "mobileOverrides": {}
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "segment-1775228469358",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#8b5cf6",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "layout": "full",
+        "gap": "md",
+        "bgType": "solid",
+        "bgGradient": null,
+        "mobileOverrides": {}
+      },
+      "children": [
+        {
+          "id": "slot-1775829189035-zz2t",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "scroll": false,
+            "mobileOverrides": {}
+          },
+          "children": []
+        }
+      ]
+    }
+  ],
+  "styles": {
+    "logo": null,
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#8b5cf6",
+      "accent": "#ec4899",
+      "text": "#1f2937",
+      "background": "#f9fafb",
+      "neutral": "#6b7280"
+    },
+    "fonts": {
+      "heading1": {
+        "family": "Inter",
+        "size": 48,
+        "weight": 700
+      },
+      "heading2": {
+        "family": "Inter",
+        "size": 32,
+        "weight": 600
+      },
+      "body": {
+        "family": "Raleway",
+        "size": 40,
+        "weight": 400
+      },
+      "label": {
+        "family": "Inter",
+        "size": 12,
+        "weight": 500
+      },
+      "button": {
+        "family": "Inter",
+        "weight": 500
+      }
+    },
+    "buttonStyles": [
+      {
+        "id": "primary",
+        "label": "Primary",
+        "bgColor": "#3b82f6",
+        "textColor": "#ffffff",
+        "padding": 12,
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
+      },
+      {
+        "id": "secondary",
+        "label": "Secondary",
+        "bgColor": "#e5e7eb",
+        "textColor": "#1f2937",
+        "padding": 12,
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
+      },
+      {
+        "id": "tertiary",
+        "label": "Tertiary",
+        "bgColor": "transparent",
+        "textColor": "#3b82f6",
+        "padding": 12,
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14
+      }
+    ],
+    "shapes": {
+      "borderRadius": 6
+    },
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 48
+    },
+    "bgColor": "#6b7280"
+  },
+  "mobileOverrides": {}
+}

@@ -280,6 +280,7 @@ export function migratePage(page) {
 
   return {
     ...page,
+    mobileOverrides: page.mobileOverrides ?? {},
     styles: {
       ...page.styles,
       colors,
@@ -313,6 +314,7 @@ function migrateFontToken(font, defaults) {
 function migrateContentItem(item) {
   const settings = item.settings ?? {};
   const responsive = settings.responsive ?? { hideOnMobile: false, hideOnDesktop: false };
+  const mobileOverrides = settings.mobileOverrides ?? {};
 
   if (item.type === 'button') {
     const overrides = settings.customOverrides ?? {};
@@ -323,6 +325,7 @@ function migrateContentItem(item) {
       settings: {
         ...settings,
         responsive,
+        mobileOverrides,
         customOverrides: {
           ...overrides,
           ...(needsIcon ? { icon: { key: null, position: 'none' } } : {}),
@@ -332,10 +335,10 @@ function migrateContentItem(item) {
     };
   }
 
-  // All other types: just ensure responsive exists
+  // All other types: just ensure responsive and mobileOverrides exist
   return {
     ...item,
-    settings: { ...settings, responsive }
+    settings: { ...settings, responsive, mobileOverrides }
   };
 }
 
@@ -452,7 +455,8 @@ function migrateSegment(segment) {
       borderColor: s.borderColor ?? '#000000',
       elevationEnabled: s.elevationEnabled ?? false,
       elevation: s.elevation ?? 4,
-      borderRadius: s.borderRadius ?? 0
+      borderRadius: s.borderRadius ?? 0,
+      mobileOverrides: s.mobileOverrides ?? {}
     },
     children: migratedChildren
   };
@@ -487,7 +491,8 @@ function migrateContainerToSlot(container, presetSpan) {
       elevationEnabled: s.elevationEnabled ?? false,
       elevation: s.elevation ?? 4,
       borderRadius: s.borderRadius ?? 0,
-      responsive: s.responsive ?? { hideOnMobile: false, mobileOrder: null }
+      responsive: s.responsive ?? { hideOnMobile: false, mobileOrder: null },
+      mobileOverrides: s.mobileOverrides ?? {}
     },
     children: (container.children ?? []).map(migrateContentItem)
   };

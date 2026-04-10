@@ -2,6 +2,7 @@ import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { GradientPicker } from './GradientPicker.jsx';
 import { LAYOUT_PRESETS, GAP_PRESETS } from '../../store/pageTypes';
+import { useMobileSettings, MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
 
 const LAYOUT_VISUALS = {
   'full':       { blocks: [12] },
@@ -32,17 +33,24 @@ function findElement(page, elementId) {
   return null;
 }
 
+const MobileOverrideDot = MobileOverrideIcon;
+
 export function SegmentSettings() {
   const { state, dispatch } = usePageStore();
   const segment = findElement(state.page, state.selectedElementId);
 
   if (!segment) return null;
 
+  const { isMobile, getSetting, updateSetting, hasOverride, clearOverride } = useMobileSettings(segment);
+
   const handleUpdate = (key, value) => {
-    const updates = {
-      settings: { ...segment.settings, [key]: value }
-    };
-    dispatch(pageActions.updateElement(segment.id, updates));
+    if (isMobile) {
+      updateSetting(key, value);
+    } else {
+      dispatch(pageActions.updateElement(segment.id, {
+        settings: { ...segment.settings, [key]: value }
+      }));
+    }
   };
 
   const handleLayoutChange = (layoutKey) => {
@@ -51,10 +59,12 @@ export function SegmentSettings() {
 
   const colors = state.page.styles.colors || {};
   const currentLayout = segment.settings.layout || 'full';
-  const currentGap = segment.settings.gap || 'md';
+  const currentGap = getSetting('gap', 'md');
 
   return (
     <div>
+
+
       <div style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #1f2937' }}>
         <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</label>
         <input
@@ -118,8 +128,9 @@ export function SegmentSettings() {
       </div>
 
       {/* Gap Selector */}
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Gap</label>
+      <MobileOverrideWrap hasOverride={hasOverride('gap')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Gap<MobileOverrideDot hasOverride={hasOverride('gap')} onClear={() => clearOverride('gap')} /></label>
+
         <div style={{ display: 'flex', gap: '4px' }}>
           {Object.entries(GAP_PRESETS).map(([key, preset]) => {
             const isActive = currentGap === key;
@@ -144,24 +155,24 @@ export function SegmentSettings() {
             );
           })}
         </div>
-      </div>
+      </MobileOverrideWrap>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Background</label>
+      <MobileOverrideWrap hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Background<MobileOverrideDot hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')} onClear={() => { clearOverride('bgColor'); clearOverride('bgType'); clearOverride('bgGradient'); }} /></label>
         <GradientPicker
-          bgType={segment.settings.bgType || 'solid'}
-          bgColor={segment.settings.bgColor}
-          bgGradient={segment.settings.bgGradient}
+          bgType={getSetting('bgType', 'solid')}
+          bgColor={getSetting('bgColor', segment.settings.bgColor)}
+          bgGradient={getSetting('bgGradient', segment.settings.bgGradient)}
           onUpdate={handleUpdate}
           colors={colors}
         />
-      </div>
+      </MobileOverrideWrap>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Min Height (px)</label>
+      <MobileOverrideWrap hasOverride={hasOverride('minHeight')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Min Height (px)<MobileOverrideDot hasOverride={hasOverride('minHeight')} onClear={() => clearOverride('minHeight')} /></label>
         <input
           type="number"
-          value={segment.settings.minHeight ?? 200}
+          value={getSetting('minHeight', 200)}
           onChange={(e) => handleUpdate('minHeight', parseInt(e.target.value))}
           style={{
             width: '100%',
@@ -173,13 +184,13 @@ export function SegmentSettings() {
             boxSizing: 'border-box'
           }}
         />
-      </div>
+      </MobileOverrideWrap>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Max Height (px)</label>
+      <MobileOverrideWrap hasOverride={hasOverride('maxHeight')}>
+        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Max Height (px)<MobileOverrideDot hasOverride={hasOverride('maxHeight')} onClear={() => clearOverride('maxHeight')} /></label>
         <input
           type="number"
-          value={segment.settings.maxHeight || ''}
+          value={getSetting('maxHeight', '') || ''}
           onChange={(e) => handleUpdate('maxHeight', e.target.value ? parseInt(e.target.value) : null)}
           placeholder="No limit"
           style={{
@@ -192,7 +203,7 @@ export function SegmentSettings() {
             boxSizing: 'border-box'
           }}
         />
-      </div>
+      </MobileOverrideWrap>
 
       <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Image URL</label>
@@ -535,6 +546,26 @@ export function SegmentSettings() {
           </div>
         )}
       </div>
+
+      {/* Visibility */}
+      <MobileOverrideWrap hasOverride={hasOverride('hidden')} style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
+        <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Visibility</label>
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={isMobile ? !(getSetting('hidden', false)) : !(segment.settings.hidden || false)}
+            onChange={(e) => handleUpdate('hidden', !e.target.checked)}
+            style={{ cursor: 'pointer' }}
+          />
+          Visible{isMobile ? ' on mobile' : ''}
+          <MobileOverrideDot hasOverride={hasOverride('hidden')} onClear={() => clearOverride('hidden')} />
+        </label>
+        {isMobile && (
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px', marginLeft: '24px' }}>
+            Overrides desktop visibility on mobile
+          </div>
+        )}
+      </MobileOverrideWrap>
     </div>
   );
 }

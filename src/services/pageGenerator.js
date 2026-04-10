@@ -31,8 +31,191 @@ function getTextStyle(customOverrides, defaultColor) {
   return { color: color || defaultColor };
 }
 
+function collectMobileOverrideCSS(page, isMobilePreview = false) {
+  const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
+  const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
+  const GAP_PX = { none: 0, sm: 12, md: 24, lg: 40, xl: 64 };
+  const rules = [];
+
+  const addRule = (id, cssProps) => {
+    const decls = Object.entries(cssProps)
+      .filter(([, v]) => v !== undefined && v !== null)
+      .map(([k, v]) => `  ${k}: ${v} !important;`)
+      .join('\n');
+    if (decls) rules.push(`[data-element-id="${id}"] {\n${decls}\n}`);
+  };
+
+  const processSegment = (segment) => {
+    const mo = segment.settings?.mobileOverrides;
+    if (mo && Object.keys(mo).length > 0) {
+      const css = {};
+      if (mo.minHeight !== undefined) css['min-height'] = `${mo.minHeight}px`;
+      if (mo.maxHeight !== undefined) css['max-height'] = `${mo.maxHeight}px`;
+      if (mo.bgColor !== undefined && mo.bgType !== 'gradient') css['background-color'] = mo.bgColor;
+      if (mo.bgType === 'gradient' && mo.bgGradient) {
+        css['background-image'] = `linear-gradient(${mo.bgGradient.angle}deg, ${mo.bgGradient.color1}, ${mo.bgGradient.color2})`;
+      }
+      if (mo.gap !== undefined) {
+        const gapPx = GAP_PX[mo.gap];
+        if (gapPx !== undefined) css['gap'] = `${gapPx}px`;
+      }
+      if (mo.hidden === true) css['display'] = 'none';
+      addRule(segment.id, css);
+    }
+    (segment.children || []).forEach(child => {
+      if (child.type === 'slot' || child.type === 'container') {
+        processSlot(child);
+      } else {
+        processContentItem(child, page);
+      }
+    });
+  };
+
+  const processSlot = (slot) => {
+    const mo = slot.settings?.mobileOverrides;
+    if (mo && Object.keys(mo).length > 0) {
+      const css = {};
+      const direction = mo.direction ?? slot.settings.direction ?? 'column';
+      if (mo.direction !== undefined) css['flex-direction'] = mo.direction;
+      if (mo.contentAlignment !== undefined || mo.verticalAlignment !== undefined) {
+        const hAlign = hMap[mo.contentAlignment ?? slot.settings.contentAlignment] || 'flex-start';
+        const vAlign = vMap[mo.verticalAlignment ?? slot.settings.verticalAlignment] || 'flex-start';
+        css['justify-content'] = direction === 'row' ? hAlign : vAlign;
+        css['align-items'] = direction === 'row' ? vAlign : hAlign;
+      }
+      if (mo.spacing !== undefined) {
+        const sp = mo.spacing;
+        css['gap'] = sp === 'auto' ? 'unset' : `${typeof sp === 'number' ? sp : 16}px`;
+        if (sp === 'auto') css['justify-content'] = 'space-between';
+      }
+      if (mo.height !== undefined) css['min-height'] = mo.height !== 'auto' ? mo.height : 'unset';
+      if (mo.bgColor !== undefined && mo.bgType !== 'gradient') css['background-color'] = mo.bgColor;
+      if (mo.bgType === 'gradient' && mo.bgGradient) {
+        css['background-image'] = `linear-gradient(${mo.bgGradient.angle}deg, ${mo.bgGradient.color1}, ${mo.bgGradient.color2})`;
+      }
+      if (mo.padding !== undefined) css['padding'] = `${mo.padding}px`;
+      if (mo.borderRadius !== undefined) css['border-radius'] = `${mo.borderRadius}px`;
+      if (mo.hidden === true) css['display'] = 'none';
+      addRule(slot.id, css);
+    }
+    (slot.children || []).forEach(child => processContentItem(child, page));
+  };
+
+  const processContentItem = (item, page) => {
+    const mo = item.settings?.mobileOverrides;
+    if (mo && Object.keys(mo).length > 0) {
+      const css = {};
+      if (mo.textAlign !== undefined) css['text-align'] = mo.textAlign;
+      if (mo.textRole !== undefined) {
+        const fonts = page.styles.fonts;
+        const role = mo.textRole;
+        if (fonts[role]) {
+          css['font-family'] = `${fonts[role].family}, sans-serif`;
+          css['font-size'] = `${fonts[role].size}px`;
+          css['font-weight'] = fonts[role].weight;
+        }
+      }
+      if (mo.hidden === true) css['display'] = 'none';
+      addRule(item.id, css);
+    }
+  };
+
+  page.root.forEach(processSegment);
+
+  // Page-level overrides
+  const pmo = page.mobileOverrides ?? {};
+  if (Object.keys(pmo).length > 0) {
+    const pageCSS = [];
+
+    if (pmo.bgColor !== undefined) {
+      pageCSS.push(`  body { background-color: ${pmo.bgColor} !important; }`);
+    }
+    if (pmo.segmentSpacing !== undefined) {
+      const spacingPx = SEGMENT_SPACING_PRESETS[pmo.segmentSpacing]?.px ?? 40;
+      pageCSS.push(`  section { padding: ${spacingPx}px 16px !important; }`);
+    }
+
+    // Font overrides → CSS custom properties
+    if (pmo.fonts && Object.keys(pmo.fonts).length > 0) {
+      const rootDecls = [];
+      const f = pmo.fonts;
+      if (f.heading1) {
+        if (f.heading1.family) rootDecls.push(`    --font-heading1-family: ${f.heading1.family}, sans-serif`);
+        if (f.heading1.size)   rootDecls.push(`    --font-heading1-size: ${f.heading1.size}px`);
+        if (f.heading1.weight) rootDecls.push(`    --font-heading1-weight: ${f.heading1.weight}`);
+      }
+      if (f.heading2) {
+        if (f.heading2.family) rootDecls.push(`    --font-heading2-family: ${f.heading2.family}, sans-serif`);
+        if (f.heading2.size)   rootDecls.push(`    --font-heading2-size: ${f.heading2.size}px`);
+        if (f.heading2.weight) rootDecls.push(`    --font-heading2-weight: ${f.heading2.weight}`);
+      }
+      if (f.body) {
+        if (f.body.family) rootDecls.push(`    --font-body-family: ${f.body.family}, sans-serif`);
+        if (f.body.size)   rootDecls.push(`    --font-body-size: ${f.body.size}px`);
+        if (f.body.weight) rootDecls.push(`    --font-body-weight: ${f.body.weight}`);
+      }
+      if (f.label) {
+        if (f.label.family) rootDecls.push(`    --font-label-family: ${f.label.family}, sans-serif`);
+        if (f.label.size)   rootDecls.push(`    --font-label-size: ${f.label.size}px`);
+        if (f.label.weight) rootDecls.push(`    --font-label-weight: ${f.label.weight}`);
+      }
+      if (f.button) {
+        if (f.button.family) rootDecls.push(`    --font-button-family: ${f.button.family}, sans-serif`);
+        if (f.button.weight) rootDecls.push(`    --font-button-weight: ${f.button.weight}`);
+      }
+      if (rootDecls.length > 0) {
+        pageCSS.push(`  :root {\n${rootDecls.join(';\n')};\n  }`);
+      }
+    }
+
+    // Color overrides → CSS custom properties
+    if (pmo.colors && Object.keys(pmo.colors).length > 0) {
+      const colorDecls = [];
+      const c = pmo.colors;
+      if (c.primary)    colorDecls.push(`    --color-primary: ${c.primary}`);
+      if (c.secondary)  colorDecls.push(`    --color-secondary: ${c.secondary}`);
+      if (c.neutral)    colorDecls.push(`    --color-neutral: ${c.neutral}`);
+      if (c.background) pageCSS.push(`  body { background-color: ${c.background} !important; }`);
+      if (colorDecls.length > 0) {
+        pageCSS.push(`  :root {\n${colorDecls.join(';\n')};\n  }`);
+      }
+    }
+
+    // Button style overrides → .btn-{id} class overrides
+    if (pmo.buttonStyles && Object.keys(pmo.buttonStyles).length > 0) {
+      Object.entries(pmo.buttonStyles).forEach(([btnId, overrides]) => {
+        const safeId = btnId.replace(/[^a-z0-9-_]/gi, '-');
+        const decls = [];
+        if (overrides.bgColor !== undefined && overrides.bgType !== 'gradient') {
+          decls.push(`    background: ${overrides.bgColor}`);
+          decls.push(`    background-color: ${overrides.bgColor}`);
+        }
+        if (overrides.bgType === 'gradient' && overrides.bgGradient) {
+          const { angle, color1, color2 } = overrides.bgGradient;
+          decls.push(`    background: linear-gradient(${angle ?? 90}deg, ${color1}, ${color2})`);
+        }
+        if (overrides.textColor !== undefined) decls.push(`    color: ${overrides.textColor}`);
+        if (overrides.fontSize !== undefined)  decls.push(`    font-size: ${overrides.fontSize}px`);
+        if (overrides.padding !== undefined)   decls.push(`    padding: ${overrides.padding}px 20px`);
+        if (overrides.radius !== undefined)    decls.push(`    border-radius: ${overrides.radius}px`);
+        if (decls.length > 0) {
+          pageCSS.push(`  .btn-${safeId} {\n${decls.map(d => d + ' !important').join(';\n')};\n  }`);
+        }
+      });
+    }
+
+    if (pageCSS.length > 0) rules.push(pageCSS.join('\n'));
+  }
+
+  // Always clamp horizontal section padding on mobile so desktop-sized values don't bleed through
+  const baselineRule = `section { padding-left: 16px !important; padding-right: 16px !important; }`;
+  const allRules = [baselineRule, ...rules];
+  if (isMobilePreview) return allRules.join('\n');
+  return `@media (max-width: 767px) {\n${allRules.join('\n')}\n}`;
+}
+
 export function generateHTML(page, selectedElementId, options = {}) {
-  const { showGridOverlay = false } = options;
+  const { showGridOverlay = false, isMobilePreview = false } = options;
   const segments = page.root.map(segment => renderSegment(segment, page)).join('\n');
 
   
@@ -78,6 +261,8 @@ export function generateHTML(page, selectedElementId, options = {}) {
     </div>
   </div>` : '';
 
+  const mobileOverrideCSS = collectMobileOverrideCSS(page, isMobilePreview);
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,6 +272,7 @@ export function generateHTML(page, selectedElementId, options = {}) {
   <title>${page.title}</title>
   <style>
     ${generateCSS(page)}
+    ${mobileOverrideCSS}
   </style>${selectionStyle}
 </head>
 <body style="margin: 0; padding: 0; overflow-x: hidden;">
@@ -115,6 +301,7 @@ export function generateHTML(page, selectedElementId, options = {}) {
 }
 
 function renderSegment(segment, page) {
+  if (segment.settings.hidden) return '';
   const maxWidth = segment.settings.maxWidth;
   const bgSize = segment.settings.bgSize || 'cover';
   const gapKey = segment.settings.gap || 'md';
@@ -234,6 +421,7 @@ function renderSegment(segment, page) {
 }
 
 function renderSlot(slot, page) {
+  if (slot.settings.hidden) return '';
   const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
   const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
   const direction = slot.settings.direction ?? 'column';
