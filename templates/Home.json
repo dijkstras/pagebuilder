@@ -653,7 +653,7 @@
   ],
   "mobileOverrides": {
     "segmentSpacing": "lg",
-    "bgColor": "#ec4899",
+    "bgColor": "#8b5cf6",
     "fonts": {
       "heading1": {
         "family": "Pacifico",
