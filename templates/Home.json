@@ -645,6 +645,6 @@
     }
   ],
   "mobileOverrides": {
-    "segmentSpacing": "lg"
+    "segmentSpacing": "md"
   }
 }
