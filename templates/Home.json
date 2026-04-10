@@ -130,7 +130,8 @@
         "gap": "sm",
         "mobileOverrides": {
           "gap": "none"
-        }
+        },
+        "hidden": false
       },
       "children": [
         {
