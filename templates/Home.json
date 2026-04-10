@@ -277,7 +277,8 @@
               "mobileOrder": 1
             },
             "mobileOverrides": {
-              "contentAlignment": "center"
+              "contentAlignment": "center",
+              "padding": 40
             }
           },
           "children": [
