@@ -31,11 +31,12 @@
         "elevation": 4,
         "borderRadius": 0,
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "mobileOverrides": {}
       },
       "children": [
         {
-          "id": "slot-1775747553924-av7b",
+          "id": "slot-1775829189035-rblj",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -61,12 +62,13 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "scroll": false
+            "scroll": false,
+            "mobileOverrides": {}
           },
           "children": []
         },
         {
-          "id": "slot-1775747553924-8ljz",
+          "id": "slot-1775829189035-90aj",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -92,7 +94,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "scroll": false
+            "scroll": false,
+            "mobileOverrides": {}
           },
           "children": []
         }
@@ -124,11 +127,12 @@
         "layout": "full",
         "gap": "md",
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "mobileOverrides": {}
       },
       "children": [
         {
-          "id": "slot-1775747553924-9ube",
+          "id": "slot-1775829189035-zz2t",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -154,7 +158,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "scroll": false
+            "scroll": false,
+            "mobileOverrides": {}
           },
           "children": []
         }
@@ -186,11 +191,12 @@
         "layout": "full",
         "gap": "xl",
         "bgType": "solid",
-        "bgGradient": null
+        "bgGradient": null,
+        "mobileOverrides": {}
       },
       "children": [
         {
-          "id": "slot-1775747553924-s2mq",
+          "id": "slot-1775829189035-67bg",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -216,7 +222,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "scroll": false
+            "scroll": false,
+            "mobileOverrides": {}
           },
           "children": [
             {
@@ -236,7 +243,8 @@
                 "responsive": {
                   "hideOnMobile": false,
                   "hideOnDesktop": false
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -256,7 +264,8 @@
                 "responsive": {
                   "hideOnMobile": false,
                   "hideOnDesktop": false
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -285,7 +294,8 @@
                 "responsive": {
                   "hideOnMobile": false,
                   "hideOnDesktop": false
-                }
+                },
+                "mobileOverrides": {}
               }
             }
           ]
@@ -375,5 +385,6 @@
       "xl": 48
     },
     "bgColor": "#6b7280"
-  }
+  },
+  "mobileOverrides": {}
 }
