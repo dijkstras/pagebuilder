@@ -92,7 +92,7 @@
       "xl": 48
     },
     "bgColor": "#705543",
-    "segmentSpacing": "lg"
+    "segmentSpacing": "sm"
   },
   "root": [
     {
