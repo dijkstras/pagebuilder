@@ -329,7 +329,8 @@
         "bgGradient": null,
         "mobileOverrides": {
           "hidden": false,
-          "bgPositionX": "right"
+          "bgPositionX": "right",
+          "bgSize": "200px 200px"
         }
       },
       "children": [
