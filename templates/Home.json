@@ -175,7 +175,7 @@
                 "textRole": "heading1",
                 "customOverrides": {
                   "content": "I Love Hamburgers",
-                  "color": "#c62a60"
+                  "color": "#ff6198"
                 },
                 "responsiveVariants": {
                   "mobile": {},
