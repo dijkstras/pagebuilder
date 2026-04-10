@@ -335,7 +335,7 @@
         "bgType": "solid",
         "bgGradient": null,
         "mobileOverrides": {
-          "hidden": false,
+          "hidden": true,
           "bgPositionX": "right",
           "bgSize": "200px 200px"
         }
