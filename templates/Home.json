@@ -338,7 +338,8 @@
           "hidden": true,
           "bgPositionX": "right",
           "bgSize": "200px 200px"
-        }
+        },
+        "hidden": false
       },
       "children": [
         {
