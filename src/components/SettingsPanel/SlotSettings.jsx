@@ -163,7 +163,7 @@ export function SlotSettings() {
       </div>
 
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Height</label>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Min Height</label>
         <input
           type="text"
           value={(slot.settings.height && slot.settings.height !== 'auto') ? slot.settings.height : ''}

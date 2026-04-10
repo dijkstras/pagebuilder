@@ -1,6 +1,6 @@
 import { renderVideo } from '../utils/video.js';
 import { getButtonIcon } from '../utils/buttonIcons';
-import { GAP_PRESETS } from '../store/pageTypes';
+import { GAP_PRESETS, SEGMENT_SPACING_PRESETS } from '../store/pageTypes';
 
 function darkenHex(hex, amount = 0.15) {
   if (!hex || typeof hex !== 'string') return hex;
@@ -45,6 +45,13 @@ export function generateHTML(page, selectedElementId, options = {}) {
       75%  { box-shadow: inset 0 0 0 2px rgba(99,102,241,0.6), inset 0 0 8px 0 rgba(99,102,241,0.3); }
       100% { box-shadow: inset 0 0 0 2px rgba(99,102,241,0), inset 0 0 8px 0 rgba(99,102,241,0); }
     }
+    @keyframes slot-pulse {
+      0%   { outline: 2px solid rgba(99,102,241,0.9); outline-offset: 0; }
+      25%  { outline: 2px solid rgba(99,102,241,0.8); outline-offset: 2px; }
+      50%  { outline: 2px solid rgba(99,102,241,0.9); outline-offset: 0; }
+      75%  { outline: 2px solid rgba(99,102,241,0.6); outline-offset: 2px; }
+      100% { outline: 2px solid rgba(99,102,241,0); outline-offset: 0; }
+    }
     @keyframes image-pulse {
       0%   { box-shadow: inset 0 0 0 3px rgba(99,102,241,1), inset 0 0 12px 0 rgba(99,102,241,0.8), 0 0 8px rgba(99,102,241,0.5); }
       25%  { box-shadow: inset 0 0 0 3px rgba(99,102,241,0.9), inset 0 0 20px 4px rgba(99,102,241,0.5), 0 0 16px rgba(99,102,241,0.8); }
@@ -54,6 +61,9 @@ export function generateHTML(page, selectedElementId, options = {}) {
     }
     [data-element-id="${selectedElementId}"] {
       animation: selection-pulse 3s ease-in-out forwards;
+    }
+    div[data-element-id="${selectedElementId}"] {
+      animation: slot-pulse 3s ease-in-out forwards !important;
     }
     img[data-element-id="${selectedElementId}"] {
       animation: image-pulse 3s ease-in-out forwards;
@@ -109,6 +119,8 @@ function renderSegment(segment, page) {
   const bgSize = segment.settings.bgSize || 'cover';
   const gapKey = segment.settings.gap || 'md';
   const gapPreset = GAP_PRESETS[gapKey] || GAP_PRESETS.md;
+  const segmentSpacingKey = page.styles.segmentSpacing || 'md';
+  const segmentSpacing = SEGMENT_SPACING_PRESETS[segmentSpacingKey]?.px || 40;
 
   const getBackgroundPosition = (hAlign, vAlign) => {
     const hMap = { left: 'left', center: 'center', right: 'right' };
@@ -140,8 +152,7 @@ function renderSegment(segment, page) {
     backgroundSize: isGradient ? 'cover' : undefined,
     backgroundPosition: isGradient ? 'center' : undefined,
     backgroundRepeat: isGradient ? 'no-repeat' : undefined,
-    padding: `${segment.settings.padding}px`,
-    margin: `${segment.settings.margin}px`,
+    padding: `${segmentSpacing}px`,
     border: segment.settings.borderEnabled
       ? `${segment.settings.borderWidth ?? 1}px solid ${segment.settings.borderColor ?? '#000000'}`
       : undefined,
@@ -151,8 +162,7 @@ function renderSegment(segment, page) {
     borderRadius: `${segment.settings.borderRadius ?? 0}px`,
     overflow: segment.settings.bgVideo ? 'hidden' : 'visible',
     position: (segment.settings.bgVideo || hasBgImage || isGradient) ? 'relative' : undefined,
-    // Add mobile max-width constraint to prevent overflow
-    maxWidth: '100%'
+    width: '100%'
   });
 
   // Build Tailwind grid classes for the inner wrapper
@@ -203,11 +213,22 @@ function renderSegment(segment, page) {
       }
     </style>` : '';
 
+  // Content wrapper with max-width constraint
+  const contentWrapperStyle = buildStyleString({
+    maxWidth: '1280px',
+    margin: '0 auto',
+    width: '100%',
+    paddingLeft: '16px',
+    paddingRight: '16px'
+  });
+
   return `<section style="${outerStyle}" data-element-id="${segment.id}">
   ${segmentVideoBg}
   ${bgImageOverlay}
-  <div class="${gridClasses.join(' ')}"${innerZIndexStyle}>
-    ${children}
+  <div style="${contentWrapperStyle}">
+    <div class="${gridClasses.join(' ')}"${innerZIndexStyle}>
+      ${children}
+    </div>
   </div>
 </section>`;
 }
@@ -259,7 +280,7 @@ function renderSlot(slot, page) {
 
   // Inline styles for visual properties
   const styleObj = {
-    height: (slot.settings.height && slot.settings.height !== 'auto') ? slot.settings.height : undefined,
+    minHeight: (slot.settings.height && slot.settings.height !== 'auto') ? slot.settings.height : undefined,
     display: (slot.settings.bgVideo || hasBgImage) ? 'block' : 'flex',
     ...(slot.settings.bgVideo || hasBgImage ? {} : {
       flexDirection: direction,
@@ -308,7 +329,7 @@ function renderSlot(slot, page) {
 
   const childrenWrapped = (slot.settings.bgVideo || hasBgImage)
     ? `<div style="position:relative;z-index:1;display:flex;flex-direction:${direction};flex-wrap:${direction === 'row' ? 'wrap' : 'unset'};gap:${isAutoSpacing ? 'unset' : `${typeof spacing === 'number' ? spacing : 16}px`};justify-content:${isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign)};align-items:${direction === 'row' ? vAlign : hAlign};width:100%;height:100%">${children}</div>`
-    : (children || '<div style="padding:20px;text-align:center;color:#9ca3af;font-size:13px;border:1px dashed #d1d5db;border-radius:4px">Drop content here</div>');
+    : (children || '<div class="slot-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;border:none;border-radius:4px;position:relative"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0"><rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" fill="none" stroke="#d1d5db" stroke-width="2" stroke-dasharray="10,10" rx="4"><animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1s" repeatCount="indefinite"/></rect></svg><span style="position:relative;z-index:1;background:rgba(255,255,255,0.7);color:#374151;padding:4px 12px;border-radius:3px;font-size:13px;font-weight:500">Content Slot</span></div>');
 
   // Add pseudo-element for background image when needed
   const slotBgImageOverlay = hasBgImage ? `
@@ -685,6 +706,9 @@ export function generateCSS(page) {
   return `
     ${googleFontsImport}
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    .slot-placeholder {
+      border: none !important;
+    }
     :root {
       --color-primary: ${colors.primary};
       --color-secondary: ${colors.secondary};

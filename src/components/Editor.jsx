@@ -14,6 +14,7 @@ export function Editor({ onBackToGrid }) {
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [pages, setPages] = useState([]);
   const [autoSaveTimeout, setAutoSaveTimeout] = useState(null);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   // Auto-save when page changes
   useEffect(() => {
@@ -284,19 +285,38 @@ export function Editor({ onBackToGrid }) {
           >
             Export
           </button>
+          <button
+            onClick={() => setIsFullScreen(!isFullScreen)}
+            style={{
+              padding: '6px 12px',
+              backgroundColor: isFullScreen ? THEME.accent : THEME.background,
+              color: isFullScreen ? 'white' : THEME.text,
+              border: isFullScreen ? 'none' : `1px solid ${THEME.border}`,
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px',
+              fontWeight: '500'
+            }}
+          >
+            {isFullScreen ? '✕ Exit Full' : '⛶ Full Screen'}
+          </button>
         </div>
       </div>
 
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        <div style={{ width: `${EDITOR_LAYOUT.LEFT_PANEL_WIDTH}px`, borderRight: `1px solid ${THEME.border}`, overflow: 'auto' }}>
-          <StructureTree />
-        </div>
+        {!isFullScreen && (
+          <div style={{ width: `${EDITOR_LAYOUT.LEFT_PANEL_WIDTH}px`, borderRight: `1px solid ${THEME.border}`, overflow: 'auto' }}>
+            <StructureTree />
+          </div>
+        )}
         <div style={{ flex: 1, overflow: 'auto' }}>
           <Preview />
         </div>
-        <div style={{ width: `${EDITOR_LAYOUT.RIGHT_PANEL_WIDTH}px`, borderLeft: `1px solid ${THEME.border}`, overflow: 'auto' }}>
-          <SettingsPanel />
-        </div>
+        {!isFullScreen && (
+          <div style={{ width: `${EDITOR_LAYOUT.RIGHT_PANEL_WIDTH}px`, borderLeft: `1px solid ${THEME.border}`, overflow: 'auto' }}>
+            <SettingsPanel />
+          </div>
+        )}
       </div>
 
       {showSaveDialog && (

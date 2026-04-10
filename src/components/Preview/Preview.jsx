@@ -76,16 +76,16 @@ export function Preview() {
       savedScrollRef.current = iframe.contentWindow.scrollY;
     });
 
-    // Disable auto-scroll to prevent jumping when selecting elements
-    // const targetId = pendingScrollToIdRef.current;
-    // if (targetId) {
-    //   pendingScrollToIdRef.current = null;
-    //   const el = iframe.contentDocument?.querySelector(`[data-element-id="${targetId}"]`);
-    //   if (el) {
-    //     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    //     return;
-    //   }
-    // }
+    // Scroll to the selected element
+    const targetId = pendingScrollToIdRef.current;
+    if (targetId) {
+      pendingScrollToIdRef.current = null;
+      const el = iframe.contentDocument?.querySelector(`[data-element-id="${targetId}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+    }
 
     iframe.contentWindow.scrollTo(0, savedScrollRef.current);
   }, []);

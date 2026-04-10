@@ -158,42 +158,6 @@ export function SegmentSettings() {
       </div>
 
       <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Padding (px)</label>
-        <input
-          type="number"
-          value={segment.settings.padding}
-          onChange={(e) => handleUpdate('padding', parseInt(e.target.value))}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        />
-      </div>
-
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Margin (px)</label>
-        <input
-          type="number"
-          value={segment.settings.margin}
-          onChange={(e) => handleUpdate('margin', parseInt(e.target.value))}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        />
-      </div>
-
-      <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Min Height (px)</label>
         <input
           type="number"

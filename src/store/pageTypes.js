@@ -39,6 +39,12 @@ export const GAP_PRESETS = {
   xl:   { label: 'X-Large', twClass: 'gap-16', px: 64 }
 };
 
+export const SEGMENT_SPACING_PRESETS = {
+  sm: { label: 'Small',   px: 24 },
+  md: { label: 'Medium',  px: 40 },
+  lg: { label: 'Large',   px: 80 }
+};
+
 // Default empty page structure
 export const createEmptyPage = () => ({
   id: `page-${Date.now()}`,
@@ -98,6 +104,7 @@ export const createEmptyPage = () => ({
     ],
     shapes: { borderRadius: 6 },
     spacing: { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 },
+    segmentSpacing: 'md',
     bgColor: '#f9fafb'
   },
   root: []
@@ -106,7 +113,7 @@ export const createEmptyPage = () => ({
 export const createSegment = (name = 'Segment', layout = 'full') => {
   const preset = LAYOUT_PRESETS[layout] || LAYOUT_PRESETS['full'];
   const slots = preset.slots.map((span, i) => createSlot(
-    preset.slots.length === 1 ? 'Content' : `Column ${i + 1}`,
+    `Column ${i + 1}`,
     span
   ));
   return {
@@ -120,8 +127,6 @@ export const createSegment = (name = 'Segment', layout = 'full') => {
       bgColor: '#ffffff',
       bgImage: null,
       bgVideo: null,
-      padding: 40,
-      margin: 0,
       maxWidth: null,
       contentAlignment: 'left',
       verticalAlignment: 'top',
@@ -143,12 +148,12 @@ export const createSlot = (name = 'Column', gridColumn = 12) => ({
   type: 'slot',
   settings: {
     gridColumn,
-    height: 'auto',
+    height: '250px',
     spacing: 16,
     bgColor: 'transparent',
     bgImage: null,
     bgVideo: null,
-    padding: 20,
+    padding: 0,
     contentAlignment: 'left',
     verticalAlignment: 'top',
     direction: 'column',
@@ -438,8 +443,6 @@ function migrateSegment(segment) {
       bgVideo: s.bgVideo ?? null,
       bgType: s.bgType ?? 'solid',
       bgGradient: s.bgGradient ?? null,
-      padding: s.padding ?? 40,
-      margin: s.margin ?? 0,
       maxWidth: s.maxWidth ?? null,
       contentAlignment: s.contentAlignment ?? 'left',
       verticalAlignment: s.verticalAlignment ?? 'top',
@@ -467,14 +470,14 @@ function migrateContainerToSlot(container, presetSpan) {
     settings: {
       ...s,
       gridColumn,
-      height: s.height ?? 'auto',
+      height: s.height ?? '250px',
       spacing: s.spacing ?? 16,
       bgColor: s.bgColor ?? 'transparent',
       bgImage: s.bgImage ?? null,
       bgVideo: s.bgVideo ?? null,
       bgType: s.bgType ?? 'solid',
       bgGradient: s.bgGradient ?? null,
-      padding: s.padding ?? 20,
+      padding: s.padding ?? 0,
       contentAlignment: s.contentAlignment ?? 'left',
       verticalAlignment: s.verticalAlignment ?? 'top',
       direction: s.direction ?? 'column',
