@@ -327,7 +327,9 @@
         "borderRadius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "mobileOverrides": {}
+        "mobileOverrides": {
+          "hidden": true
+        }
       },
       "children": [
         {
