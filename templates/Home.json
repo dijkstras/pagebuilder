@@ -352,7 +352,7 @@
             "elevation": 4,
             "borderRadius": 100,
             "responsive": {
-              "hideOnMobile": true,
+              "hideOnMobile": false,
               "mobileOrder": null
             },
             "bgType": "gradient",
