@@ -278,7 +278,7 @@
             },
             "mobileOverrides": {
               "contentAlignment": "center",
-              "padding": 40
+              "padding": 60
             }
           },
           "children": [
