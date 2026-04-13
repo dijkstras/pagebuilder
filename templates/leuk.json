@@ -284,7 +284,8 @@
       "lg": 24,
       "xl": 48
     },
-    "bgColor": "#f9fafb"
+    "bgColor": "#f9fafb",
+    "segmentSpacing": "sm"
   },
   "mobileOverrides": {}
 }
