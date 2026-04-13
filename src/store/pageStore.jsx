@@ -63,6 +63,15 @@ function pageReducer(state, action) {
         }
       };
 
+    case 'ADD_SEGMENT_FROM_DATA':
+      return {
+        ...state,
+        page: {
+          ...state.page,
+          root: [...state.page.root, action.payload]
+        }
+      };
+
     case 'UPDATE_ELEMENT':
       return {
         ...state,

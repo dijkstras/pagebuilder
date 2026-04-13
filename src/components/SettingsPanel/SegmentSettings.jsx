@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { GradientPicker } from './GradientPicker.jsx';
 import { LAYOUT_PRESETS, GAP_PRESETS } from '../../store/pageTypes';
 import { useMobileSettings, MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
+import { segmentStorage } from '../../services/segmentStorage';
 
 const LAYOUT_VISUALS = {
   'full':       { blocks: [12] },
@@ -38,10 +39,25 @@ const MobileOverrideDot = MobileOverrideIcon;
 export function SegmentSettings() {
   const { state, dispatch } = usePageStore();
   const segment = findElement(state.page, state.selectedElementId);
+  const [saveStatus, setSaveStatus] = useState('idle'); // 'idle' | 'saving' | 'saved'
 
   if (!segment) return null;
 
   const { isMobile, getSetting, updateSetting, hasOverride, clearOverride } = useMobileSettings(segment);
+
+  const handleSaveSegment = () => {
+    setSaveStatus('saving');
+    try {
+      const name = segment.name || 'Unnamed Segment';
+      segmentStorage.save(name, segment);
+      setSaveStatus('saved');
+      setTimeout(() => setSaveStatus('idle'), 1500);
+    } catch (error) {
+      console.error('Failed to save segment:', error);
+      alert('Failed to save segment');
+      setSaveStatus('idle');
+    }
+  };
 
   const handleUpdate = (key, value) => {
     if (isMobile) {
@@ -63,17 +79,45 @@ export function SegmentSettings() {
 
   return (
     <div>
-
-
-      <div style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #1f2937' }}>
-        <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</label>
-        <input
-          type="text"
-          value={segment.name || ''}
-          onChange={(e) => dispatch(pageActions.updateElement(segment.id, { name: e.target.value }))}
-          placeholder="Segment name…"
-          style={{ width: '100%', padding: '7px 10px', backgroundColor: '#1f2937', color: '#f3f4f6', border: '1px solid #374151', borderRadius: '6px', fontSize: '13px', boxSizing: 'border-box', outline: 'none' }}
-        />
+      {/* Header with Save Button */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '16px',
+        paddingBottom: '16px',
+        borderBottom: '1px solid #1f2937'
+      }}>
+        <div style={{ flex: 1 }}>
+          <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</label>
+          <input
+            type="text"
+            value={segment.name || ''}
+            onChange={(e) => dispatch(pageActions.updateElement(segment.id, { name: e.target.value }))}
+            placeholder="Segment name…"
+            style={{ width: '100%', padding: '7px 10px', backgroundColor: '#1f2937', color: '#f3f4f6', border: '1px solid #374151', borderRadius: '6px', fontSize: '13px', boxSizing: 'border-box', outline: 'none' }}
+          />
+        </div>
+        <button
+          onClick={handleSaveSegment}
+          disabled={saveStatus !== 'idle'}
+          style={{
+            marginLeft: '12px',
+            padding: '7px 14px',
+            backgroundColor: saveStatus === 'saved' ? '#22c55e' : saveStatus === 'saving' ? '#6b7280' : '#3b82f6',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: saveStatus === 'idle' ? 'pointer' : 'default',
+            fontSize: '12px',
+            fontWeight: 500,
+            transition: 'all 0.15s',
+            whiteSpace: 'nowrap'
+          }}
+          title="Save segment for reuse"
+        >
+          {saveStatus === 'saved' ? 'Saved!' : saveStatus === 'saving' ? 'Saving...' : 'Save'}
+        </button>
       </div>
 
       {/* Layout Picker */}

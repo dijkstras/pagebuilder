@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { TreeNode } from './TreeNode';
 import { THEME } from '../../utils/constants';
+import { SegmentPickerModal } from '../SegmentPickerModal/SegmentPickerModal';
+import { segmentStorage } from '../../services/segmentStorage';
+import { deepCloneElement } from '../../store/pageStore.jsx';
 
 const BRAND_ITEMS = [
   {
@@ -50,12 +53,29 @@ const BRAND_ITEMS = [
 
 export function StructureTree() {
   const [activeTab, setActiveTab] = React.useState('structure');
-  const [showPageAddMenu, setShowPageAddMenu] = React.useState(false);
+  const [showSegmentPicker, setShowSegmentPicker] = useState(false);
   const { state, dispatch } = usePageStore();
 
   const handleAddSegment = () => {
+    setShowSegmentPicker(true);
+  };
+
+  const handleSelectEmptySegment = () => {
     dispatch(pageActions.addSegment('New Segment'));
-    setShowPageAddMenu(false);
+    setShowSegmentPicker(false);
+  };
+
+  const handleSelectSavedSegment = (savedSegment) => {
+    // Clone the saved segment data to generate new IDs
+    const clonedSegment = deepCloneElement(savedSegment.data);
+    clonedSegment.name = savedSegment.name; // Keep the original name
+    
+    // Add the cloned segment to the page
+    dispatch({
+      type: 'ADD_SEGMENT_FROM_DATA',
+      payload: clonedSegment
+    });
+    setShowSegmentPicker(false);
   };
 
   const isPageSelected = !state.selectedElementId && !state.activeBrandSection;
@@ -169,6 +189,13 @@ export function StructureTree() {
           </>
         )}
       </div>
+
+      <SegmentPickerModal
+        isOpen={showSegmentPicker}
+        onClose={() => setShowSegmentPicker(false)}
+        onSelect={handleSelectSavedSegment}
+        onEmptySelect={handleSelectEmptySegment}
+      />
     </div>
   );
 }
