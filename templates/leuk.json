@@ -13,7 +13,7 @@
       "type": "segment",
       "settings": {
         "fullWidth": true,
-        "bgColor": "#ec4899",
+        "bgColor": "transparent",
         "bgImage": null,
         "padding": 40,
         "margin": 0,
@@ -24,7 +24,7 @@
         "direction": "row",
         "minHeight": 200,
         "bgVideo": null,
-        "bgType": "solid",
+        "bgType": "gradient",
         "bgGradient": {
           "color1": "#ec4899",
           "color2": "#f9fafb",
