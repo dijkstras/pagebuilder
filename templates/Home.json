@@ -135,7 +135,7 @@
       },
       "children": [
         {
-          "id": "slot-1775828447616-nrvv",
+          "id": "slot-1776064978595-igiy",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -165,7 +165,8 @@
             },
             "mobileOverrides": {
               "contentAlignment": "center"
-            }
+            },
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -248,7 +249,7 @@
           ]
         },
         {
-          "id": "slot-1775828447616-pvsj",
+          "id": "slot-1776064978595-pwn0",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -280,7 +281,8 @@
             "mobileOverrides": {
               "contentAlignment": "center",
               "padding": 60
-            }
+            },
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -344,7 +346,7 @@
       },
       "children": [
         {
-          "id": "slot-1775828447616-xczn",
+          "id": "slot-1776064978595-euy0",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -374,7 +376,8 @@
               "color2": "#ee4d8c",
               "angle": 66
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -487,7 +490,7 @@
       },
       "children": [
         {
-          "id": "slot-1775828447616-bpiw",
+          "id": "slot-1776064978595-annd",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -516,12 +519,13 @@
             "bgSize": "contain",
             "bgPositionX": "center",
             "bgPositionY": "center",
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         },
         {
-          "id": "slot-1775828447616-h2wf",
+          "id": "slot-1776064978595-c192",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -550,12 +554,13 @@
             "bgSize": "contain",
             "bgPositionX": "center",
             "bgPositionY": "center",
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         },
         {
-          "id": "slot-1775828447616-lrkz",
+          "id": "slot-1776064978595-0qge",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -584,7 +589,8 @@
             "bgSize": "contain",
             "bgPositionX": "center",
             "bgPositionY": "center",
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         }
@@ -620,7 +626,7 @@
       },
       "children": [
         {
-          "id": "slot-1775828447616-u8v4",
+          "id": "slot-1776064978595-j7ai",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -646,7 +652,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         }
