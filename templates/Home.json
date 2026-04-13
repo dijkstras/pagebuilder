@@ -97,7 +97,7 @@
   "root": [
     {
       "id": "segment-1774979222050",
-      "name": "Header",
+      "name": "Classic Header",
       "type": "segment",
       "settings": {
         "fullWidth": true,
