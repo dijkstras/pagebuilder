@@ -36,7 +36,7 @@
       },
       "children": [
         {
-          "id": "slot-1775829189035-rblj",
+          "id": "slot-1776062545674-h0c6",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -63,12 +63,13 @@
             "bgType": "solid",
             "bgGradient": null,
             "scroll": false,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         },
         {
-          "id": "slot-1775829189035-90aj",
+          "id": "slot-1776062545674-0698",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -95,7 +96,8 @@
             "bgType": "solid",
             "bgGradient": null,
             "scroll": false,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         }
@@ -132,7 +134,7 @@
       },
       "children": [
         {
-          "id": "slot-1775829189035-zz2t",
+          "id": "slot-1776062545674-i789",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -145,7 +147,7 @@
             "padding": 20,
             "contentAlignment": "left",
             "verticalAlignment": "top",
-            "direction": "column",
+            "direction": "row",
             "borderEnabled": false,
             "borderWidth": 1,
             "borderColor": "#000000",
@@ -159,9 +161,582 @@
             "bgType": "solid",
             "bgGradient": null,
             "scroll": false,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "scroll"
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1775833207914",
+              "type": "card",
+              "settings": {
+                "width": "300px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "cover",
+                  "borderRadius": "4px"
+                },
+                "text": {
+                  "content": "Card title goes here",
+                  "textRole": "heading2",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "primary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            },
+            {
+              "id": "card-1775833215689-kfwsr",
+              "type": "card",
+              "settings": {
+                "width": "300px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "cover",
+                  "borderRadius": "4px"
+                },
+                "text": {
+                  "content": "Card title goes here",
+                  "textRole": "heading2",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "primary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            },
+            {
+              "id": "card-1776062551923-dgfbh",
+              "type": "card",
+              "settings": {
+                "width": "300px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "cover",
+                  "borderRadius": "4px"
+                },
+                "text": {
+                  "content": "Card title goes here",
+                  "textRole": "heading2",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "primary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            },
+            {
+              "id": "card-1775833214790-hhzni",
+              "type": "card",
+              "settings": {
+                "width": "300px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "cover",
+                  "borderRadius": "4px"
+                },
+                "text": {
+                  "content": "Card title goes here",
+                  "textRole": "heading2",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "primary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            },
+            {
+              "id": "card-1775833211789-rwedn",
+              "type": "card",
+              "settings": {
+                "width": "300px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "cover",
+                  "borderRadius": "4px"
+                },
+                "text": {
+                  "content": "Card title goes here",
+                  "textRole": "heading2",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "primary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            },
+            {
+              "id": "card-1775833211098-rrvvs",
+              "type": "card",
+              "settings": {
+                "width": "300px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "cover",
+                  "borderRadius": "4px"
+                },
+                "text": {
+                  "content": "Card title goes here",
+                  "textRole": "heading2",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "primary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            },
+            {
+              "id": "card-1775833210448-1hxjo",
+              "type": "card",
+              "settings": {
+                "width": "300px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "cover",
+                  "borderRadius": "4px"
+                },
+                "text": {
+                  "content": "Card title goes here",
+                  "textRole": "heading2",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "primary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "segment-1775830749377-p1h98",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#ec4899",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": 24,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "layout": "full",
+        "gap": "md",
+        "bgType": "solid",
+        "bgGradient": null,
+        "mobileOverrides": {}
+      },
+      "children": [
+        {
+          "id": "slot-1776062545674-1qab",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "row",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "scroll": false,
+            "mobileOverrides": {},
+            "overflow": "scroll"
+          },
+          "children": [
+            {
+              "id": "content-1775830763517",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "contain",
+                  "width": "450px"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            },
+            {
+              "id": "image-1775830811013-4794e",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "contain",
+                  "width": "450px"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            },
+            {
+              "id": "image-1775830810296-2m8ic",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "contain",
+                  "width": "450px"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            },
+            {
+              "id": "image-1775830809756-1f1lj",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "contain",
+                  "width": "450px"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            }
+          ]
         }
       ]
     }

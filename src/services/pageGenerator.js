@@ -95,6 +95,15 @@ function collectMobileOverrideCSS(page, isMobilePreview = false) {
       }
       if (mo.padding !== undefined) css['padding'] = `${mo.padding}px`;
       if (mo.borderRadius !== undefined) css['border-radius'] = `${mo.borderRadius}px`;
+      if (mo.overflow !== undefined && direction === 'row') {
+        if (mo.overflow === 'scroll') {
+          css['flex-wrap'] = 'nowrap';
+          css['overflow-x'] = 'auto';
+        } else {
+          css['flex-wrap'] = 'wrap';
+          css['overflow-x'] = 'visible';
+        }
+      }
       if (mo.hidden === true) css['display'] = 'none';
       addRule(slot.id, css);
     }
@@ -472,12 +481,13 @@ function renderSlot(slot, page) {
     display: (slot.settings.bgVideo || hasBgImage) ? 'block' : 'flex',
     ...(slot.settings.bgVideo || hasBgImage ? {} : {
       flexDirection: direction,
-      flexWrap: (direction === 'row') ? 'wrap' : undefined,
+      flexWrap: (direction === 'row') ? (slot.settings.overflow === 'scroll' ? 'nowrap' : 'wrap') : undefined,
       gap: isAutoSpacing ? undefined : `${typeof spacing === 'number' ? spacing : 16}px`,
       justifyContent: isAutoSpacing
         ? 'space-between'
         : (direction === 'row' ? hAlign : vAlign),
-      alignItems: direction === 'row' ? vAlign : hAlign
+      alignItems: direction === 'row' ? vAlign : hAlign,
+      overflowX: (direction === 'row' && slot.settings.overflow === 'scroll') ? 'auto' : undefined
     })
   };
 
@@ -502,7 +512,15 @@ function renderSlot(slot, page) {
     ? `drop-shadow(0 ${slot.settings.elevation ?? 4}px ${(slot.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (slot.settings.elevation ?? 4) * 0.02}))`
     : undefined;
   styleObj.borderRadius = `${slot.settings.borderRadius ?? 0}px`;
-  styleObj.overflow = (slot.settings.bgVideo || slot.settings.borderRadius > 0) ? 'hidden' : 'visible';
+  // When horizontal scroll is enabled, slot needs overflow: auto to show scrollbar
+  const isHorizontalScroll = direction === 'row' && slot.settings.overflow === 'scroll';
+  if (isHorizontalScroll) {
+    styleObj.overflow = 'auto';
+  } else if (slot.settings.bgVideo || slot.settings.borderRadius > 0) {
+    styleObj.overflow = 'hidden';
+  } else {
+    styleObj.overflow = 'visible';
+  }
   if (slot.settings.bgVideo || hasBgImage || isGradient) styleObj.position = 'relative';
   // Add responsive width constraints to prevent overflow
   styleObj.maxWidth = '100%';
@@ -516,7 +534,7 @@ function renderSlot(slot, page) {
   const children = slot.children.map(child => renderContentItem(child, page)).join('\n');
 
   const childrenWrapped = (slot.settings.bgVideo || hasBgImage)
-    ? `<div style="position:relative;z-index:1;display:flex;flex-direction:${direction};flex-wrap:${direction === 'row' ? 'wrap' : 'unset'};gap:${isAutoSpacing ? 'unset' : `${typeof spacing === 'number' ? spacing : 16}px`};justify-content:${isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign)};align-items:${direction === 'row' ? vAlign : hAlign};width:100%;height:100%">${children}</div>`
+    ? `<div style="position:relative;z-index:1;display:flex;flex-direction:${direction};flex-wrap:${direction === 'row' ? (slot.settings.overflow === 'scroll' ? 'nowrap' : 'wrap') : 'unset'};${direction === 'row' && slot.settings.overflow === 'scroll' ? 'overflow-x:auto;' : ''}gap:${isAutoSpacing ? 'unset' : `${typeof spacing === 'number' ? spacing : 16}px`};justify-content:${isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign)};align-items:${direction === 'row' ? vAlign : hAlign};width:100%;height:100%">${children}</div>`
     : (children || '<div class="slot-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;border:none;border-radius:4px;position:relative"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0"><rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" fill="none" stroke="#d1d5db" stroke-width="2" stroke-dasharray="10,10" rx="4"><animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1s" repeatCount="indefinite"/></rect></svg><span style="position:relative;z-index:1;background:rgba(255,255,255,0.7);color:#374151;padding:4px 12px;border-radius:3px;font-size:13px;font-weight:500">Content Slot</span></div>');
 
   // Add pseudo-element for background image when needed
@@ -761,11 +779,13 @@ function renderContentItemInner(item, page) {
       const hAlign = hMap[settings.contentAlignment] || 'flex-start';
       const vAlign = vMap[settings.verticalAlignment] || 'flex-start';
       
+      const cardWidth = settings.width || width;
       const cardStyle = buildStyleString({
-        width: settings.width || (width ?? '100%'),
+        width: cardWidth ?? '100%',
         height: settings.height || (height ?? 'auto'),
         minWidth: '200px',
-        backgroundColor: settings.bgType === 'gradient' 
+        flexShrink: cardWidth ? '0' : undefined,
+        backgroundColor: settings.bgType === 'gradient'
           ? `linear-gradient(${settings.bgGradient?.angle ?? 90}deg, ${settings.bgGradient?.color1}, ${settings.bgGradient?.color2})`
           : settings.bgColor || '#ffffff',
         backgroundImage: settings.bgType === 'gradient' ? undefined : undefined,
@@ -773,7 +793,7 @@ function renderContentItemInner(item, page) {
         backgroundPosition: settings.bgType === 'gradient' ? 'center' : undefined,
         backgroundRepeat: settings.bgType === 'gradient' ? 'no-repeat' : undefined,
         padding: `${settings.padding || 20}px`,
-        border: settings.borderEnabled 
+        border: settings.borderEnabled
           ? `${settings.borderWidth ?? 1}px solid ${settings.borderColor || '#e5e7eb'}`
           : 'none',
         borderRadius: `${settings.borderRadius || 8}px`,

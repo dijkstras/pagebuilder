@@ -103,6 +103,38 @@ export function SlotSettings() {
         </div>
       </MobileOverrideWrap>
 
+      {getSetting('direction', 'column') === 'row' && (
+        <MobileOverrideWrap hasOverride={hasOverride('overflow')}>
+          <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Overflow<MobileOverrideDot hasOverride={hasOverride('overflow')} onClear={() => clearOverride('overflow')} /></label>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            {[
+              { value: 'wrap', label: 'Wrap' },
+              { value: 'scroll', label: 'Scroll' }
+            ].map(({ value, label }) => (
+              <button
+                key={value}
+                onClick={() => handleUpdate('overflow', value)}
+                style={{
+                  flex: 1,
+                  padding: '6px',
+                  fontSize: '12px',
+                  backgroundColor: (getSetting('overflow', 'wrap')) === value ? '#3b82f6' : '#374151',
+                  color: '#f3f4f6',
+                  border: '1px solid #4b5563',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+            Wrap: items wrap to next line. Scroll: horizontal scrollbar appears.
+          </div>
+        </MobileOverrideWrap>
+      )}
+
       <MobileOverrideWrap hasOverride={hasOverride('contentAlignment') || hasOverride('verticalAlignment')}>
         <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Alignment<MobileOverrideDot hasOverride={hasOverride('contentAlignment') || hasOverride('verticalAlignment')} onClear={() => { clearOverride('contentAlignment'); clearOverride('verticalAlignment'); }} /></label>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
