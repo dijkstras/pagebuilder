@@ -113,8 +113,8 @@
                 "textRole": "heading2",
                 "customOverrides": {
                   "content": "My name is Sjoerd Dijkstra, and I love hamburgers. They make me feel happy and warm inside. ",
-                  "color": "#bddeff",
-                  "colorSlot": "custom"
+                  "color": "#6b7280",
+                  "colorSlot": "neutral"
                 },
                 "responsiveVariants": {
                   "mobile": {},
