@@ -26,8 +26,8 @@
         "bgVideo": null,
         "bgType": "gradient",
         "bgGradient": {
-          "color1": "#ec4899",
-          "color2": "#f9fafb",
+          "color1": "#8b5cf6",
+          "color2": "#1f2937",
           "angle": 148
         },
         "borderEnabled": false,
