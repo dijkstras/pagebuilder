@@ -53,7 +53,7 @@
           "settings": {
             "columnSpan": 12,
             "spacing": 40,
-            "bgColor": "transparent",
+            "bgColor": "#8b5cf6",
             "bgImage": null,
             "bgVideo": null,
             "padding": 0,
