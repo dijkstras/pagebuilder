@@ -39,7 +39,7 @@
         "bgSize": "contain",
         "bgPositionX": "right",
         "layout": "67-33",
-        "gap": "sm",
+        "gap": "xl",
         "mobileOverrides": {
           "gap": "md"
         },
