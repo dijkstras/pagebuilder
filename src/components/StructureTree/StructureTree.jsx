@@ -5,49 +5,26 @@ import { THEME } from '../../utils/constants';
 import { SegmentPickerModal } from '../SegmentPickerModal/SegmentPickerModal';
 import { segmentStorage } from '../../services/segmentStorage';
 import { deepCloneElement } from '../../store/pageStore.jsx';
+import { Type, Paintbrush, SquareMousePointer } from 'lucide-react';
 
 const BRAND_ITEMS = [
   {
     id: 'typography',
     label: 'Typography',
     description: 'Heading & body fonts',
-    preview: (page) => (
-      <span style={{ fontWeight: 700, fontSize: '15px', color: '#f3f4f6', letterSpacing: '-0.3px' }}>
-        Aa
-      </span>
-    )
+    icon: Type
   },
   {
     id: 'colors',
     label: 'Colors',
     description: 'Brand color palette',
-    preview: (page) => (
-      <div style={{ display: 'flex', gap: '4px' }}>
-        {Object.values(page.styles.colors).map((color, i) => (
-          <div key={i} style={{ width: '14px', height: '14px', borderRadius: '50%', backgroundColor: color, flexShrink: 0 }} />
-        ))}
-      </div>
-    )
+    icon: Paintbrush
   },
   {
     id: 'buttons',
     label: 'Buttons',
     description: 'Primary, secondary & tertiary',
-    preview: (page) => {
-      const primary = page.styles.buttonStyles.find(b => b.id === 'primary');
-      return (
-        <div style={{
-          fontSize: '10px',
-          backgroundColor: primary?.bgColor || '#3b82f6',
-          color: primary?.textColor || '#fff',
-          padding: '2px 8px',
-          borderRadius: `${primary?.radius ?? 6}px`,
-          whiteSpace: 'nowrap'
-        }}>
-          Button
-        </div>
-      );
-    }
+    icon: SquareMousePointer
   }
 ];
 
@@ -175,7 +152,7 @@ export function StructureTree() {
                     onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.borderColor = THEME.border; }}
                   >
                     <div style={{ width: '40px', display: 'flex', justifyContent: 'center', flexShrink: 0 }}>
-                      {item.preview(state.page)}
+                      <item.icon size={24} color="#9ca3af" />
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: '13px', fontWeight: 500, color: '#f3f4f6' }}>{item.label}</div>

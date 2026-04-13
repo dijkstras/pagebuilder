@@ -36,7 +36,7 @@
       },
       "children": [
         {
-          "id": "slot-1776065104320-xmlz",
+          "id": "slot-1776075125385-3zcj",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -69,7 +69,7 @@
           "children": []
         },
         {
-          "id": "slot-1776065104320-uiqo",
+          "id": "slot-1776075125385-acuw",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -134,7 +134,7 @@
       },
       "children": [
         {
-          "id": "slot-1776065104321-cwps",
+          "id": "slot-1776075125385-dtpy",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -613,7 +613,7 @@
       },
       "children": [
         {
-          "id": "slot-1776065104321-e7kf",
+          "id": "slot-1776075125385-9aem",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -771,7 +771,7 @@
       },
       "children": [
         {
-          "id": "slot-1776065104321-ictd",
+          "id": "slot-1776075125385-a4md",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -1259,7 +1259,7 @@
       },
       "children": [
         {
-          "id": "slot-1776065108285-a30tx",
+          "id": "slot-1776075125385-ixn3",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -1322,7 +1322,7 @@
               "type": "text",
               "settings": {
                 "assignedStyleId": null,
-                "textRole": "heading2",
+                "textRole": "body",
                 "customOverrides": {
                   "content": "My name is Sjoerd Dijkstra, and I love hamburgers. They make me feel happy and warm inside. "
                 },
@@ -1373,7 +1373,7 @@
           ]
         },
         {
-          "id": "slot-1776065108285-tqb3x",
+          "id": "slot-1776075125385-h8e5",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -1413,6 +1413,119 @@
           "children": []
         }
       ]
+    },
+    {
+      "id": "segment-1776073234589",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "layout": "full",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "#1f2937",
+        "bgImage": null,
+        "bgVideo": null,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null,
+        "mobileOverrides": {}
+      },
+      "children": [
+        {
+          "id": "slot-1776075125385-letj",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "250px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "overflow": "wrap",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {}
+          },
+          "children": [
+            {
+              "id": "content-1776073264938",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "Your text here",
+                  "color": "#f9fafb"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            },
+            {
+              "id": "content-1776073269223",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Button",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "styles": {
@@ -1427,28 +1540,28 @@
     },
     "fonts": {
       "heading1": {
-        "family": "Inter",
-        "size": 48,
-        "weight": 700
+        "family": "Montserrat",
+        "size": 50,
+        "weight": 400
       },
       "heading2": {
-        "family": "Inter",
-        "size": 32,
+        "family": "Montserrat",
+        "size": 28,
         "weight": 600
       },
       "body": {
-        "family": "Raleway",
-        "size": 40,
+        "family": "Inter",
+        "size": 18,
         "weight": 400
       },
       "label": {
         "family": "Inter",
         "size": 12,
-        "weight": 500
+        "weight": 600
       },
       "button": {
-        "family": "Inter",
-        "weight": 500
+        "family": "Montserrat",
+        "weight": 600
       }
     },
     "buttonStyles": [
@@ -1458,9 +1571,13 @@
         "bgColor": "#3b82f6",
         "textColor": "#ffffff",
         "padding": 12,
-        "radius": 6,
-        "bgType": "solid",
-        "bgGradient": null,
+        "radius": 0,
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#ff0033",
+          "color2": "#c29800",
+          "angle": 90
+        },
         "fontSize": 14
       },
       {
