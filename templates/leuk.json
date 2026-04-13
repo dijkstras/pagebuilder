@@ -40,7 +40,9 @@
         "bgPositionX": "right",
         "layout": "67-33",
         "gap": "sm",
-        "mobileOverrides": {},
+        "mobileOverrides": {
+          "gap": "md"
+        },
         "hidden": false
       },
       "children": [
