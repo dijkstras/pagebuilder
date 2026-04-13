@@ -251,7 +251,8 @@
         "bgType": "solid",
         "bgGradient": null,
         "fontSize": 14,
-        "bgColorSlot": "custom"
+        "bgColorSlot": "custom",
+        "textColorSlot": "custom"
       },
       {
         "id": "secondary",
