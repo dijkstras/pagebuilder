@@ -47,7 +47,7 @@
       },
       "children": [
         {
-          "id": "slot-1776075939354-irg0",
+          "id": "slot-1776076773721-k0cs",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -162,7 +162,7 @@
           ]
         },
         {
-          "id": "slot-1776075939354-4bwh",
+          "id": "slot-1776076773721-zyks",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -286,7 +286,7 @@
       "lg": 24,
       "xl": 48
     },
-    "bgColor": "#f9fafb",
+    "bgColor": "#ec4899",
     "segmentSpacing": "sm"
   },
   "mobileOverrides": {
