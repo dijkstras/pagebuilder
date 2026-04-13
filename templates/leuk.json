@@ -244,13 +244,14 @@
       {
         "id": "primary",
         "label": "Primary",
-        "bgColor": "#ec4899",
+        "bgColor": "#008a10",
         "textColor": "#ffffff",
         "padding": 12,
         "radius": 6,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "custom"
       },
       {
         "id": "secondary",
