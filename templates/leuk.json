@@ -244,7 +244,7 @@
       {
         "id": "primary",
         "label": "Primary",
-        "bgColor": "#008a10",
+        "bgColor": "#8b5cf6",
         "textColor": "#ffa200",
         "padding": 12,
         "radius": 6,
