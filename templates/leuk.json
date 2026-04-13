@@ -245,7 +245,7 @@
         "id": "primary",
         "label": "Primary",
         "bgColor": "#008a10",
-        "textColor": "#ffffff",
+        "textColor": "#ec4899",
         "padding": 12,
         "radius": 6,
         "bgType": "solid",
