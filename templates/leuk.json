@@ -287,5 +287,7 @@
     "bgColor": "#f9fafb",
     "segmentSpacing": "sm"
   },
-  "mobileOverrides": {}
+  "mobileOverrides": {
+    "segmentSpacing": "sm"
+  }
 }
