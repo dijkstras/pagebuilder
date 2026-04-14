@@ -313,7 +313,7 @@
                 "gridColumn": 12,
                 "height": "auto",
                 "spacing": 16,
-                "bgColor": "#FFFFFF",
+                "bgColor": "#1A1A1A",
                 "bgImage": null,
                 "bgVideo": null,
                 "bgType": "solid",
