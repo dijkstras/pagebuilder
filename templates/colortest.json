@@ -10,13 +10,13 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#3b82f6",
-      "secondary": "#8b5cf6",
-      "accent": "#ec4899",
-      "text": "#1f2937",
-      "background": "#f9fafb",
-      "neutral": "#6b7280",
-      "card": "#ffffff"
+      "primary": "#3B82F6",
+      "secondary": "#60A5FA",
+      "accent": "#F59E0B",
+      "text": "#E8EFF8",
+      "background": "#0D1B2E",
+      "neutral": "#162845",
+      "card": "#1A3050"
     },
     "fonts": {
       "heading1": {
