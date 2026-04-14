@@ -13,7 +13,7 @@
       "type": "segment",
       "settings": {
         "layout": "33-33-33",
-        "gap": "md",
+        "gap": "xl",
         "fullWidth": true,
         "bgColor": "transparent",
         "bgColorSlot": "transparent",
