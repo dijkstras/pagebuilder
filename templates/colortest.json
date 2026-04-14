@@ -337,7 +337,28 @@
                 "mobileOverrides": {},
                 "bgColorSlot": "card"
               },
-              "children": []
+              "children": [
+                {
+                  "id": "content-1776166324795",
+                  "type": "image",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": null,
+                    "customOverrides": {
+                      "src": "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+                    },
+                    "responsive": {
+                      "hideOnMobile": false,
+                      "hideOnDesktop": false
+                    },
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                }
+              ]
             }
           ]
         },
