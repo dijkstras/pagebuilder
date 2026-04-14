@@ -345,7 +345,8 @@
                     "assignedStyleId": null,
                     "textRole": null,
                     "customOverrides": {
-                      "src": "https://framerusercontent.com/images/1Z5ZUyGlpIkFSIKXxKT3ajuDU.webp"
+                      "src": "https://framerusercontent.com/images/1Z5ZUyGlpIkFSIKXxKT3ajuDU.webp",
+                      "objectFit": "contain"
                     },
                     "responsive": {
                       "hideOnMobile": false,
