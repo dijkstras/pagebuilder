@@ -381,12 +381,12 @@
     },
     "fonts": {
       "heading1": {
-        "family": "Inter",
+        "family": "Montserrat",
         "size": 48,
         "weight": 700
       },
       "heading2": {
-        "family": "Inter",
+        "family": "Montserrat",
         "size": 32,
         "weight": 600
       },
@@ -401,8 +401,8 @@
         "weight": 500
       },
       "button": {
-        "family": "Inter",
-        "weight": 500
+        "family": "Montserrat",
+        "weight": 600
       }
     },
     "buttonStyles": [
