@@ -344,8 +344,8 @@
                   "settings": {
                     "content": "Special Item",
                     "textAlign": "left",
-                    "color": "#FFFFFF",
-                    "colorSlot": "card",
+                    "color": "#EEF4FB",
+                    "colorSlot": "background",
                     "bgColor": "#3B82F6",
                     "bgColorSlot": "secondary",
                     "paddingX": 16,
