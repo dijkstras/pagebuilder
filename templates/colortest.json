@@ -394,7 +394,7 @@
                 },
                 "text": {
                   "content": "Card title goes here",
-                  "textRole": "heading2",
+                  "textRole": "body",
                   "textAlign": "left",
                   "color": null
                 },
