@@ -190,7 +190,7 @@
                 "gridColumn": 12,
                 "height": "auto",
                 "spacing": 16,
-                "bgColor": "transparent",
+                "bgColor": "#F5F5F5",
                 "bgImage": null,
                 "bgVideo": null,
                 "bgType": "solid",
@@ -211,7 +211,8 @@
                   "hideOnMobile": false,
                   "mobileOrder": null
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "bgColorSlot": "neutral"
               },
               "children": []
             }
