@@ -387,7 +387,7 @@
                     "assignedStyleId": null,
                     "textRole": "body",
                     "customOverrides": {
-                      "content": "Your text here"
+                      "content": "And then here some more content to describe what is going on"
                     },
                     "responsive": {
                       "hideOnMobile": false,
