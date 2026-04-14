@@ -224,7 +224,7 @@
                     "customOverrides": {
                       "content": "Let's go!",
                       "colorSlot": "accent",
-                      "color": "#888888"
+                      "color": "#F59E0B"
                     },
                     "responsive": {
                       "hideOnMobile": false,
