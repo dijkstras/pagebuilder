@@ -144,7 +144,8 @@
       "lg": 24,
       "xl": 48
     },
-    "bgColor": "#f9fafb"
+    "bgColor": "#0D1B2E",
+    "bgColorSlot": "background"
   },
   "mobileOverrides": {}
 }
