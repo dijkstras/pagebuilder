@@ -381,28 +381,28 @@
     },
     "fonts": {
       "heading1": {
-        "family": "Montserrat",
+        "family": "Lora",
         "size": 48,
-        "weight": 700
-      },
-      "heading2": {
-        "family": "Montserrat",
-        "size": 32,
         "weight": 600
       },
+      "heading2": {
+        "family": "Lora",
+        "size": 32,
+        "weight": 500
+      },
       "body": {
-        "family": "Inter",
+        "family": "Source Sans 3",
         "size": 16,
         "weight": 400
       },
       "label": {
-        "family": "Inter",
+        "family": "Source Sans 3",
         "size": 12,
         "weight": 500
       },
       "button": {
-        "family": "Montserrat",
-        "weight": 600
+        "family": "Source Sans 3",
+        "weight": 500
       }
     },
     "buttonStyles": [
