@@ -313,7 +313,7 @@
                 "gridColumn": 12,
                 "height": "auto",
                 "spacing": 16,
-                "bgColor": "transparent",
+                "bgColor": "#FFFFFF",
                 "bgImage": null,
                 "bgVideo": null,
                 "bgType": "solid",
@@ -334,7 +334,8 @@
                   "hideOnMobile": false,
                   "mobileOrder": null
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "bgColorSlot": "card"
               },
               "children": []
             }
