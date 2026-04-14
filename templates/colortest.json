@@ -292,8 +292,8 @@
               "settings": {
                 "content": "Label text",
                 "textAlign": "left",
-                "color": null,
-                "colorSlot": null,
+                "color": "#F59E0B",
+                "colorSlot": "accent",
                 "bgColor": "#e5e7eb",
                 "bgColorSlot": "neutral",
                 "paddingX": 12,
