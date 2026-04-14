@@ -127,34 +127,6 @@
                 },
                 "mobileOverrides": {}
               }
-            },
-            {
-              "id": "content-1776165967106",
-              "type": "label",
-              "settings": {
-                "content": "Label text",
-                "textAlign": "left",
-                "color": null,
-                "colorSlot": null,
-                "bgColor": "#e5e7eb",
-                "bgColorSlot": "neutral",
-                "paddingX": 12,
-                "paddingY": 4,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#9ca3af",
-                "borderRadius": 4,
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "mobileOverrides": {}
-              }
             }
           ]
         },
