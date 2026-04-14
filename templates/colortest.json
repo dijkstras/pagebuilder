@@ -532,11 +532,11 @@
     "colors": {
       "primary": "#FF2D78",
       "secondary": "#FF80AB",
-      "accent": "#00AACC",
-      "text": "#1A001A",
-      "background": "#FFFFFF",
-      "neutral": "#FFF0F5",
-      "card": "#FFFFFF"
+      "accent": "#00D4FF",
+      "text": "#F8F8F8",
+      "background": "#0D0D0D",
+      "neutral": "#1A1A1A",
+      "card": "#1A1A1A"
     },
     "fonts": {
       "heading1": {
