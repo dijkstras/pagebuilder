@@ -379,6 +379,26 @@
                       "desktop": {}
                     }
                   }
+                },
+                {
+                  "id": "content-1776166400344",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Your text here"
+                    },
+                    "responsive": {
+                      "hideOnMobile": false,
+                      "hideOnDesktop": false
+                    },
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
                 }
               ]
             }
