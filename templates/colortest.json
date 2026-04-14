@@ -393,9 +393,9 @@
                   "borderRadius": "4px"
                 },
                 "text": {
-                  "content": "This is a card element and can be used to showcase content",
+                  "content": "This is a card element and can be used to showcase content in a clean way",
                   "textRole": "body",
-                  "textAlign": "center",
+                  "textAlign": "left",
                   "color": null
                 },
                 "button": {
