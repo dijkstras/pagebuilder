@@ -312,34 +312,6 @@
           },
           "children": [
             {
-              "id": "content-1776165024661",
-              "type": "label",
-              "settings": {
-                "content": "Label text",
-                "textAlign": "left",
-                "color": "#F59E0B",
-                "colorSlot": "accent",
-                "bgColor": "#e5e7eb",
-                "bgColorSlot": "neutral",
-                "paddingX": 12,
-                "paddingY": 4,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#9ca3af",
-                "borderRadius": 4,
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "mobileOverrides": {}
-              }
-            },
-            {
               "id": "content-1776165930655",
               "type": "card",
               "settings": {
