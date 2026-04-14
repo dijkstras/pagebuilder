@@ -176,7 +176,7 @@
                 "assignedStyleId": "primary",
                 "textRole": null,
                 "customOverrides": {
-                  "label": "Button",
+                  "label": "Primairy Button",
                   "icon": {
                     "key": null,
                     "position": "none"
