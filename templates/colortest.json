@@ -84,9 +84,9 @@
               "type": "text",
               "settings": {
                 "assignedStyleId": null,
-                "textRole": "body",
+                "textRole": "heading2",
                 "customOverrides": {
-                  "content": "Your text here"
+                  "content": "Heading 2"
                 },
                 "responsive": {
                   "hideOnMobile": false,
