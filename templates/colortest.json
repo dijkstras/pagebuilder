@@ -27,11 +27,14 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null,
+        "mobileOverrides": {}
       },
       "children": [
         {
-          "id": "slot-1776164426791-vsa9",
+          "id": "slot-1776164571694-jphs",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -55,7 +58,10 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {}
           },
           "children": []
         }
