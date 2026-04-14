@@ -200,7 +200,7 @@
                 "verticalAlignment": "center",
                 "direction": "column",
                 "overflow": "wrap",
-                "minWidth": null,
+                "minWidth": "100%",
                 "borderEnabled": false,
                 "borderWidth": 1,
                 "borderColor": "#000000",
