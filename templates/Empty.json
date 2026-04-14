@@ -65,13 +65,13 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#1D4ED8",
-      "secondary": "#3B82F6",
+      "primary": "#3B82F6",
+      "secondary": "#60A5FA",
       "accent": "#F59E0B",
-      "text": "#0D1B2E",
-      "background": "#EEF4FB",
-      "neutral": "#DDEAF8",
-      "card": "#FFFFFF"
+      "text": "#E8EFF8",
+      "background": "#0D1B2E",
+      "neutral": "#162845",
+      "card": "#1A3050"
     },
     "fonts": {
       "heading1": {
