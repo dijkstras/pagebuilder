@@ -1,7 +1,7 @@
 import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPES } from '../../store/pageTypes';
-import { ColorPresets } from './ColorPresets.jsx';
+import { ColorPresets, ColorSlotPicker, resolveSlotColor } from './ColorPresets.jsx';
 import { BUTTON_ICONS } from '../../utils/buttonIcons';
 import { GradientPicker } from './GradientPicker.jsx';
 import { useMobileSettings, MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
@@ -50,7 +50,7 @@ export function ContentSettings() {
 
   if (!content) return null;
 
-  const { isMobile, getSetting, updateSetting, hasOverride, clearOverride } = useMobileSettings(content);
+  const { isMobile, getSetting, updateSetting, mergeSettings, hasOverride, clearOverride } = useMobileSettings(content);
 
   const handleSettingUpdate = (key, value) => {
     if (isMobile) {
@@ -61,6 +61,8 @@ export function ContentSettings() {
       }));
     }
   };
+
+  const handleMergeSetting = (partial) => mergeSettings(partial);
 
   const handleCustomUpdate = (key, value) => {
     dispatch(pageActions.updateElement(content.id, {
@@ -188,20 +190,19 @@ export function ContentSettings() {
 
           <div>
             <label style={labelStyle}>Text color</label>
-            <GradientPicker
-              bgType={content.settings.customOverrides.textType || 'solid'}
-              bgColor={content.settings.customOverrides.color}
-              bgGradient={content.settings.customOverrides.textGradient}
-              onUpdate={(key, value) => {
-                if (key === 'bgType') {
-                  handleCustomUpdate('textType', value);
-                } else if (key === 'bgColor') {
-                  handleCustomUpdate('color', value);
-                } else if (key === 'bgGradient') {
-                  handleCustomUpdate('textGradient', value);
-                }
-              }}
+            <ColorSlotPicker
+              slot={content.settings.customOverrides.colorSlot ?? null}
+              customColor={content.settings.customOverrides.color}
               colors={state.page.styles.colors || {}}
+              onSlotChange={(slot, color) => {
+                dispatch(pageActions.updateElement(content.id, {
+                  settings: {
+                    ...content.settings,
+                    customOverrides: { ...content.settings.customOverrides, colorSlot: slot, color }
+                  }
+                }));
+              }}
+              onCustomColorChange={(color) => handleCustomUpdate('color', color)}
             />
           </div>
         </>
@@ -345,6 +346,7 @@ export function ContentSettings() {
         const customOverrides = content.settings.customOverrides;
         const icon = customOverrides.icon ?? { key: null, position: 'none' };
         const sizeOverride = customOverrides.sizeOverride ?? { enabled: false, width: 'auto', height: 'auto' };
+        const colors = state.page.styles.colors;
         return (
           <>
             <div style={{ marginBottom: '16px' }}>
@@ -352,7 +354,14 @@ export function ContentSettings() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {state.page.styles.buttonStyles.map(btnStyle => {
                   const isActive = content.settings.assignedStyleId === btnStyle.id;
-                  const isOutline = btnStyle.bgColor === 'transparent';
+                  // Resolve actual colors from slots
+                  const bgColor = resolveSlotColor(btnStyle.bgColorSlot, colors, btnStyle.bgColor);
+                  const textColor = resolveSlotColor(btnStyle.textColorSlot, colors, btnStyle.textColor);
+                  const isOutline = bgColor === 'transparent';
+                  // Handle gradient backgrounds
+                  const background = btnStyle.bgType === 'gradient' && btnStyle.bgGradient
+                    ? `linear-gradient(${btnStyle.bgGradient.angle ?? 90}deg, ${btnStyle.bgGradient.color1}, ${btnStyle.bgGradient.color2})`
+                    : bgColor;
                   return (
                     <button
                       key={btnStyle.id}
@@ -373,12 +382,12 @@ export function ContentSettings() {
                       <span style={{
                         display: 'inline-block',
                         padding: '5px 14px',
-                        backgroundColor: btnStyle.bgColor,
-                        color: btnStyle.textColor,
+                        background: background,
+                        color: textColor,
                         borderRadius: `${btnStyle.radius}px`,
-                        fontSize: '12px',
+                        fontSize: `${btnStyle.fontSize ?? 14}px`,
                         fontWeight: 500,
-                        border: isOutline ? `1.5px solid ${btnStyle.textColor}` : 'none',
+                        border: isOutline ? `1.5px solid ${textColor}` : 'none',
                         whiteSpace: 'nowrap',
                         flexShrink: 0
                       }}>
@@ -649,8 +658,10 @@ export function ContentSettings() {
                 <GradientPicker
                   bgType={settings.bgType || 'solid'}
                   bgColor={settings.bgColor}
+                  bgColorSlot={settings.bgColorSlot ?? null}
                   bgGradient={settings.bgGradient}
                   onUpdate={handleSettingUpdate}
+                  onMergeUpdate={handleMergeSetting}
                   colors={colors}
                 />
               </div>
@@ -944,24 +955,15 @@ export function ContentSettings() {
 
               <div style={{ marginBottom: '12px' }}>
                 <label style={labelStyle}>Text color</label>
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                  <input
-                    type="color"
-                    value={settings.text?.color || state.page.styles.colors?.text || '#1f2937'}
-                    onChange={(e) => handleSettingUpdate('text', { ...settings.text, color: e.target.value })}
-                    style={{ width: '40px', height: '40px', cursor: 'pointer', flexShrink: 0, borderRadius: '4px', border: '1px solid #4b5563' }}
-                  />
-                  <input
-                    type="text"
-                    value={settings.text?.color || ''}
-                    onChange={(e) => handleSettingUpdate('text', { ...settings.text, color: e.target.value || undefined })}
-                    placeholder="Default"
-                    style={inputStyle}
-                  />
-                </div>
-                {Object.keys(state.page.styles.colors || {}).length > 0 && (
-                  <ColorPresets colors={state.page.styles.colors} onSelectColor={(color) => handleSettingUpdate('text', { ...settings.text, color })} />
-                )}
+                <ColorSlotPicker
+                  slot={settings.text?.colorSlot ?? null}
+                  customColor={settings.text?.color}
+                  colors={state.page.styles.colors || {}}
+                  onSlotChange={(slot, color) => {
+                    handleSettingUpdate('text', { ...settings.text, colorSlot: slot, color });
+                  }}
+                  onCustomColorChange={(color) => handleSettingUpdate('text', { ...settings.text, color })}
+                />
               </div>
             </div>
 

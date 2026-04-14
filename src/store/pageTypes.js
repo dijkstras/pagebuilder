@@ -72,10 +72,12 @@ export const createEmptyPage = () => ({
         id: 'primary',
         label: 'Primary',
         bgColor: '#3b82f6',
+        bgColorSlot: 'primary',
         bgType: 'solid',
         bgGradient: null,
         fontSize: 14,
         textColor: '#ffffff',
+        textColorSlot: 'custom',
         padding: 12,
         radius: 6
       },
@@ -83,10 +85,12 @@ export const createEmptyPage = () => ({
         id: 'secondary',
         label: 'Secondary',
         bgColor: '#e5e7eb',
+        bgColorSlot: 'neutral',
         bgType: 'solid',
         bgGradient: null,
         fontSize: 14,
         textColor: '#1f2937',
+        textColorSlot: 'text',
         padding: 12,
         radius: 6
       },
@@ -94,10 +98,12 @@ export const createEmptyPage = () => ({
         id: 'tertiary',
         label: 'Tertiary',
         bgColor: 'transparent',
+        bgColorSlot: 'custom',
         bgType: 'solid',
         bgGradient: null,
         fontSize: 14,
         textColor: '#3b82f6',
+        textColorSlot: 'primary',
         padding: 12,
         radius: 6
       }

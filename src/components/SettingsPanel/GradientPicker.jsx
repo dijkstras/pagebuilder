@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { ColorPresets } from './ColorPresets.jsx';
+import { ColorSlotPicker, resolveSlotColor } from './ColorPresets.jsx';
 
 const inputStyle = {
   flex: 1,
@@ -12,7 +12,7 @@ const inputStyle = {
   boxSizing: 'border-box'
 };
 
-export function GradientPicker({ bgType = 'solid', bgColor, bgGradient, onUpdate, colors = {} }) {
+export function GradientPicker({ bgType = 'solid', bgColor, bgColorSlot, bgGradient, onUpdate, onMergeUpdate, colors = {} }) {
   const gradient = bgGradient || { color1: bgColor || '#ffffff', color2: '#000000', angle: 90 };
   const dialRef = useRef(null);
   const dragging = useRef(false);
@@ -73,23 +73,20 @@ export function GradientPicker({ bgType = 'solid', bgColor, bgGradient, onUpdate
 
       {bgType !== 'gradient' ? (
         <div>
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-            <input
-              type="color"
-              value={bgColor || '#ffffff'}
-              onChange={(e) => onUpdate('bgColor', e.target.value)}
-              style={{ width: '40px', height: '40px', cursor: 'pointer', flexShrink: 0 }}
-            />
-            <input
-              type="text"
-              value={bgColor || ''}
-              onChange={(e) => onUpdate('bgColor', e.target.value)}
-              style={inputStyle}
-            />
-          </div>
-          {Object.keys(colors).length > 0 && (
-            <ColorPresets colors={colors} onSelectColor={(color) => onUpdate('bgColor', color)} />
-          )}
+          <ColorSlotPicker
+            slot={bgColorSlot ?? null}
+            customColor={bgColor}
+            colors={colors}
+            onSlotChange={(slot, color) => {
+              if (onMergeUpdate) {
+                onMergeUpdate({ bgColorSlot: slot, bgColor: color });
+              } else {
+                onUpdate('bgColorSlot', slot);
+                onUpdate('bgColor', color);
+              }
+            }}
+            onCustomColorChange={(color) => onUpdate('bgColor', color)}
+          />
         </div>
       ) : (
         <div>
@@ -104,43 +101,23 @@ export function GradientPicker({ bgType = 'solid', bgColor, bgGradient, onUpdate
 
           {/* Color 1 */}
           <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '4px' }}>Color 1</div>
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-            <input
-              type="color"
-              value={gradient.color1}
-              onChange={(e) => updateGradient('color1', e.target.value)}
-              style={{ width: '40px', height: '40px', cursor: 'pointer', flexShrink: 0 }}
-            />
-            <input
-              type="text"
-              value={gradient.color1}
-              onChange={(e) => updateGradient('color1', e.target.value)}
-              style={inputStyle}
-            />
-          </div>
-          {Object.keys(colors).length > 0 && (
-            <ColorPresets colors={colors} onSelectColor={(color) => updateGradient('color1', color)} />
-          )}
+          <ColorSlotPicker
+            slot={null}
+            customColor={gradient.color1}
+            colors={colors}
+            onSlotChange={(slot, color) => updateGradient('color1', color)}
+            onCustomColorChange={(color) => updateGradient('color1', color)}
+          />
 
           {/* Color 2 */}
           <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '4px', marginTop: '12px' }}>Color 2</div>
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
-            <input
-              type="color"
-              value={gradient.color2}
-              onChange={(e) => updateGradient('color2', e.target.value)}
-              style={{ width: '40px', height: '40px', cursor: 'pointer', flexShrink: 0 }}
-            />
-            <input
-              type="text"
-              value={gradient.color2}
-              onChange={(e) => updateGradient('color2', e.target.value)}
-              style={inputStyle}
-            />
-          </div>
-          {Object.keys(colors).length > 0 && (
-            <ColorPresets colors={colors} onSelectColor={(color) => updateGradient('color2', color)} />
-          )}
+          <ColorSlotPicker
+            slot={null}
+            customColor={gradient.color2}
+            colors={colors}
+            onSlotChange={(slot, color) => updateGradient('color2', color)}
+            onCustomColorChange={(color) => updateGradient('color2', color)}
+          />
 
           {/* Direction dial */}
           <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '6px' }}>Direction</div>

@@ -43,7 +43,7 @@ export function SegmentSettings() {
 
   if (!segment) return null;
 
-  const { isMobile, getSetting, updateSetting, hasOverride, clearOverride } = useMobileSettings(segment);
+  const { isMobile, getSetting, updateSetting, mergeSettings, hasOverride, clearOverride } = useMobileSettings(segment);
 
   const handleSaveSegment = () => {
     setSaveStatus('saving');
@@ -68,6 +68,8 @@ export function SegmentSettings() {
       }));
     }
   };
+
+  const handleMergeUpdate = (partial) => mergeSettings(partial);
 
   const handleLayoutChange = (layoutKey) => {
     dispatch(pageActions.setLayout(segment.id, layoutKey));
@@ -201,13 +203,30 @@ export function SegmentSettings() {
         </div>
       </MobileOverrideWrap>
 
+      <MobileOverrideWrap hasOverride={hasOverride('horizontalScroll')}>
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={getSetting('horizontalScroll', false)}
+            onChange={(e) => handleUpdate('horizontalScroll', e.target.checked)}
+            style={{ cursor: 'pointer' }}
+          />
+          Horizontal scroll<MobileOverrideDot hasOverride={hasOverride('horizontalScroll')} onClear={() => clearOverride('horizontalScroll')} />
+        </label>
+        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+          Segment becomes the scroll container. Slot content flows freely beyond slot bounds.
+        </div>
+      </MobileOverrideWrap>
+
       <MobileOverrideWrap hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')}>
         <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Background<MobileOverrideDot hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')} onClear={() => { clearOverride('bgColor'); clearOverride('bgType'); clearOverride('bgGradient'); }} /></label>
         <GradientPicker
           bgType={getSetting('bgType', 'solid')}
           bgColor={getSetting('bgColor', segment.settings.bgColor)}
+          bgColorSlot={getSetting('bgColorSlot', segment.settings.bgColorSlot) ?? null}
           bgGradient={getSetting('bgGradient', segment.settings.bgGradient)}
           onUpdate={handleUpdate}
+          onMergeUpdate={handleMergeUpdate}
           colors={colors}
         />
       </MobileOverrideWrap>
@@ -490,25 +509,6 @@ export function SegmentSettings() {
           </div>
         </>
       )}
-
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Corner Radius (px)</label>
-        <input
-          type="number"
-          value={segment.settings.borderRadius ?? 0}
-          min={0}
-          onChange={(e) => handleUpdate('borderRadius', parseInt(e.target.value) || 0)}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        />
-      </div>
 
       <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>

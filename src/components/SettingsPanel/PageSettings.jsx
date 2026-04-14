@@ -1,6 +1,6 @@
 import React from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
-import { ColorPresets } from './ColorPresets.jsx';
+import { ColorSlotPicker, resolveSlotColor } from './ColorPresets.jsx';
 import { SEGMENT_SPACING_PRESETS } from '../../store/pageTypes';
 import { MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
 
@@ -36,6 +36,14 @@ export function PageSettings() {
     }
   };
 
+  const handleBgSlotChange = (slot, color) => {
+    if (isMobile) {
+      dispatch(pageActions.updatePageMobileOverrides({ ...mo, bgColorSlot: slot, bgColor: color }));
+    } else {
+      dispatch(pageActions.updatePageStyles({ bgColorSlot: slot, bgColor: color }));
+    }
+  };
+
   const handleSegmentSpacingChange = (value) => {
     if (isMobile) {
       setOverride('segmentSpacing', value);
@@ -45,6 +53,7 @@ export function PageSettings() {
   };
 
   const effectiveBgColor = isMobile && 'bgColor' in mo ? mo.bgColor : (page.styles.bgColor ?? '#f9fafb');
+  const effectiveBgColorSlot = isMobile && 'bgColorSlot' in mo ? mo.bgColorSlot : (page.styles.bgColorSlot ?? null);
   const effectiveSpacing = isMobile && 'segmentSpacing' in mo ? mo.segmentSpacing : (page.styles.segmentSpacing || 'md');
 
   return (
@@ -76,32 +85,13 @@ export function PageSettings() {
           Background color
           <MobileOverrideDot hasOverride={hasOverride('bgColor')} onClear={() => clearOverride('bgColor')} />
         </label>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '8px' }}>
-          <input
-            type="color"
-            value={effectiveBgColor}
-            onChange={(e) => handleBgColorChange(e.target.value)}
-            style={{ width: '44px', height: '44px', cursor: 'pointer', borderRadius: '6px', border: '1px solid #4b5563', padding: '2px', backgroundColor: '#374151' }}
-          />
-          <input
-            type="text"
-            value={effectiveBgColor.toUpperCase()}
-            onChange={(e) => handleBgColorChange(e.target.value)}
-            style={{
-              flex: 1,
-              padding: '8px 10px',
-              backgroundColor: '#374151',
-              color: '#f3f4f6',
-              border: '1px solid #4b5563',
-              borderRadius: '6px',
-              fontSize: '13px',
-              boxSizing: 'border-box'
-            }}
-          />
-        </div>
-        {Object.keys(page.styles.colors || {}).length > 0 && (
-          <ColorPresets colors={page.styles.colors} onSelectColor={handleBgColorChange} />
-        )}
+        <ColorSlotPicker
+          slot={effectiveBgColorSlot}
+          customColor={effectiveBgColor}
+          colors={page.styles.colors || {}}
+          onSlotChange={(slot, color) => handleBgSlotChange(slot, color)}
+          onCustomColorChange={handleBgColorChange}
+        />
       </MobileOverrideWrap>
 
       <MobileOverrideWrap hasOverride={hasOverride('segmentSpacing')} style={{ marginBottom: '16px' }}>

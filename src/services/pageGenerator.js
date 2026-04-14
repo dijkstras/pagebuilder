@@ -97,8 +97,10 @@ function collectMobileOverrideCSS(page, isMobilePreview = false) {
       if (mo.borderRadius !== undefined) css['border-radius'] = `${mo.borderRadius}px`;
       if (mo.overflow !== undefined && direction === 'row') {
         if (mo.overflow === 'scroll') {
+          const clip = (mo.clipContent ?? slot.settings?.clipContent) !== false;
           css['flex-wrap'] = 'nowrap';
-          css['overflow-x'] = 'auto';
+          css['overflow-x'] = clip ? 'auto' : 'visible';
+          css['overflow-y'] = clip ? 'hidden' : 'visible';
         } else {
           css['flex-wrap'] = 'wrap';
           css['overflow-x'] = 'visible';
@@ -136,8 +138,11 @@ function collectMobileOverrideCSS(page, isMobilePreview = false) {
   if (Object.keys(pmo).length > 0) {
     const pageCSS = [];
 
-    if (pmo.bgColor !== undefined) {
-      pageCSS.push(`  body { background-color: ${pmo.bgColor} !important; }`);
+    if (pmo.bgColor !== undefined || pmo.bgColorSlot !== undefined) {
+      const slot = pmo.bgColorSlot;
+      const colors = page.styles.colors || {};
+      const resolvedPgBg = slot && slot !== 'custom' ? (slot === 'transparent' ? 'transparent' : (colors[slot] || pmo.bgColor)) : pmo.bgColor;
+      if (resolvedPgBg !== undefined) pageCSS.push(`  body { background-color: ${resolvedPgBg} !important; }`);
     }
     if (pmo.segmentSpacing !== undefined) {
       const spacingPx = SEGMENT_SPACING_PRESETS[pmo.segmentSpacing]?.px ?? 40;
@@ -309,7 +314,7 @@ export function generateHTML(page, selectedElementId, options = {}) {
 </html>`;
 }
 
-function renderSegment(segment, page) {
+function renderSegment(segment, page, segmentHorizontalScroll = false) {
   if (segment.settings.hidden) return '';
   const maxWidth = segment.settings.maxWidth;
   const bgSize = segment.settings.bgSize || 'cover';
@@ -356,7 +361,8 @@ function renderSegment(segment, page) {
       ? `drop-shadow(0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02}))`
       : undefined,
     borderRadius: `${segment.settings.borderRadius ?? 0}px`,
-    overflow: segment.settings.bgVideo ? 'hidden' : 'visible',
+    overflowX: segment.settings.horizontalScroll ? 'auto' : (segment.settings.bgVideo ? 'hidden' : undefined),
+    overflow: (!segment.settings.horizontalScroll && !segment.settings.bgVideo) ? 'visible' : undefined,
     position: (segment.settings.bgVideo || hasBgImage || isGradient) ? 'relative' : undefined,
     width: '100%'
   });
@@ -370,9 +376,10 @@ function renderSegment(segment, page) {
   gridClasses.push('max-w-full', 'w-full');
   if (maxWidth) gridClasses.push(`md:max-w-[${maxWidth}px]`, 'mx-auto');
 
+  const hScroll = !!segment.settings.horizontalScroll;
   const children = segment.children.map(child => {
     if (child.type === 'slot' || child.type === 'container') {
-      return renderSlot(child, page);
+      return renderSlot(child, page, hScroll);
     } else {
       return renderContentItem(child, page);
     }
@@ -411,11 +418,12 @@ function renderSegment(segment, page) {
 
   // Content wrapper with max-width constraint
   const contentWrapperStyle = buildStyleString({
-    maxWidth: '1280px',
-    margin: '0 auto',
-    width: '100%',
-    paddingLeft: '16px',
-    paddingRight: '16px'
+    maxWidth: hScroll ? undefined : '1280px',
+    margin: hScroll ? undefined : '0 auto',
+    width: hScroll ? undefined : '100%',
+    paddingLeft: hScroll ? undefined : '16px',
+    paddingRight: hScroll ? undefined : '16px',
+    display: hScroll ? 'flex' : undefined
   });
 
   return `<section style="${outerStyle}" data-element-id="${segment.id}">
@@ -429,7 +437,7 @@ function renderSegment(segment, page) {
 </section>`;
 }
 
-function renderSlot(slot, page) {
+function renderSlot(slot, page, segmentHScroll = false) {
   if (slot.settings.hidden) return '';
   const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
   const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
@@ -454,6 +462,8 @@ function renderSlot(slot, page) {
 
   const isGradient = slot.settings.bgType === 'gradient' && slot.settings.bgGradient;
   const hasBgImage = !!slot.settings.bgImage;
+  const isHorizontalScroll = !segmentHScroll && direction === 'row' && slot.settings.overflow === 'scroll';
+  const clipContent = slot.settings.clipContent !== false; // default true
   const slotVideoBg = slot.settings.bgVideo
     ? renderVideo(slot.settings.bgVideo, {
         isBackground: true,
@@ -481,13 +491,10 @@ function renderSlot(slot, page) {
     display: (slot.settings.bgVideo || hasBgImage) ? 'block' : 'flex',
     ...(slot.settings.bgVideo || hasBgImage ? {} : {
       flexDirection: direction,
-      flexWrap: (direction === 'row') ? (slot.settings.overflow === 'scroll' ? 'nowrap' : 'wrap') : undefined,
+      flexWrap: (direction === 'row') ? (segmentHScroll || slot.settings.overflow === 'scroll' ? 'nowrap' : 'wrap') : undefined,
       gap: isAutoSpacing ? undefined : `${typeof spacing === 'number' ? spacing : 16}px`,
-      justifyContent: isAutoSpacing
-        ? 'space-between'
-        : (direction === 'row' ? hAlign : vAlign),
-      alignItems: direction === 'row' ? vAlign : hAlign,
-      overflowX: (direction === 'row' && slot.settings.overflow === 'scroll') ? 'auto' : undefined
+      justifyContent: isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign),
+      alignItems: direction === 'row' ? vAlign : hAlign
     })
   };
 
@@ -513,20 +520,21 @@ function renderSlot(slot, page) {
     : undefined;
   styleObj.borderRadius = `${slot.settings.borderRadius ?? 0}px`;
   // When horizontal scroll is enabled, slot needs overflow: auto to show scrollbar
-  const isHorizontalScroll = direction === 'row' && slot.settings.overflow === 'scroll';
-  if (isHorizontalScroll) {
-    styleObj.overflow = 'auto';
+  if (isHorizontalScroll && clipContent) {
+    styleObj.overflowX = 'auto';
+    styleObj.overflowY = 'hidden';
   } else if (slot.settings.bgVideo || slot.settings.borderRadius > 0) {
     styleObj.overflow = 'hidden';
   } else {
     styleObj.overflow = 'visible';
   }
   if (slot.settings.bgVideo || hasBgImage || isGradient) styleObj.position = 'relative';
-  // Add responsive width constraints to prevent overflow
-  styleObj.maxWidth = '100%';
+  if (!segmentHScroll) {
+    styleObj.maxWidth = '100%';
+    styleObj.flexShrink = '1';
+  }
   styleObj.boxSizing = 'border-box';
   styleObj.minWidth = '0';
-  styleObj.flexShrink = '1';
   // Ensure slot doesn't exceed grid container width
   styleObj.width = 'auto';
 
@@ -693,12 +701,19 @@ function renderContentItemInner(item, page) {
         || buttonStyles[0];
       const isGradient = buttonStyle?.bgType === 'gradient' && buttonStyle?.bgGradient;
 
+      // Resolve color slots
+      const paletteColors = page.styles.colors || {};
+      const resolvedBgColor = buttonStyle?.bgColorSlot === 'transparent' ? 'transparent'
+        : (buttonStyle?.bgColorSlot && buttonStyle.bgColorSlot !== 'custom')
+          ? (paletteColors[buttonStyle.bgColorSlot] || buttonStyle?.bgColor)
+          : buttonStyle?.bgColor;
+
       // Background
-      const bgColor = item.settings.customOverrides?.bgColor || buttonStyle?.bgColor || '#3b82f6';
+      const bgColor = item.settings.customOverrides?.bgColor || resolvedBgColor || '#3b82f6';
       const background = isGradient
         ? `linear-gradient(${buttonStyle.bgGradient.angle ?? 90}deg, ${buttonStyle.bgGradient.color1}, ${buttonStyle.bgGradient.color2})`
         : bgColor;
-      const isOutline = buttonStyle?.bgColor === 'transparent' && !isGradient;
+      const isOutline = resolvedBgColor === 'transparent' && !isGradient;
 
       // sizeOverride (button-specific) takes priority over element-level size overrides
       const so = item.settings.customOverrides?.sizeOverride;
@@ -706,7 +721,11 @@ function renderContentItemInner(item, page) {
       const width = (so?.enabled && so.width && so.width !== 'auto') ? so.width : elWidth;
       const height = (so?.enabled && so.height && so.height !== 'auto') ? so.height : elHeight;
 
-      const textColor = item.settings.customOverrides?.textColor || buttonStyle?.textColor || '#ffffff';
+      const resolvedTextColor = buttonStyle?.textColorSlot === 'transparent' ? 'transparent'
+        : (buttonStyle?.textColorSlot && buttonStyle.textColorSlot !== 'custom')
+          ? (paletteColors[buttonStyle.textColorSlot] || buttonStyle?.textColor)
+          : buttonStyle?.textColor;
+      const textColor = item.settings.customOverrides?.textColor || resolvedTextColor || '#ffffff';
       const fontSize = `${buttonStyle?.fontSize ?? 14}px`;
 
       // Icon
@@ -836,17 +855,26 @@ function renderContentItemInner(item, page) {
           || buttonStyles[0];
         const isGradient = buttonStyle?.bgType === 'gradient' && buttonStyle?.bgGradient;
 
-        const bgColor = buttonStyle?.bgColor || '#3b82f6';
+        const cardPaletteColors = page.styles.colors || {};
+        const cardResolvedBgColor = buttonStyle?.bgColorSlot === 'transparent' ? 'transparent'
+          : (buttonStyle?.bgColorSlot && buttonStyle.bgColorSlot !== 'custom')
+            ? (cardPaletteColors[buttonStyle.bgColorSlot] || buttonStyle?.bgColor)
+            : buttonStyle?.bgColor;
+        const bgColor = cardResolvedBgColor || '#3b82f6';
         const background = isGradient
           ? `linear-gradient(${buttonStyle.bgGradient.angle ?? 90}deg, ${buttonStyle.bgGradient.color1}, ${buttonStyle.bgGradient.color2})`
           : bgColor;
-        const isOutline = buttonStyle?.bgColor === 'transparent' && !isGradient;
+        const isOutline = cardResolvedBgColor === 'transparent' && !isGradient;
 
         const so = settings.button.sizeOverride;
         const width = (so?.enabled && so.width && so.width !== 'auto') ? so.width : 'auto';
         const height = (so?.enabled && so.height && so.height !== 'auto') ? so.height : 'auto';
 
-        const textColor = buttonStyle?.textColor || '#ffffff';
+        const cardResolvedTextColor = buttonStyle?.textColorSlot === 'transparent' ? 'transparent'
+          : (buttonStyle?.textColorSlot && buttonStyle.textColorSlot !== 'custom')
+            ? (cardPaletteColors[buttonStyle.textColorSlot] || buttonStyle?.textColor)
+            : buttonStyle?.textColor;
+        const textColor = cardResolvedTextColor || '#ffffff';
         const fontSize = `${buttonStyle?.fontSize ?? 14}px`;
 
         const iconData = settings.button.icon;
@@ -946,7 +974,7 @@ export function generateCSS(page) {
       font-size: var(--font-body-size);
       font-weight: var(--font-body-weight);
     }
-    body { background-color: ${page.styles.bgColor ?? '#f9fafb'}; }
+    body { background-color: ${page.styles.bgColorSlot && page.styles.bgColorSlot !== 'custom' ? (page.styles.bgColorSlot === 'transparent' ? 'transparent' : (page.styles.colors[page.styles.bgColorSlot] || page.styles.bgColor)) : (page.styles.bgColor ?? '#f9fafb')}; }
     h1 {
       font-family: var(--font-heading1-family);
       font-size: var(--font-heading1-size);
@@ -964,10 +992,15 @@ export function generateCSS(page) {
     }
     ${(page.styles.buttonStyles || []).map(bs => {
       const isGradient = bs.bgType === 'gradient' && bs.bgGradient;
+      const hoverPaletteColors = page.styles.colors || {};
+      const resolvedBsColor = bs.bgColorSlot === 'transparent' ? 'transparent'
+        : (bs.bgColorSlot && bs.bgColorSlot !== 'custom')
+          ? (hoverPaletteColors[bs.bgColorSlot] || bs.bgColor)
+          : bs.bgColor;
       const hoverBg = isGradient
         ? `linear-gradient(${bs.bgGradient.angle ?? 90}deg, ${darkenHex(bs.bgGradient.color1)}, ${darkenHex(bs.bgGradient.color2)})`
-        : darkenHex(bs.bgColor || '#3b82f6');
-      const isOutline = bs.bgColor === 'transparent' && bs.bgType !== 'gradient';
+        : darkenHex(resolvedBsColor || '#3b82f6');
+      const isOutline = resolvedBsColor === 'transparent' && bs.bgType !== 'gradient';
       if (isOutline) return ''; // skip hover for transparent/outline buttons
       const safeId = (bs.id || 'primary').replace(/[^a-z0-9-_]/gi, '-');
       return `.btn-${safeId}:hover { background: ${hoverBg} !important; }`;

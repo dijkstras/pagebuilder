@@ -125,7 +125,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-csgc",
+          "id": "slot-1776080125563-kdb4",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -151,7 +151,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -189,7 +190,7 @@
           ]
         },
         {
-          "id": "slot-1775826826053-9ljl",
+          "id": "slot-1776080125563-1573",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -215,7 +216,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -243,7 +245,7 @@
           ]
         },
         {
-          "id": "slot-1775826826053-np28",
+          "id": "slot-1776080125563-wki6",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -269,7 +271,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -345,7 +348,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-41jo",
+          "id": "slot-1776080125563-gvam",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -373,7 +376,8 @@
             "bgSize": "contain",
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         }
@@ -410,7 +414,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-67qz",
+          "id": "slot-1776080125563-ka3j",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -437,7 +441,8 @@
               "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -533,7 +538,7 @@
           ]
         },
         {
-          "id": "slot-1775826826053-lces",
+          "id": "slot-1776080125563-5w9i",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -559,7 +564,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -666,7 +672,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-q24d",
+          "id": "slot-1776080125563-pr1f",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -694,7 +700,8 @@
               "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -865,7 +872,7 @@
           ]
         },
         {
-          "id": "slot-1775826826053-wvq0",
+          "id": "slot-1776080125563-xes6",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -894,7 +901,8 @@
             "bgPositionY": "center",
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         }
@@ -931,7 +939,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-j0tz",
+          "id": "slot-1776080125563-5kly",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -957,7 +965,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -988,7 +997,7 @@
           ]
         },
         {
-          "id": "slot-1775826826053-382u",
+          "id": "slot-1776080125563-1b7n",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -1016,7 +1025,8 @@
               "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -1129,7 +1139,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-p0mw",
+          "id": "slot-1776080125563-agb9",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -1139,7 +1149,7 @@
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
-            "padding": null,
+            "padding": 0,
             "contentAlignment": "center",
             "verticalAlignment": "bottom",
             "direction": "column",
@@ -1155,7 +1165,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -1216,7 +1227,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-sc5b",
+          "id": "slot-1776080125563-mw56",
           "name": "Touring",
           "type": "slot",
           "settings": {
@@ -1245,7 +1256,8 @@
               "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -1296,7 +1308,7 @@
           ]
         },
         {
-          "id": "slot-1775826826053-rof2",
+          "id": "slot-1776080125563-c3w5",
           "name": "Shifter",
           "type": "slot",
           "settings": {
@@ -1324,7 +1336,8 @@
               "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -1408,7 +1421,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-73ko",
+          "id": "slot-1776080125563-i5ua",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -1434,7 +1447,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         }
@@ -1471,7 +1485,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-jll6",
+          "id": "slot-1776080125563-o5ms",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -1497,7 +1511,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -1556,7 +1571,7 @@
       },
       "children": [
         {
-          "id": "slot-1775826826053-fqb4",
+          "id": "slot-1776080125563-ved2",
           "name": "Copyright",
           "type": "slot",
           "settings": {
@@ -1584,7 +1599,8 @@
               "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {

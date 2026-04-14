@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
-import { ColorPresets } from './ColorPresets.jsx';
+import { ColorPresets, ColorSlotPicker, resolveSlotColor } from './ColorPresets.jsx';
 import { GradientPicker } from './GradientPicker';
 import { MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
 
@@ -58,7 +58,8 @@ function darkenHex(hex, amount = 0.15) {
 const PRESET_FONTS = [
   'Inter', 'Roboto', 'Open Sans', 'Poppins', 'Raleway', 'Work Sans', 'Nunito',
   'Merriweather', 'Playfair Display', 'Lora', 'Crimson Text',
-  'Montserrat', 'Oswald', 'Space Grotesk', 'Caveat', 'Pacifico', 'Inconsolata'
+  'Montserrat', 'Oswald', 'Space Grotesk', 'Caveat', 'Pacifico', 'Inconsolata',
+  'Bricolage Grotesque', 'DM Sans', 'Source Sans 3'
 ];
 
 const FONT_WEIGHTS = [
@@ -109,6 +110,45 @@ function Divider() {
 
 // ─── Typography ────────────────────────────────────────────────────────────────
 
+const FONT_THEMES = [
+  {
+    id: 'clean-professional',
+    name: 'Clean & Professional',
+    useFor: 'SaaS, corporate',
+    fonts: {
+      heading1: { family: 'Montserrat', size: 48, weight: 700 },
+      heading2: { family: 'Montserrat', size: 32, weight: 600 },
+      body: { family: 'Inter', size: 16, weight: 400 },
+      label: { family: 'Inter', size: 12, weight: 500 },
+      button: { family: 'Montserrat', weight: 600 }
+    }
+  },
+  {
+    id: 'bold-persuasive',
+    name: 'Bold & Persuasive',
+    useFor: 'Marketing, landing pages',
+    fonts: {
+      heading1: { family: 'Bricolage Grotesque', size: 48, weight: 700 },
+      heading2: { family: 'Bricolage Grotesque', size: 32, weight: 600 },
+      body: { family: 'DM Sans', size: 16, weight: 400 },
+      label: { family: 'DM Sans', size: 12, weight: 500 },
+      button: { family: 'Bricolage Grotesque', weight: 600 }
+    }
+  },
+  {
+    id: 'editorial-readable',
+    name: 'Editorial & Readable',
+    useFor: 'Editorial, content-heavy',
+    fonts: {
+      heading1: { family: 'Lora', size: 48, weight: 600 },
+      heading2: { family: 'Lora', size: 32, weight: 500 },
+      body: { family: 'Source Sans 3', size: 16, weight: 400 },
+      label: { family: 'Source Sans 3', size: 12, weight: 500 },
+      button: { family: 'Source Sans 3', weight: 500 }
+    }
+  }
+];
+
 const TYPOGRAPHY_STYLES = [
   { key: 'heading1', label: 'Heading 1', previewText: 'The quick brown fox' },
   { key: 'heading2', label: 'Heading 2', previewText: 'The quick brown fox' },
@@ -122,11 +162,34 @@ function TypographySettings() {
   const { fonts } = state.page.styles;
   const { isMobile, getStyle, setOverride, clearOverride, hasOverride } = useBrandingMobileOverride('fonts');
 
+  // Detect active theme based on current font configuration
+  const detectActiveTheme = () => {
+    const matchesTheme = (themeFonts) => {
+      return Object.entries(themeFonts).every(([key, themeFont]) => {
+        const current = fonts[key];
+        return current?.family === themeFont.family && current?.weight === themeFont.weight;
+      });
+    };
+    const theme = FONT_THEMES.find(t => matchesTheme(t.fonts));
+    return theme?.id || null;
+  };
+
+  const activeThemeId = detectActiveTheme();
+
+  const applyTheme = (theme) => {
+    if (isMobile) {
+      // Clear all font overrides when applying a theme on mobile
+      dispatch(pageActions.updatePageMobileOverrides({ fonts: {} }));
+    }
+    dispatch(pageActions.updatePageStyles({ fonts: theme.fonts }));
+  };
+
   // Dynamically load Google Fonts into the app's <head> so the preview renders correctly
   useEffect(() => {
     const timer = setTimeout(() => {
       const fontMap = {};
-      Object.values(fonts).forEach(font => {
+      // Include fonts from themes for preview
+      [...Object.values(fonts), ...FONT_THEMES.flatMap(t => Object.values(t.fonts))].forEach(font => {
         if (!font?.family) return;
         if (!fontMap[font.family]) fontMap[font.family] = new Set();
         if (font.weight) fontMap[font.family].add(font.weight);
@@ -164,6 +227,68 @@ function TypographySettings() {
 
   return (
     <div>
+      {/* Font Theme Selector */}
+      <div style={{ marginBottom: '24px' }}>
+        <p style={{ ...sectionHeadingStyle, marginBottom: '12px' }}>Font Theme</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {FONT_THEMES.map(theme => {
+            const isActive = activeThemeId === theme.id;
+            const previewFont = theme.fonts.heading1.family;
+            return (
+              <button
+                key={theme.id}
+                onClick={() => applyTheme(theme)}
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  padding: '14px 16px',
+                  backgroundColor: isActive ? '#1e3a5f' : '#1f2937',
+                  border: `2px solid ${isActive ? '#3b82f6' : '#374151'}`,
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'all 0.15s ease',
+                  width: '100%'
+                }}
+              >
+                <span style={{
+                  fontFamily: previewFont,
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  color: isActive ? '#93c5fd' : '#f3f4f6',
+                  marginBottom: '4px'
+                }}>
+                  {theme.name}
+                </span>
+                <span style={{
+                  fontSize: '11px',
+                  color: isActive ? '#6b9fd4' : '#9ca3af',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em'
+                }}>
+                  Use for: {theme.useFor}
+                </span>
+                {isActive && (
+                  <span style={{
+                    position: 'absolute',
+                    right: '12px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    fontSize: '12px',
+                    color: '#3b82f6'
+                  }}>
+                    ✓
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <Divider />
       {TYPOGRAPHY_STYLES.map((style, index) => {
         const effectiveFont = getStyle(style.key, fonts[style.key]) ?? fonts[style.key];
         const overridden = hasOverride(style.key, fonts[style.key]);
@@ -343,26 +468,29 @@ function ColorsSettings() {
 
 // ─── Buttons ───────────────────────────────────────────────────────────────────
 
-function ButtonEditor({ style: btnStyle, onChange, colors = {} }) {
+function ButtonEditor({ style: btnStyle, onChange, onMerge, colors = {} }) {
   const shapeValue = SHAPE_PRESETS.find(s => s.value === btnStyle.radius)?.value ?? 'custom';
   const isCustomRadius = !SHAPE_PRESETS.some(s => s.value === btnStyle.radius);
 
+  const resolvedBgColor = resolveSlotColor(btnStyle.bgColorSlot, colors, btnStyle.bgColor);
+  const resolvedTextColor = resolveSlotColor(btnStyle.textColorSlot, colors, btnStyle.textColor);
+
   const previewBg = btnStyle.bgType === 'gradient' && btnStyle.bgGradient
     ? `linear-gradient(${btnStyle.bgGradient.angle ?? 90}deg, ${btnStyle.bgGradient.color1}, ${btnStyle.bgGradient.color2})`
-    : btnStyle.bgColor;
+    : resolvedBgColor;
 
   const hoverBg = btnStyle.bgType === 'gradient' && btnStyle.bgGradient
     ? `linear-gradient(${btnStyle.bgGradient.angle ?? 90}deg, ${darkenHex(btnStyle.bgGradient.color1)}, ${darkenHex(btnStyle.bgGradient.color2)})`
-    : darkenHex(btnStyle.bgColor || '#3b82f6');
+    : darkenHex(resolvedBgColor || '#3b82f6');
 
   const sharedPreviewStyle = {
     display: 'inline-block',
     padding: `${btnStyle.padding}px 20px`,
-    color: btnStyle.textColor,
+    color: resolvedTextColor,
     borderRadius: `${btnStyle.radius}px`,
     fontSize: `${btnStyle.fontSize ?? 14}px`,
     fontWeight: 500,
-    border: btnStyle.bgType !== 'gradient' && btnStyle.bgColor === 'transparent' ? `1.5px solid ${btnStyle.textColor}` : 'none',
+    border: btnStyle.bgType !== 'gradient' && resolvedBgColor === 'transparent' ? `1.5px solid ${resolvedTextColor}` : 'none',
     cursor: 'default'
   };
 
@@ -395,38 +523,58 @@ function ButtonEditor({ style: btnStyle, onChange, colors = {} }) {
         />
       </div>
 
-      {/* Background (gradient picker) */}
+      {/* Background (gradient picker or slot picker) */}
       <div style={{ marginBottom: 12 }}>
         <label style={labelStyle}>Background</label>
-        <GradientPicker
-          bgType={btnStyle.bgType || 'solid'}
-          bgColor={btnStyle.bgColor}
-          bgGradient={btnStyle.bgGradient}
-          onUpdate={onChange}
-          colors={colors}
-        />
+        {btnStyle.bgType === 'gradient' ? (
+          <GradientPicker
+            bgType={btnStyle.bgType || 'solid'}
+            bgColor={btnStyle.bgColor}
+            bgGradient={btnStyle.bgGradient}
+            onUpdate={onChange}
+            colors={colors}
+          />
+        ) : (
+          <>
+            <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
+              {['solid', 'gradient'].map(mode => (
+                <button
+                  key={mode}
+                  onClick={() => onChange('bgType', mode)}
+                  style={{
+                    flex: 1, padding: '5px', fontSize: '12px',
+                    backgroundColor: (btnStyle.bgType || 'solid') === mode ? '#3b82f6' : '#374151',
+                    color: (btnStyle.bgType || 'solid') === mode ? '#fff' : '#9ca3af',
+                    border: `1px solid ${(btnStyle.bgType || 'solid') === mode ? '#3b82f6' : '#4b5563'}`,
+                    borderRadius: '4px', cursor: 'pointer', fontWeight: (btnStyle.bgType || 'solid') === mode ? '600' : '400',
+                    textTransform: 'capitalize'
+                  }}
+                >
+                  {mode}
+                </button>
+              ))}
+            </div>
+            <ColorSlotPicker
+              slot={btnStyle.bgColorSlot ?? null}
+              customColor={btnStyle.bgColor}
+              colors={colors}
+              onSlotChange={(slot, color) => onMerge({ bgColorSlot: slot, bgColor: color })}
+              onCustomColorChange={(color) => onChange('bgColor', color)}
+            />
+          </>
+        )}
       </div>
 
       {/* Text color */}
       <div style={{ marginBottom: '10px' }}>
         <label style={labelStyle}>Text color</label>
-        <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
-          <input
-            type="color"
-            value={btnStyle.textColor}
-            onChange={(e) => onChange('textColor', e.target.value)}
-            style={{ width: '36px', height: '36px', cursor: 'pointer', borderRadius: '5px', border: '1px solid #4b5563', padding: '2px', backgroundColor: '#374151', flexShrink: 0 }}
-          />
-          <input
-            type="text"
-            value={btnStyle.textColor}
-            onChange={(e) => onChange('textColor', e.target.value)}
-            style={{ flex: 1, ...inputStyle }}
-          />
-        </div>
-        {Object.keys(colors).length > 0 && (
-          <ColorPresets colors={colors} onSelectColor={(color) => onChange('textColor', color)} />
-        )}
+        <ColorSlotPicker
+          slot={btnStyle.textColorSlot ?? null}
+          customColor={btnStyle.textColor}
+          colors={colors}
+          onSlotChange={(slot, color) => onMerge({ textColorSlot: slot, textColor: color })}
+          onCustomColorChange={(color) => onChange('textColor', color)}
+        />
       </div>
 
       {/* Font Size */}
@@ -528,6 +676,26 @@ function ButtonsSettings() {
     }
   };
 
+  const handleButtonMerge = (id, partial) => {
+    if (isMobile) {
+      const desktopBtn = buttonStyles.find(b => b.id === id) ?? {};
+      const currentOverride = (pmo.buttonStyles ?? {})[id] ?? { ...desktopBtn };
+      const next = { ...currentOverride, ...partial };
+      const merged = { ...desktopBtn, ...next };
+      const isIdentical = JSON.stringify(merged) === JSON.stringify(desktopBtn);
+      const nextBtnStyles = { ...(pmo.buttonStyles ?? {}) };
+      if (isIdentical) {
+        delete nextBtnStyles[id];
+      } else {
+        nextBtnStyles[id] = next;
+      }
+      dispatch(pageActions.updatePageMobileOverrides({ buttonStyles: nextBtnStyles }));
+    } else {
+      const updated = buttonStyles.map(b => b.id === id ? { ...b, ...partial } : b);
+      dispatch(pageActions.updatePageStyles({ buttonStyles: updated }));
+    }
+  };
+
   const clearButtonOverride = (btnId) => {
     const next = { ...(pmo.buttonStyles ?? {}) };
     delete next[btnId];
@@ -554,6 +722,7 @@ function ButtonsSettings() {
               <ButtonEditor
                 style={effectiveBtn}
                 onChange={(key, value) => handleButtonChange(btn.id, key, value)}
+                onMerge={(partial) => handleButtonMerge(btn.id, partial)}
                 colors={colors || {}}
               />
             </MobileOverrideWrap>

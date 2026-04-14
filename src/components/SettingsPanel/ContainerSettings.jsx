@@ -36,10 +36,15 @@ export function ContainerSettings() {
   if (!container) return null;
 
   const handleUpdate = (key, value) => {
-    const updates = {
+    dispatch(pageActions.updateElement(container.id, {
       settings: { ...container.settings, [key]: value }
-    };
-    dispatch(pageActions.updateElement(container.id, updates));
+    }));
+  };
+
+  const handleMergeUpdate = (partial) => {
+    dispatch(pageActions.updateElement(container.id, {
+      settings: { ...container.settings, ...partial }
+    }));
   };
 
   const colors = state.page.styles.colors || {};
@@ -235,8 +240,10 @@ export function ContainerSettings() {
         <GradientPicker
           bgType={container.settings.bgType || 'solid'}
           bgColor={container.settings.bgColor}
+          bgColorSlot={container.settings.bgColorSlot ?? null}
           bgGradient={container.settings.bgGradient}
           onUpdate={handleUpdate}
+          onMergeUpdate={handleMergeUpdate}
           colors={colors}
         />
       </div>

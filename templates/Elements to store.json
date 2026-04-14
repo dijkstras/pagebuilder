@@ -8,40 +8,41 @@
   },
   "root": [
     {
-      "id": "segment-1775745952065",
-      "name": "New Segment",
+      "id": "segment-1776080372091",
+      "name": "Hero",
       "type": "segment",
       "settings": {
-        "layout": "50-50",
+        "layout": "67-33",
         "gap": "md",
         "fullWidth": true,
-        "bgColor": "#ffffff",
-        "bgImage": null,
+        "bgColor": "transparent",
+        "bgImage": "https://images.unsplash.com/photo-1760978631985-590e3b5f4057?q=80&w=3628&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "bgVideo": null,
-        "padding": 40,
-        "margin": 0,
         "maxWidth": null,
         "contentAlignment": "left",
         "verticalAlignment": "top",
         "minHeight": 200,
         "borderEnabled": false,
         "borderWidth": 1,
-        "borderColor": "#000000",
+        "borderColor": "#fff",
         "elevationEnabled": false,
         "elevation": 4,
         "borderRadius": 0,
+        "bgSize": "cover",
+        "bgPositionY": "top",
+        "bgPositionX": "center",
         "bgType": "solid",
         "bgGradient": null,
         "mobileOverrides": {}
       },
       "children": [
         {
-          "id": "slot-1776075125385-3zcj",
-          "name": "Content",
+          "id": "slot-1776084727829-s2iv",
+          "name": "Text & CTA",
           "type": "slot",
           "settings": {
-            "gridColumn": 6,
-            "height": "auto",
+            "gridColumn": 8,
+            "height": "250px",
             "spacing": 16,
             "bgColor": "transparent",
             "bgImage": null,
@@ -50,6 +51,7 @@
             "contentAlignment": "left",
             "verticalAlignment": "top",
             "direction": "column",
+            "overflow": "wrap",
             "borderEnabled": false,
             "borderWidth": 1,
             "borderColor": "#000000",
@@ -62,27 +64,100 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "scroll": false,
-            "mobileOverrides": {},
-            "overflow": "wrap"
+            "mobileOverrides": {}
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1776081153786",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "Enablement Starts Here",
+                  "colorSlot": "custom"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            },
+            {
+              "id": "text-1776081159491-orjpv",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading2",
+                "customOverrides": {
+                  "content": "Unleash the Power of Mindtickle on your teams and win deals like never before."
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            },
+            {
+              "id": "content-1776081405989",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Button",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            }
+          ]
         },
         {
-          "id": "slot-1776075125385-acuw",
-          "name": "Column 2",
+          "id": "slot-1776084727829-v33x",
+          "name": "Spacer",
           "type": "slot",
           "settings": {
-            "gridColumn": 6,
-            "height": "auto",
+            "gridColumn": 4,
+            "height": "250px",
             "spacing": 16,
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
-            "padding": 20,
+            "padding": 0,
             "contentAlignment": "left",
             "verticalAlignment": "top",
             "direction": "column",
+            "overflow": "wrap",
             "borderEnabled": false,
             "borderWidth": 1,
             "borderColor": "#000000",
@@ -93,11 +168,10 @@
               "hideOnMobile": false,
               "mobileOrder": null
             },
+            "bgSize": "contain",
             "bgType": "solid",
             "bgGradient": null,
-            "scroll": false,
-            "mobileOverrides": {},
-            "overflow": "wrap"
+            "mobileOverrides": {}
           },
           "children": []
         }
@@ -109,7 +183,7 @@
       "type": "segment",
       "settings": {
         "fullWidth": true,
-        "bgColor": "#8b5cf6",
+        "bgColor": "#1c1c1c",
         "bgImage": null,
         "bgVideo": null,
         "padding": 40,
@@ -130,11 +204,13 @@
         "gap": "md",
         "bgType": "solid",
         "bgGradient": null,
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "bgColorSlot": "custom",
+        "horizontalScroll": true
       },
       "children": [
         {
-          "id": "slot-1776075125385-dtpy",
+          "id": "slot-1776084727829-o07t",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -162,7 +238,8 @@
             "bgGradient": null,
             "scroll": false,
             "mobileOverrides": {},
-            "overflow": "scroll"
+            "overflow": "scroll",
+            "clipContent": false
           },
           "children": [
             {
@@ -583,164 +660,6 @@
       ]
     },
     {
-      "id": "segment-1775830749377-p1h98",
-      "name": "New Segment",
-      "type": "segment",
-      "settings": {
-        "fullWidth": true,
-        "bgColor": "#ec4899",
-        "bgImage": null,
-        "bgVideo": null,
-        "padding": 40,
-        "margin": 0,
-        "gutter": 24,
-        "maxWidth": null,
-        "contentAlignment": "left",
-        "verticalAlignment": "top",
-        "direction": "row",
-        "minHeight": 200,
-        "borderEnabled": false,
-        "borderWidth": 1,
-        "borderColor": "#000000",
-        "elevationEnabled": false,
-        "elevation": 4,
-        "borderRadius": 0,
-        "layout": "full",
-        "gap": "md",
-        "bgType": "solid",
-        "bgGradient": null,
-        "mobileOverrides": {}
-      },
-      "children": [
-        {
-          "id": "slot-1776075125385-9aem",
-          "name": "Column 1",
-          "type": "slot",
-          "settings": {
-            "gridColumn": 12,
-            "height": "auto",
-            "spacing": 16,
-            "bgColor": "transparent",
-            "bgImage": null,
-            "bgVideo": null,
-            "padding": 20,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
-            "direction": "row",
-            "borderEnabled": false,
-            "borderWidth": 1,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "responsive": {
-              "hideOnMobile": false,
-              "mobileOrder": null
-            },
-            "bgType": "solid",
-            "bgGradient": null,
-            "scroll": false,
-            "mobileOverrides": {},
-            "overflow": "scroll"
-          },
-          "children": [
-            {
-              "id": "content-1775830763517",
-              "type": "image",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": null,
-                "customOverrides": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "contain",
-                  "width": "450px"
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "mobileOverrides": {}
-              }
-            },
-            {
-              "id": "image-1775830811013-4794e",
-              "type": "image",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": null,
-                "customOverrides": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "contain",
-                  "width": "450px"
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "mobileOverrides": {}
-              }
-            },
-            {
-              "id": "image-1775830810296-2m8ic",
-              "type": "image",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": null,
-                "customOverrides": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "contain",
-                  "width": "450px"
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "mobileOverrides": {}
-              }
-            },
-            {
-              "id": "image-1775830809756-1f1lj",
-              "type": "image",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": null,
-                "customOverrides": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "contain",
-                  "width": "450px"
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "mobileOverrides": {}
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "segment-1776064972682-ke9eo",
       "name": "Card slider",
       "type": "segment",
@@ -771,7 +690,7 @@
       },
       "children": [
         {
-          "id": "slot-1776075125385-a4md",
+          "id": "slot-1776084727829-c8h9",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -1259,7 +1178,7 @@
       },
       "children": [
         {
-          "id": "slot-1776075125385-ixn3",
+          "id": "slot-1776084727829-tv0v",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -1373,7 +1292,7 @@
           ]
         },
         {
-          "id": "slot-1776075125385-h8e5",
+          "id": "slot-1776084727829-gmuz",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -1441,7 +1360,7 @@
       },
       "children": [
         {
-          "id": "slot-1776075125385-letj",
+          "id": "slot-1776084727829-166v",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -1526,38 +1445,178 @@
           ]
         }
       ]
+    },
+    {
+      "id": "segment-1776086183175",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "layout": "50-50",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "transparent",
+        "bgImage": null,
+        "bgVideo": null,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgColorSlot": "transparent"
+      },
+      "children": [
+        {
+          "id": "slot-1776086183175-8sx2",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 6,
+            "height": "250px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": "https://images.unsplash.com/photo-1684170114111-32abdbe199cb?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "overflow": "wrap",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
+          },
+          "children": []
+        },
+        {
+          "id": "slot-1776086188486-ii9d",
+          "name": "Column 2",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 6,
+            "height": "250px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "overflow": "wrap",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
+          },
+          "children": [
+            {
+              "id": "content-1776086218711",
+              "type": "card",
+              "settings": {
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "row",
+                "contentAlignment": "left",
+                "verticalAlignment": "bottom",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://framerusercontent.com/images/Lv9IrpUUEVtONGED41nbuDqHTk.webp",
+                  "objectFit": "contain",
+                  "borderRadius": "4px",
+                  "width": "100px"
+                },
+                "text": {
+                  "content": "Card title goes here",
+                  "textRole": "heading2",
+                  "textAlign": "left",
+                  "color": "#000000",
+                  "colorSlot": "background"
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "primary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                }
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#3b82f6",
-      "secondary": "#8b5cf6",
+      "primary": "#e05a00",
+      "secondary": "#ffba42",
       "accent": "#ec4899",
-      "text": "#1f2937",
-      "background": "#f9fafb",
+      "text": "#ffffff",
+      "background": "#000000",
       "neutral": "#6b7280"
     },
     "fonts": {
       "heading1": {
         "family": "Montserrat",
-        "size": 50,
-        "weight": 400
+        "size": 48,
+        "weight": 700
       },
       "heading2": {
         "family": "Montserrat",
-        "size": 28,
-        "weight": 600
+        "size": 24,
+        "weight": 700
       },
       "body": {
         "family": "Inter",
-        "size": 18,
+        "size": 16,
         "weight": 400
       },
       "label": {
         "family": "Inter",
         "size": 12,
-        "weight": 600
+        "weight": 500
       },
       "button": {
         "family": "Montserrat",
@@ -1571,11 +1630,11 @@
         "bgColor": "#3b82f6",
         "textColor": "#ffffff",
         "padding": 12,
-        "radius": 0,
+        "radius": 6,
         "bgType": "gradient",
         "bgGradient": {
-          "color1": "#ff0033",
-          "color2": "#c29800",
+          "color1": "#e05a00",
+          "color2": "#ffba42",
           "angle": 90
         },
         "fontSize": 14
@@ -1613,7 +1672,8 @@
       "lg": 24,
       "xl": 48
     },
-    "bgColor": "#6b7280"
+    "bgColor": "#000000",
+    "bgColorSlot": "background"
   },
   "mobileOverrides": {}
 }

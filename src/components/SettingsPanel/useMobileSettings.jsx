@@ -83,6 +83,20 @@ export function useMobileSettings(element) {
     }
   };
 
+  const mergeSettings = (partial) => {
+    if (!element) return;
+    if (isMobile) {
+      const next = { ...mobileOverrides, ...partial };
+      dispatch(pageActions.updateElement(element.id, {
+        settings: { ...settings, mobileOverrides: next }
+      }));
+    } else {
+      dispatch(pageActions.updateElement(element.id, {
+        settings: { ...settings, ...partial }
+      }));
+    }
+  };
+
   const clearOverride = (key) => {
     if (!element) return;
     const next = { ...mobileOverrides };
@@ -92,5 +106,5 @@ export function useMobileSettings(element) {
     }));
   };
 
-  return { isMobile, getSetting, updateSetting, hasOverride, clearOverride, mobileOverrides };
+  return { isMobile, getSetting, updateSetting, mergeSettings, hasOverride, clearOverride, mobileOverrides };
 }

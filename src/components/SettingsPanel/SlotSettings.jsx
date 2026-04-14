@@ -40,7 +40,7 @@ export function SlotSettings() {
 
   if (!slot) return null;
 
-  const { isMobile, getSetting, updateSetting, hasOverride, clearOverride } = useMobileSettings(slot);
+  const { isMobile, getSetting, updateSetting, mergeSettings, hasOverride, clearOverride } = useMobileSettings(slot);
 
   const handleUpdate = (key, value) => {
     if (isMobile) {
@@ -51,6 +51,8 @@ export function SlotSettings() {
       }));
     }
   };
+
+  const handleMergeUpdate = (partial) => mergeSettings(partial);
 
   const handleResponsiveUpdate = (key, value) => {
     dispatch(pageActions.updateElement(slot.id, {
@@ -224,8 +226,10 @@ export function SlotSettings() {
         <GradientPicker
           bgType={getSetting('bgType', 'solid')}
           bgColor={getSetting('bgColor', slot.settings.bgColor)}
+          bgColorSlot={getSetting('bgColorSlot', slot.settings.bgColorSlot) ?? null}
           bgGradient={getSetting('bgGradient', slot.settings.bgGradient)}
           onUpdate={handleUpdate}
+          onMergeUpdate={handleMergeUpdate}
           colors={colors}
         />
       </MobileOverrideWrap>
