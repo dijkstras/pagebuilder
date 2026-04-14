@@ -324,10 +324,10 @@
                 "direction": "column",
                 "overflow": "wrap",
                 "minWidth": null,
-                "borderEnabled": false,
+                "borderEnabled": true,
                 "borderWidth": 1,
                 "borderColor": "#000000",
-                "elevationEnabled": false,
+                "elevationEnabled": true,
                 "elevation": 4,
                 "borderRadius": 0,
                 "responsive": {
