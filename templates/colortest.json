@@ -393,7 +393,7 @@
                   "borderRadius": "4px"
                 },
                 "text": {
-                  "content": "This is a card element and can be used to showcase ",
+                  "content": "This is a card element and can be used to showcase content",
                   "textRole": "body",
                   "textAlign": "center",
                   "color": null
