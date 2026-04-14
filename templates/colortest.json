@@ -161,8 +161,8 @@
               "settings": {
                 "content": "Label text",
                 "textAlign": "left",
-                "color": "#1A001A",
-                "colorSlot": "text",
+                "color": "#FFFFFF",
+                "colorSlot": "card",
                 "bgColor": "#F59E0B",
                 "bgColorSlot": "accent",
                 "paddingX": 12,
