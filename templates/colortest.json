@@ -124,9 +124,9 @@
               "type": "text",
               "settings": {
                 "assignedStyleId": null,
-                "textRole": "body",
+                "textRole": "label",
                 "customOverrides": {
-                  "content": "Your text here"
+                  "content": "Label text "
                 },
                 "responsive": {
                   "hideOnMobile": false,
