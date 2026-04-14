@@ -395,7 +395,7 @@
                 "text": {
                   "content": "Card title goes here",
                   "textRole": "body",
-                  "textAlign": "left",
+                  "textAlign": "center",
                   "color": null
                 },
                 "button": {
