@@ -58,7 +58,28 @@
               "mobileOrder": null
             }
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1776164842118",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         },
         {
           "id": "slot-1776164830642-owcf",
