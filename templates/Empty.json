@@ -6,7 +6,62 @@
     "tablet": 768,
     "desktop": 1024
   },
-  "root": [],
+  "root": [
+    {
+      "id": "segment-1776164246484",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "layout": "full",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "#ffffff",
+        "bgImage": null,
+        "bgVideo": null,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0
+      },
+      "children": [
+        {
+          "id": "slot-1776164246484-y5e3",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "250px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "overflow": "wrap",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            }
+          },
+          "children": []
+        }
+      ]
+    }
+  ],
   "styles": {
     "logo": null,
     "colors": {
