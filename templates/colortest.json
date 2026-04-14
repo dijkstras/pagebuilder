@@ -28,11 +28,14 @@
         "borderColor": "#000000",
         "elevationEnabled": false,
         "elevation": 4,
-        "borderRadius": 0
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null,
+        "mobileOverrides": {}
       },
       "children": [
         {
-          "id": "slot-1776164701313-maey",
+          "id": "slot-1776165269413-jb03",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -56,7 +59,10 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {}
           },
           "children": [
             {
@@ -76,7 +82,8 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -96,7 +103,8 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -116,7 +124,8 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -136,13 +145,14 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             }
           ]
         },
         {
-          "id": "slot-1776164830642-owcf",
+          "id": "slot-1776165269413-238v",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -166,7 +176,10 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {}
           },
           "children": [
             {
@@ -195,7 +208,8 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -224,7 +238,8 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -253,13 +268,14 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             }
           ]
         },
         {
-          "id": "slot-1776164830642-ts80",
+          "id": "slot-1776165269413-zyxi",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -283,7 +299,10 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {}
           },
           "children": [
             {
@@ -310,7 +329,8 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -360,7 +380,12 @@
                     "width": "auto",
                     "height": "auto"
                   }
-                }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
               },
               "responsiveVariants": {
                 "mobile": {},
