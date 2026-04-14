@@ -196,8 +196,8 @@
                 "bgType": "solid",
                 "bgGradient": null,
                 "padding": 0,
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
+                "contentAlignment": "center",
+                "verticalAlignment": "center",
                 "direction": "column",
                 "overflow": "wrap",
                 "minWidth": null,
@@ -214,7 +214,28 @@
                 "mobileOverrides": {},
                 "bgColorSlot": "neutral"
               },
-              "children": []
+              "children": [
+                {
+                  "id": "content-1776166878783",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Your text here"
+                    },
+                    "responsive": {
+                      "hideOnMobile": false,
+                      "hideOnDesktop": false
+                    },
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                }
+              ]
             }
           ]
         },
