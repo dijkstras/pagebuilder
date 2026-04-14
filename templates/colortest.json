@@ -324,7 +324,7 @@
                 "direction": "column",
                 "overflow": "wrap",
                 "minWidth": "100%",
-                "borderEnabled": true,
+                "borderEnabled": false,
                 "borderWidth": 1,
                 "borderColor": "#DDEAF8",
                 "elevationEnabled": true,
