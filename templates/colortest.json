@@ -231,7 +231,7 @@
               "id": "button-1776164962675-547ym",
               "type": "button",
               "settings": {
-                "assignedStyleId": "primary",
+                "assignedStyleId": "tertiary",
                 "textRole": null,
                 "customOverrides": {
                   "label": "Tertiary Button",
