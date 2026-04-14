@@ -353,7 +353,7 @@
                     "borderEnabled": false,
                     "borderWidth": 1,
                     "borderColor": "#9ca3af",
-                    "borderRadius": 4,
+                    "borderRadius": 23,
                     "responsive": {
                       "hideOnMobile": false,
                       "hideOnDesktop": false
