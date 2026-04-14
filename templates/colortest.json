@@ -367,7 +367,7 @@
                     "assignedStyleId": null,
                     "textRole": "heading2",
                     "customOverrides": {
-                      "content": "Container Title here"
+                      "content": "Container Title"
                     },
                     "responsive": {
                       "hideOnMobile": false,
