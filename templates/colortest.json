@@ -104,7 +104,7 @@
               "type": "text",
               "settings": {
                 "assignedStyleId": null,
-                "textRole": "label",
+                "textRole": "body",
                 "customOverrides": {
                   "content": "Body text looks like this"
                 },
