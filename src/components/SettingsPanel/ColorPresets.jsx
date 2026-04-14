@@ -6,7 +6,8 @@ const PRESET_LABELS = {
   accent: 'Accent',
   text: 'Text',
   background: 'Background',
-  neutral: 'Neutral'
+  neutral: 'Neutral',
+  card: 'Card'
 };
 
 const inputStyle = {

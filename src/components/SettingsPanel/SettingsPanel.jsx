@@ -47,7 +47,7 @@ export function SettingsPanel() {
     settings = <SlotSettings />;
     label = '⊞ Slot';
   } else if (state.selectedElementType === 'container') {
-    settings = <ContainerSettings />;
+    settings = <SlotSettings />;
     label = '📋 Container';
   } else {
     settings = <ContentSettings />;

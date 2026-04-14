@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPE_LABELS } from '../../utils/constants';
-import { createContentItem, CONTENT_TYPES, LAYOUT_PRESETS } from '../../store/pageTypes';
+import { createContentItem, createContainer, CONTENT_TYPES, LAYOUT_PRESETS } from '../../store/pageTypes';
 
 const TYPE_ICONS = {
   segment: '▦',
   slot: '⊞',
-  container: '⊞',
+  container: '⬡',
   text: 'T',
   image: '▣',
   button: '⊡',
   video: '▷',
-  card: '🎴'
+  card: '🎴',
+  label: '⬛'
 };
 
 function containsElement(children, targetId) {
@@ -48,7 +49,11 @@ function AddMenu({ element, onClose }) {
     borderBottom: last ? 'none' : '1px solid #374151'
   });
 
+  const isSlot = element.type === 'slot';
   const types = Object.values(CONTENT_TYPES);
+  const allItems = isSlot
+    ? [{ key: 'container', label: 'Container', create: () => createContainer() }, ...types.map(t => ({ key: t, label: t, create: () => createContentItem(t) }))]
+    : types.map(t => ({ key: t, label: t, create: () => createContentItem(t) }));
 
   return (
     <div style={{
@@ -57,16 +62,16 @@ function AddMenu({ element, onClose }) {
       borderRadius: '5px', minWidth: '120px', zIndex: 1000,
       boxShadow: '0 6px 16px rgba(0,0,0,0.5)'
     }}>
-      {types.map((type, idx) => (
+      {allItems.map((item, idx) => (
         <button
-          key={type}
+          key={item.key}
           onClick={add(() => dispatch(pageActions.updateElement(element.id, {
-            children: [...(element.children || []), createContentItem(type)]
+            children: [...(element.children || []), item.create()]
           })))}
-          style={{ ...itemStyle(idx === types.length - 1), textTransform: 'capitalize' }}
+          style={{ ...itemStyle(idx === allItems.length - 1), textTransform: 'capitalize' }}
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#374151'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-        >{type}</button>
+        >{item.label}</button>
       ))}
     </div>
   );

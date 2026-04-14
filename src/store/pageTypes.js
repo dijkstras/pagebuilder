@@ -9,7 +9,8 @@ export const CONTENT_TYPES = {
   IMAGE: 'image',
   BUTTON: 'button',
   VIDEO: 'video',
-  CARD: 'card'
+  CARD: 'card',
+  LABEL: 'label'
 };
 
 export const MAX_WIDTH_PRESETS = [
@@ -58,7 +59,8 @@ export const createEmptyPage = () => ({
       accent: '#ec4899',
       text: '#1f2937',
       background: '#f9fafb',
-      neutral: '#6b7280'
+      neutral: '#6b7280',
+      card: '#ffffff'
     },
     fonts: {
       heading1: { family: 'Inter', size: 48, weight: 700 },
@@ -111,7 +113,8 @@ export const createEmptyPage = () => ({
     shapes: { borderRadius: 6 },
     spacing: { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 },
     segmentSpacing: 'md',
-    bgColor: '#f9fafb'
+    bgColor: '#f9fafb',
+    bgColorSlot: 'background'
   },
   root: []
 });
@@ -178,10 +181,71 @@ export const createSlot = (name = 'Column', gridColumn = 12) => ({
   children: []
 });
 
-// Backward compat alias
-export const createContainer = (name = 'Container') => createSlot(name, 12);
+export const createContainer = (name = 'Container') => ({
+  id: `container-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+  name,
+  type: 'container',
+  settings: {
+    gridColumn: 12,
+    height: 'auto',
+    spacing: 16,
+    bgColor: 'transparent',
+    bgImage: null,
+    bgVideo: null,
+    bgType: 'solid',
+    bgGradient: null,
+    padding: 0,
+    contentAlignment: 'left',
+    verticalAlignment: 'top',
+    direction: 'column',
+    overflow: 'wrap',
+    minWidth: null,
+    borderEnabled: false,
+    borderWidth: 1,
+    borderColor: '#000000',
+    elevationEnabled: false,
+    elevation: 4,
+    borderRadius: 0,
+    responsive: {
+      hideOnMobile: false,
+      mobileOrder: null
+    },
+    mobileOverrides: {}
+  },
+  children: []
+});
 
 export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
+  if (contentType === CONTENT_TYPES.LABEL) {
+    return {
+      id: `content-${Date.now()}`,
+      type: contentType,
+      settings: {
+        content: 'Label text',
+        textAlign: 'left',
+        color: null,
+        colorSlot: null,
+        bgColor: '#e5e7eb',
+        bgColorSlot: 'neutral',
+        paddingX: 12,
+        paddingY: 4,
+        borderEnabled: false,
+        borderWidth: 1,
+        borderColor: '#9ca3af',
+        borderRadius: 4,
+        responsive: {
+          hideOnMobile: false,
+          hideOnDesktop: false
+        },
+        responsiveVariants: {
+          mobile: {},
+          tablet: {},
+          desktop: {}
+        }
+      }
+    };
+  }
+
   if (contentType === CONTENT_TYPES.CARD) {
     return {
       id: `content-${Date.now()}`,
@@ -190,6 +254,7 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
         width: '300px',
         height: 'auto',
         bgColor: '#ffffff',
+        bgColorSlot: 'card',
         bgType: 'solid',
         bgGradient: null,
         padding: 20,
@@ -277,7 +342,8 @@ export function migratePage(page) {
     accent: '#ec4899',
     text: '#1f2937',
     background: '#f9fafb',
-    neutral: '#6b7280'
+    neutral: '#6b7280',
+    card: '#ffffff'
   };
 
   const colors = {

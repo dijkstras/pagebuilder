@@ -25,12 +25,13 @@ describe('Semantic Color System - Task 5', () => {
       expect(colors.text).toBe('#1f2937'); // dark gray
       expect(colors.background).toBe('#f9fafb'); // light gray
       expect(colors.neutral).toBe('#6b7280'); // neutral gray
+      expect(colors.card).toBe('#ffffff'); // card white
     });
 
-    it('should initialize with exactly 6 color slots', () => {
+    it('should initialize with exactly 7 color slots', () => {
       const page = createEmptyPage();
       const colorKeys = Object.keys(page.styles.colors);
-      expect(colorKeys).toHaveLength(6);
+      expect(colorKeys).toHaveLength(7);
     });
 
     it('should use title "Untitled Page" by default', () => {
@@ -58,6 +59,7 @@ describe('Semantic Color System - Task 5', () => {
       expect(migrated.styles.colors.text).toBe('#1f2937');
       expect(migrated.styles.colors.background).toBe('#f9fafb');
       expect(migrated.styles.colors.neutral).toBe('#6b7280');
+      expect(migrated.styles.colors.card).toBe('#ffffff');
     });
 
     it('should preserve all custom colors if present', () => {
@@ -71,7 +73,8 @@ describe('Semantic Color System - Task 5', () => {
             accent: '#333333',
             text: '#444444',
             background: '#555555',
-            neutral: '#666666'
+            neutral: '#666666',
+            card: '#777777'
           }
         }
       };
@@ -83,7 +86,8 @@ describe('Semantic Color System - Task 5', () => {
         accent: '#333333',
         text: '#444444',
         background: '#555555',
-        neutral: '#666666'
+        neutral: '#666666',
+        card: '#777777'
       });
     });
 
@@ -101,7 +105,8 @@ describe('Semantic Color System - Task 5', () => {
         accent: '#ec4899',
         text: '#1f2937',
         background: '#f9fafb',
-        neutral: '#6b7280'
+        neutral: '#6b7280',
+        card: '#ffffff'
       });
     });
 
@@ -124,6 +129,7 @@ describe('Semantic Color System - Task 5', () => {
       expect(migrated.styles.colors.accent).toBe('#ec4899');
       expect(migrated.styles.colors.background).toBe('#f9fafb');
       expect(migrated.styles.colors.neutral).toBe('#6b7280');
+      expect(migrated.styles.colors.card).toBe('#ffffff');
     });
   });
 
@@ -200,9 +206,9 @@ describe('Semantic Color System - Task 5', () => {
       });
     });
 
-    it('should have exactly 4 UI colors (text, background, accent, neutral)', () => {
+    it('should have exactly 5 UI colors (text, background, accent, neutral, card)', () => {
       const page = createEmptyPage();
-      const uiColors = ['text', 'background', 'accent', 'neutral'];
+      const uiColors = ['text', 'background', 'accent', 'neutral', 'card'];
       uiColors.forEach(colorName => {
         expect(page.styles.colors).toHaveProperty(colorName);
       });

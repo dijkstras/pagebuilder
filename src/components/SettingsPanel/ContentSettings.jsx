@@ -507,6 +507,169 @@ export function ContentSettings() {
           </>
         );
       })()}
+      {/* ── Label ── */}
+      {content.type === CONTENT_TYPES.LABEL && (() => {
+        const settings = content.settings || {};
+        const colors = state.page.styles.colors || {};
+        const fonts = state.page.styles.fonts || {};
+        const labelFont = fonts.label || {};
+
+        return (
+          <>
+            {/* Content */}
+            <div style={{ marginBottom: '12px' }}>
+              <label style={labelStyle}>Text</label>
+              <textarea
+                value={settings.content || ''}
+                onChange={(e) => handleSettingUpdate('content', e.target.value)}
+                style={{ ...inputStyle, minHeight: '60px', fontFamily: 'inherit', resize: 'vertical' }}
+              />
+              <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+                Uses label font: {labelFont.size}px • {labelFont.family}
+              </div>
+            </div>
+
+            {/* Alignment */}
+            <div style={{ marginBottom: '12px' }}>
+              <label style={labelStyle}>Alignment</label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {[
+                  { id: 'left', label: 'Left', icon: '◄' },
+                  { id: 'center', label: 'Center', icon: '═' },
+                  { id: 'right', label: 'Right', icon: '►' }
+                ].map(alignment => {
+                  const isActive = (settings.textAlign || 'left') === alignment.id;
+                  return (
+                    <button
+                      key={alignment.id}
+                      onClick={() => handleSettingUpdate('textAlign', alignment.id)}
+                      title={alignment.label}
+                      style={{
+                        flex: 1, padding: '10px 8px',
+                        backgroundColor: isActive ? '#1d4ed8' : '#374151',
+                        border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                        borderRadius: '6px', cursor: 'pointer',
+                        fontSize: '14px', fontWeight: isActive ? '600' : '400',
+                        color: isActive ? '#93c5fd' : '#9ca3af'
+                      }}
+                    >
+                      {alignment.icon}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Text Color */}
+            <div style={{ marginBottom: '12px' }}>
+              <label style={labelStyle}>Text Color</label>
+              <ColorSlotPicker
+                slot={settings.colorSlot ?? null}
+                customColor={settings.color}
+                colors={colors}
+                onSlotChange={(slot, color) => {
+                  dispatch(pageActions.updateElement(content.id, {
+                    settings: { ...content.settings, colorSlot: slot, color }
+                  }));
+                }}
+                onCustomColorChange={(color) => handleSettingUpdate('color', color)}
+              />
+            </div>
+
+            {/* Background Color */}
+            <div style={{ marginBottom: '12px' }}>
+              <label style={labelStyle}>Background Color</label>
+              <ColorSlotPicker
+                slot={settings.bgColorSlot ?? null}
+                customColor={settings.bgColor}
+                colors={colors}
+                onSlotChange={(slot, color) => {
+                  dispatch(pageActions.updateElement(content.id, {
+                    settings: { ...content.settings, bgColorSlot: slot, bgColor: color }
+                  }));
+                }}
+                onCustomColorChange={(color) => handleSettingUpdate('bgColor', color)}
+              />
+            </div>
+
+            {/* Padding */}
+            <div style={{ marginBottom: '12px' }}>
+              <label style={labelStyle}>Padding (px)</label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Left / Right</label>
+                  <input
+                    type="number"
+                    value={settings.paddingX ?? 12}
+                    min={0}
+                    onChange={(e) => handleSettingUpdate('paddingX', parseInt(e.target.value) || 0)}
+                    style={inputStyle}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Top / Bottom</label>
+                  <input
+                    type="number"
+                    value={settings.paddingY ?? 4}
+                    min={0}
+                    onChange={(e) => handleSettingUpdate('paddingY', parseInt(e.target.value) || 0)}
+                    style={inputStyle}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Border Radius */}
+            <div style={{ marginBottom: '12px' }}>
+              <label style={labelStyle}>Border Radius (px)</label>
+              <input
+                type="number"
+                value={settings.borderRadius ?? 4}
+                min={0}
+                onChange={(e) => handleSettingUpdate('borderRadius', parseInt(e.target.value) || 0)}
+                style={inputStyle}
+              />
+            </div>
+
+            {/* Stroke */}
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={settings.borderEnabled || false}
+                  onChange={(e) => handleSettingUpdate('borderEnabled', e.target.checked)}
+                />
+                Stroke
+              </label>
+              {settings.borderEnabled && (
+                <div style={{ marginTop: '8px', display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Width (px)</label>
+                    <input
+                      type="number"
+                      value={settings.borderWidth ?? 1}
+                      min={1}
+                      onChange={(e) => handleSettingUpdate('borderWidth', parseInt(e.target.value) || 1)}
+                      style={inputStyle}
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Color</label>
+                    <input
+                      type="text"
+                      value={settings.borderColor ?? '#9ca3af'}
+                      onChange={(e) => handleSettingUpdate('borderColor', e.target.value)}
+                      placeholder="#9ca3af"
+                      style={inputStyle}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        );
+      })()}
+
       {/* ── Card ── */}
       {content.type === CONTENT_TYPES.CARD && (() => {
         const settings = content.settings || {};
@@ -1150,7 +1313,7 @@ export function ContentSettings() {
       })()}
 
       {/* ── Size ── */}
-      {content.type !== CONTENT_TYPES.CARD && (
+      {content.type !== CONTENT_TYPES.CARD && content.type !== CONTENT_TYPES.LABEL && (
         <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151' }}>
           <label style={{ ...labelStyle, marginBottom: '8px' }}>Size</label>
           <div style={{ display: 'flex', gap: '8px' }}>

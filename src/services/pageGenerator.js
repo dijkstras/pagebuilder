@@ -1,6 +1,7 @@
 import { renderVideo } from '../utils/video.js';
 import { getButtonIcon } from '../utils/buttonIcons';
 import { GAP_PRESETS, SEGMENT_SPACING_PRESETS } from '../store/pageTypes';
+import { generateFontsUrl } from '../utils/googleFonts.js';
 
 function darkenHex(hex, amount = 0.15) {
   if (!hex || typeof hex !== 'string') return hex;
@@ -77,15 +78,21 @@ function collectMobileOverrideCSS(page, isMobilePreview = false) {
       const css = {};
       const direction = mo.direction ?? slot.settings.direction ?? 'column';
       if (mo.direction !== undefined) css['flex-direction'] = mo.direction;
-      if (mo.contentAlignment !== undefined || mo.verticalAlignment !== undefined) {
+      const needsAlignmentUpdate = mo.contentAlignment !== undefined || mo.verticalAlignment !== undefined || mo.direction !== undefined;
+      if (needsAlignmentUpdate) {
         const hAlign = hMap[mo.contentAlignment ?? slot.settings.contentAlignment] || 'flex-start';
         const vAlign = vMap[mo.verticalAlignment ?? slot.settings.verticalAlignment] || 'flex-start';
+        css['display'] = 'flex';
         css['justify-content'] = direction === 'row' ? hAlign : vAlign;
         css['align-items'] = direction === 'row' ? vAlign : hAlign;
       }
+      const mobileContentAlignment = mo.contentAlignment ?? slot.settings.contentAlignment;
+      if (direction === 'column' && mobileContentAlignment && mobileContentAlignment !== 'left') {
+        rules.push(`[data-element-id="${slot.id}"] > * {\n  width: fit-content !important;\n  max-width: 100% !important;\n}`);
+      }
       if (mo.spacing !== undefined) {
         const sp = mo.spacing;
-        css['gap'] = sp === 'auto' ? 'unset' : `${typeof sp === 'number' ? sp : 16}px`;
+        css['gap'] = `${typeof sp === 'number' ? sp : 16}px`;
         if (sp === 'auto') css['justify-content'] = 'space-between';
       }
       if (mo.height !== undefined) css['min-height'] = mo.height !== 'auto' ? mo.height : 'unset';
@@ -109,7 +116,13 @@ function collectMobileOverrideCSS(page, isMobilePreview = false) {
       if (mo.hidden === true) css['display'] = 'none';
       addRule(slot.id, css);
     }
-    (slot.children || []).forEach(child => processContentItem(child, page));
+    (slot.children || []).forEach(child => {
+      if (child.type === 'container') {
+        processSlot(child);
+      } else {
+        processContentItem(child, page);
+      }
+    });
   };
 
   const processContentItem = (item, page) => {
@@ -486,15 +499,18 @@ function renderSlot(slot, page, segmentHScroll = false) {
   }
 
   // Inline styles for visual properties
+  const isContainer = slot.type === 'container';
   const styleObj = {
     minHeight: (slot.settings.height && slot.settings.height !== 'auto') ? slot.settings.height : undefined,
+    height: isContainer ? '100%' : undefined,
     display: (slot.settings.bgVideo || hasBgImage) ? 'block' : 'flex',
     ...(slot.settings.bgVideo || hasBgImage ? {} : {
       flexDirection: direction,
       flexWrap: (direction === 'row') ? (segmentHScroll || slot.settings.overflow === 'scroll' ? 'nowrap' : 'wrap') : undefined,
-      gap: isAutoSpacing ? undefined : `${typeof spacing === 'number' ? spacing : 16}px`,
+      gap: `${typeof spacing === 'number' ? spacing : 16}px`,
       justifyContent: isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign),
-      alignItems: direction === 'row' ? vAlign : hAlign
+      alignItems: direction === 'row' ? vAlign : hAlign,
+      alignContent: direction === 'row' ? (slot.settings.alignContent || 'flex-start') : undefined
     })
   };
 
@@ -534,15 +550,17 @@ function renderSlot(slot, page, segmentHScroll = false) {
     styleObj.flexShrink = '1';
   }
   styleObj.boxSizing = 'border-box';
-  styleObj.minWidth = '0';
+  styleObj.minWidth = slot.settings.minWidth || '0';
   // Ensure slot doesn't exceed grid container width
   styleObj.width = 'auto';
 
   const style = buildStyleString(styleObj);
-  const children = slot.children.map(child => renderContentItem(child, page)).join('\n');
+  const children = slot.children.map(child =>
+    child.type === 'container' ? renderSlot(child, page, false) : renderContentItem(child, page)
+  ).join('\n');
 
   const childrenWrapped = (slot.settings.bgVideo || hasBgImage)
-    ? `<div style="position:relative;z-index:1;display:flex;flex-direction:${direction};flex-wrap:${direction === 'row' ? (slot.settings.overflow === 'scroll' ? 'nowrap' : 'wrap') : 'unset'};${direction === 'row' && slot.settings.overflow === 'scroll' ? 'overflow-x:auto;' : ''}gap:${isAutoSpacing ? 'unset' : `${typeof spacing === 'number' ? spacing : 16}px`};justify-content:${isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign)};align-items:${direction === 'row' ? vAlign : hAlign};width:100%;height:100%">${children}</div>`
+    ? `<div style="position:relative;z-index:1;display:flex;flex-direction:${direction};flex-wrap:${direction === 'row' ? (slot.settings.overflow === 'scroll' ? 'nowrap' : 'wrap') : 'unset'};${direction === 'row' && slot.settings.overflow === 'scroll' ? 'overflow-x:auto;' : ''}gap:${typeof spacing === 'number' ? spacing : 16}px;justify-content:${isAutoSpacing ? 'space-between' : (direction === 'row' ? hAlign : vAlign)};align-items:${direction === 'row' ? vAlign : hAlign};align-content:${direction === 'row' ? (slot.settings.alignContent || 'flex-start') : 'unset'};width:100%;height:100%">${children}</div>`
     : (children || '<div class="slot-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;border:none;border-radius:4px;position:relative"><svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0"><rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" fill="none" stroke="#d1d5db" stroke-width="2" stroke-dasharray="10,10" rx="4"><animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1s" repeatCount="indefinite"/></rect></svg><span style="position:relative;z-index:1;background:rgba(255,255,255,0.7);color:#374151;padding:4px 12px;border-radius:3px;font-size:13px;font-weight:500">Content Slot</span></div>');
 
   // Add pseudo-element for background image when needed
@@ -565,9 +583,14 @@ function renderSlot(slot, page, segmentHScroll = false) {
       }
     </style>` : '';
 
+  const containerChildWidthStyle = (isContainer && direction === 'column' && slot.settings.contentAlignment && slot.settings.contentAlignment !== 'left')
+    ? `<style>[data-element-id="${slot.id}"] > * { width: fit-content !important; max-width: 100%; }</style>`
+    : '';
+
   return `<div class="${twClasses.join(' ')}" style="${style}" data-element-id="${slot.id}">
     ${slotVideoBg}
     ${slotBgImageOverlay}
+    ${containerChildWidthStyle}
     ${childrenWrapped}
   </div>`;
 }
@@ -788,6 +811,38 @@ function renderContentItemInner(item, page) {
       return renderVideo(videoUrl, { style: videoStyle, isBackground: false });
     }
 
+    case 'label': {
+      const settings = item.settings || {};
+      const paletteColors = page.styles.colors || {};
+
+      const resolvedColor = settings.colorSlot && settings.colorSlot !== 'custom'
+        ? (paletteColors[settings.colorSlot] || settings.color)
+        : settings.color;
+
+      const resolvedBgColor = settings.bgColorSlot && settings.bgColorSlot !== 'custom'
+        ? (paletteColors[settings.bgColorSlot] || settings.bgColor)
+        : settings.bgColor;
+
+      const labelStyle = buildStyleString({
+        display: 'inline-block',
+        fontFamily: 'var(--font-label-family)',
+        fontSize: 'var(--font-label-size)',
+        fontWeight: 'var(--font-label-weight)',
+        lineHeight: '1.4',
+        textAlign: settings.textAlign || 'left',
+        color: resolvedColor || paletteColors.text || 'inherit',
+        backgroundColor: resolvedBgColor || '#e5e7eb',
+        padding: `${settings.paddingY ?? 4}px ${settings.paddingX ?? 12}px`,
+        borderRadius: `${settings.borderRadius ?? 4}px`,
+        border: settings.borderEnabled
+          ? `${settings.borderWidth ?? 1}px solid ${settings.borderColor || '#9ca3af'}`
+          : 'none',
+        boxSizing: 'border-box'
+      });
+
+      return `<span style="${labelStyle}" data-element-id="${item.id}">${settings.content || ''}</span>`;
+    }
+
     case 'card': {
       const { width, height } = sizeOverrides(item);
       const settings = item.settings || {};
@@ -806,7 +861,9 @@ function renderContentItemInner(item, page) {
         flexShrink: cardWidth ? '0' : undefined,
         backgroundColor: settings.bgType === 'gradient'
           ? `linear-gradient(${settings.bgGradient?.angle ?? 90}deg, ${settings.bgGradient?.color1}, ${settings.bgGradient?.color2})`
-          : settings.bgColor || '#ffffff',
+          : (settings.bgColorSlot && settings.bgColorSlot !== 'custom'
+              ? (settings.bgColorSlot === 'transparent' ? 'transparent' : ((page.styles.colors || {})[settings.bgColorSlot] || settings.bgColor))
+              : settings.bgColor) || (page.styles.colors || {}).card || '#ffffff',
         backgroundImage: settings.bgType === 'gradient' ? undefined : undefined,
         backgroundSize: settings.bgType === 'gradient' ? 'cover' : undefined,
         backgroundPosition: settings.bgType === 'gradient' ? 'center' : undefined,
@@ -1009,23 +1066,24 @@ export function generateCSS(page) {
 }
 
 export function generateGoogleFontsImport(fonts) {
-  // Collect unique font families
-  const families = new Set();
+  // Collect font families with their weights
+  const fontMap = {};
 
   Object.values(fonts).forEach(font => {
     if (!font || !font.family) return;
-    families.add(font.family.replace(/\s+/g, ' ').trim());
+    if (!fontMap[font.family]) fontMap[font.family] = new Set();
+    if (font.weight) fontMap[font.family].add(font.weight);
   });
 
-  if (families.size === 0) return '';
+  // Convert Sets to arrays for the URL generator
+  const fontMapWithWeights = {};
+  Object.entries(fontMap).forEach(([family, weights]) => {
+    fontMapWithWeights[family] = Array.from(weights);
+  });
 
-  // No weight specs — static fonts (e.g. Pacifico, BBH Bartle) only have weight 400
-  // and return 503 when you request a specific wght. The browser uses the nearest
-  // available weight via CSS font matching against the weight CSS variable.
-  const params = Array.from(families)
-    .map(family => `family=${encodeURIComponent(family).replace(/%20/g, '+')}`)
-    .join('&');
+  if (Object.keys(fontMapWithWeights).length === 0) return '';
 
-  const url = `https://fonts.googleapis.com/css2?${params}&display=swap`;
+  // Use the new font weight system to generate the URL
+  const url = generateFontsUrl(fontMapWithWeights);
   return `@import url('${url}');`;
 }

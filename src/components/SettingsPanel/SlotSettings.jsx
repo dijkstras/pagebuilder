@@ -40,6 +40,7 @@ export function SlotSettings() {
 
   if (!slot) return null;
 
+  const isContainer = slot.type === 'container';
   const { isMobile, getSetting, updateSetting, mergeSettings, hasOverride, clearOverride } = useMobileSettings(slot);
 
   const handleUpdate = (key, value) => {
@@ -137,6 +138,40 @@ export function SlotSettings() {
         </MobileOverrideWrap>
       )}
 
+      {getSetting('direction', 'column') === 'row' && getSetting('overflow', 'wrap') === 'wrap' && (
+        <MobileOverrideWrap hasOverride={hasOverride('alignContent')}>
+          <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Row Distribution<MobileOverrideDot hasOverride={hasOverride('alignContent')} onClear={() => clearOverride('alignContent')} /></label>
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            {[
+              { value: 'flex-start', label: 'Top' },
+              { value: 'center', label: 'Center' },
+              { value: 'flex-end', label: 'Bottom' },
+              { value: 'space-between', label: 'Spread' }
+            ].map(({ value, label }) => (
+              <button
+                key={value}
+                onClick={() => handleUpdate('alignContent', value)}
+                style={{
+                  flex: 1,
+                  padding: '6px',
+                  fontSize: '12px',
+                  backgroundColor: (getSetting('alignContent', 'flex-start')) === value ? '#3b82f6' : '#374151',
+                  color: '#f3f4f6',
+                  border: '1px solid #4b5563',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+            How wrapped rows are distributed vertically
+          </div>
+        </MobileOverrideWrap>
+      )}
+
       <MobileOverrideWrap hasOverride={hasOverride('contentAlignment') || hasOverride('verticalAlignment')}>
         <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Alignment<MobileOverrideDot hasOverride={hasOverride('contentAlignment') || hasOverride('verticalAlignment')} onClear={() => { clearOverride('contentAlignment'); clearOverride('verticalAlignment'); }} /></label>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -220,6 +255,25 @@ export function SlotSettings() {
         />
         <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>e.g. 200px, 50%, auto</div>
       </MobileOverrideWrap>
+
+      {isContainer && (
+        <div style={{ marginBottom: '12px' }}>
+          <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Min Width</label>
+          <input
+            type="text"
+            value={slot.settings.minWidth || ''}
+            onChange={(e) => dispatch(pageActions.updateElement(slot.id, {
+              settings: { ...slot.settings, minWidth: e.target.value || null }
+            }))}
+            placeholder="none"
+            style={{
+              width: '100%', padding: '6px', backgroundColor: '#374151', color: '#f3f4f6',
+              border: '1px solid #4b5563', borderRadius: '4px', fontSize: '12px', boxSizing: 'border-box'
+            }}
+          />
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>e.g. 200px, 50%</div>
+        </div>
+      )}
 
       <MobileOverrideWrap hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')}>
         <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Background<MobileOverrideDot hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')} onClear={() => { clearOverride('bgColor'); clearOverride('bgType'); clearOverride('bgGradient'); }} /></label>

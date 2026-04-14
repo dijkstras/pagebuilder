@@ -12,7 +12,7 @@
       "name": "Hero",
       "type": "segment",
       "settings": {
-        "layout": "67-33",
+        "layout": "full",
         "gap": "md",
         "fullWidth": true,
         "bgColor": "transparent",
@@ -30,26 +30,33 @@
         "borderRadius": 0,
         "bgSize": "cover",
         "bgPositionY": "top",
-        "bgPositionX": "center",
+        "bgPositionX": "right",
         "bgType": "solid",
         "bgGradient": null,
-        "mobileOverrides": {}
+        "mobileOverrides": {
+          "bgOpacity": "50",
+          "bgRepeat": true,
+          "bgPositionX": "center",
+          "bgPositionY": "bottom",
+          "bgSize": "200px 200px"
+        },
+        "bgOpacity": "50%"
       },
       "children": [
         {
-          "id": "slot-1776084727829-s2iv",
+          "id": "slot-1776163912855-e79w",
           "name": "Text & CTA",
           "type": "slot",
           "settings": {
-            "gridColumn": 8,
-            "height": "250px",
-            "spacing": 16,
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 40,
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
             "padding": 0,
             "contentAlignment": "left",
-            "verticalAlignment": "top",
+            "verticalAlignment": "center",
             "direction": "column",
             "overflow": "wrap",
             "borderEnabled": false,
@@ -64,9 +71,43 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {
+              "contentAlignment": "center",
+              "spacing": 32
+            },
+            "alignContent": "space-between"
           },
           "children": [
+            {
+              "id": "content-1776156944682",
+              "type": "label",
+              "settings": {
+                "content": "MINDTICKLE PAGES",
+                "textAlign": "left",
+                "color": null,
+                "colorSlot": null,
+                "bgColor": "#20201d",
+                "bgColorSlot": "neutral",
+                "padding": 8,
+                "borderEnabled": true,
+                "borderWidth": 1,
+                "borderColor": "#555",
+                "borderRadius": 30,
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {},
+                "hidden": false,
+                "paddingX": 16,
+                "paddingY": 8
+              }
+            },
             {
               "id": "content-1776081153786",
               "type": "text",
@@ -86,7 +127,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {
+                  "textAlign": "center"
+                }
               }
             },
             {
@@ -96,7 +139,7 @@
                 "assignedStyleId": null,
                 "textRole": "heading2",
                 "customOverrides": {
-                  "content": "Unleash the Power of Mindtickle on your teams and win deals like never before."
+                  "content": "Unleash the Power of Mindtickle Enablement on your teams and win deals like never before. Preparation is Everything."
                 },
                 "responsive": {
                   "hideOnMobile": false,
@@ -107,73 +150,114 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {
+                  "textAlign": "center"
+                }
               }
             },
             {
-              "id": "content-1776081405989",
-              "type": "button",
+              "id": "container-1776158782868-xbff",
+              "name": "Container",
+              "type": "container",
               "settings": {
-                "assignedStyleId": "primary",
-                "textRole": null,
-                "customOverrides": {
-                  "label": "Button",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
+                "gridColumn": 12,
+                "height": "auto",
+                "spacing": 32,
+                "bgColor": "transparent",
+                "bgImage": null,
+                "bgVideo": null,
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 0,
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "direction": "row",
+                "overflow": "wrap",
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#000000",
+                "elevationEnabled": false,
+                "elevation": 4,
+                "borderRadius": 0,
                 "responsive": {
                   "hideOnMobile": false,
-                  "hideOnDesktop": false
+                  "mobileOrder": null
                 },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
+                "mobileOverrides": {
+                  "direction": "column",
+                  "contentAlignment": "center"
                 },
-                "mobileOverrides": {}
-              }
+                "hidden": false,
+                "minWidth": "100%",
+                "alignContent": "center"
+              },
+              "children": [
+                {
+                  "id": "content-1776158812084",
+                  "type": "button",
+                  "settings": {
+                    "assignedStyleId": "primary",
+                    "textRole": null,
+                    "customOverrides": {
+                      "label": "Enroll Today",
+                      "icon": {
+                        "key": "arrow-right",
+                        "position": "after"
+                      },
+                      "sizeOverride": {
+                        "enabled": false,
+                        "width": "auto",
+                        "height": "auto"
+                      }
+                    },
+                    "responsive": {
+                      "hideOnMobile": false,
+                      "hideOnDesktop": false
+                    },
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  },
+                  "name": "Primary CTA"
+                },
+                {
+                  "id": "button-1776158814801-pya93",
+                  "type": "button",
+                  "settings": {
+                    "assignedStyleId": "tertiary",
+                    "textRole": null,
+                    "customOverrides": {
+                      "label": "Browse the Curriculum",
+                      "icon": {
+                        "key": null,
+                        "position": "none"
+                      },
+                      "sizeOverride": {
+                        "enabled": false,
+                        "width": "auto",
+                        "height": "auto"
+                      }
+                    },
+                    "responsive": {
+                      "hideOnMobile": false,
+                      "hideOnDesktop": false
+                    },
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    },
+                    "mobileOverrides": {
+                      "hidden": true
+                    }
+                  },
+                  "name": "Secondary STA"
+                }
+              ]
             }
           ]
-        },
-        {
-          "id": "slot-1776084727829-v33x",
-          "name": "Spacer",
-          "type": "slot",
-          "settings": {
-            "gridColumn": 4,
-            "height": "250px",
-            "spacing": 16,
-            "bgColor": "transparent",
-            "bgImage": null,
-            "bgVideo": null,
-            "padding": 0,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
-            "direction": "column",
-            "overflow": "wrap",
-            "borderEnabled": false,
-            "borderWidth": 1,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "responsive": {
-              "hideOnMobile": false,
-              "mobileOrder": null
-            },
-            "bgSize": "contain",
-            "bgType": "solid",
-            "bgGradient": null,
-            "mobileOverrides": {}
-          },
-          "children": []
         }
       ]
     },
@@ -183,7 +267,7 @@
       "type": "segment",
       "settings": {
         "fullWidth": true,
-        "bgColor": "#1c1c1c",
+        "bgColor": "transparent",
         "bgImage": null,
         "bgVideo": null,
         "padding": 40,
@@ -205,12 +289,12 @@
         "bgType": "solid",
         "bgGradient": null,
         "mobileOverrides": {},
-        "bgColorSlot": "custom",
+        "bgColorSlot": "transparent",
         "horizontalScroll": true
       },
       "children": [
         {
-          "id": "slot-1776084727829-o07t",
+          "id": "slot-1776163912855-mkfr",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -243,12 +327,13 @@
           },
           "children": [
             {
-              "id": "content-1775833207914",
+              "id": "content-1776163628594",
               "type": "card",
               "settings": {
                 "width": "300px",
                 "height": "auto",
                 "bgColor": "#ffffff",
+                "bgColorSlot": "card",
                 "bgType": "solid",
                 "bgGradient": null,
                 "padding": 20,
@@ -260,7 +345,7 @@
                 "borderWidth": 1,
                 "borderColor": "#e5e7eb",
                 "borderRadius": 8,
-                "elevationEnabled": false,
+                "elevationEnabled": true,
                 "elevation": 4,
                 "showImage": true,
                 "showText": true,
@@ -278,7 +363,7 @@
                 },
                 "button": {
                   "label": "Learn More",
-                  "assignedStyleId": "primary",
+                  "assignedStyleId": "tertiary",
                   "icon": {
                     "key": null,
                     "position": "none"
@@ -299,1147 +384,6 @@
                 "mobile": {},
                 "tablet": {},
                 "desktop": {}
-              }
-            },
-            {
-              "id": "card-1775833215689-kfwsr",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1776062551923-dgfbh",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1775833214790-hhzni",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1775833211789-rwedn",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1775833211098-rrvvs",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1775833210448-1hxjo",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "segment-1776064972682-ke9eo",
-      "name": "Card slider",
-      "type": "segment",
-      "settings": {
-        "fullWidth": true,
-        "bgColor": "#8b5cf6",
-        "bgImage": null,
-        "bgVideo": null,
-        "padding": 40,
-        "margin": 0,
-        "gutter": 24,
-        "maxWidth": null,
-        "contentAlignment": "left",
-        "verticalAlignment": "top",
-        "direction": "row",
-        "minHeight": 200,
-        "borderEnabled": false,
-        "borderWidth": 1,
-        "borderColor": "#000000",
-        "elevationEnabled": false,
-        "elevation": 4,
-        "borderRadius": 0,
-        "layout": "full",
-        "gap": "md",
-        "bgType": "solid",
-        "bgGradient": null,
-        "mobileOverrides": {}
-      },
-      "children": [
-        {
-          "id": "slot-1776084727829-c8h9",
-          "name": "Column 1",
-          "type": "slot",
-          "settings": {
-            "gridColumn": 12,
-            "height": "auto",
-            "spacing": 16,
-            "bgColor": "transparent",
-            "bgImage": null,
-            "bgVideo": null,
-            "padding": 20,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
-            "direction": "row",
-            "borderEnabled": false,
-            "borderWidth": 1,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "responsive": {
-              "hideOnMobile": false,
-              "mobileOrder": null
-            },
-            "bgType": "solid",
-            "bgGradient": null,
-            "scroll": false,
-            "mobileOverrides": {},
-            "overflow": "scroll"
-          },
-          "children": [
-            {
-              "id": "card-1776064972682-2o3ls",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1776064972682-u7ehx",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1776064972682-df7xs",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1776064972682-tcmny",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1776064972682-m6mof",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1776064972682-g22u2",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            },
-            {
-              "id": "card-1776064972682-cb2fx",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": false,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "segment-1776065108285-jq6g3",
-      "name": "Classic Header 3",
-      "type": "segment",
-      "settings": {
-        "fullWidth": true,
-        "bgColor": "transparent",
-        "bgImage": null,
-        "padding": 40,
-        "margin": 0,
-        "gutter": "auto",
-        "maxWidth": null,
-        "contentAlignment": "left",
-        "verticalAlignment": "top",
-        "direction": "row",
-        "minHeight": 200,
-        "bgVideo": null,
-        "bgType": "gradient",
-        "bgGradient": {
-          "color1": "#fff0d6",
-          "color2": "#f9fafb",
-          "angle": 148
-        },
-        "borderEnabled": false,
-        "borderWidth": 1,
-        "borderColor": "#000000",
-        "elevationEnabled": false,
-        "elevation": 8,
-        "borderRadius": 0,
-        "bgSize": "contain",
-        "bgPositionX": "right",
-        "layout": "67-33",
-        "gap": "sm",
-        "mobileOverrides": {
-          "gap": "none"
-        },
-        "hidden": false
-      },
-      "children": [
-        {
-          "id": "slot-1776084727829-tv0v",
-          "name": "Text and button",
-          "type": "slot",
-          "settings": {
-            "columnSpan": 12,
-            "spacing": 40,
-            "bgColor": "transparent",
-            "bgImage": null,
-            "bgVideo": null,
-            "padding": 0,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
-            "direction": "column",
-            "borderEnabled": false,
-            "borderWidth": 2,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "width": "65%",
-            "bgType": "solid",
-            "bgGradient": null,
-            "gridColumn": 8,
-            "height": "auto",
-            "responsive": {
-              "hideOnMobile": false,
-              "mobileOrder": 2
-            },
-            "mobileOverrides": {
-              "contentAlignment": "center"
-            },
-            "overflow": "wrap"
-          },
-          "children": [
-            {
-              "id": "text-1776065108285-6wrvd",
-              "type": "text",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": "heading1",
-                "customOverrides": {
-                  "content": "I Love Hamburgers",
-                  "color": "#ec4899"
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {
-                  "textAlign": "center"
-                }
-              }
-            },
-            {
-              "id": "text-1776065108285-elvgl",
-              "type": "text",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": "body",
-                "customOverrides": {
-                  "content": "My name is Sjoerd Dijkstra, and I love hamburgers. They make me feel happy and warm inside. "
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {
-                  "textAlign": "center"
-                }
-              }
-            },
-            {
-              "id": "button-1776065108285-39l3u",
-              "type": "button",
-              "settings": {
-                "assignedStyleId": "primary",
-                "textRole": null,
-                "customOverrides": {
-                  "label": "Eat a burger with Sjoerd",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              }
-            }
-          ]
-        },
-        {
-          "id": "slot-1776084727829-gmuz",
-          "name": "Container",
-          "type": "slot",
-          "settings": {
-            "columnSpan": 12,
-            "spacing": 16,
-            "bgColor": "transparent",
-            "bgImage": "https://png.pngtree.com/png-clipart/20240523/original/pngtree-3d-burger-on-transparent-background-png-image_15157990.png",
-            "bgVideo": null,
-            "padding": 0,
-            "contentAlignment": "left",
-            "verticalAlignment": "center",
-            "direction": "column",
-            "borderEnabled": false,
-            "borderWidth": 3,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "width": "30%",
-            "height": "auto",
-            "bgSize": "contain",
-            "bgType": "solid",
-            "bgGradient": null,
-            "gridColumn": 4,
-            "responsive": {
-              "hideOnMobile": false,
-              "mobileOrder": 1
-            },
-            "mobileOverrides": {
-              "contentAlignment": "center",
-              "padding": 60
-            },
-            "overflow": "wrap",
-            "bgPositionX": "center",
-            "bgPositionY": "center"
-          },
-          "children": []
-        }
-      ]
-    },
-    {
-      "id": "segment-1776073234589",
-      "name": "New Segment",
-      "type": "segment",
-      "settings": {
-        "layout": "full",
-        "gap": "md",
-        "fullWidth": true,
-        "bgColor": "#1f2937",
-        "bgImage": null,
-        "bgVideo": null,
-        "maxWidth": null,
-        "contentAlignment": "left",
-        "verticalAlignment": "top",
-        "minHeight": 200,
-        "borderEnabled": false,
-        "borderWidth": 1,
-        "borderColor": "#000000",
-        "elevationEnabled": false,
-        "elevation": 4,
-        "borderRadius": 0,
-        "bgType": "solid",
-        "bgGradient": null,
-        "mobileOverrides": {}
-      },
-      "children": [
-        {
-          "id": "slot-1776084727829-166v",
-          "name": "Column 1",
-          "type": "slot",
-          "settings": {
-            "gridColumn": 12,
-            "height": "250px",
-            "spacing": 16,
-            "bgColor": "transparent",
-            "bgImage": null,
-            "bgVideo": null,
-            "padding": 0,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
-            "direction": "column",
-            "overflow": "wrap",
-            "borderEnabled": false,
-            "borderWidth": 1,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "responsive": {
-              "hideOnMobile": false,
-              "mobileOrder": null
-            },
-            "bgType": "solid",
-            "bgGradient": null,
-            "mobileOverrides": {}
-          },
-          "children": [
-            {
-              "id": "content-1776073264938",
-              "type": "text",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": "heading1",
-                "customOverrides": {
-                  "content": "Your text here",
-                  "color": "#f9fafb"
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "mobileOverrides": {}
-              }
-            },
-            {
-              "id": "content-1776073269223",
-              "type": "button",
-              "settings": {
-                "assignedStyleId": "primary",
-                "textRole": null,
-                "customOverrides": {
-                  "label": "Button",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "mobileOverrides": {}
               }
             }
           ]
@@ -1454,7 +398,7 @@
         "layout": "50-50",
         "gap": "md",
         "fullWidth": true,
-        "bgColor": "transparent",
+        "bgColor": "#1d1d20",
         "bgImage": null,
         "bgVideo": null,
         "maxWidth": null,
@@ -1467,11 +411,14 @@
         "elevationEnabled": false,
         "elevation": 4,
         "borderRadius": 0,
-        "bgColorSlot": "transparent"
+        "bgColorSlot": "card",
+        "bgType": "solid",
+        "bgGradient": null,
+        "mobileOverrides": {}
       },
       "children": [
         {
-          "id": "slot-1776086183175-8sx2",
+          "id": "slot-1776163912855-e9pr",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -1495,12 +442,76 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {}
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1776163524131",
+              "type": "card",
+              "settings": {
+                "width": "300px",
+                "height": "auto",
+                "bgColor": "#1d1d20",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "objectFit": "cover",
+                  "borderRadius": "4px"
+                },
+                "text": {
+                  "content": "Card title goes here",
+                  "textRole": "heading2",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "primary",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "bgColorSlot": "card",
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            }
+          ]
         },
         {
-          "id": "slot-1776086188486-ii9d",
+          "id": "slot-1776163912855-0zxq",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -1524,7 +535,11 @@
             "responsive": {
               "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {},
+            "bgColorSlot": "transparent"
           },
           "children": [
             {
@@ -1574,13 +589,52 @@
                     "width": "auto",
                     "height": "auto"
                   }
-                }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
               },
               "responsiveVariants": {
                 "mobile": {},
                 "tablet": {},
                 "desktop": {}
               }
+            },
+            {
+              "id": "container-1776160534368-7zm0",
+              "name": "Container",
+              "type": "container",
+              "settings": {
+                "gridColumn": 12,
+                "height": "300px",
+                "spacing": 16,
+                "bgColor": "#66ae1e",
+                "bgImage": null,
+                "bgVideo": null,
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 0,
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "direction": "column",
+                "overflow": "wrap",
+                "minWidth": null,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#000000",
+                "elevationEnabled": false,
+                "elevation": 4,
+                "borderRadius": 0,
+                "responsive": {
+                  "hideOnMobile": false,
+                  "mobileOrder": null
+                },
+                "mobileOverrides": {},
+                "bgColorSlot": "accent"
+              },
+              "children": []
             }
           ]
         }
@@ -1590,23 +644,24 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#e05a00",
-      "secondary": "#ffba42",
-      "accent": "#ec4899",
+      "primary": "#ff8b1f",
+      "secondary": "#fdc86d",
+      "accent": "#66ae1e",
       "text": "#ffffff",
       "background": "#000000",
-      "neutral": "#6b7280"
+      "neutral": "#20201d",
+      "card": "#1d1d20"
     },
     "fonts": {
       "heading1": {
         "family": "Montserrat",
-        "size": 48,
-        "weight": 700
+        "size": 50,
+        "weight": 300
       },
       "heading2": {
         "family": "Montserrat",
         "size": 24,
-        "weight": 700
+        "weight": 600
       },
       "body": {
         "family": "Inter",
@@ -1620,7 +675,7 @@
       },
       "button": {
         "family": "Montserrat",
-        "weight": 600
+        "weight": 500
       }
     },
     "buttonStyles": [
@@ -1628,38 +683,43 @@
         "id": "primary",
         "label": "Primary",
         "bgColor": "#3b82f6",
-        "textColor": "#ffffff",
+        "textColor": "#000000",
         "padding": 12,
-        "radius": 6,
+        "radius": 0,
         "bgType": "gradient",
         "bgGradient": {
-          "color1": "#e05a00",
-          "color2": "#ffba42",
+          "color1": "#ff8b1f",
+          "color2": "#fdc86d",
           "angle": 90
         },
-        "fontSize": 14
+        "fontSize": 18,
+        "textColorSlot": "background"
       },
       {
         "id": "secondary",
         "label": "Secondary",
-        "bgColor": "#e5e7eb",
-        "textColor": "#1f2937",
+        "bgColor": "#000000",
+        "textColor": "#ffffff",
         "padding": 12,
-        "radius": 6,
+        "radius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 16,
+        "bgColorSlot": "background",
+        "textColorSlot": "text"
       },
       {
         "id": "tertiary",
         "label": "Tertiary",
         "bgColor": "transparent",
-        "textColor": "#3b82f6",
+        "textColor": "#ffffff",
         "padding": 12,
-        "radius": 6,
+        "radius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 16,
+        "textColorSlot": "text",
+        "bgColorSlot": "transparent"
       }
     ],
     "shapes": {
@@ -1673,7 +733,8 @@
       "xl": 48
     },
     "bgColor": "#000000",
-    "bgColorSlot": "background"
+    "bgColorSlot": "background",
+    "segmentSpacing": "lg"
   },
   "mobileOverrides": {}
 }

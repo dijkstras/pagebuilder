@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { ColorPresets, ColorSlotPicker, resolveSlotColor } from './ColorPresets.jsx';
 import { GradientPicker } from './GradientPicker';
 import { MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
+import { getWeightOptions, generateFontsUrl } from '../../utils/googleFonts.js';
 
 // Hook for page-level mobile overrides (branding lives in page.styles / page.mobileOverrides)
 function useBrandingMobileOverride(section) {
@@ -62,13 +63,6 @@ const PRESET_FONTS = [
   'Bricolage Grotesque', 'DM Sans', 'Source Sans 3'
 ];
 
-const FONT_WEIGHTS = [
-  { label: 'Regular', value: 400 },
-  { label: 'Medium', value: 500 },
-  { label: 'Semi-bold', value: 600 },
-  { label: 'Bold', value: 700 },
-  { label: 'Extra bold', value: 800 }
-];
 
 const SHAPE_PRESETS = [
   { label: 'Sharp', value: 0 },
@@ -162,6 +156,12 @@ function TypographySettings() {
   const { fonts } = state.page.styles;
   const { isMobile, getStyle, setOverride, clearOverride, hasOverride } = useBrandingMobileOverride('fonts');
 
+  // Get available weights for a font family
+  const getWeightOptionsForFont = useCallback((fontFamily) => {
+    if (!fontFamily) return [];
+    return getWeightOptions(fontFamily);
+  }, []);
+
   // Detect active theme based on current font configuration
   const detectActiveTheme = () => {
     const matchesTheme = (themeFonts) => {
@@ -195,21 +195,24 @@ function TypographySettings() {
         if (font.weight) fontMap[font.family].add(font.weight);
       });
 
+      // Convert Sets to arrays for the URL generator
+      const fontMapWithWeights = {};
+      Object.entries(fontMap).forEach(([family, weights]) => {
+        fontMapWithWeights[family] = Array.from(weights);
+      });
+
       // Remove previously injected font links
       document.querySelectorAll('link[data-gfont]').forEach(el => el.remove());
 
-      // Inject a <link> for each font family without specifying weights.
-      // Weight params break static (non-variable) fonts — the browser will use
-      // the closest available weight via CSS font matching.
-      Object.entries(fontMap).forEach(([family]) => {
-        const encodedFamily = encodeURIComponent(family).replace(/%20/g, '+');
-        const url = `https://fonts.googleapis.com/css2?family=${encodedFamily}&display=swap`;
+      // Inject fonts with specific weights using the new URL generator
+      if (Object.keys(fontMapWithWeights).length > 0) {
+        const url = generateFontsUrl(fontMapWithWeights);
         const link = document.createElement('link');
-        link.setAttribute('data-gfont', family);
+        link.setAttribute('data-gfont', 'dynamic');
         link.rel = 'stylesheet';
         link.href = url;
         document.head.appendChild(link);
-      });
+      }
     }, 300);
 
     return () => clearTimeout(timer);
@@ -349,7 +352,7 @@ function TypographySettings() {
                     onChange={(e) => handleFontChange(style.key, 'weight', parseInt(e.target.value))}
                     style={inputStyle}
                   >
-                    {FONT_WEIGHTS.map(w => (
+                    {getWeightOptionsForFont(effectiveFont.family).map(w => (
                       <option key={w.value} value={w.value}>{w.label}</option>
                     ))}
                   </select>
@@ -387,7 +390,8 @@ const COLOR_LABELS = {
   accent: 'Accent',
   text: 'Text',
   background: 'Background',
-  neutral: 'Neutral'
+  neutral: 'Neutral',
+  card: 'Card'
 };
 
 const COLOR_GROUPS = {
@@ -397,9 +401,98 @@ const COLOR_GROUPS = {
   },
   ui: {
     label: 'UI Colors',
-    keys: ['text', 'background', 'accent', 'neutral']
+    keys: ['text', 'background', 'accent', 'neutral', 'card']
   }
 };
+
+const COLOR_THEME_PRESETS = [
+  {
+    id: 'simple', name: 'Simple',
+    dark:  { primary: '#F5F5F5', secondary: '#AAAAAA', accent: '#666666', text: '#F5F5F5', background: '#111111', neutral: '#1C1C1C', card: '#1C1C1C' },
+    light: { primary: '#111111', secondary: '#555555', accent: '#888888', text: '#111111', background: '#FFFFFF', neutral: '#F5F5F5', card: '#FFFFFF' },
+  },
+  {
+    id: 'corporate', name: 'Corporate',
+    dark:  { primary: '#3B82F6', secondary: '#60A5FA', accent: '#F59E0B', text: '#E8EFF8', background: '#0D1B2E', neutral: '#162845', card: '#1A3050' },
+    light: { primary: '#1D4ED8', secondary: '#3B82F6', accent: '#F59E0B', text: '#0D1B2E', background: '#EEF4FB', neutral: '#DDEAF8', card: '#FFFFFF' },
+  },
+  {
+    id: 'vibrant', name: 'Vibrant',
+    dark:  { primary: '#FF2D78', secondary: '#FF80AB', accent: '#00D4FF', text: '#F8F8F8', background: '#0D0D0D', neutral: '#1A1A1A', card: '#1A1A1A' },
+    light: { primary: '#FF2D78', secondary: '#FF80AB', accent: '#00AACC', text: '#1A001A', background: '#FFFFFF', neutral: '#FFF0F5', card: '#FFFFFF' },
+  },
+];
+
+function ColorThemePresets({ onApply }) {
+  const [mode, setMode] = useState('light');
+
+  return (
+    <div style={{ marginBottom: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+        <p style={sectionHeadingStyle}>Theme Presets</p>
+        <div style={{ display: 'flex', borderRadius: '6px', overflow: 'hidden', border: '1px solid #4b5563' }}>
+          {['light', 'dark'].map(m => (
+            <button
+              key={m}
+              onClick={() => setMode(m)}
+              style={{
+                padding: '3px 10px',
+                fontSize: '11px',
+                fontWeight: mode === m ? 600 : 400,
+                backgroundColor: mode === m ? '#3b82f6' : '#374151',
+                color: mode === m ? '#ffffff' : '#9ca3af',
+                border: 'none',
+                cursor: 'pointer',
+                textTransform: 'capitalize'
+              }}
+            >
+              {m}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        {COLOR_THEME_PRESETS.map(theme => {
+          const palette = theme[mode];
+          return (
+            <button
+              key={theme.id}
+              onClick={() => onApply(palette)}
+              title={`Apply ${theme.name} (${mode})`}
+              style={{
+                flex: 1,
+                padding: '8px 6px',
+                backgroundColor: palette.background,
+                border: '1px solid #4b5563',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <div style={{ display: 'flex', gap: '3px' }}>
+                {['primary', 'secondary', 'accent', 'neutral', 'card'].map(k => (
+                  <div key={k} style={{
+                    width: '14px',
+                    height: '14px',
+                    borderRadius: '3px',
+                    backgroundColor: palette[k],
+                    border: '1px solid rgba(128,128,128,0.3)'
+                  }} />
+                ))}
+              </div>
+              <span style={{ fontSize: '10px', fontWeight: 500, color: palette.text }}>
+                {theme.name}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function ColorsSettings() {
   const { state, dispatch } = usePageStore();
@@ -414,8 +507,14 @@ function ColorsSettings() {
     }
   };
 
+  const handleApplyPreset = (palette) => {
+    dispatch(pageActions.updatePageStyles({ colors: { ...palette } }));
+  };
+
   return (
     <div>
+      <ColorThemePresets onApply={handleApplyPreset} />
+      <Divider />
       {Object.entries(COLOR_GROUPS).map((groupEntry, groupIndex) => {
         const [groupKey, group] = groupEntry;
         return (
@@ -469,6 +568,9 @@ function ColorsSettings() {
 // ─── Buttons ───────────────────────────────────────────────────────────────────
 
 function ButtonEditor({ style: btnStyle, onChange, onMerge, colors = {} }) {
+  const { state } = usePageStore();
+  const buttonFont = state.page.styles.fonts?.button;
+  
   const shapeValue = SHAPE_PRESETS.find(s => s.value === btnStyle.radius)?.value ?? 'custom';
   const isCustomRadius = !SHAPE_PRESETS.some(s => s.value === btnStyle.radius);
 
@@ -489,7 +591,8 @@ function ButtonEditor({ style: btnStyle, onChange, onMerge, colors = {} }) {
     color: resolvedTextColor,
     borderRadius: `${btnStyle.radius}px`,
     fontSize: `${btnStyle.fontSize ?? 14}px`,
-    fontWeight: 500,
+    fontFamily: buttonFont?.family || 'Inter',
+    fontWeight: buttonFont?.weight || 500,
     border: btnStyle.bgType !== 'gradient' && resolvedBgColor === 'transparent' ? `1.5px solid ${resolvedTextColor}` : 'none',
     cursor: 'default'
   };

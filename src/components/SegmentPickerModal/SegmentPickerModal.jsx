@@ -476,6 +476,8 @@ function ContentPreview({ item }) {
       return <CardPreview settings={settings} />;
     case 'video':
       return <VideoPreview />;
+    case 'label':
+      return <LabelPreview settings={settings} />;
     default:
       return <div style={{ fontSize: '9px', color: 'rgba(0,0,0,0.3)' }}>{type}</div>;
   }
@@ -632,6 +634,29 @@ function CardPreview({ settings }) {
           {cardSettings.button?.label || 'Action'}
         </div>
       )}
+    </div>
+  );
+}
+
+function LabelPreview({ settings }) {
+  const s = settings || {};
+  return (
+    <div style={{
+      display: 'inline-block',
+      backgroundColor: s.bgColor || '#e5e7eb',
+      color: s.color || 'rgba(0,0,0,0.7)',
+      padding: `${Math.min(s.padding ?? 8, 4)}px ${Math.min((s.padding ?? 8) * 1.5, 8)}px`,
+      borderRadius: `${s.borderRadius ?? 4}px`,
+      border: s.borderEnabled ? `1px solid ${s.borderColor || '#9ca3af'}` : 'none',
+      fontSize: '9px',
+      fontWeight: 500,
+      lineHeight: 1.4,
+      maxWidth: '100%',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    }}>
+      {(s.content || 'Label').slice(0, 20)}
     </div>
   );
 }
