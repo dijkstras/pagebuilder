@@ -35,7 +35,7 @@
       },
       "children": [
         {
-          "id": "slot-1776165862045-ke6i",
+          "id": "slot-1776166016441-tq86",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -152,13 +152,14 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             }
           ]
         },
         {
-          "id": "slot-1776165862045-4cev",
+          "id": "slot-1776166016441-yx8h",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -281,7 +282,7 @@
           ]
         },
         {
-          "id": "slot-1776165862045-sg56",
+          "id": "slot-1776166016441-3eqb",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -358,7 +359,12 @@
                     "width": "auto",
                     "height": "auto"
                   }
-                }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
               },
               "responsiveVariants": {
                 "mobile": {},
