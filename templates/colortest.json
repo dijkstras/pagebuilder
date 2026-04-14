@@ -213,36 +213,6 @@
               }
             },
             {
-              "id": "button-1776165411033-lagyo",
-              "type": "button",
-              "settings": {
-                "assignedStyleId": "primary",
-                "textRole": null,
-                "customOverrides": {
-                  "label": "Primairy Button",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                },
-                "mobileOverrides": {}
-              }
-            },
-            {
               "id": "button-1776164961078-7xd98",
               "type": "button",
               "settings": {
@@ -300,26 +270,6 @@
                   "desktop": {}
                 },
                 "mobileOverrides": {}
-              }
-            },
-            {
-              "id": "content-1776165940272",
-              "type": "image",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": null,
-                "customOverrides": {
-                  "src": "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                }
               }
             }
           ]
