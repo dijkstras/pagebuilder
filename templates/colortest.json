@@ -587,12 +587,12 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#111111",
-      "secondary": "#555555",
-      "accent": "#888888",
-      "text": "#111111",
-      "background": "#FFFFFF",
-      "neutral": "#F5F5F5",
+      "primary": "#1D4ED8",
+      "secondary": "#3B82F6",
+      "accent": "#F59E0B",
+      "text": "#0D1B2E",
+      "background": "#EEF4FB",
+      "neutral": "#DDEAF8",
       "card": "#FFFFFF"
     },
     "fonts": {
