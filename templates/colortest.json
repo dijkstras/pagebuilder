@@ -530,12 +530,12 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#FF2D78",
-      "secondary": "#FF80AB",
-      "accent": "#00AACC",
-      "text": "#1A001A",
+      "primary": "#111111",
+      "secondary": "#555555",
+      "accent": "#888888",
+      "text": "#111111",
       "background": "#FFFFFF",
-      "neutral": "#FFF0F5",
+      "neutral": "#F5F5F5",
       "card": "#FFFFFF"
     },
     "fonts": {
