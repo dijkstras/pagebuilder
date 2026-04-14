@@ -35,7 +35,7 @@
       },
       "children": [
         {
-          "id": "slot-1776165353844-xsnt",
+          "id": "slot-1776165596957-64o4",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -152,7 +152,7 @@
           ]
         },
         {
-          "id": "slot-1776165353844-qpwm",
+          "id": "slot-1776165596957-pj11",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -305,7 +305,7 @@
           ]
         },
         {
-          "id": "slot-1776165353844-imqu",
+          "id": "slot-1776165596957-zbe1",
           "name": "Column 3",
           "type": "slot",
           "settings": {
