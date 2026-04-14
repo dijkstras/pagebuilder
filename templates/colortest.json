@@ -313,7 +313,7 @@
                 "gridColumn": 12,
                 "height": "auto",
                 "spacing": 16,
-                "bgColor": "#1A1A1A",
+                "bgColor": "#00AACC",
                 "bgImage": null,
                 "bgVideo": null,
                 "bgType": "solid",
@@ -335,7 +335,7 @@
                   "mobileOrder": null
                 },
                 "mobileOverrides": {},
-                "bgColorSlot": "card"
+                "bgColorSlot": "accent"
               },
               "children": [
                 {
