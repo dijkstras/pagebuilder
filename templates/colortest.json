@@ -329,7 +329,7 @@
                 "borderColor": "#000000",
                 "elevationEnabled": true,
                 "elevation": 4,
-                "borderRadius": 0,
+                "borderRadius": 24,
                 "responsive": {
                   "hideOnMobile": false,
                   "mobileOrder": null
