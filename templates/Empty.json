@@ -36,7 +36,7 @@
       },
       "children": [
         {
-          "id": "slot-1775829189035-rblj",
+          "id": "slot-1776164132235-ovby",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -63,12 +63,13 @@
             "bgType": "solid",
             "bgGradient": null,
             "scroll": false,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         },
         {
-          "id": "slot-1775829189035-90aj",
+          "id": "slot-1776164132235-cz7w",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -95,7 +96,8 @@
             "bgType": "solid",
             "bgGradient": null,
             "scroll": false,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         }
@@ -132,7 +134,7 @@
       },
       "children": [
         {
-          "id": "slot-1775829189035-zz2t",
+          "id": "slot-1776164132235-a19n",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -159,7 +161,8 @@
             "bgType": "solid",
             "bgGradient": null,
             "scroll": false,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": []
         }
@@ -196,7 +199,7 @@
       },
       "children": [
         {
-          "id": "slot-1775829189035-67bg",
+          "id": "slot-1776164132235-9e99",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -223,7 +226,8 @@
             "bgType": "solid",
             "bgGradient": null,
             "scroll": false,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap"
           },
           "children": [
             {
@@ -311,7 +315,8 @@
       "accent": "#ec4899",
       "text": "#1f2937",
       "background": "#f9fafb",
-      "neutral": "#6b7280"
+      "neutral": "#6b7280",
+      "card": "#ffffff"
     },
     "fonts": {
       "heading1": {
