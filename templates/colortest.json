@@ -393,7 +393,7 @@
                   "borderRadius": "4px"
                 },
                 "text": {
-                  "content": "This is a card element and can be used to schowcase ",
+                  "content": "This is a card element and can be used to showcase ",
                   "textRole": "body",
                   "textAlign": "center",
                   "color": null
