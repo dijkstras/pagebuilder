@@ -318,7 +318,7 @@
                 "bgVideo": null,
                 "bgType": "solid",
                 "bgGradient": null,
-                "padding": 32,
+                "padding": 24,
                 "contentAlignment": "left",
                 "verticalAlignment": "top",
                 "direction": "column",
