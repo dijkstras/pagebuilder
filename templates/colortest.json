@@ -323,7 +323,7 @@
                 "verticalAlignment": "top",
                 "direction": "column",
                 "overflow": "wrap",
-                "minWidth": "100",
+                "minWidth": "100%",
                 "borderEnabled": true,
                 "borderWidth": 1,
                 "borderColor": "#000000",
