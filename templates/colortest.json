@@ -362,66 +362,6 @@
                 },
                 "mobileOverrides": {}
               }
-            },
-            {
-              "id": "content-1776165602951",
-              "type": "card",
-              "settings": {
-                "width": "300px",
-                "height": "auto",
-                "bgColor": "#ffffff",
-                "bgColorSlot": "card",
-                "bgType": "solid",
-                "bgGradient": null,
-                "padding": 20,
-                "direction": "column",
-                "contentAlignment": "left",
-                "verticalAlignment": "top",
-                "spacing": 12,
-                "borderEnabled": false,
-                "borderWidth": 1,
-                "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": true,
-                "elevation": 4,
-                "showImage": true,
-                "showText": true,
-                "showButton": true,
-                "image": {
-                  "src": "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
-                  "objectFit": "cover",
-                  "borderRadius": "4px"
-                },
-                "text": {
-                  "content": "This is a card element and can be used to showcase content in a clean way",
-                  "textRole": "body",
-                  "textAlign": "left",
-                  "color": null
-                },
-                "button": {
-                  "label": "Learn More",
-                  "assignedStyleId": "primary",
-                  "icon": {
-                    "key": null,
-                    "position": "none"
-                  },
-                  "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
-                    "height": "auto"
-                  }
-                },
-                "responsive": {
-                  "hideOnMobile": false,
-                  "hideOnDesktop": false
-                },
-                "mobileOverrides": {}
-              },
-              "responsiveVariants": {
-                "mobile": {},
-                "tablet": {},
-                "desktop": {}
-              }
             }
           ]
         }
