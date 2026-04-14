@@ -35,7 +35,7 @@
       },
       "children": [
         {
-          "id": "slot-1776165269413-jb03",
+          "id": "slot-1776165353844-xsnt",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -152,7 +152,7 @@
           ]
         },
         {
-          "id": "slot-1776165269413-238v",
+          "id": "slot-1776165353844-qpwm",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -275,7 +275,7 @@
           ]
         },
         {
-          "id": "slot-1776165269413-zyxi",
+          "id": "slot-1776165353844-imqu",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -446,7 +446,8 @@
         "bgType": "solid",
         "bgGradient": null,
         "fontSize": 14,
-        "bgColorSlot": "primary"
+        "bgColorSlot": "primary",
+        "textColorSlot": "custom"
       },
       {
         "id": "secondary",
@@ -457,7 +458,9 @@
         "radius": 6,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "neutral",
+        "textColorSlot": "text"
       },
       {
         "id": "tertiary",
@@ -468,7 +471,9 @@
         "radius": 6,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "custom",
+        "textColorSlot": "primary"
       }
     ],
     "shapes": {
