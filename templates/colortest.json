@@ -406,12 +406,12 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#FF2D78",
-      "secondary": "#FF80AB",
-      "accent": "#00AACC",
-      "text": "#1A001A",
-      "background": "#FFFFFF",
-      "neutral": "#FFF0F5",
+      "primary": "#1D4ED8",
+      "secondary": "#3B82F6",
+      "accent": "#F59E0B",
+      "text": "#0D1B2E",
+      "background": "#EEF4FB",
+      "neutral": "#DDEAF8",
       "card": "#FFFFFF"
     },
     "fonts": {
