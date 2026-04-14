@@ -13,9 +13,8 @@ function darkenHex(hex, amount = 0.15) {
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 }
 
-function getTextStyle(customOverrides, defaultColor) {
+function getTextStyle(customOverrides, defaultColor, paletteColors = {}) {
   const textType = customOverrides.textType;
-  const color = customOverrides.color;
   const textGradient = customOverrides.textGradient;
   
   if (textType === 'gradient' && textGradient) {
@@ -29,7 +28,11 @@ function getTextStyle(customOverrides, defaultColor) {
     };
   }
   
-  return { color: color || defaultColor };
+  const slot = customOverrides.colorSlot;
+  const resolvedColor = slot && slot !== 'custom'
+    ? (slot === 'transparent' ? 'transparent' : (paletteColors[slot] || customOverrides.color))
+    : customOverrides.color;
+  return { color: resolvedColor || defaultColor };
 }
 
 function collectMobileOverrideCSS(page, isMobilePreview = false) {
@@ -361,7 +364,12 @@ function renderSegment(segment, page, segmentHorizontalScroll = false) {
     flexDirection: 'column',
     minHeight: `${segment.settings.minHeight ?? 200}px`,
     maxHeight: segment.settings.maxHeight ? `${segment.settings.maxHeight}px` : undefined,
-    backgroundColor: segment.settings.bgColor || page.styles.colors.background,
+    backgroundColor: (() => {
+      const segSlot = segment.settings.bgColorSlot;
+      const segColors = page.styles.colors || {};
+      if (segSlot && segSlot !== 'custom') return segSlot === 'transparent' ? 'transparent' : (segColors[segSlot] || segment.settings.bgColor);
+      return segment.settings.bgColor || segColors.background;
+    })(),
     backgroundImage: isGradient ? gradientBg : undefined,
     backgroundSize: isGradient ? 'cover' : undefined,
     backgroundPosition: isGradient ? 'center' : undefined,
@@ -514,8 +522,12 @@ function renderSlot(slot, page, segmentHScroll = false) {
     })
   };
 
-  if (!isGradient && slot.settings.bgColor && slot.settings.bgColor !== 'transparent') {
-    styleObj.backgroundColor = slot.settings.bgColor;
+  const slotPaletteColors = page.styles.colors || {};
+  const resolvedSlotBg = slot.settings.bgColorSlot && slot.settings.bgColorSlot !== 'custom'
+    ? (slot.settings.bgColorSlot === 'transparent' ? 'transparent' : (slotPaletteColors[slot.settings.bgColorSlot] || slot.settings.bgColor))
+    : slot.settings.bgColor;
+  if (!isGradient && resolvedSlotBg && resolvedSlotBg !== 'transparent') {
+    styleObj.backgroundColor = resolvedSlotBg;
   }
   if (isGradient) {
     const { angle, color1, color2 } = slot.settings.bgGradient;
@@ -631,7 +643,7 @@ function renderContentItemInner(item, page) {
       const customOverrides = item.settings?.customOverrides || {};
 
       if (role === 'heading1') {
-        const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
+        const textStyle = getTextStyle(customOverrides, page.styles.colors.text, page.styles.colors);
         const style = buildStyleString({
           margin: '0',
           fontFamily: 'var(--font-heading1-family)',
@@ -646,7 +658,7 @@ function renderContentItemInner(item, page) {
         return `<h1 style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</h1>`;
       }
       if (role === 'heading2') {
-        const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
+        const textStyle = getTextStyle(customOverrides, page.styles.colors.text, page.styles.colors);
         const style = buildStyleString({
           margin: '0',
           fontFamily: 'var(--font-heading2-family)',
@@ -661,7 +673,7 @@ function renderContentItemInner(item, page) {
         return `<h2 style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</h2>`;
       }
       if (role === 'body') {
-        const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
+        const textStyle = getTextStyle(customOverrides, page.styles.colors.text, page.styles.colors);
         const style = buildStyleString({
           margin: '0',
           fontFamily: 'var(--font-body-family)',
@@ -676,7 +688,7 @@ function renderContentItemInner(item, page) {
         return `<p style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</p>`;
       }
       if (role === 'label') {
-        const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
+        const textStyle = getTextStyle(customOverrides, page.styles.colors.text, page.styles.colors);
         const style = buildStyleString({
           margin: '0',
           fontFamily: 'var(--font-label-family)',
@@ -691,7 +703,7 @@ function renderContentItemInner(item, page) {
         });
         return `<span class="label" style="${style}" data-element-id="${item.id}">${customOverrides.content || ''}</span>`;
       }
-      const textStyle = getTextStyle(customOverrides, page.styles.colors.text);
+      const textStyle = getTextStyle(customOverrides, page.styles.colors.text, page.styles.colors);
       return `<p style="${buildStyleString({ margin: '0', width: width ?? '100%', height, textAlign, ...textStyle })}" data-element-id="${item.id}">${customOverrides.content || ''}</p>`;
     }
 

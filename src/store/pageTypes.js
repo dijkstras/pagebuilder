@@ -133,7 +133,8 @@ export const createSegment = (name = 'Segment', layout = 'full') => {
       layout,
       gap: 'md',
       fullWidth: true,
-      bgColor: '#ffffff',
+      bgColor: 'transparent',
+      bgColorSlot: 'transparent',
       bgImage: null,
       bgVideo: null,
       maxWidth: null,
@@ -223,8 +224,8 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
       settings: {
         content: 'Label text',
         textAlign: 'left',
-        color: null,
-        colorSlot: null,
+        color: '#ec4899',
+        colorSlot: 'accent',
         bgColor: '#e5e7eb',
         bgColorSlot: 'neutral',
         paddingX: 12,
@@ -266,20 +267,20 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
         borderWidth: 1,
         borderColor: '#e5e7eb',
         borderRadius: 8,
-        elevationEnabled: false,
+        elevationEnabled: true,
         elevation: 4,
         // Card elements
         showImage: true,
         showText: true,
         showButton: true,
         image: {
-          src: 'https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          src: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
           objectFit: 'cover',
           borderRadius: '4px'
         },
         text: {
-          content: 'Card title goes here',
-          textRole: 'heading2',
+          content: 'This is a card element and can be used to showcase content in a clean way',
+          textRole: 'body',
           textAlign: 'left',
           color: null
         },
@@ -309,7 +310,7 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
         : contentType === CONTENT_TYPES.BUTTON
           ? { label: 'Button', icon: { key: null, position: 'none' }, sizeOverride: { enabled: false, width: 'auto', height: 'auto' } }
           : contentType === CONTENT_TYPES.IMAGE
-            ? { src: 'https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
+            ? { src: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' }
             : contentType === CONTENT_TYPES.VIDEO
               ? { src: '' }
               : {},
@@ -366,12 +367,23 @@ export function migratePage(page) {
       },
       spacing: page.styles?.spacing ?? { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 },
       bgColor: page.styles?.bgColor ?? '#f9fafb',
-      buttonStyles: buttonStyles.map(b => ({
-        ...b,
-        bgType: b.bgType ?? 'solid',
-        bgGradient: b.bgGradient ?? null,
-        fontSize: b.fontSize ?? 14
-      }))
+      bgColorSlot: page.styles?.bgColorSlot ?? 'background',
+      buttonStyles: buttonStyles.map(b => {
+        const slotDefaults = {
+          primary: { bgColorSlot: 'primary', textColorSlot: 'custom' },
+          secondary: { bgColorSlot: 'neutral', textColorSlot: 'text' },
+          tertiary: { bgColorSlot: 'custom', textColorSlot: 'primary' },
+        };
+        const defaults = slotDefaults[b.id] || {};
+        return {
+          ...b,
+          bgType: b.bgType ?? 'solid',
+          bgGradient: b.bgGradient ?? null,
+          fontSize: b.fontSize ?? 14,
+          bgColorSlot: b.bgColorSlot ?? defaults.bgColorSlot ?? null,
+          textColorSlot: b.textColorSlot ?? defaults.textColorSlot ?? null
+        };
+      })
     },
     root: (page.root ?? []).map(migrateSegment)
   };

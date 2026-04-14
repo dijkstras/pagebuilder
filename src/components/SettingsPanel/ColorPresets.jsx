@@ -27,8 +27,10 @@ export function resolveSlotColor(slot, colors, fallback) {
   return colors[slot] || fallback;
 }
 
+const SLOT_ORDER = ['primary', 'secondary', 'text', 'background', 'accent', 'neutral', 'card'];
+
 export function ColorSlotPicker({ slot, customColor, colors, onSlotChange, onCustomColorChange }) {
-  const paletteKeys = Object.keys(colors);
+  const paletteKeys = SLOT_ORDER.filter(k => k in colors);
   const emit = (key) => onSlotChange(key, resolveSlotColor(key, colors, customColor));
   return (
     <div>
