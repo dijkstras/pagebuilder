@@ -234,7 +234,7 @@
                 "assignedStyleId": "primary",
                 "textRole": null,
                 "customOverrides": {
-                  "label": "Button",
+                  "label": "Tertiary Button",
                   "icon": {
                     "key": null,
                     "position": "none"
