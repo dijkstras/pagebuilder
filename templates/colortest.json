@@ -326,7 +326,7 @@
                 "minWidth": "100%",
                 "borderEnabled": true,
                 "borderWidth": 1,
-                "borderColor": "#000000",
+                "borderColor": "#DDEAF8",
                 "elevationEnabled": true,
                 "elevation": 4,
                 "borderRadius": 24,
