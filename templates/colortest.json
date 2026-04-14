@@ -346,7 +346,8 @@
                     "textRole": null,
                     "customOverrides": {
                       "src": "https://framerusercontent.com/images/1Z5ZUyGlpIkFSIKXxKT3ajuDU.webp",
-                      "objectFit": "contain"
+                      "objectFit": "contain",
+                      "width": "100px"
                     },
                     "responsive": {
                       "hideOnMobile": false,
