@@ -19,28 +19,28 @@
     },
     "fonts": {
       "heading1": {
-        "family": "Pacifico",
-        "size": 80,
-        "weight": 600
+        "family": "Bricolage Grotesque",
+        "size": 48,
+        "weight": 700
       },
       "heading2": {
-        "family": "Work Sans",
-        "size": 28,
-        "weight": 500
+        "family": "Bricolage Grotesque",
+        "size": 32,
+        "weight": 600
       },
       "body": {
-        "family": "Inter",
+        "family": "DM Sans",
         "size": 16,
         "weight": 400
       },
       "label": {
-        "family": "Inter",
+        "family": "DM Sans",
         "size": 12,
         "weight": 500
       },
       "button": {
-        "family": "Space Grotesk",
-        "weight": 700
+        "family": "Bricolage Grotesque",
+        "weight": 600
       }
     },
     "buttonStyles": [
