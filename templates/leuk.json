@@ -303,13 +303,13 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#ffc800",
-      "secondary": "#acdb00",
-      "accent": "#ff0000",
-      "text": "#F5F5F5",
-      "background": "#111111",
-      "neutral": "#1C1C1C",
-      "card": "#1C1C1C"
+      "primary": "#FF2D78",
+      "secondary": "#FF80AB",
+      "accent": "#00AACC",
+      "text": "#1A001A",
+      "background": "#FFFFFF",
+      "neutral": "#FFF0F5",
+      "card": "#FFFFFF"
     },
     "fonts": {
       "heading1": {
