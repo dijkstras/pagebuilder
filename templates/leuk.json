@@ -47,7 +47,7 @@
       },
       "children": [
         {
-          "id": "slot-1776077555620-nyz9",
+          "id": "slot-1776240031913-02lg",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -164,7 +164,7 @@
           ]
         },
         {
-          "id": "slot-1776077555620-tog1",
+          "id": "slot-1776240031913-f6zc",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -204,6 +204,74 @@
           "children": []
         }
       ]
+    },
+    {
+      "id": "segment-1776240034410",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "layout": "full",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "transparent",
+        "bgColorSlot": "transparent",
+        "bgImage": null,
+        "bgVideo": null,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderEdges": {
+          "top": true,
+          "right": true,
+          "bottom": true,
+          "left": true
+        },
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "borderColorSlot": null,
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "headingEnabled": false,
+        "headingContent": "Section Heading",
+        "headingFont": "heading1",
+        "headingAlignment": "left",
+        "headingColor": "#000000",
+        "headingColorSlot": null
+      },
+      "children": [
+        {
+          "id": "slot-1776240034410-y12p",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "250px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "overflow": "wrap",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "hidden": false,
+            "responsive": {
+              "mobileOrder": null
+            }
+          },
+          "children": []
+        }
+      ]
     }
   ],
   "styles": {
@@ -214,7 +282,8 @@
       "accent": "#ec4899",
       "text": "#1f2937",
       "background": "#bddeff",
-      "neutral": "#6b7280"
+      "neutral": "#6b7280",
+      "card": "#ffffff"
     },
     "fonts": {
       "heading1": {
@@ -265,7 +334,9 @@
         "radius": 6,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "neutral",
+        "textColorSlot": "text"
       },
       {
         "id": "tertiary",
@@ -276,7 +347,9 @@
         "radius": 6,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "custom",
+        "textColorSlot": "primary"
       }
     ],
     "shapes": {
@@ -290,7 +363,8 @@
       "xl": 48
     },
     "bgColor": "#ec4899",
-    "segmentSpacing": "sm"
+    "segmentSpacing": "sm",
+    "bgColorSlot": "background"
   },
   "mobileOverrides": {
     "segmentSpacing": "sm"
