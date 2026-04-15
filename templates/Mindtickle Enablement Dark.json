@@ -40,7 +40,7 @@
           "bgPositionY": "bottom",
           "bgSize": "200px 200px"
         },
-        "bgOpacity": "50%",
+        "bgOpacity": "30%",
         "borderEdges": {
           "top": false,
           "right": false,
@@ -52,7 +52,7 @@
       },
       "children": [
         {
-          "id": "slot-1776248433525-79xe",
+          "id": "slot-1776250148235-uff5",
           "name": "Text & CTA",
           "type": "slot",
           "settings": {
@@ -319,7 +319,7 @@
       },
       "children": [
         {
-          "id": "slot-1776248433525-21j5",
+          "id": "slot-1776250148235-i5tb",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -374,7 +374,7 @@
                 "borderWidth": 1,
                 "borderColor": "#e5e7eb",
                 "borderRadius": 0,
-                "elevationEnabled": false,
+                "elevationEnabled": true,
                 "elevation": 4,
                 "showImage": true,
                 "showText": true,
@@ -447,7 +447,7 @@
                 "borderWidth": 1,
                 "borderColor": "#e5e7eb",
                 "borderRadius": 0,
-                "elevationEnabled": false,
+                "elevationEnabled": true,
                 "elevation": 4,
                 "showImage": true,
                 "showText": true,
@@ -519,7 +519,7 @@
                 "borderWidth": 1,
                 "borderColor": "#e5e7eb",
                 "borderRadius": 0,
-                "elevationEnabled": false,
+                "elevationEnabled": true,
                 "elevation": 4,
                 "showImage": true,
                 "showText": true,
@@ -583,7 +583,7 @@
                 "borderWidth": 1,
                 "borderColor": "#e5e7eb",
                 "borderRadius": 0,
-                "elevationEnabled": false,
+                "elevationEnabled": true,
                 "elevation": 4,
                 "showImage": true,
                 "showText": true,
@@ -675,7 +675,7 @@
       },
       "children": [
         {
-          "id": "slot-1776248433525-g49k",
+          "id": "slot-1776250148235-cooj",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -771,7 +771,7 @@
           ]
         },
         {
-          "id": "slot-1776248433525-ilv5",
+          "id": "slot-1776250148235-9obw",
           "name": "Column 2",
           "type": "slot",
           "settings": {

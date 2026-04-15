@@ -468,9 +468,24 @@ function TypographySettings() {
   const handleFontChange = (role, key, value) => {
     if (isMobile) {
       const current = getStyle(role, fonts[role]) ?? fonts[role];
-      setOverride(role, { ...current, [key]: value });
+      const updated = { ...current, [key]: value };
+      // If changing font family, ensure weight is valid for the new font
+      if (key === 'family') {
+        const availableWeights = getWeightOptionsForFont(value);
+        if (availableWeights.length > 0 && !availableWeights.find(w => w.value === updated.weight)) {
+          updated.weight = availableWeights[0].value;
+        }
+      }
+      setOverride(role, updated);
     } else {
       const newFonts = { ...fonts, [role]: { ...fonts[role], [key]: value } };
+      // If changing font family, ensure weight is valid for the new font
+      if (key === 'family') {
+        const availableWeights = getWeightOptionsForFont(value);
+        if (availableWeights.length > 0 && !availableWeights.find(w => w.value === newFonts[role].weight)) {
+          newFonts[role].weight = availableWeights[0].value;
+        }
+      }
       dispatch(pageActions.updatePageStyles({ fonts: newFonts }));
     }
   };

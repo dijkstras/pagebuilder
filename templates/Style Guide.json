@@ -9,7 +9,7 @@
   "root": [
     {
       "id": "segment-1776175565761",
-      "name": "New Segment",
+      "name": "Hero",
       "type": "segment",
       "settings": {
         "layout": "full",
@@ -23,20 +23,35 @@
         "contentAlignment": "left",
         "verticalAlignment": "top",
         "minHeight": 200,
-        "borderEnabled": false,
+        "borderEnabled": true,
         "borderWidth": 1,
-        "borderColor": "#000000",
+        "borderColor": "#00D4FF",
         "elevationEnabled": false,
         "elevation": 4,
         "borderRadius": 0,
         "bgOpacity": "30%",
-        "bgType": "solid",
-        "bgGradient": null,
-        "mobileOverrides": {}
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#FF2D78",
+          "color2": "#0D0D0D",
+          "angle": 180,
+          "color1Slot": "primary",
+          "color2Slot": "background"
+        },
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false,
+        "borderEdges": {
+          "top": false,
+          "right": false,
+          "bottom": true,
+          "left": false
+        },
+        "borderColorSlot": "accent"
       },
       "children": [
         {
-          "id": "slot-1776185312108-md8e",
+          "id": "slot-1776249543225-s30u",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -58,7 +73,6 @@
             "elevation": 4,
             "borderRadius": 24,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
             "bgPositionX": "left",
@@ -67,7 +81,9 @@
             "mobileGridColumn": 12,
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -95,7 +111,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -117,7 +135,9 @@
                   "desktop": {}
                 },
                 "textAlign": "center",
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
@@ -126,7 +146,7 @@
     },
     {
       "id": "segment-1776164701313",
-      "name": "New Segment",
+      "name": "Elements",
       "type": "segment",
       "settings": {
         "layout": "33-33-33",
@@ -148,11 +168,13 @@
         "borderRadius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1776185312108-4llw",
+          "id": "slot-1776249543225-zzv4",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -174,13 +196,14 @@
             "elevation": 4,
             "borderRadius": 0,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
             "bgType": "solid",
             "bgGradient": null,
             "mobileOverrides": {},
-            "mobileGridColumn": 12
+            "mobileGridColumn": 12,
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -201,7 +224,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -222,7 +247,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -243,7 +270,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -271,7 +300,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -299,7 +330,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -334,7 +367,9 @@
                 "mobileOverrides": {
                   "padding": 24
                 },
-                "bgColorSlot": "neutral"
+                "bgColorSlot": "neutral",
+                "hidden": false,
+                "mobileHidden": false
               },
               "children": [
                 {
@@ -364,7 +399,7 @@
           ]
         },
         {
-          "id": "slot-1776185312108-5clh",
+          "id": "slot-1776249543225-80h2",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -386,7 +421,6 @@
             "elevation": 4,
             "borderRadius": 0,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
             "bgType": "solid",
@@ -394,7 +428,9 @@
             "mobileOverrides": {
               "mobileGridColumn": 6
             },
-            "mobileGridColumn": 12
+            "mobileGridColumn": 12,
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -424,7 +460,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -454,7 +492,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -484,7 +524,9 @@
                   "tablet": {},
                   "desktop": {}
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -517,7 +559,9 @@
                   "mobileOrder": null
                 },
                 "mobileOverrides": {},
-                "bgColorSlot": "card"
+                "bgColorSlot": "card",
+                "hidden": false,
+                "mobileHidden": false
               },
               "children": [
                 {
@@ -614,7 +658,7 @@
           ]
         },
         {
-          "id": "slot-1776185312108-lz6w",
+          "id": "slot-1776249543225-h8h2",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -636,13 +680,14 @@
             "elevation": 4,
             "borderRadius": 0,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
             "bgType": "solid",
             "bgGradient": null,
             "mobileOverrides": {},
-            "mobileGridColumn": 12
+            "mobileGridColumn": 12,
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -698,7 +743,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               },
               "responsiveVariants": {
                 "mobile": {},
@@ -759,7 +806,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               },
               "responsiveVariants": {
                 "mobile": {},
@@ -775,13 +824,13 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#FF2D78",
-      "secondary": "#FF80AB",
-      "accent": "#00D4FF",
-      "text": "#F8F8F8",
-      "background": "#0D0D0D",
-      "neutral": "#1A1A1A",
-      "card": "#1A1A1A"
+      "primary": "#1D4ED8",
+      "secondary": "#3B82F6",
+      "accent": "#F59E0B",
+      "text": "#0D1B2E",
+      "background": "#EEF4FB",
+      "neutral": "#DDEAF8",
+      "card": "#FFFFFF"
     },
     "fonts": {
       "heading1": {
@@ -827,11 +876,17 @@
         "id": "secondary",
         "label": "Secondary",
         "bgColor": "#e5e7eb",
-        "textColor": "#1f2937",
+        "textColor": "#0D1B2E",
         "padding": 12,
         "radius": 6,
-        "bgType": "solid",
-        "bgGradient": null,
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#DDEAF8",
+          "color2": "#3B82F6",
+          "angle": 239,
+          "color1Slot": "neutral",
+          "color2Slot": "secondary"
+        },
         "fontSize": 14,
         "bgColorSlot": "neutral",
         "textColorSlot": "text"
@@ -840,14 +895,14 @@
         "id": "tertiary",
         "label": "Tertiary",
         "bgColor": "transparent",
-        "textColor": "#3b82f6",
+        "textColor": "#00AACC",
         "padding": 12,
         "radius": 999,
         "bgType": "solid",
         "bgGradient": null,
         "fontSize": 14,
         "bgColorSlot": "custom",
-        "textColorSlot": "primary"
+        "textColorSlot": "accent"
       }
     ],
     "shapes": {
