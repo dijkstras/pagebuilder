@@ -51,7 +51,7 @@
       },
       "children": [
         {
-          "id": "slot-1776249543225-s30u",
+          "id": "slot-1776257997608-30jv",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -174,7 +174,7 @@
       },
       "children": [
         {
-          "id": "slot-1776249543225-zzv4",
+          "id": "slot-1776257997608-6q32",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -399,7 +399,7 @@
           ]
         },
         {
-          "id": "slot-1776249543225-80h2",
+          "id": "slot-1776257997608-k50x",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -463,7 +463,8 @@
                 "mobileOverrides": {},
                 "hidden": false,
                 "mobileHidden": false
-              }
+              },
+              "name": "Button 1"
             },
             {
               "id": "button-1776164961078-7xd98",
@@ -658,7 +659,7 @@
           ]
         },
         {
-          "id": "slot-1776249543225-h8h2",
+          "id": "slot-1776257997608-5shc",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -824,12 +825,12 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#1D4ED8",
-      "secondary": "#3B82F6",
-      "accent": "#F59E0B",
-      "text": "#0D1B2E",
-      "background": "#EEF4FB",
-      "neutral": "#DDEAF8",
+      "primary": "#111111",
+      "secondary": "#555555",
+      "accent": "#888888",
+      "text": "#111111",
+      "background": "#F2F2F2",
+      "neutral": "#F5F5F5",
       "card": "#FFFFFF"
     },
     "fonts": {

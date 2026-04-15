@@ -5,7 +5,7 @@ import { THEME } from '../../utils/constants';
 import { SegmentPickerModal } from '../SegmentPickerModal/SegmentPickerModal';
 import { segmentStorage } from '../../services/segmentStorage';
 import { deepCloneElement } from '../../store/pageStore.jsx';
-import { Type, Paintbrush, SquareMousePointer } from 'lucide-react';
+import { Type, Paintbrush, SquareMousePointer, FileText, Plus, CirclePlus } from 'lucide-react';
 
 const BRAND_ITEMS = [
   {
@@ -31,6 +31,7 @@ const BRAND_ITEMS = [
 export function StructureTree() {
   const [activeTab, setActiveTab] = React.useState('structure');
   const [showSegmentPicker, setShowSegmentPicker] = useState(false);
+  const [isPageTitleHovered, setIsPageTitleHovered] = useState(false);
   const { state, dispatch } = usePageStore();
 
   const handleAddSegment = () => {
@@ -95,28 +96,33 @@ export function StructureTree() {
           <>
             {/* Page header */}
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', paddingBottom: '14px', borderBottom: '1px solid #4a5568' }}>
-              <span
+              <div
                 onClick={() => dispatch(pageActions.deselectElement())}
                 style={{
-                  flex: 1, fontSize: '13px', fontWeight: 600,
-                  color: isPageSelected ? '#90cdf4' : '#718096',
-                  cursor: 'pointer', userSelect: 'none',
-                  letterSpacing: '0.05em', textTransform: 'uppercase'
+                  flex: 1, display: 'flex', alignItems: 'center', gap: '8px',
+                  cursor: 'pointer', userSelect: 'none'
                 }}
               >
-                {state.page.title}
-              </span>
-              <button
-                onClick={(e) => { e.stopPropagation(); handleAddSegment(); }}
-                style={{
-                  background: '#4299e1', border: 'none', color: 'white',
-                  cursor: 'pointer', fontSize: '16px', fontWeight: 'bold',
-                  borderRadius: '4px', width: '24px', height: '24px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  flexShrink: 0
-                }}
-                title="Add segment"
-              >+</button>
+                <FileText size={16} color={isPageSelected ? '#90cdf4' : '#718096'} />
+                <span
+                  style={{
+                    fontSize: '13px', fontWeight: 600,
+                    color: isPageSelected ? '#90cdf4' : '#718096',
+                    letterSpacing: '0.05em', textTransform: 'uppercase'
+                  }}
+                >
+                  {state.page.title}
+                </span>
+                <CirclePlus
+                  size={14}
+                  color={isPageTitleHovered ? '#10b981' : '#718096'}
+                  style={{ cursor: 'pointer', marginLeft: '4px' }}
+                  onClick={(e) => { e.stopPropagation(); handleAddSegment(); }}
+                  onMouseEnter={() => setIsPageTitleHovered(true)}
+                  onMouseLeave={() => setIsPageTitleHovered(false)}
+                  title="Add segment"
+                />
+              </div>
             </div>
 
             <div>

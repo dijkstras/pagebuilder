@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { CONTENT_TYPE_LABELS } from '../../utils/constants';
 import { createContentItem, createContainer, CONTENT_TYPES, LAYOUT_PRESETS } from '../../store/pageTypes';
+import { Layout, Type, Image, MousePointerClick, CreditCard, Video, ChevronRight, ChevronDown, Copy, Trash, CirclePlus, ArrowUp, ArrowDown, Rows3, Columns3, Tag, Play, Group } from 'lucide-react';
 
 const TYPE_ICONS = {
-  segment: '▦',
-  slot: '⊞',
-  container: '⬡',
-  text: 'T',
-  image: '▣',
-  button: '⊡',
-  video: '▷',
-  card: '🎴',
-  label: '⬛'
+  segment: Rows3,
+  slot: Columns3,
+  container: Group,
+  text: Type,
+  image: Image,
+  button: MousePointerClick,
+  video: Play,
+  card: CreditCard,
+  label: Tag
 };
 
 function containsElement(children, targetId) {
@@ -22,29 +23,14 @@ function containsElement(children, targetId) {
   );
 }
 
-function getElementPositionInChildren(children, targetId) {
-  if (!children) return -1;
-  return children.findIndex(child => child.id === targetId);
-}
-
-function canMoveElement(element, direction, parentChildren) {
-  if (!parentChildren) return false;
-  const position = getElementPositionInChildren(parentChildren, element.id);
-  if (position === -1) return false;
-  
-  if (direction === 'up') return position > 0;
-  if (direction === 'down') return position < parentChildren.length - 1;
-  return false;
-}
-
-function AddMenu({ element, onClose }) {
+function AddMenu({ element, onClose, position, onMouseEnter, onMouseLeave }) {
   const { dispatch } = usePageStore();
 
   const add = (fn) => (e) => { e.stopPropagation(); fn(); onClose(); };
 
   const itemStyle = (last) => ({
     width: '100%', padding: '7px 12px',
-    backgroundColor: 'transparent', color: '#9ca3af',
+    backgroundColor: 'transparent', color: '#ffffff',
     border: 'none', cursor: 'pointer', fontSize: '12px', textAlign: 'left',
     borderBottom: last ? 'none' : '1px solid #374151'
   });
@@ -56,12 +42,16 @@ function AddMenu({ element, onClose }) {
     : types.map(t => ({ key: t, label: t, create: () => createContentItem(t) }));
 
   return (
-    <div style={{
-      position: 'absolute', right: 0, top: '100%', marginTop: '2px',
-      backgroundColor: '#1f2937', border: '1px solid #374151',
-      borderRadius: '5px', minWidth: '120px', zIndex: 1000,
-      boxShadow: '0 6px 16px rgba(0,0,0,0.5)'
-    }}>
+    <div
+      style={{
+        position: 'fixed', left: position?.x || 0, top: position?.y || 0,
+        backgroundColor: '#1f2937', border: '1px solid #374151',
+        borderRadius: '5px', width: '140px', zIndex: 9999,
+        boxShadow: '0 6px 16px rgba(0,0,0,0.5)'
+      }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       {allItems.map((item, idx) => (
         <button
           key={item.key}
@@ -77,11 +67,34 @@ function AddMenu({ element, onClose }) {
   );
 }
 
+function getElementPositionInChildren(children, targetId) {
+  if (!children) return -1;
+  return children.findIndex(child => child.id === targetId);
+}
+
+function canMoveElement(element, direction, parentChildren) {
+  if (!parentChildren) return false;
+  const position = getElementPositionInChildren(parentChildren, element.id);
+  if (position === -1) return false;
+
+  if (direction === 'up') return position > 0;
+  if (direction === 'down') return position < parentChildren.length - 1;
+  return false;
+}
+
+
 export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, parentChildren }) {
   const [isOpen, setIsOpen] = useState(true);
-  const [showAddMenu, setShowAddMenu] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [shouldStayOpen, setShouldStayOpen] = useState(false);
+  const [isAddIconHovered, setIsAddIconHovered] = useState(false);
+  const [isMoveUpHovered, setIsMoveUpHovered] = useState(false);
+  const [isMoveDownHovered, setIsMoveDownHovered] = useState(false);
+  const [isDuplicateHovered, setIsDuplicateHovered] = useState(false);
+  const [isDeleteHovered, setIsDeleteHovered] = useState(false);
+  const [showAddMenu, setShowAddMenu] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const [menuTimeout, setMenuTimeout] = useState(null);
   const { state, dispatch } = usePageStore();
 
   const isSelected = state.selectedElementId === element.id;
@@ -89,7 +102,6 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
   const isSlot = element.type === 'slot';
   const isContainer = element.type === 'container';
   const hasChildren = element.children && element.children.length > 0;
-  const canAdd = isSlot || isContainer;  // Slots get "+" for content, segments don't (they auto-manage slots)
   const showActions = isHovered || isSelected;
   const isHiddenOnMobile = element.settings?.mobileHidden;
 
@@ -128,16 +140,16 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
   const handleSelect = () => dispatch(pageActions.selectElement(element.id, element.type));
   const handleDelete = (e) => { e.stopPropagation(); dispatch(pageActions.deleteElement(element.id)); };
   const handleDuplicate = (e) => { e.stopPropagation(); dispatch(pageActions.duplicateElement(element.id, element.type)); };
-  const handleMoveUp = (e) => { 
-    e.stopPropagation(); 
+  const handleMoveUp = (e) => {
+    e.stopPropagation();
     if (isSegment) {
       dispatch(pageActions.moveSegment(element.id, 'up'));
     } else {
       dispatch(pageActions.moveElement(element.id, 'up'));
     }
   };
-  const handleMoveDown = (e) => { 
-    e.stopPropagation(); 
+  const handleMoveDown = (e) => {
+    e.stopPropagation();
     if (isSegment) {
       dispatch(pageActions.moveSegment(element.id, 'down'));
     } else {
@@ -150,29 +162,16 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
     padding: '2px 3px', lineHeight: 1, flexShrink: 0
   };
 
-  // Segments don't get a "+" button (slots are managed by layout picker)
-  // Slots get a "+" button to add content
-  const addBtn = canAdd && !isSegment && (
-    <div style={{ position: 'relative' }}>
-      <button
-        onClick={(e) => { e.stopPropagation(); setShowAddMenu(!showAddMenu); }}
-        style={{ ...btn, width: '20px', height: '20px', background: '#4299e1', borderRadius: '3px', color: 'white', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        title="Add content"
-      >+</button>
-      {showAddMenu && <AddMenu element={element} onClose={() => setShowAddMenu(false)} />}
-    </div>
-  );
-
   // ── SEGMENT ──────────────────────────────────────────────
   if (isSegment) {
+    const IconComponent = TYPE_ICONS.segment;
     return (
       <div style={{
-        border: `2px solid ${isSelected ? '#4299e1' : segmentOpen ? '#2d3748' : '#4a5568'}`,
+        border: `2px solid ${segmentOpen ? '#2d3748' : '#4a5568'}`,
         borderRadius: '7px',
         marginBottom: '6px',
-        backgroundColor: isSelected ? '#2b6cb0' : segmentOpen ? '#2d3748' : '#1a202c',
-        transition: 'all 0.2s',
-        boxShadow: isSelected ? '0 2px 8px rgba(66, 153, 225, 0.3)' : 'none'
+        backgroundColor: segmentOpen ? '#2A303E' : '#1a202c',
+        transition: 'all 0.2s'
       }}>
         <div
           onClick={handleSelect}
@@ -182,18 +181,26 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
             display: 'flex', alignItems: 'center', gap: '6px',
             padding: '10px 12px',
             cursor: 'pointer', userSelect: 'none',
-            backgroundColor: isSelected ? '#2b6cb0' : isHovered ? '#374151' : 'transparent',
+            backgroundColor: isSelected ? '#4B5B84' : isHovered ? '#374151' : 'transparent',
             borderRadius: hasChildren && segmentOpen ? '5px 5px 0 0' : '5px',
           }}
         >
           {/* Collapse indicator — read-only, driven by selection */}
-          <span style={{ color: isSelected ? '#90cdf4' : '#718096', fontSize: '10px', width: '14px', flexShrink: 0 }}>
-            {hasChildren ? (segmentOpen ? '▾' : '▸') : ''}
-          </span>
+          <div style={{ width: '16px', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+            {hasChildren ? (
+              segmentOpen ? (
+                <ChevronDown size={14} color={isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'} />
+              ) : (
+                <ChevronRight size={14} color={isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'} />
+              )
+            ) : null}
+          </div>
+
+          <IconComponent size={16} color={isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'} />
 
           <span style={{
             flex: 1, fontSize: '14px', fontWeight: 600,
-            color: isSelected ? '#f7fafc' : segmentOpen ? '#e2e8f0' : '#a0aec0',
+            color: '#ffffff',
             letterSpacing: '0.01em',
             display: 'flex', alignItems: 'center', gap: '6px'
           }}>
@@ -201,8 +208,8 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
             {layoutLabel && (
               <span style={{
                 fontSize: '10px', fontWeight: 400,
-                color: isSelected ? '#93c5fd' : '#718096',
-                backgroundColor: isSelected ? 'rgba(147,197,253,0.15)' : 'rgba(113,128,150,0.15)',
+                color: '#ffffff',
+                backgroundColor: 'rgba(255, 255, 255, 0.15)',
                 padding: '1px 5px', borderRadius: '3px'
               }}>
                 {layoutLabel}
@@ -210,20 +217,58 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
             )}
           </span>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1px', opacity: showActions ? 1 : 0, transition: 'opacity 0.1s' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', opacity: showActions ? 1 : 0, transition: 'opacity 0.1s' }}>
             {segmentTotal > 1 && (
               <>
                 <button onClick={handleMoveUp} disabled={segmentIndex === 0} title="Move up"
-                  style={{ ...btn, color: segmentIndex === 0 ? '#4a5568' : '#718096', fontSize: '10px', cursor: segmentIndex === 0 ? 'default' : 'pointer' }}>▲</button>
+                  style={{ ...btn, color: segmentIndex === 0 ? 'rgba(255, 255, 255, 0.3)' : isMoveUpHovered ? '#60a5fa' : '#ffffff', cursor: segmentIndex === 0 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  onMouseEnter={() => setIsMoveUpHovered(true)}
+                  onMouseLeave={() => setIsMoveUpHovered(false)}
+                >
+                  <ArrowUp size={12} color={segmentIndex === 0 ? 'rgba(255, 255, 255, 0.3)' : isMoveUpHovered ? '#60a5fa' : '#ffffff'} />
+                </button>
                 <button onClick={handleMoveDown} disabled={segmentIndex === segmentTotal - 1} title="Move down"
-                  style={{ ...btn, color: segmentIndex === segmentTotal - 1 ? '#4a5568' : '#718096', fontSize: '10px', cursor: segmentIndex === segmentTotal - 1 ? 'default' : 'pointer' }}>▼</button>
+                  style={{ ...btn, color: segmentIndex === segmentTotal - 1 ? 'rgba(255, 255, 255, 0.3)' : isMoveDownHovered ? '#60a5fa' : '#ffffff', cursor: segmentIndex === segmentTotal - 1 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  onMouseEnter={() => setIsMoveDownHovered(true)}
+                  onMouseLeave={() => setIsMoveDownHovered(false)}
+                >
+                  <ArrowDown size={12} color={segmentIndex === segmentTotal - 1 ? 'rgba(255, 255, 255, 0.3)' : isMoveDownHovered ? '#60a5fa' : '#ffffff'} />
+                </button>
               </>
             )}
-            <button onClick={handleDuplicate} title="Duplicate"
-              style={{ ...btn, color: '#718096', fontSize: '13px' }}>⧉</button>
-            <button onClick={handleDelete}
-              style={{ ...btn, color: '#fc8181', fontSize: '10px', opacity: 0.8 }}>✕</button>
-            {addBtn}
+            <div style={{ position: 'relative' }}
+              onMouseEnter={(e) => {
+                if (menuTimeout) clearTimeout(menuTimeout);
+                const rect = e.currentTarget.getBoundingClientRect();
+                setMenuPosition({ x: rect.left, y: rect.bottom + 4 });
+                setShowAddMenu(true);
+              }}
+              onMouseLeave={() => {
+                const timeout = setTimeout(() => setShowAddMenu(false), 300);
+                setMenuTimeout(timeout);
+              }}
+            >
+              <CirclePlus
+                size={14}
+                color={isAddIconHovered ? '#10b981' : '#ffffff'}
+                style={{ cursor: 'pointer' }}
+                title="Add content"
+                onMouseEnter={() => setIsAddIconHovered(true)}
+                onMouseLeave={() => setIsAddIconHovered(false)}
+              />
+              {showAddMenu && (
+                <AddMenu 
+                  element={element} 
+                  onClose={() => setShowAddMenu(false)} 
+                  position={menuPosition}
+                  onMouseEnter={() => { if (menuTimeout) clearTimeout(menuTimeout); }}
+                  onMouseLeave={() => {
+                    const timeout = setTimeout(() => setShowAddMenu(false), 100);
+                    setMenuTimeout(timeout);
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
 
@@ -241,118 +286,184 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
   // ── SLOT / CONTAINER / CONTENT ITEM ──────────────────────────────
   const indent = (level - 1) * 12;
   const isSlotOrContainer = isSlot || isContainer;
+  const IconComponent = TYPE_ICONS[element.type] || Layout;
+  const isContentElement = !isSlot && !isContainer && !isSegment;
+
+  const elementRow = (
+    <div
+      onClick={handleSelect}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        display: 'flex', alignItems: 'center', gap: '5px',
+        padding: isSlotOrContainer ? '7px 9px' : '5px 9px',
+        cursor: 'pointer', userSelect: 'none',
+        backgroundColor: isSelected ? '#4B5B84' : isHovered ? '#374151' : 'transparent',
+        borderRadius: '4px',
+        borderLeft: '3px solid transparent',
+        marginBottom: '2px',
+        transition: 'all 0.15s'
+      }}
+    >
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          if (hasChildren) {
+            setIsOpen(!isOpen);
+            if (isOpen) {
+              setShouldStayOpen(false);
+            }
+          }
+        }}
+        style={{ ...btn, color: hasChildren ? 'rgba(255, 255, 255, 0.7)' : 'transparent', width: '16px', cursor: hasChildren ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        {hasChildren ? (
+          isOpen ? (
+            <ChevronDown size={12} color={isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'} />
+          ) : (
+            <ChevronRight size={12} color={isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'} />
+          )
+        ) : null}
+      </button>
+
+      <div style={{ width: '16px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <IconComponent size={isSlotOrContainer ? 14 : 12} color={isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'} />
+      </div>
+
+      <span style={{
+        flex: 1,
+        fontSize: isSlotOrContainer ? '12px' : '11px',
+        color: '#ffffff',
+        fontWeight: isSlotOrContainer ? 500 : 400,
+        display: 'flex', alignItems: 'center', gap: '4px'
+      }}>
+        {labelText}
+        {isHiddenOnMobile && (
+          <span title="Hidden on mobile" style={{ fontSize: '9px', color: '#f59e0b', opacity: 0.8 }}>📱✕</span>
+        )}
+      </span>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1px', opacity: showActions ? 1 : 0, transition: 'opacity 0.1s' }}>
+          {!isSegment && parentChildren && parentChildren.length > 1 && (
+            <>
+              <button
+                onClick={handleMoveUp}
+                disabled={!canMoveElement(element, 'up', parentChildren)}
+                title="Move up"
+                style={{
+                  ...btn,
+                  color: canMoveElement(element, 'up', parentChildren) ? (isMoveUpHovered ? '#60a5fa' : '#ffffff') : 'rgba(255, 255, 255, 0.3)',
+                  cursor: canMoveElement(element, 'up', parentChildren) ? 'pointer' : 'default',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}
+                onMouseEnter={() => setIsMoveUpHovered(true)}
+                onMouseLeave={() => setIsMoveUpHovered(false)}
+              >
+                <ArrowUp size={10} color={canMoveElement(element, 'up', parentChildren) ? (isMoveUpHovered ? '#60a5fa' : '#ffffff') : 'rgba(255, 255, 255, 0.3)'} />
+              </button>
+              <button
+                onClick={handleMoveDown}
+                disabled={!canMoveElement(element, 'down', parentChildren)}
+                title="Move down"
+                style={{
+                  ...btn,
+                  color: canMoveElement(element, 'down', parentChildren) ? (isMoveDownHovered ? '#60a5fa' : '#ffffff') : 'rgba(255, 255, 255, 0.3)',
+                  cursor: canMoveElement(element, 'down', parentChildren) ? 'pointer' : 'default',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}
+                onMouseEnter={() => setIsMoveDownHovered(true)}
+                onMouseLeave={() => setIsMoveDownHovered(false)}
+              >
+                <ArrowDown size={10} color={canMoveElement(element, 'down', parentChildren) ? (isMoveDownHovered ? '#60a5fa' : '#ffffff') : 'rgba(255, 255, 255, 0.3)'} />
+              </button>
+            </>
+          )}
+          {isSlotOrContainer && (
+            <div style={{ position: 'relative', marginRight: '4px' }}
+              onMouseEnter={(e) => {
+                if (menuTimeout) clearTimeout(menuTimeout);
+                const rect = e.currentTarget.getBoundingClientRect();
+                setMenuPosition({ x: rect.left, y: rect.bottom + 4 });
+                setShowAddMenu(true);
+              }}
+              onMouseLeave={() => {
+                const timeout = setTimeout(() => setShowAddMenu(false), 300);
+                setMenuTimeout(timeout);
+              }}
+            >
+              <CirclePlus
+                size={12}
+                color={isAddIconHovered ? '#10b981' : '#ffffff'}
+                style={{ cursor: 'pointer' }}
+                title="Add content"
+                onMouseEnter={() => setIsAddIconHovered(true)}
+                onMouseLeave={() => setIsAddIconHovered(false)}
+              />
+              {showAddMenu && (
+                <AddMenu 
+                  element={element} 
+                  onClose={() => setShowAddMenu(false)} 
+                  position={menuPosition}
+                  onMouseEnter={() => { if (menuTimeout) clearTimeout(menuTimeout); }}
+                  onMouseLeave={() => {
+                    const timeout = setTimeout(() => setShowAddMenu(false), 100);
+                    setMenuTimeout(timeout);
+                  }}
+                />
+              )}
+            </div>
+          )}
+          {isContentElement && (
+            <>
+              <button onClick={handleDuplicate} title="Duplicate"
+                style={{ ...btn, color: isDuplicateHovered ? '#60a5fa' : '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                onMouseEnter={() => setIsDuplicateHovered(true)}
+                onMouseLeave={() => setIsDuplicateHovered(false)}
+              >
+                <Copy size={12} color={isDuplicateHovered ? '#60a5fa' : '#ffffff'} />
+              </button>
+              <button onClick={handleDelete}
+                style={{ ...btn, color: isDeleteHovered ? '#f87171' : '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                onMouseEnter={() => setIsDeleteHovered(true)}
+                onMouseLeave={() => setIsDeleteHovered(false)}
+              >
+                <Trash size={12} color={isDeleteHovered ? '#f87171' : '#ffffff'} />
+              </button>
+            </>
+          )}
+        </div>
+    </div>
+  );
+
+  const childrenContainer = isOpen && hasChildren && (
+    <div style={{
+      marginTop: '4px'
+    }}>
+      {element.children.map(child => (
+        <TreeNode key={child.id} element={child} level={level + 1} parentChildren={element.children} />
+      ))}
+    </div>
+  );
+
+  if (isSlotOrContainer && isOpen && hasChildren) {
+    return (
+      <div style={{ marginLeft: `${indent}px` }}>
+        <div style={{
+          backgroundColor: isSlot ? '#3C4355' : isContainer ? '#434C64' : 'transparent',
+          borderRadius: '4px',
+          padding: '8px 6px'
+        }}>
+          {elementRow}
+          {childrenContainer}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ marginLeft: `${indent}px` }}>
-      <div
-        onClick={handleSelect}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        style={{
-          display: 'flex', alignItems: 'center', gap: '5px',
-          padding: isSlotOrContainer ? '7px 9px' : '5px 9px',
-          cursor: 'pointer', userSelect: 'none',
-          backgroundColor: isSelected ? '#2b6cb0' : isHovered ? '#374151' : 'transparent',
-          borderRadius: '4px',
-          borderLeft: isSlotOrContainer ? `3px solid ${isSelected ? '#4299e1' : '#718096'}` : '3px solid transparent',
-          marginBottom: '2px',
-          transition: 'all 0.15s'
-        }}
-      >
-        <button
-          onClick={(e) => { 
-            e.stopPropagation(); 
-            if (hasChildren) {
-              setIsOpen(!isOpen);
-              if (isOpen) {
-                setShouldStayOpen(false);
-              }
-            }
-          }}
-          style={{ ...btn, color: hasChildren ? '#718096' : 'transparent', fontSize: '9px', width: '12px', cursor: hasChildren ? 'pointer' : 'default' }}
-        >
-          {hasChildren ? (isOpen ? '▾' : '▸') : ''}
-        </button>
-
-        <span style={{
-          fontSize: '10px', width: '14px', textAlign: 'center', flexShrink: 0,
-          color: isSelected ? '#90cdf4' : isSlotOrContainer ? '#718096' : '#4a5568',
-          fontWeight: isSlotOrContainer ? 600 : 400
-        }}>
-          {TYPE_ICONS[element.type] || '•'}
-        </span>
-
-        <span style={{
-          flex: 1,
-          fontSize: isSlotOrContainer ? '12px' : '11px',
-          color: isSelected ? '#f7fafc' : isSlotOrContainer ? '#e2e8f0' : '#a0aec0',
-          fontWeight: isSlotOrContainer ? 500 : 400,
-          display: 'flex', alignItems: 'center', gap: '4px'
-        }}>
-          {labelText}
-          {isHiddenOnMobile && (
-            <span title="Hidden on mobile" style={{ fontSize: '9px', color: '#f59e0b', opacity: 0.8 }}>📱✕</span>
-          )}
-        </span>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1px', opacity: showActions ? 1 : 0, transition: 'opacity 0.1s' }}>
-          {!isSegment && parentChildren && parentChildren.length > 1 && (
-            <>
-              <button 
-                onClick={handleMoveUp} 
-                disabled={!canMoveElement(element, 'up', parentChildren)} 
-                title="Move up"
-                style={{ 
-                  ...btn, 
-                  color: canMoveElement(element, 'up', parentChildren) ? '#718096' : '#4a5568', 
-                  fontSize: '10px', 
-                  cursor: canMoveElement(element, 'up', parentChildren) ? 'pointer' : 'default' 
-                }}
-              >▲</button>
-              <button 
-                onClick={handleMoveDown} 
-                disabled={!canMoveElement(element, 'down', parentChildren)} 
-                title="Move down"
-                style={{ 
-                  ...btn, 
-                  color: canMoveElement(element, 'down', parentChildren) ? '#718096' : '#4a5568', 
-                  fontSize: '10px', 
-                  cursor: canMoveElement(element, 'down', parentChildren) ? 'pointer' : 'default' 
-                }}
-              >▼</button>
-            </>
-          )}
-          {!isSlot && (
-            <button onClick={handleDuplicate} title="Duplicate"
-              style={{ ...btn, color: '#718096', fontSize: '12px' }}>⧉</button>
-          )}
-          {!isSlot ? (
-            <button onClick={handleDelete}
-              style={{ ...btn, color: '#fc8181', fontSize: '10px', opacity: 0.8 }}>✕</button>
-          ) : (
-            <button disabled title="Change the segment layout to adjust slots"
-              style={{ ...btn, color: '#4a5568', fontSize: '10px', opacity: 0.4, cursor: 'not-allowed' }}>✕</button>
-          )}
-          {canAdd && (
-            <div style={{ position: 'relative' }}>
-              <button
-                onClick={(e) => { e.stopPropagation(); setShowAddMenu(!showAddMenu); }}
-                style={{ ...btn, width: '18px', height: '18px', background: '#4299e1', borderRadius: '3px', color: 'white', fontSize: '13px', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                title="Add"
-              >+</button>
-              {showAddMenu && <AddMenu element={element} onClose={() => setShowAddMenu(false)} />}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {isOpen && hasChildren && (
-        <div style={{ borderLeft: '1px solid #4a5568', marginLeft: '13px' }}>
-          {element.children.map(child => (
-            <TreeNode key={child.id} element={child} level={level + 1} parentChildren={element.children} />
-          ))}
-        </div>
-      )}
+      {elementRow}
+      {childrenContainer}
     </div>
   );
 }
