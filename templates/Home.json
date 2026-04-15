@@ -14,7 +14,8 @@
       "accent": "#ec4899",
       "text": "#1f2937",
       "background": "#f9fafb",
-      "neutral": "#6b7280"
+      "neutral": "#6b7280",
+      "card": "#ffffff"
     },
     "fonts": {
       "heading1": {
@@ -56,7 +57,9 @@
           "color2": "#ff7b00",
           "angle": 129
         },
-        "fontSize": 18
+        "fontSize": 18,
+        "bgColorSlot": "primary",
+        "textColorSlot": "custom"
       },
       {
         "id": "secondary",
@@ -67,7 +70,9 @@
         "radius": 999,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 16
+        "fontSize": 16,
+        "bgColorSlot": "neutral",
+        "textColorSlot": "text"
       },
       {
         "id": "tertiary",
@@ -78,7 +83,9 @@
         "radius": 999,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "custom",
+        "textColorSlot": "primary"
       }
     ],
     "shapes": {
@@ -92,7 +99,8 @@
       "xl": 48
     },
     "bgColor": "#705543",
-    "segmentSpacing": "lg"
+    "segmentSpacing": "lg",
+    "bgColorSlot": "background"
   },
   "root": [
     {
@@ -135,7 +143,7 @@
       },
       "children": [
         {
-          "id": "slot-1776072663128-qrsr",
+          "id": "slot-1776240057368-bx0g",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -249,7 +257,7 @@
           ]
         },
         {
-          "id": "slot-1776072663128-b2ls",
+          "id": "slot-1776240057368-qhj5",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -346,7 +354,7 @@
       },
       "children": [
         {
-          "id": "slot-1776072663128-nwg3",
+          "id": "slot-1776240057368-3aap",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -490,7 +498,7 @@
       },
       "children": [
         {
-          "id": "slot-1776072663128-qkph",
+          "id": "slot-1776240057368-6p99",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -525,7 +533,7 @@
           "children": []
         },
         {
-          "id": "slot-1776072663128-obgu",
+          "id": "slot-1776240057368-83o8",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -560,7 +568,7 @@
           "children": []
         },
         {
-          "id": "slot-1776072663128-r2gj",
+          "id": "slot-1776240057368-63vi",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -626,7 +634,7 @@
       },
       "children": [
         {
-          "id": "slot-1776072663128-c9wa",
+          "id": "slot-1776240057368-bv3j",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -690,7 +698,7 @@
       },
       "children": [
         {
-          "id": "slot-1776072663128-ll2j",
+          "id": "slot-1776240057368-giwp",
           "name": "Column 1",
           "type": "slot",
           "settings": {
