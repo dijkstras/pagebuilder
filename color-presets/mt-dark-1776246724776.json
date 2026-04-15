@@ -1,0 +1,13 @@
+{
+  "name": "MT Dark",
+  "colors": {
+    "primary": "#ff8b1f",
+    "secondary": "#fdc86d",
+    "accent": "#66ae1e",
+    "text": "#ffffff",
+    "background": "#000000",
+    "neutral": "#20201d",
+    "card": "#1d1d20"
+  },
+  "savedAt": "2026-04-15T09:52:04.776Z"
+}
