@@ -239,7 +239,8 @@
         "headingFont": "heading1",
         "headingAlignment": "left",
         "headingColor": "#000000",
-        "headingColorSlot": null
+        "headingColorSlot": null,
+        "bgType": "gradient"
       },
       "children": [
         {
