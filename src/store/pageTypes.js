@@ -149,6 +149,8 @@ export const createSegment = (name = 'Segment', layout = 'full') => {
       elevationEnabled: false,
       elevation: 4,
       borderRadius: 0,
+      hidden: false,
+      mobileHidden: false,
       headingEnabled: false,
       headingContent: 'Section Heading',
       headingFont: 'heading1',
@@ -182,8 +184,9 @@ export const createSlot = (name = 'Column', gridColumn = 12) => ({
     elevationEnabled: false,
     elevation: 4,
     borderRadius: 0,
+    hidden: false,
+    mobileHidden: false,
     responsive: {
-      hideOnMobile: false,
       mobileOrder: null
     }
   },
@@ -215,8 +218,9 @@ export const createContainer = (name = 'Container') => ({
     elevationEnabled: false,
     elevation: 4,
     borderRadius: 0,
+    hidden: false,
+    mobileHidden: false,
     responsive: {
-      hideOnMobile: false,
       mobileOrder: null
     },
     mobileOverrides: {}
@@ -242,10 +246,8 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
         borderWidth: 1,
         borderColor: '#9ca3af',
         borderRadius: 4,
-        responsive: {
-          hideOnMobile: false,
-          hideOnDesktop: false
-        },
+        hidden: false,
+        mobileHidden: false,
         responsiveVariants: {
           mobile: {},
           tablet: {},
@@ -277,6 +279,8 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
         borderRadius: 8,
         elevationEnabled: true,
         elevation: 4,
+        hidden: false,
+        mobileHidden: false,
         // Card elements
         showImage: true,
         showText: true,
@@ -322,10 +326,8 @@ export const createContentItem = (contentType = CONTENT_TYPES.TEXT) => {
             : contentType === CONTENT_TYPES.VIDEO
               ? { src: '' }
               : {},
-      responsive: {
-        hideOnMobile: false,
-        hideOnDesktop: false
-      },
+      hidden: false,
+      mobileHidden: false,
       responsiveVariants: {
         mobile: {},
         tablet: {},
@@ -409,6 +411,17 @@ function migrateContentItem(item) {
   const responsive = settings.responsive ?? { hideOnMobile: false, hideOnDesktop: false };
   const mobileOverrides = settings.mobileOverrides ?? {};
 
+  // Convert old responsive.hideOnMobile/hideOnDesktop to new hidden/mobileHidden
+  let hidden = settings.hidden ?? false;
+  let mobileHidden = settings.mobileHidden ?? false;
+
+  if (responsive.hideOnDesktop && !hidden) {
+    hidden = true;
+  }
+  if (responsive.hideOnMobile && !mobileHidden) {
+    mobileHidden = true;
+  }
+
   if (item.type === 'button') {
     const overrides = settings.customOverrides ?? {};
     const needsIcon = !overrides.icon;
@@ -417,7 +430,8 @@ function migrateContentItem(item) {
       ...item,
       settings: {
         ...settings,
-        responsive,
+        hidden,
+        mobileHidden,
         mobileOverrides,
         customOverrides: {
           ...overrides,
@@ -428,10 +442,10 @@ function migrateContentItem(item) {
     };
   }
 
-  // All other types: just ensure responsive and mobileOverrides exist
+  // All other types: just ensure hidden and mobileHidden exist
   return {
     ...item,
-    settings: { ...settings, responsive, mobileOverrides }
+    settings: { ...settings, hidden, mobileHidden, mobileOverrides }
   };
 }
 
@@ -513,7 +527,10 @@ function migrateSegment(segment) {
         elevationEnabled: false,
         elevation: 4,
         borderRadius: 0,
-        responsive: { hideOnMobile: false, mobileOrder: null }
+        hidden: false,
+        mobileHidden: false,
+        responsive: { mobileOrder: null },
+        mobileOverrides: {}
       },
       children: looseContent.map(migrateContentItem)
     });
@@ -549,6 +566,8 @@ function migrateSegment(segment) {
       elevationEnabled: s.elevationEnabled ?? false,
       elevation: s.elevation ?? 4,
       borderRadius: s.borderRadius ?? 0,
+      hidden: s.hidden ?? false,
+      mobileHidden: s.mobileHidden ?? false,
       mobileOverrides: s.mobileOverrides ?? {}
     },
     children: migratedChildren
@@ -559,6 +578,17 @@ function migrateContainerToSlot(container, presetSpan) {
   const s = container.settings ?? {};
   const legacyColumnMap = { 1: 12, 2: 6, 3: 4, 4: 3 };
   const gridColumn = s.gridColumn ?? s.columnSpan ?? (s.columns ? (legacyColumnMap[s.columns] ?? 12) : presetSpan ?? 12);
+
+  // Convert old responsive.hideOnMobile to new hidden/mobileHidden
+  const responsive = s.responsive ?? { hideOnMobile: false, mobileOrder: null };
+  const hidden = s.hidden ?? false;
+  const mobileHidden = s.mobileHidden ?? false;
+  const mobileOverrides = s.mobileOverrides ?? {};
+
+  let newMobileHidden = mobileHidden;
+  if (responsive.hideOnMobile && !newMobileHidden) {
+    newMobileHidden = true;
+  }
 
   return {
     ...container,
@@ -585,8 +615,10 @@ function migrateContainerToSlot(container, presetSpan) {
       elevationEnabled: s.elevationEnabled ?? false,
       elevation: s.elevation ?? 4,
       borderRadius: s.borderRadius ?? 0,
-      responsive: s.responsive ?? { hideOnMobile: false, mobileOrder: null },
-      mobileOverrides: s.mobileOverrides ?? {}
+      hidden,
+      mobileHidden: newMobileHidden,
+      responsive: { mobileOrder: responsive.mobileOrder ?? null },
+      mobileOverrides
     },
     children: (container.children ?? []).map(migrateContentItem)
   };

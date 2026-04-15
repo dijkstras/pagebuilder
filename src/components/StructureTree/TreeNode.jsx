@@ -91,7 +91,7 @@ export function TreeNode({ element, level = 0, segmentIndex, segmentTotal, paren
   const hasChildren = element.children && element.children.length > 0;
   const canAdd = isSlot || isContainer;  // Slots get "+" for content, segments don't (they auto-manage slots)
   const showActions = isHovered || isSelected;
-  const isHiddenOnMobile = element.settings?.responsive?.hideOnMobile;
+  const isHiddenOnMobile = element.settings?.mobileHidden;
 
   // Update shouldStayOpen when selection changes
   React.useEffect(() => {

@@ -338,7 +338,9 @@ export function generateHTML(page, selectedElementId, options = {}) {
 }
 
 function renderSegment(segment, page, segmentHorizontalScroll = false) {
-  if (segment.settings.hidden) return '';
+  const hidden = segment.settings.hidden;
+  const mobileHidden = segment.settings.mobileHidden;
+  
   const maxWidth = segment.settings.maxWidth;
   const bgSize = segment.settings.bgSize || 'cover';
   const gapKey = segment.settings.gap || 'md';
@@ -498,7 +500,7 @@ function renderSegment(segment, page, segmentHorizontalScroll = false) {
     display: hScroll ? 'flex' : undefined
   });
 
-  return `<section style="${outerStyle}" data-element-id="${segment.id}">
+  const segmentHtml = `<section style="${outerStyle}" data-element-id="${segment.id}">
   ${segmentVideoBg}
   ${bgImageOverlay}
   ${headingHtml}
@@ -508,6 +510,12 @@ function renderSegment(segment, page, segmentHorizontalScroll = false) {
     </div>
   </div>
 </section>`;
+
+  // Wrap with visibility classes
+  if (hidden && mobileHidden) return ''; // Hidden on both
+  if (hidden && !mobileHidden) return `<div class="md:hidden">${segmentHtml}</div>`; // Hidden on desktop only
+  if (!hidden && mobileHidden) return `<div class="hidden md:block">${segmentHtml}</div>`; // Hidden on mobile only
+  return segmentHtml; // Visible on both
 }
 
 function renderSlot(slot, page, segmentHScroll = false, isNested = false) {
@@ -555,9 +563,24 @@ function renderSlot(slot, page, segmentHScroll = false, isNested = false) {
     if (span !== 12) twClasses.push(`md:col-span-${span}`);
   }
 
-  // Responsive visibility
+  // Responsive visibility - independent desktop and mobile settings
   const resp = slot.settings.responsive;
-  if (resp?.hideOnMobile) twClasses.push('hidden', 'md:block');
+  const hidden = slot.settings.hidden;
+  const mobileHidden = slot.settings.mobileHidden;
+  
+  // Mobile visibility (hidden on mobile, visible on desktop)
+  if (mobileHidden && !hidden) {
+    twClasses.push('hidden', 'md:block');
+  }
+  // Desktop visibility (hidden on desktop, visible on mobile)
+  else if (hidden && !mobileHidden) {
+    twClasses.push('md:hidden');
+  }
+  // Hidden on both
+  else if (hidden && mobileHidden) {
+    twClasses.push('hidden');
+  }
+  
   if (resp?.mobileOrder != null) {
     twClasses.push(`order-${resp.mobileOrder}`, 'md:order-none');
   }
@@ -675,11 +698,24 @@ function sizeOverrides(item) {
 }
 
 function getContentResponsiveClasses(item) {
-  const r = item.settings?.responsive;
-  if (!r) return '';
+  const settings = item.settings || {};
   const classes = [];
-  if (r.hideOnMobile) classes.push('hidden md:block');
-  if (r.hideOnDesktop) classes.push('md:hidden');
+  const hidden = settings.hidden;
+  const mobileHidden = settings.mobileHidden;
+  
+  // Mobile visibility (hidden on mobile, visible on desktop)
+  if (mobileHidden && !hidden) {
+    classes.push('hidden', 'md:block');
+  }
+  // Desktop visibility (hidden on desktop, visible on mobile)
+  else if (hidden && !mobileHidden) {
+    classes.push('md:hidden');
+  }
+  // Hidden on both
+  else if (hidden && mobileHidden) {
+    classes.push('hidden');
+  }
+  
   return classes.join(' ');
 }
 

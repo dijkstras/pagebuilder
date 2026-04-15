@@ -1345,68 +1345,33 @@ export function ContentSettings() {
       )}
 
       {/* ── Visibility ── */}
-      <MobileOverrideWrap hasOverride={hasOverride('hidden')} style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
+      <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
         <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Visibility</label>
-        {(() => {
-          const responsive = content.settings.responsive || {};
-          const handleResponsiveUpdate = (key, value) => {
-            dispatch(pageActions.updateElement(content.id, {
-              settings: { ...content.settings, responsive: { ...responsive, [key]: value } }
-            }));
-          };
-          const bothHidden = responsive.hideOnMobile && responsive.hideOnDesktop;
-          return (
-            <>
-              <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
-                <input
-                  type="checkbox"
-                  checked={isMobile ? !(getSetting('hidden', false)) : !(content.settings.hidden || false)}
-                  onChange={(e) => handleSettingUpdate('hidden', !e.target.checked)}
-                  style={{ cursor: 'pointer' }}
-                />
-                Visible{isMobile ? ' on mobile' : ''}
-                <MobileOverrideDot hasOverride={hasOverride('hidden')} onClear={() => clearOverride('hidden')} />
-              </label>
-              {isMobile && (
-                <div style={{ fontSize: '11px', color: '#6b7280', marginBottom: '8px', marginLeft: '24px' }}>
-                  Overrides desktop visibility on mobile
-                </div>
-              )}
-              {!isMobile && (
-                <>
-                  <div style={{ marginBottom: '6px' }}>
-                    <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                      <input
-                        type="checkbox"
-                        checked={responsive.hideOnMobile || false}
-                        onChange={(e) => handleResponsiveUpdate('hideOnMobile', e.target.checked)}
-                        style={{ cursor: 'pointer' }}
-                      />
-                      Hide on mobile
-                    </label>
-                  </div>
-                  <div style={{ marginBottom: '6px' }}>
-                    <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                      <input
-                        type="checkbox"
-                        checked={responsive.hideOnDesktop || false}
-                        onChange={(e) => handleResponsiveUpdate('hideOnDesktop', e.target.checked)}
-                        style={{ cursor: 'pointer' }}
-                      />
-                      Hide on desktop
-                    </label>
-                  </div>
-                  {bothHidden && (
-                    <div style={{ fontSize: '11px', color: '#f59e0b', marginTop: '4px' }}>
-                      Warning: hidden on both mobile and desktop.
-                    </div>
-                  )}
-                </>
-              )}
-            </>
-          );
-        })()}
-      </MobileOverrideWrap>
+        
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
+          <input
+            type="checkbox"
+            checked={!(content.settings.hidden || false)}
+            onChange={(e) => dispatch(pageActions.updateElement(content.id, {
+              settings: { ...content.settings, hidden: !e.target.checked }
+            }))}
+            style={{ cursor: 'pointer' }}
+          />
+          Visible on desktop
+        </label>
+        
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
+          <input
+            type="checkbox"
+            checked={!(content.settings.mobileHidden || false)}
+            onChange={(e) => dispatch(pageActions.updateElement(content.id, {
+              settings: { ...content.settings, mobileHidden: !e.target.checked }
+            }))}
+            style={{ cursor: 'pointer' }}
+          />
+          Visible on mobile
+        </label>
+      </div>
     </div>
   );
 }

@@ -774,24 +774,29 @@ export function SegmentSettings() {
       </div>
 
       {/* Visibility */}
-      <MobileOverrideWrap hasOverride={hasOverride('hidden')} style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
+      <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
         <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Visibility</label>
-        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+        
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
           <input
             type="checkbox"
-            checked={isMobile ? !(getSetting('hidden', false)) : !(segment.settings.hidden || false)}
+            checked={!(segment.settings.hidden || false)}
             onChange={(e) => handleUpdate('hidden', !e.target.checked)}
             style={{ cursor: 'pointer' }}
           />
-          Visible{isMobile ? ' on mobile' : ''}
-          <MobileOverrideDot hasOverride={hasOverride('hidden')} onClear={() => clearOverride('hidden')} />
+          Visible on desktop
         </label>
-        {isMobile && (
-          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px', marginLeft: '24px' }}>
-            Overrides desktop visibility on mobile
-          </div>
-        )}
-      </MobileOverrideWrap>
+        
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
+          <input
+            type="checkbox"
+            checked={!(segment.settings.mobileHidden || false)}
+            onChange={(e) => handleUpdate('mobileHidden', !e.target.checked)}
+            style={{ cursor: 'pointer' }}
+          />
+          Visible on mobile
+        </label>
+      </div>
     </div>
   );
 }
