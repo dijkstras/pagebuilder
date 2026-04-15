@@ -283,13 +283,13 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#008a10",
-      "secondary": "#8b5cf6",
-      "accent": "#ec4899",
-      "text": "#1f2937",
-      "background": "#bddeff",
-      "neutral": "#6b7280",
-      "card": "#ffffff"
+      "primary": "#111111",
+      "secondary": "#555555",
+      "accent": "#888888",
+      "text": "#111111",
+      "background": "#FFFFFF",
+      "neutral": "#F5F5F5",
+      "card": "#FFFFFF"
     },
     "fonts": {
       "heading1": {
