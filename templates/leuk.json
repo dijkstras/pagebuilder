@@ -43,11 +43,12 @@
         "mobileOverrides": {
           "gap": "md"
         },
-        "hidden": false
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1776240085579-x8x6",
+          "id": "slot-1776241462260-p4am",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -78,7 +79,8 @@
               "contentAlignment": "center"
             },
             "overflow": "wrap",
-            "hidden": false
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -104,7 +106,8 @@
                 "mobileOverrides": {
                   "textAlign": "center"
                 },
-                "hidden": false
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -130,7 +133,8 @@
                 "mobileOverrides": {
                   "textAlign": "center"
                 },
-                "hidden": false
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -161,13 +165,14 @@
                   "hideOnDesktop": false
                 },
                 "mobileOverrides": {},
-                "hidden": false
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
         },
         {
-          "id": "slot-1776240085580-228n",
+          "id": "slot-1776241462260-nmjb",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -202,7 +207,8 @@
             "overflow": "wrap",
             "bgPositionX": "center",
             "bgPositionY": "center",
-            "hidden": false
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": []
         }
@@ -249,11 +255,13 @@
           "color2": "#555555",
           "angle": 90
         },
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1776240085580-n8w9",
+          "id": "slot-1776241462260-x1pi",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -280,7 +288,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "mobileHidden": false
           },
           "children": []
         }
