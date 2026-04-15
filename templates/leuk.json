@@ -47,7 +47,7 @@
       },
       "children": [
         {
-          "id": "slot-1776240063766-3leu",
+          "id": "slot-1776240075190-xomi",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -72,13 +72,13 @@
             "gridColumn": 8,
             "height": "auto",
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": 2
             },
             "mobileOverrides": {
               "contentAlignment": "center"
             },
-            "overflow": "wrap"
+            "overflow": "wrap",
+            "hidden": false
           },
           "children": [
             {
@@ -103,7 +103,8 @@
                 },
                 "mobileOverrides": {
                   "textAlign": "center"
-                }
+                },
+                "hidden": false
               }
             },
             {
@@ -128,7 +129,8 @@
                 },
                 "mobileOverrides": {
                   "textAlign": "center"
-                }
+                },
+                "hidden": false
               }
             },
             {
@@ -158,13 +160,14 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false
               }
             }
           ]
         },
         {
-          "id": "slot-1776240063766-flhm",
+          "id": "slot-1776240075190-056k",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -190,7 +193,6 @@
             "bgGradient": null,
             "gridColumn": 4,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": 1
             },
             "mobileOverrides": {
@@ -199,7 +201,8 @@
             },
             "overflow": "wrap",
             "bgPositionX": "center",
-            "bgPositionY": "center"
+            "bgPositionY": "center",
+            "hidden": false
           },
           "children": []
         }
@@ -250,7 +253,7 @@
       },
       "children": [
         {
-          "id": "slot-1776240063766-520c",
+          "id": "slot-1776240075190-nu9h",
           "name": "Column 1",
           "type": "slot",
           "settings": {
