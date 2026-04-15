@@ -342,7 +342,7 @@
         "id": "primary",
         "label": "Primary",
         "bgColor": "#FF2D78",
-        "textColor": "#F5F5F5",
+        "textColor": "#111111",
         "padding": 12,
         "radius": 6,
         "bgType": "gradient",
@@ -355,7 +355,7 @@
         },
         "fontSize": 14,
         "bgColorSlot": "primary",
-        "textColorSlot": "text"
+        "textColorSlot": "background"
       },
       {
         "id": "secondary",
