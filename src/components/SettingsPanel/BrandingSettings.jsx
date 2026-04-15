@@ -4,6 +4,8 @@ import { ColorPresets, ColorSlotPicker, resolveSlotColor } from './ColorPresets.
 import { GradientPicker } from './GradientPicker';
 import { MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
 import { getWeightOptions, generateFontsUrl } from '../../utils/googleFonts.js';
+import { colorPresetStorage } from '../../services/colorPresetStorage.js';
+import { typographyPresetStorage } from '../../services/typographyPresetStorage.js';
 
 // Hook for page-level mobile overrides (branding lives in page.styles / page.mobileOverrides)
 function useBrandingMobileOverride(section) {
@@ -151,9 +153,242 @@ const TYPOGRAPHY_STYLES = [
   { key: 'button', label: 'Button', previewText: 'Button' }
 ];
 
+function TypographyPresets({ onApply, currentFonts }) {
+  const [savedPresets, setSavedPresets] = useState([]);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [saveName, setSaveName] = useState('');
+  const [saveStatus, setSaveStatus] = useState('idle');
+
+  // Ensure currentFonts is never undefined
+  const safeCurrentFonts = currentFonts ?? {
+    heading1: { family: 'Inter', size: 48, weight: 700 },
+    heading2: { family: 'Inter', size: 32, weight: 600 },
+    body: { family: 'Inter', size: 16, weight: 400 },
+    label: { family: 'Inter', size: 12, weight: 500 },
+    button: { family: 'Inter', weight: 500 }
+  };
+
+  useEffect(() => {
+    loadSavedPresets();
+  }, []);
+
+  const loadSavedPresets = async () => {
+    try {
+      const presets = await typographyPresetStorage.getAll();
+      // Ensure each preset has all required font keys
+      const defaultFonts = {
+        heading1: { family: 'Inter', size: 48, weight: 700 },
+        heading2: { family: 'Inter', size: 32, weight: 600 },
+        body: { family: 'Inter', size: 16, weight: 400 },
+        label: { family: 'Inter', size: 12, weight: 500 },
+        button: { family: 'Inter', weight: 500 }
+      };
+      const safePresets = presets.map(preset => ({
+        ...preset,
+        fonts: { ...defaultFonts, ...(preset.fonts || {}) }
+      }));
+      setSavedPresets(safePresets);
+    } catch (error) {
+      console.error('Failed to load saved presets:', error);
+    }
+  };
+
+  const handleSavePreset = async () => {
+    if (!saveName.trim()) return;
+    setSaveStatus('saving');
+    try {
+      // Ensure all required font keys are present before saving
+      const defaultFonts = {
+        heading1: { family: 'Inter', size: 48, weight: 700 },
+        heading2: { family: 'Inter', size: 32, weight: 600 },
+        body: { family: 'Inter', size: 16, weight: 400 },
+        label: { family: 'Inter', size: 12, weight: 500 },
+        button: { family: 'Inter', weight: 500 }
+      };
+      const fontsToSave = { ...defaultFonts, ...safeCurrentFonts };
+      await typographyPresetStorage.save(saveName, fontsToSave);
+      setSaveStatus('saved');
+      setSaveName('');
+      setShowSaveDialog(false);
+      await loadSavedPresets();
+      setTimeout(() => setSaveStatus('idle'), 1500);
+    } catch (error) {
+      console.error('Failed to save preset:', error);
+      setSaveStatus('error');
+      setTimeout(() => setSaveStatus('idle'), 1500);
+    }
+  };
+
+  const handleDeletePreset = async (id) => {
+    try {
+      await typographyPresetStorage.delete(id);
+      await loadSavedPresets();
+    } catch (error) {
+      console.error('Failed to delete preset:', error);
+    }
+  };
+
+  return (
+    <div style={{ marginBottom: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+        <p style={sectionHeadingStyle}>Saved Typography Presets</p>
+        <button
+          onClick={() => setShowSaveDialog(true)}
+          style={{
+            padding: '4px 10px',
+            fontSize: '11px',
+            backgroundColor: '#3b82f6',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontWeight: 500
+          }}
+        >
+          Save Current
+        </button>
+      </div>
+
+      {showSaveDialog && (
+        <div style={{ marginBottom: '12px', padding: '12px', backgroundColor: '#1f2937', borderRadius: '6px', border: '1px solid #374151' }}>
+          <input
+            type="text"
+            placeholder="Preset name..."
+            value={saveName}
+            onChange={(e) => setSaveName(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSavePreset()}
+            style={{
+              width: '100%',
+              padding: '6px 10px',
+              backgroundColor: '#374151',
+              color: '#f3f4f6',
+              border: '1px solid #4b5563',
+              borderRadius: '4px',
+              fontSize: '13px',
+              marginBottom: '8px',
+              boxSizing: 'border-box'
+            }}
+          />
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={handleSavePreset}
+              disabled={saveStatus === 'saving' || !saveName.trim()}
+              style={{
+                flex: 1,
+                padding: '6px',
+                fontSize: '12px',
+                backgroundColor: saveStatus === 'saved' ? '#22c55e' : saveStatus === 'error' ? '#ef4444' : '#3b82f6',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: saveStatus === 'saving' || !saveName.trim() ? 'default' : 'pointer',
+                fontWeight: 500
+              }}
+            >
+              {saveStatus === 'saving' ? 'Saving...' : saveStatus === 'saved' ? 'Saved!' : saveStatus === 'error' ? 'Error' : 'Save'}
+            </button>
+            <button
+              onClick={() => { setShowSaveDialog(false); setSaveName(''); }}
+              style={{
+                flex: 1,
+                padding: '6px',
+                fontSize: '12px',
+                backgroundColor: '#374151',
+                color: '#9ca3af',
+                border: '1px solid #4b5563',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {savedPresets.length > 0 ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {savedPresets.map(preset => (
+            <div
+              key={preset.id}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px',
+                backgroundColor: '#1f2937',
+                border: '1px solid #374151',
+                borderRadius: '8px'
+              }}
+            >
+              <button
+                onClick={() => {
+                  const defaultFonts = {
+                    heading1: { family: 'Inter', size: 48, weight: 700 },
+                    heading2: { family: 'Inter', size: 32, weight: 600 },
+                    body: { family: 'Inter', size: 16, weight: 400 },
+                    label: { family: 'Inter', size: 12, weight: 500 },
+                    button: { family: 'Inter', weight: 500 }
+                  };
+                  const mergedFonts = { ...defaultFonts, ...(preset.fonts || {}) };
+                  onApply({ fonts: mergedFonts });
+                }}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  gap: '4px',
+                  padding: '4px',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'left'
+                }}
+              >
+                <span style={{ fontSize: '12px', fontWeight: 600, color: '#f3f4f6' }}>
+                  {preset.name}
+                </span>
+                <span style={{ fontSize: '10px', color: '#9ca3af' }}>
+                  {preset.fonts?.heading1?.family || 'Custom'} · {preset.fonts?.body?.family || 'Custom'}
+                </span>
+              </button>
+              <button
+                onClick={() => handleDeletePreset(preset.id)}
+                style={{
+                  padding: '4px 8px',
+                  fontSize: '11px',
+                  backgroundColor: '#374151',
+                  color: '#ef4444',
+                  border: '1px solid #4b5563',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div style={{ fontSize: '12px', color: '#6b7280', fontStyle: 'italic' }}>
+          No saved typography presets yet
+        </div>
+      )}
+    </div>
+  );
+}
+
 function TypographySettings() {
   const { state, dispatch } = usePageStore();
-  const { fonts } = state.page.styles;
+  const pageStyles = state.page?.styles ?? {};
+  const { fonts } = pageStyles ?? {
+    heading1: { family: 'Inter', size: 48, weight: 700 },
+    heading2: { family: 'Inter', size: 32, weight: 600 },
+    body: { family: 'Inter', size: 16, weight: 400 },
+    label: { family: 'Inter', size: 12, weight: 500 },
+    button: { family: 'Inter', weight: 500 }
+  };
   const { isMobile, getStyle, setOverride, clearOverride, hasOverride } = useBrandingMobileOverride('fonts');
 
   // Get available weights for a font family
@@ -164,7 +399,9 @@ function TypographySettings() {
 
   // Detect active theme based on current font configuration
   const detectActiveTheme = () => {
+    if (!fonts) return null;
     const matchesTheme = (themeFonts) => {
+      if (!themeFonts) return false;
       return Object.entries(themeFonts).every(([key, themeFont]) => {
         const current = fonts[key];
         return current?.family === themeFont.family && current?.weight === themeFont.weight;
@@ -181,12 +418,22 @@ function TypographySettings() {
       // Clear all font overrides when applying a theme on mobile
       dispatch(pageActions.updatePageMobileOverrides({ fonts: {} }));
     }
-    dispatch(pageActions.updatePageStyles({ fonts: theme.fonts }));
+    // Merge with default fonts to ensure all keys are present
+    const defaultFonts = {
+      heading1: { family: 'Inter', size: 48, weight: 700 },
+      heading2: { family: 'Inter', size: 32, weight: 600 },
+      body: { family: 'Inter', size: 16, weight: 400 },
+      label: { family: 'Inter', size: 12, weight: 500 },
+      button: { family: 'Inter', weight: 500 }
+    };
+    const mergedFonts = { ...defaultFonts, ...theme.fonts };
+    dispatch(pageActions.updatePageStyles({ fonts: mergedFonts }));
   };
 
   // Dynamically load Google Fonts into the app's <head> so the preview renders correctly
   useEffect(() => {
     const timer = setTimeout(() => {
+      if (!fonts) return;
       const fontMap = {};
       // Include fonts from themes for preview
       [...Object.values(fonts), ...FONT_THEMES.flatMap(t => Object.values(t.fonts))].forEach(font => {
@@ -228,8 +475,12 @@ function TypographySettings() {
     }
   };
 
+  if (!fonts) return null;
+
   return (
     <div>
+      <TypographyPresets onApply={applyTheme} currentFonts={fonts} />
+      <Divider />
       {/* Font Theme Selector */}
       <div style={{ marginBottom: '24px' }}>
         <p style={{ ...sectionHeadingStyle, marginBottom: '12px' }}>Font Theme</p>
@@ -293,8 +544,8 @@ function TypographySettings() {
 
       <Divider />
       {TYPOGRAPHY_STYLES.map((style, index) => {
-        const effectiveFont = getStyle(style.key, fonts[style.key]) ?? fonts[style.key];
-        const overridden = hasOverride(style.key, fonts[style.key]);
+        const effectiveFont = getStyle(style.key, fonts?.[style.key]) ?? fonts?.[style.key];
+        const overridden = hasOverride(style.key, fonts?.[style.key]);
         return (
           <div key={style.key}>
             <MobileOverrideWrap hasOverride={overridden} style={{ marginBottom: 0 }}>
@@ -409,7 +660,7 @@ const COLOR_THEME_PRESETS = [
   {
     id: 'simple', name: 'Simple',
     dark:  { primary: '#F5F5F5', secondary: '#AAAAAA', accent: '#666666', text: '#F5F5F5', background: '#111111', neutral: '#1C1C1C', card: '#1C1C1C' },
-    light: { primary: '#111111', secondary: '#555555', accent: '#888888', text: '#111111', background: '#FFFFFF', neutral: '#F5F5F5', card: '#FFFFFF' },
+    light: { primary: '#111111', secondary: '#555555', accent: '#888888', text: '#111111', background: '#F2F2F2', neutral: '#F5F5F5', card: '#FFFFFF' },
   },
   {
     id: 'corporate', name: 'Corporate',
@@ -423,34 +674,152 @@ const COLOR_THEME_PRESETS = [
   },
 ];
 
-function ColorThemePresets({ onApply }) {
+function ColorThemePresets({ onApply, currentColors }) {
   const [mode, setMode] = useState('light');
+  const [savedPresets, setSavedPresets] = useState([]);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [saveName, setSaveName] = useState('');
+  const [saveStatus, setSaveStatus] = useState('idle');
+
+  useEffect(() => {
+    loadSavedPresets();
+  }, []);
+
+  const loadSavedPresets = async () => {
+    try {
+      const presets = await colorPresetStorage.getAll();
+      setSavedPresets(presets);
+    } catch (error) {
+      console.error('Failed to load saved presets:', error);
+    }
+  };
+
+  const handleSavePreset = async () => {
+    if (!saveName.trim()) return;
+    setSaveStatus('saving');
+    try {
+      await colorPresetStorage.save(saveName, currentColors);
+      setSaveStatus('saved');
+      setSaveName('');
+      setShowSaveDialog(false);
+      await loadSavedPresets();
+      setTimeout(() => setSaveStatus('idle'), 1500);
+    } catch (error) {
+      console.error('Failed to save preset:', error);
+      setSaveStatus('error');
+      setTimeout(() => setSaveStatus('idle'), 1500);
+    }
+  };
+
+  const handleDeletePreset = async (id) => {
+    try {
+      await colorPresetStorage.delete(id);
+      await loadSavedPresets();
+    } catch (error) {
+      console.error('Failed to delete preset:', error);
+    }
+  };
 
   return (
     <div style={{ marginBottom: '16px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
         <p style={sectionHeadingStyle}>Theme Presets</p>
-        <div style={{ display: 'flex', borderRadius: '6px', overflow: 'hidden', border: '1px solid #4b5563' }}>
-          {['light', 'dark'].map(m => (
-            <button
-              key={m}
-              onClick={() => setMode(m)}
-              style={{
-                padding: '3px 10px',
-                fontSize: '11px',
-                fontWeight: mode === m ? 600 : 400,
-                backgroundColor: mode === m ? '#3b82f6' : '#374151',
-                color: mode === m ? '#ffffff' : '#9ca3af',
-                border: 'none',
-                cursor: 'pointer',
-                textTransform: 'capitalize'
-              }}
-            >
-              {m}
-            </button>
-          ))}
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <button
+            onClick={() => setShowSaveDialog(true)}
+            style={{
+              padding: '4px 10px',
+              fontSize: '11px',
+              backgroundColor: '#3b82f6',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: 500
+            }}
+          >
+            Save Current
+          </button>
+          <div style={{ display: 'flex', borderRadius: '6px', overflow: 'hidden', border: '1px solid #4b5563' }}>
+            {['light', 'dark'].map(m => (
+              <button
+                key={m}
+                onClick={() => setMode(m)}
+                style={{
+                  padding: '3px 10px',
+                  fontSize: '11px',
+                  fontWeight: mode === m ? 600 : 400,
+                  backgroundColor: mode === m ? '#3b82f6' : '#374151',
+                  color: mode === m ? '#ffffff' : '#9ca3af',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textTransform: 'capitalize'
+                }}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
+
+      {showSaveDialog && (
+        <div style={{ marginBottom: '12px', padding: '12px', backgroundColor: '#1f2937', borderRadius: '6px', border: '1px solid #374151' }}>
+          <input
+            type="text"
+            placeholder="Preset name..."
+            value={saveName}
+            onChange={(e) => setSaveName(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSavePreset()}
+            style={{
+              width: '100%',
+              padding: '6px 10px',
+              backgroundColor: '#374151',
+              color: '#f3f4f6',
+              border: '1px solid #4b5563',
+              borderRadius: '4px',
+              fontSize: '13px',
+              marginBottom: '8px',
+              boxSizing: 'border-box'
+            }}
+          />
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={handleSavePreset}
+              disabled={saveStatus === 'saving' || !saveName.trim()}
+              style={{
+                flex: 1,
+                padding: '6px',
+                fontSize: '12px',
+                backgroundColor: saveStatus === 'saved' ? '#22c55e' : saveStatus === 'error' ? '#ef4444' : '#3b82f6',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: saveStatus === 'saving' || !saveName.trim() ? 'default' : 'pointer',
+                fontWeight: 500
+              }}
+            >
+              {saveStatus === 'saving' ? 'Saving...' : saveStatus === 'saved' ? 'Saved!' : saveStatus === 'error' ? 'Error' : 'Save'}
+            </button>
+            <button
+              onClick={() => { setShowSaveDialog(false); setSaveName(''); }}
+              style={{
+                flex: 1,
+                padding: '6px',
+                fontSize: '12px',
+                backgroundColor: '#374151',
+                color: '#9ca3af',
+                border: '1px solid #4b5563',
+                borderRadius: '4px',
+                cursor: 'pointer'
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       <div style={{ display: 'flex', gap: '8px' }}>
         {COLOR_THEME_PRESETS.map(theme => {
           const palette = theme[mode];
@@ -490,6 +859,71 @@ function ColorThemePresets({ onApply }) {
           );
         })}
       </div>
+
+      {savedPresets.length > 0 && (
+        <>
+          <p style={{ ...sectionHeadingStyle, marginTop: '16px' }}>Saved Presets</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {savedPresets.map(preset => (
+              <div
+                key={preset.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 12px',
+                  backgroundColor: preset.colors.background,
+                  border: '1px solid #4b5563',
+                  borderRadius: '8px'
+                }}
+              >
+                <button
+                  onClick={() => onApply(preset.colors)}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '4px',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <div style={{ display: 'flex', gap: '3px' }}>
+                    {['primary', 'secondary', 'accent', 'neutral', 'card'].map(k => (
+                      <div key={k} style={{
+                        width: '14px',
+                        height: '14px',
+                        borderRadius: '3px',
+                        backgroundColor: preset.colors[k],
+                        border: '1px solid rgba(128,128,128,0.3)'
+                      }} />
+                    ))}
+                  </div>
+                  <span style={{ fontSize: '11px', fontWeight: 500, color: preset.colors.text }}>
+                    {preset.name}
+                  </span>
+                </button>
+                <button
+                  onClick={() => handleDeletePreset(preset.id)}
+                  style={{
+                    padding: '4px 8px',
+                    fontSize: '11px',
+                    backgroundColor: '#374151',
+                    color: '#ef4444',
+                    border: '1px solid #4b5563',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -513,7 +947,7 @@ function ColorsSettings() {
 
   return (
     <div>
-      <ColorThemePresets onApply={handleApplyPreset} />
+      <ColorThemePresets onApply={handleApplyPreset} currentColors={colors} />
       <Divider />
       {Object.entries(COLOR_GROUPS).map((groupEntry, groupIndex) => {
         const [groupKey, group] = groupEntry;

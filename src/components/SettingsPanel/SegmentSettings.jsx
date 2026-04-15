@@ -216,10 +216,9 @@ export function SegmentSettings() {
                 customColor={segment.settings.headingColor ?? '#000000'}
                 colors={colors}
                 onSlotChange={(slot, color) => {
-                  handleUpdate('headingColorSlot', slot);
-                  handleUpdate('headingColor', color);
+                  handleMergeUpdate({ headingColorSlot: slot, headingColor: color });
                 }}
-                onCustomColorChange={(color) => handleUpdate('headingColor', color)}
+                onCustomColorChange={(color) => handleMergeUpdate({ headingColorSlot: null, headingColor: color })}
               />
             </div>
           </>
@@ -734,10 +733,9 @@ export function SegmentSettings() {
                   customColor={segment.settings.borderColor ?? '#000000'}
                   colors={colors}
                   onSlotChange={(slot, color) => {
-                    handleUpdate('borderColorSlot', slot);
-                    handleUpdate('borderColor', color);
+                    handleMergeUpdate({ borderColorSlot: slot, borderColor: color });
                   }}
-                  onCustomColorChange={(color) => handleUpdate('borderColor', color)}
+                  onCustomColorChange={(color) => handleMergeUpdate({ borderColorSlot: null, borderColor: color })}
                 />
               </div>
             </div>

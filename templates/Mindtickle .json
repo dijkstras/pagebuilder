@@ -1,6 +1,6 @@
 {
   "id": "page-1775227305967",
-  "title": "Elements to store",
+  "title": "Mindtickle ",
   "breakpoints": {
     "mobile": 320,
     "tablet": 768,
@@ -52,7 +52,7 @@
       },
       "children": [
         {
-          "id": "slot-1776244374534-ua46",
+          "id": "slot-1776246675728-ji0p",
           "name": "Text & CTA",
           "type": "slot",
           "settings": {
@@ -318,7 +318,7 @@
       },
       "children": [
         {
-          "id": "slot-1776244374534-6wcd",
+          "id": "slot-1776246675728-tltu",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -666,7 +666,7 @@
       },
       "children": [
         {
-          "id": "slot-1776244374534-q6qi",
+          "id": "slot-1776246675728-se73",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -762,7 +762,7 @@
           ]
         },
         {
-          "id": "slot-1776244374534-ljzn",
+          "id": "slot-1776246675728-mx4y",
           "name": "Column 2",
           "type": "slot",
           "settings": {

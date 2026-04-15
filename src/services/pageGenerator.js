@@ -1150,8 +1150,29 @@ function buildStyleString(styleObj) {
 }
 
 export function generateCSS(page) {
-  const colors = page.styles.colors;
-  const fonts = page.styles.fonts;
+  if (!page || !page.styles) {
+    return '';
+  }
+  const colors = page.styles.colors ?? {
+    primary: '#3b82f6',
+    secondary: '#8b5cf6',
+    accent: '#ec4899',
+    text: '#1f2937',
+    background: '#f9fafb',
+    neutral: '#6b7280',
+    card: '#ffffff'
+  };
+  const fonts = page.styles.fonts ?? {
+    heading1: { family: 'Inter', size: 48, weight: 700 },
+    heading2: { family: 'Inter', size: 32, weight: 600 },
+    body: { family: 'Inter', size: 16, weight: 400 },
+    label: { family: 'Inter', size: 12, weight: 500 },
+    button: { family: 'Inter', weight: 500 }
+  };
+  // Ensure fonts is never undefined
+  if (!fonts) {
+    return '';
+  }
   const spacing = page.styles.spacing ?? { xs: 4, sm: 8, md: 16, lg: 24, xl: 48 };
 
   const googleFontsImport = generateGoogleFontsImport(fonts);
@@ -1166,20 +1187,20 @@ export function generateCSS(page) {
       --color-primary: ${colors.primary};
       --color-secondary: ${colors.secondary};
       --color-neutral: ${colors.neutral};
-      --font-heading1-family: ${fonts.heading1?.family ?? 'Inter'}, sans-serif;
-      --font-heading1-size: ${fonts.heading1?.size ?? 48}px;
-      --font-heading1-weight: ${fonts.heading1?.weight ?? 700};
-      --font-heading2-family: ${fonts.heading2?.family ?? 'Inter'}, sans-serif;
-      --font-heading2-size: ${fonts.heading2?.size ?? 32}px;
-      --font-heading2-weight: ${fonts.heading2?.weight ?? 600};
-      --font-body-family: ${fonts.body?.family ?? 'Inter'}, sans-serif;
-      --font-body-size: ${fonts.body?.size ?? 16}px;
-      --font-body-weight: ${fonts.body?.weight ?? 400};
-      --font-label-family: ${fonts.label?.family ?? 'Inter'}, sans-serif;
-      --font-label-size: ${fonts.label?.size ?? 12}px;
-      --font-label-weight: ${fonts.label?.weight ?? 500};
-      --font-button-family: ${fonts.button?.family ?? 'Inter'}, sans-serif;
-      --font-button-weight: ${fonts.button?.weight ?? 500};
+      --font-heading1-family: ${fonts?.heading1?.family ?? 'Inter'}, sans-serif;
+      --font-heading1-size: ${fonts?.heading1?.size ?? 48}px;
+      --font-heading1-weight: ${fonts?.heading1?.weight ?? 700};
+      --font-heading2-family: ${fonts?.heading2?.family ?? 'Inter'}, sans-serif;
+      --font-heading2-size: ${fonts?.heading2?.size ?? 32}px;
+      --font-heading2-weight: ${fonts?.heading2?.weight ?? 600};
+      --font-body-family: ${fonts?.body?.family ?? 'Inter'}, sans-serif;
+      --font-body-size: ${fonts?.body?.size ?? 16}px;
+      --font-body-weight: ${fonts?.body?.weight ?? 400};
+      --font-label-family: ${fonts?.label?.family ?? 'Inter'}, sans-serif;
+      --font-label-size: ${fonts?.label?.size ?? 12}px;
+      --font-label-weight: ${fonts?.label?.weight ?? 500};
+      --font-button-family: ${fonts?.button?.family ?? 'Inter'}, sans-serif;
+      --font-button-weight: ${fonts?.button?.weight ?? 500};
       --spacing-xs: ${spacing.xs}px;
       --spacing-sm: ${spacing.sm}px;
       --spacing-md: ${spacing.md}px;
@@ -1238,6 +1259,7 @@ export function generateGoogleFontsImport(fonts) {
   // Collect font families with their weights
   const fontMap = {};
 
+  if (!fonts) return '';
   Object.values(fonts).forEach(font => {
     if (!font || !font.family) return;
     if (!fontMap[font.family]) fontMap[font.family] = new Set();

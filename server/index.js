@@ -16,6 +16,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.SERVER_PORT || 3001;
 const TEMPLATES_DIR = path.join(__dirname, '../templates');
+const COLOR_PRESETS_DIR = path.join(__dirname, '../color-presets');
+const TYPOGRAPHY_PRESETS_DIR = path.join(__dirname, '../typography-presets');
 
 app.use(cors());
 app.use(express.json());
@@ -26,6 +28,24 @@ async function ensureTemplatesDir() {
     await fs.mkdir(TEMPLATES_DIR, { recursive: true });
   } catch (error) {
     console.error('Failed to create templates directory:', error);
+  }
+}
+
+// Ensure color-presets directory exists
+async function ensureColorPresetsDir() {
+  try {
+    await fs.mkdir(COLOR_PRESETS_DIR, { recursive: true });
+  } catch (error) {
+    console.error('Failed to create color-presets directory:', error);
+  }
+}
+
+// Ensure typography-presets directory exists
+async function ensureTypographyPresetsDir() {
+  try {
+    await fs.mkdir(TYPOGRAPHY_PRESETS_DIR, { recursive: true });
+  } catch (error) {
+    console.error('Failed to create typography-presets directory:', error);
   }
 }
 
@@ -276,6 +296,272 @@ app.post('/api/pages/:name/duplicate', async (req, res) => {
     res.json({ success: true, page: pageData });
   } catch (error) {
     console.error('Duplicate page error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// Color Preset API Routes
+
+// GET /api/color-presets - List all color presets
+app.get('/api/color-presets', async (req, res) => {
+  try {
+    await ensureColorPresetsDir();
+    const files = await fs.readdir(COLOR_PRESETS_DIR);
+    const presets = await Promise.all(
+      files
+        .filter(f => f.endsWith('.json'))
+        .map(async (f) => {
+          const filePath = path.join(COLOR_PRESETS_DIR, f);
+          const stat = await fs.stat(filePath);
+          const content = await fs.readFile(filePath, 'utf-8');
+          const data = JSON.parse(content);
+          return {
+            id: f.replace('.json', ''),
+            name: data.name || f.replace('.json', ''),
+            colors: data.colors,
+            savedAt: data.savedAt || stat.mtime.toISOString()
+          };
+        })
+    );
+    // Sort by savedAt descending (newest first)
+    presets.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+    res.json(presets);
+  } catch (error) {
+    console.error('List color presets error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// POST /api/color-presets - Save a color preset
+app.post('/api/color-presets', async (req, res) => {
+  try {
+    const { name, colors } = req.body;
+
+    if (!name || typeof name !== 'string') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid preset name'
+      });
+    }
+
+    if (!colors || typeof colors !== 'object') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid colors object'
+      });
+    }
+
+    const id = `${name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`;
+    const filePath = path.join(COLOR_PRESETS_DIR, `${id}.json`);
+
+    const presetData = {
+      name: name.trim(),
+      colors: colors,
+      savedAt: new Date().toISOString()
+    };
+
+    await ensureColorPresetsDir();
+    await fs.writeFile(filePath, JSON.stringify(presetData, null, 2));
+
+    // Commit to git and push to GitHub
+    try {
+      execSync(`git add ${filePath}`, { cwd: path.dirname(COLOR_PRESETS_DIR) });
+      execSync(`git commit -m "Save color preset: ${name}"`, { cwd: path.dirname(COLOR_PRESETS_DIR) });
+      execSync(`git push origin HEAD`, { cwd: path.dirname(COLOR_PRESETS_DIR) });
+      console.log(`✅ Pushed save color preset: ${name}`);
+    } catch (error) {
+      console.warn('Git push failed (might not be in repo):', error.message);
+    }
+
+    res.json({ success: true, preset: { id, ...presetData } });
+  } catch (error) {
+    console.error('Save color preset error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// GET /api/color-presets/:id - Load a single color preset
+app.get('/api/color-presets/:id', async (req, res) => {
+  try {
+    const filePath = path.join(COLOR_PRESETS_DIR, `${req.params.id}.json`);
+    const content = await fs.readFile(filePath, 'utf-8');
+    const data = JSON.parse(content);
+    res.json({
+      id: req.params.id,
+      name: data.name,
+      colors: data.colors,
+      savedAt: data.savedAt
+    });
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return res.status(404).json({ message: 'Color preset not found' });
+    }
+    console.error('Load color preset error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// DELETE /api/color-presets/:id - Delete a color preset
+app.delete('/api/color-presets/:id', async (req, res) => {
+  try {
+    const filePath = path.join(COLOR_PRESETS_DIR, `${req.params.id}.json`);
+
+    // Check if file exists
+    try {
+      await fs.access(filePath);
+    } catch {
+      return res.status(404).json({ success: false, message: 'Color preset not found' });
+    }
+
+    // Delete file
+    await fs.unlink(filePath);
+
+    // Commit deletion to git and push to GitHub
+    try {
+      execSync(`git add -A`, { cwd: path.dirname(COLOR_PRESETS_DIR) });
+      execSync(`git commit -m "Delete color preset: ${req.params.id}"`, { cwd: path.dirname(COLOR_PRESETS_DIR) });
+      execSync(`git push origin HEAD`, { cwd: path.dirname(COLOR_PRESETS_DIR) });
+      console.log(`✅ Pushed delete color preset: ${req.params.id}`);
+    } catch (error) {
+      console.warn('Git push failed:', error.message);
+    }
+
+    res.json({ success: true, message: 'Color preset deleted' });
+  } catch (error) {
+    console.error('Delete color preset error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// Typography Preset API Routes
+
+// GET /api/typography-presets - List all typography presets
+app.get('/api/typography-presets', async (req, res) => {
+  try {
+    await ensureTypographyPresetsDir();
+    const files = await fs.readdir(TYPOGRAPHY_PRESETS_DIR);
+    const presets = await Promise.all(
+      files
+        .filter(f => f.endsWith('.json'))
+        .map(async (f) => {
+          const filePath = path.join(TYPOGRAPHY_PRESETS_DIR, f);
+          const stat = await fs.stat(filePath);
+          const content = await fs.readFile(filePath, 'utf-8');
+          const data = JSON.parse(content);
+          return {
+            id: f.replace('.json', ''),
+            name: data.name || f.replace('.json', ''),
+            fonts: data.fonts,
+            savedAt: data.savedAt || stat.mtime.toISOString()
+          };
+        })
+    );
+    // Sort by savedAt descending (newest first)
+    presets.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+    res.json(presets);
+  } catch (error) {
+    console.error('List typography presets error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// POST /api/typography-presets - Save a typography preset
+app.post('/api/typography-presets', async (req, res) => {
+  try {
+    const { name, fonts } = req.body;
+
+    if (!name || typeof name !== 'string') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid preset name'
+      });
+    }
+
+    if (!fonts || typeof fonts !== 'object') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid fonts object'
+      });
+    }
+
+    const id = `${name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`;
+    const filePath = path.join(TYPOGRAPHY_PRESETS_DIR, `${id}.json`);
+
+    const presetData = {
+      name: name.trim(),
+      fonts: fonts,
+      savedAt: new Date().toISOString()
+    };
+
+    await ensureTypographyPresetsDir();
+    await fs.writeFile(filePath, JSON.stringify(presetData, null, 2));
+
+    // Commit to git and push to GitHub
+    try {
+      execSync(`git add ${filePath}`, { cwd: path.dirname(TYPOGRAPHY_PRESETS_DIR) });
+      execSync(`git commit -m "Save typography preset: ${name}"`, { cwd: path.dirname(TYPOGRAPHY_PRESETS_DIR) });
+      execSync(`git push origin HEAD`, { cwd: path.dirname(TYPOGRAPHY_PRESETS_DIR) });
+      console.log(`✅ Pushed save typography preset: ${name}`);
+    } catch (error) {
+      console.warn('Git push failed (might not be in repo):', error.message);
+    }
+
+    res.json({ success: true, preset: { id, ...presetData } });
+  } catch (error) {
+    console.error('Save typography preset error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// GET /api/typography-presets/:id - Load a single typography preset
+app.get('/api/typography-presets/:id', async (req, res) => {
+  try {
+    const filePath = path.join(TYPOGRAPHY_PRESETS_DIR, `${req.params.id}.json`);
+    const content = await fs.readFile(filePath, 'utf-8');
+    const data = JSON.parse(content);
+    res.json({
+      id: req.params.id,
+      name: data.name,
+      fonts: data.fonts,
+      savedAt: data.savedAt
+    });
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return res.status(404).json({ message: 'Typography preset not found' });
+    }
+    console.error('Load typography preset error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// DELETE /api/typography-presets/:id - Delete a typography preset
+app.delete('/api/typography-presets/:id', async (req, res) => {
+  try {
+    const filePath = path.join(TYPOGRAPHY_PRESETS_DIR, `${req.params.id}.json`);
+
+    // Check if file exists
+    try {
+      await fs.access(filePath);
+    } catch {
+      return res.status(404).json({ success: false, message: 'Typography preset not found' });
+    }
+
+    // Delete file
+    await fs.unlink(filePath);
+
+    // Commit deletion to git and push to GitHub
+    try {
+      execSync(`git add -A`, { cwd: path.dirname(TYPOGRAPHY_PRESETS_DIR) });
+      execSync(`git commit -m "Delete typography preset: ${req.params.id}"`, { cwd: path.dirname(TYPOGRAPHY_PRESETS_DIR) });
+      execSync(`git push origin HEAD`, { cwd: path.dirname(TYPOGRAPHY_PRESETS_DIR) });
+      console.log(`✅ Pushed delete typography preset: ${req.params.id}`);
+    } catch (error) {
+      console.warn('Git push failed:', error.message);
+    }
+
+    res.json({ success: true, message: 'Typography preset deleted' });
+  } catch (error) {
+    console.error('Delete typography preset error:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 });
