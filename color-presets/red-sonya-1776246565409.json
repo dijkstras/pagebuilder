@@ -1,0 +1,13 @@
+{
+  "name": "Red Sonya",
+  "colors": {
+    "primary": "#ffc800",
+    "secondary": "#acdb00",
+    "accent": "#ff0000",
+    "text": "#F5F5F5",
+    "background": "#111111",
+    "neutral": "#1C1C1C",
+    "card": "#1C1C1C"
+  },
+  "savedAt": "2026-04-15T09:49:25.409Z"
+}
