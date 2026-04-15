@@ -240,7 +240,12 @@
         "headingAlignment": "left",
         "headingColor": "#000000",
         "headingColorSlot": null,
-        "bgType": "gradient"
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#008a10",
+          "color2": "#8b5cf6",
+          "angle": 90
+        }
       },
       "children": [
         {
