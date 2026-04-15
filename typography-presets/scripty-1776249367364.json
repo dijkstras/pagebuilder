@@ -1,0 +1,30 @@
+{
+  "name": "Scripty",
+  "fonts": {
+    "heading1": {
+      "family": "Caveat",
+      "size": 75,
+      "weight": 700
+    },
+    "heading2": {
+      "family": "Caveat",
+      "size": 40,
+      "weight": 700
+    },
+    "body": {
+      "family": "DM Sans",
+      "size": 16,
+      "weight": 400
+    },
+    "label": {
+      "family": "Raleway",
+      "size": 12,
+      "weight": 500
+    },
+    "button": {
+      "family": "Oswald",
+      "weight": 600
+    }
+  },
+  "savedAt": "2026-04-15T10:36:07.364Z"
+}
