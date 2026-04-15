@@ -255,7 +255,9 @@
           "color2": "#555555",
           "angle": 90
         },
-        "mobileOverrides": {},
+        "mobileOverrides": {
+          "bgType": "solid"
+        },
         "hidden": false,
         "mobileHidden": false
       },
