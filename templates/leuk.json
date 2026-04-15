@@ -299,13 +299,13 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#FF2D78",
-      "secondary": "#FF80AB",
-      "accent": "#00AACC",
-      "text": "#1A001A",
-      "background": "#FFFFFF",
-      "neutral": "#FFF0F5",
-      "card": "#FFFFFF"
+      "primary": "#3B82F6",
+      "secondary": "#60A5FA",
+      "accent": "#F59E0B",
+      "text": "#E8EFF8",
+      "background": "#0D1B2E",
+      "neutral": "#162845",
+      "card": "#1A3050"
     },
     "fonts": {
       "heading1": {
