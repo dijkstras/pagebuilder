@@ -8,91 +8,6 @@
   },
   "root": [
     {
-      "id": "segment-1776240034410",
-      "name": "New Segment",
-      "type": "segment",
-      "settings": {
-        "layout": "full",
-        "gap": "md",
-        "fullWidth": true,
-        "bgColor": "#3B82F6",
-        "bgColorSlot": "primary",
-        "bgImage": null,
-        "bgVideo": null,
-        "maxWidth": null,
-        "contentAlignment": "left",
-        "verticalAlignment": "top",
-        "minHeight": 200,
-        "borderEnabled": false,
-        "borderEdges": {
-          "top": true,
-          "right": true,
-          "bottom": true,
-          "left": true
-        },
-        "borderWidth": 1,
-        "borderColor": "#000000",
-        "borderColorSlot": null,
-        "elevationEnabled": false,
-        "elevation": 4,
-        "borderRadius": 0,
-        "headingEnabled": false,
-        "headingContent": "Section Heading",
-        "headingFont": "heading1",
-        "headingAlignment": "left",
-        "headingColor": "#000000",
-        "headingColorSlot": null,
-        "bgType": "gradient",
-        "bgGradient": {
-          "color1": "#FF2D78",
-          "color2": "#FFFFFF",
-          "angle": 90,
-          "color1Slot": "primary",
-          "color2Slot": "background"
-        },
-        "mobileOverrides": {
-          "bgType": "solid"
-        },
-        "hidden": false,
-        "mobileHidden": false
-      },
-      "children": [
-        {
-          "id": "slot-1776246547302-o2c5",
-          "name": "Column 1",
-          "type": "slot",
-          "settings": {
-            "gridColumn": 12,
-            "height": "250px",
-            "spacing": 16,
-            "bgColor": "transparent",
-            "bgImage": null,
-            "bgVideo": null,
-            "padding": 0,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
-            "direction": "column",
-            "overflow": "wrap",
-            "borderEnabled": false,
-            "borderWidth": 1,
-            "borderColor": "#000000",
-            "elevationEnabled": false,
-            "elevation": 4,
-            "borderRadius": 0,
-            "hidden": false,
-            "responsive": {
-              "mobileOrder": null
-            },
-            "bgType": "solid",
-            "bgGradient": null,
-            "mobileOverrides": {},
-            "mobileHidden": false
-          },
-          "children": []
-        }
-      ]
-    },
-    {
       "id": "segment-1776075253150-f3a1r",
       "name": "Classic Header 3",
       "type": "segment",
@@ -293,6 +208,91 @@
             "bgPositionX": "center",
             "bgPositionY": "center",
             "hidden": false,
+            "mobileHidden": false
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "segment-1776240034410",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "layout": "full",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "#3B82F6",
+        "bgColorSlot": "primary",
+        "bgImage": null,
+        "bgVideo": null,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderEdges": {
+          "top": true,
+          "right": true,
+          "bottom": true,
+          "left": true
+        },
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "borderColorSlot": null,
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "headingEnabled": false,
+        "headingContent": "Section Heading",
+        "headingFont": "heading1",
+        "headingAlignment": "left",
+        "headingColor": "#000000",
+        "headingColorSlot": null,
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#FF2D78",
+          "color2": "#FFFFFF",
+          "angle": 90,
+          "color1Slot": "primary",
+          "color2Slot": "background"
+        },
+        "mobileOverrides": {
+          "bgType": "solid"
+        },
+        "hidden": false,
+        "mobileHidden": false
+      },
+      "children": [
+        {
+          "id": "slot-1776246547302-o2c5",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "250px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "overflow": "wrap",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "hidden": false,
+            "responsive": {
+              "mobileOrder": null
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {},
             "mobileHidden": false
           },
           "children": []
