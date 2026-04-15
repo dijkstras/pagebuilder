@@ -245,8 +245,8 @@
         "headingColorSlot": null,
         "bgType": "gradient",
         "bgGradient": {
-          "color1": "#008a10",
-          "color2": "#8b5cf6",
+          "color1": "#111111",
+          "color2": "#555555",
           "angle": 90
         },
         "mobileOverrides": {}
