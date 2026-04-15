@@ -341,14 +341,20 @@
       {
         "id": "primary",
         "label": "Primary",
-        "bgColor": "#6b7280",
+        "bgColor": "#FF2D78",
         "textColor": "#ffa200",
         "padding": 12,
         "radius": 6,
         "bgType": "solid",
-        "bgGradient": null,
+        "bgGradient": {
+          "color1": "#FF80AB",
+          "color2": "#000000",
+          "angle": 90,
+          "color1Slot": null,
+          "color2Slot": null
+        },
         "fontSize": 14,
-        "bgColorSlot": "custom",
+        "bgColorSlot": "primary",
         "textColorSlot": "custom"
       },
       {
