@@ -14,7 +14,8 @@
       "accent": "#ec4899",
       "text": "#000000",
       "background": "#ffffff",
-      "neutral": "#6b7280"
+      "neutral": "#6b7280",
+      "card": "#ffffff"
     },
     "fonts": {
       "heading1": {
@@ -46,7 +47,7 @@
       {
         "id": "primary",
         "label": "Primary",
-        "bgColor": "#141414",
+        "bgColor": "#000000",
         "textColor": "#ffffff",
         "padding": 12,
         "radius": 0,
@@ -56,18 +57,22 @@
           "color2": "#000000",
           "angle": 90
         },
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "text",
+        "textColorSlot": "custom"
       },
       {
         "id": "secondary",
         "label": "Secondary",
-        "bgColor": "#fff",
-        "textColor": "#1f2937",
+        "bgColor": "#d9d9d9",
+        "textColor": "#000000",
         "padding": 12,
         "radius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 18
+        "fontSize": 18,
+        "bgColorSlot": "custom",
+        "textColorSlot": "text"
       },
       {
         "id": "tertiary",
@@ -78,7 +83,9 @@
         "radius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "custom",
+        "textColorSlot": "text"
       }
     ],
     "shapes": {
@@ -91,12 +98,13 @@
       "lg": 24,
       "xl": 48
     },
-    "bgColor": "#FFf"
+    "bgColor": "#FFf",
+    "bgColorSlot": "background"
   },
   "root": [
     {
       "id": "segment-1775050902202",
-      "name": "Nav",
+      "name": "Nav Desktop",
       "type": "segment",
       "settings": {
         "fullWidth": true,
@@ -111,9 +119,9 @@
         "verticalAlignment": "center",
         "direction": "row",
         "minHeight": 20,
-        "borderEnabled": true,
+        "borderEnabled": false,
         "borderWidth": 1,
-        "borderColor": "#b3b3b3",
+        "borderColor": "#ffffff",
         "elevationEnabled": false,
         "elevation": 4,
         "borderRadius": 0,
@@ -121,11 +129,25 @@
         "bgGradient": null,
         "layout": "25-50-25",
         "gap": "md",
-        "mobileOverrides": {}
+        "mobileOverrides": {
+          "borderEdges": {
+            "top": false,
+            "right": true,
+            "bottom": true,
+            "left": true
+          },
+          "hidden": true
+        },
+        "borderEdges": {
+          "top": false,
+          "right": false,
+          "bottom": true,
+          "left": false
+        }
       },
       "children": [
         {
-          "id": "slot-1776080125563-kdb4",
+          "id": "slot-1776239181107-r3mo",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -190,7 +212,7 @@
           ]
         },
         {
-          "id": "slot-1776080125563-1573",
+          "id": "slot-1776239181107-mm6r",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -245,7 +267,7 @@
           ]
         },
         {
-          "id": "slot-1776080125563-wki6",
+          "id": "slot-1776239181107-0uxl",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -310,6 +332,128 @@
       ]
     },
     {
+      "id": "segment-1776239516605-nusjp",
+      "name": "Nav Mobile",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "#fff",
+        "bgImage": null,
+        "bgVideo": null,
+        "padding": 32,
+        "margin": 0,
+        "gutter": "auto",
+        "maxWidth": null,
+        "contentAlignment": "center",
+        "verticalAlignment": "center",
+        "direction": "row",
+        "minHeight": 20,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#ffffff",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgType": "solid",
+        "bgGradient": null,
+        "layout": "full",
+        "gap": "md",
+        "mobileOverrides": {
+          "borderEdges": {
+            "top": false,
+            "right": true,
+            "bottom": true,
+            "left": true
+          }
+        },
+        "borderEdges": {
+          "top": false,
+          "right": false,
+          "bottom": true,
+          "left": false
+        },
+        "hidden": false
+      },
+      "children": [
+        {
+          "id": "slot-1776239516605-ld62b",
+          "name": "Content",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "auto",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 20,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "row",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {},
+            "overflow": "wrap"
+          },
+          "children": [
+            {
+              "id": "content-1776239648268",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://cdn-icons-png.flaticon.com/128/10486/10486596.png",
+                  "width": "70px"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            },
+            {
+              "id": "image-1776239516605-b5u5f",
+              "type": "image",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": null,
+                "customOverrides": {
+                  "src": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Porsche_wordmark.png",
+                  "width": "60%"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "segment-1775051544618-gy6ov",
       "name": "Image",
       "type": "segment",
@@ -344,11 +488,13 @@
         "bgOpacity": "20%",
         "layout": "full",
         "gap": "md",
-        "mobileOverrides": {}
+        "mobileOverrides": {
+          "minHeight": 200
+        }
       },
       "children": [
         {
-          "id": "slot-1776080125563-gvam",
+          "id": "slot-1776239181107-gqy9",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -376,7 +522,9 @@
             "bgSize": "contain",
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {},
+            "mobileOverrides": {
+              "height": "160px"
+            },
             "overflow": "wrap"
           },
           "children": []
@@ -414,7 +562,7 @@
       },
       "children": [
         {
-          "id": "slot-1776080125563-ka3j",
+          "id": "slot-1776239181107-n56a",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -538,7 +686,7 @@
           ]
         },
         {
-          "id": "slot-1776080125563-5w9i",
+          "id": "slot-1776239181107-shf4",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -672,7 +820,7 @@
       },
       "children": [
         {
-          "id": "slot-1776080125563-pr1f",
+          "id": "slot-1776239181107-7ew4",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -872,7 +1020,7 @@
           ]
         },
         {
-          "id": "slot-1776080125563-xes6",
+          "id": "slot-1776239181107-0ih3",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -939,7 +1087,7 @@
       },
       "children": [
         {
-          "id": "slot-1776080125563-5kly",
+          "id": "slot-1776239181107-y1y0",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -997,7 +1145,7 @@
           ]
         },
         {
-          "id": "slot-1776080125563-1b7n",
+          "id": "slot-1776239181107-haxr",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -1139,7 +1287,7 @@
       },
       "children": [
         {
-          "id": "slot-1776080125563-agb9",
+          "id": "slot-1776239181107-fgr4",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -1227,7 +1375,7 @@
       },
       "children": [
         {
-          "id": "slot-1776080125563-mw56",
+          "id": "slot-1776239181107-m697",
           "name": "Touring",
           "type": "slot",
           "settings": {
@@ -1308,7 +1456,7 @@
           ]
         },
         {
-          "id": "slot-1776080125563-c3w5",
+          "id": "slot-1776239181107-9hpq",
           "name": "Shifter",
           "type": "slot",
           "settings": {
@@ -1421,7 +1569,7 @@
       },
       "children": [
         {
-          "id": "slot-1776080125563-i5ua",
+          "id": "slot-1776239181107-rtfb",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -1485,7 +1633,7 @@
       },
       "children": [
         {
-          "id": "slot-1776080125563-o5ms",
+          "id": "slot-1776239181107-lx4q",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -1571,7 +1719,7 @@
       },
       "children": [
         {
-          "id": "slot-1776080125563-ved2",
+          "id": "slot-1776239181107-xodz",
           "name": "Copyright",
           "type": "slot",
           "settings": {

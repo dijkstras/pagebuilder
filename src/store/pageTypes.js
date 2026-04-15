@@ -142,11 +142,19 @@ export const createSegment = (name = 'Segment', layout = 'full') => {
       verticalAlignment: 'top',
       minHeight: 200,
       borderEnabled: false,
+      borderEdges: { top: true, right: true, bottom: true, left: true },
       borderWidth: 1,
       borderColor: '#000000',
+      borderColorSlot: null,
       elevationEnabled: false,
       elevation: 4,
-      borderRadius: 0
+      borderRadius: 0,
+      headingEnabled: false,
+      headingContent: 'Section Heading',
+      headingFont: 'heading1',
+      headingAlignment: 'left',
+      headingColor: '#000000',
+      headingColorSlot: null
     },
     children: slots
   };

@@ -238,8 +238,15 @@ function collectMobileOverrideCSS(page, isMobilePreview = false) {
   }
 
   // Always clamp horizontal section padding on mobile so desktop-sized values don't bleed through
-  const baselineRule = `section { padding-left: 16px !important; padding-right: 16px !important; }`;
-  const allRules = [baselineRule, ...rules];
+  const baselineRule = `section { padding-left: 16px !important; padding-right: 16px !important; overflow-x: hidden !important; }`;
+  // Ensure content wrapper and grid container respect viewport width on mobile
+  const contentWrapperRule = `section > div { max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; overflow-x: hidden !important; }`;
+  const gridRule = `section > div > div { max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; overflow-x: hidden !important; }`;
+  // Ensure slots respect viewport width on mobile
+  const slotRule = `section > div > div > div { max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; overflow-x: hidden !important; }`;
+  // Reduce gap on mobile to prevent overflow with multiple columns
+  const gapRule = `section > div > div { gap: 12px !important; }`;
+  const allRules = [baselineRule, contentWrapperRule, gridRule, slotRule, gapRule, ...rules];
   if (isMobilePreview) return allRules.join('\n');
   return `@media (max-width: 767px) {\n${allRules.join('\n')}\n}`;
 }
@@ -375,9 +382,19 @@ function renderSegment(segment, page, segmentHorizontalScroll = false) {
     backgroundPosition: isGradient ? 'center' : undefined,
     backgroundRepeat: isGradient ? 'no-repeat' : undefined,
     padding: `${segmentSpacing}px`,
-    border: segment.settings.borderEnabled
-      ? `${segment.settings.borderWidth ?? 1}px solid ${segment.settings.borderColor ?? '#000000'}`
-      : undefined,
+    ...(segment.settings.borderEnabled ? (() => {
+      const resolvedBorderColor = segment.settings.borderColorSlot && segment.settings.borderColorSlot !== 'custom'
+        ? (segment.settings.borderColorSlot === 'transparent' ? 'transparent' : ((page.styles.colors || {})[segment.settings.borderColorSlot] || segment.settings.borderColor))
+        : (segment.settings.borderColor ?? '#000000');
+      const borderWidth = `${segment.settings.borderWidth ?? 1}px solid ${resolvedBorderColor}`;
+      const edges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
+      return {
+        borderTop: edges.top !== false ? borderWidth : undefined,
+        borderRight: edges.right !== false ? borderWidth : undefined,
+        borderBottom: edges.bottom !== false ? borderWidth : undefined,
+        borderLeft: edges.left !== false ? borderWidth : undefined
+      };
+    })() : {}),
     filter: segment.settings.elevationEnabled
       ? `drop-shadow(0 ${segment.settings.elevation ?? 4}px ${(segment.settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (segment.settings.elevation ?? 4) * 0.02}))`
       : undefined,
@@ -400,11 +417,45 @@ function renderSegment(segment, page, segmentHorizontalScroll = false) {
   const hScroll = !!segment.settings.horizontalScroll;
   const children = segment.children.map(child => {
     if (child.type === 'slot' || child.type === 'container') {
-      return renderSlot(child, page, hScroll);
+      return renderSlot(child, page, hScroll, false);
     } else {
       return renderContentItem(child, page);
     }
   }).join('\n');
+
+  // Render heading if enabled
+  const headingHtml = segment.settings.headingEnabled ? (() => {
+    const headingFont = segment.settings.headingFont || 'heading1';
+    const headingAlignment = segment.settings.headingAlignment || 'left';
+    const headingContent = segment.settings.headingContent || 'Section Heading';
+    const resolvedHeadingColor = segment.settings.headingColorSlot && segment.settings.headingColorSlot !== 'custom'
+      ? (segment.settings.headingColorSlot === 'transparent' ? 'transparent' : ((page.styles.colors || {})[segment.settings.headingColorSlot] || segment.settings.headingColor))
+      : (segment.settings.headingColor ?? '#000000');
+
+    const fontVars = {
+      heading1: { family: 'var(--font-heading1-family)', size: 'var(--font-heading1-size)', weight: 'var(--font-heading1-weight)', lineHeight: '1.2', tag: 'h1' },
+      heading2: { family: 'var(--font-heading2-family)', size: 'var(--font-heading2-size)', weight: 'var(--font-heading2-weight)', lineHeight: '1.3', tag: 'h2' },
+      body: { family: 'var(--font-body-family)', size: 'var(--font-body-size)', weight: 'var(--font-body-weight)', lineHeight: '1.6', tag: 'p' }
+    };
+    const font = fontVars[headingFont] || fontVars.heading1;
+
+    const headingStyle = buildStyleString({
+      maxWidth: hScroll ? undefined : '1280px',
+      margin: hScroll ? '0 0 20px 0' : '0 auto 20px auto',
+      width: hScroll ? undefined : '100%',
+      paddingLeft: hScroll ? undefined : '16px',
+      paddingRight: hScroll ? undefined : '16px',
+      fontFamily: font.family,
+      fontSize: font.size,
+      fontWeight: font.weight,
+      lineHeight: font.lineHeight,
+      textAlign: headingAlignment,
+      color: resolvedHeadingColor,
+      boxSizing: 'border-box'
+    });
+
+    return `<${font.tag} style="${headingStyle}">${headingContent}</${font.tag}>`;
+  })() : '';
 
   const segmentVideoBg = segment.settings.bgVideo
     ? renderVideo(segment.settings.bgVideo, {
@@ -450,6 +501,7 @@ function renderSegment(segment, page, segmentHorizontalScroll = false) {
   return `<section style="${outerStyle}" data-element-id="${segment.id}">
   ${segmentVideoBg}
   ${bgImageOverlay}
+  ${headingHtml}
   <div style="${contentWrapperStyle}">
     <div class="${gridClasses.join(' ')}"${innerZIndexStyle}>
       ${children}
@@ -458,7 +510,7 @@ function renderSegment(segment, page, segmentHorizontalScroll = false) {
 </section>`;
 }
 
-function renderSlot(slot, page, segmentHScroll = false) {
+function renderSlot(slot, page, segmentHScroll = false, isNested = false) {
   if (slot.settings.hidden) return '';
   const hMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
   const vMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' };
@@ -495,9 +547,13 @@ function renderSlot(slot, page, segmentHScroll = false) {
     : '';
 
   // Tailwind classes for grid column and responsive behaviour
-  const span = slot.settings.gridColumn ?? 12;
-  const twClasses = ['col-span-12'];
-  if (span !== 12) twClasses.push(`md:col-span-${span}`);
+  // Only apply grid column classes to top-level slots, not nested containers
+  const twClasses = [];
+  if (!isNested) {
+    const span = slot.settings.gridColumn ?? 12;
+    twClasses.push('col-span-12');
+    if (span !== 12) twClasses.push(`md:col-span-${span}`);
+  }
 
   // Responsive visibility
   const resp = slot.settings.responsive;
@@ -562,13 +618,19 @@ function renderSlot(slot, page, segmentHScroll = false) {
     styleObj.flexShrink = '1';
   }
   styleObj.boxSizing = 'border-box';
-  styleObj.minWidth = slot.settings.minWidth || '0';
-  // Ensure slot doesn't exceed grid container width
-  styleObj.width = 'auto';
+  // For nested containers, use width instead of minWidth to respect parent width
+  // Otherwise minWidth: 100% would reference viewport width instead of parent
+  if (isNested && slot.settings.minWidth && typeof slot.settings.minWidth === 'string' && slot.settings.minWidth.includes('%')) {
+    styleObj.width = slot.settings.minWidth;
+    styleObj.minWidth = '0';
+  } else {
+    styleObj.minWidth = slot.settings.minWidth || '0';
+    styleObj.width = 'auto';
+  }
 
   const style = buildStyleString(styleObj);
   const children = slot.children.map(child =>
-    child.type === 'container' ? renderSlot(child, page, false) : renderContentItem(child, page)
+    child.type === 'container' ? renderSlot(child, page, false, true) : renderContentItem(child, page)
   ).join('\n');
 
   const childrenWrapped = (slot.settings.bgVideo || hasBgImage)
@@ -884,7 +946,7 @@ function renderContentItemInner(item, page) {
         border: settings.borderEnabled
           ? `${settings.borderWidth ?? 1}px solid ${settings.borderColor || '#e5e7eb'}`
           : 'none',
-        borderRadius: `${settings.borderRadius || 8}px`,
+        borderRadius: `${settings.borderRadius ?? 8}px`,
         filter: settings.elevationEnabled
           ? `drop-shadow(0 ${settings.elevation ?? 4}px ${(settings.elevation ?? 4) * 3}px rgba(0,0,0,${0.2 + (settings.elevation ?? 4) * 0.02}))`
           : undefined,

@@ -22,9 +22,9 @@
         "contentAlignment": "left",
         "verticalAlignment": "top",
         "minHeight": 200,
-        "borderEnabled": false,
+        "borderEnabled": true,
         "borderWidth": 1,
-        "borderColor": "#fff",
+        "borderColor": "#20201d",
         "elevationEnabled": false,
         "elevation": 4,
         "borderRadius": 0,
@@ -40,11 +40,17 @@
           "bgPositionY": "bottom",
           "bgSize": "200px 200px"
         },
-        "bgOpacity": "50%"
+        "bgOpacity": "50%",
+        "borderEdges": {
+          "top": false,
+          "right": false,
+          "bottom": true,
+          "left": false
+        }
       },
       "children": [
         {
-          "id": "slot-1776163912855-e79w",
+          "id": "slot-1776185557269-0web",
           "name": "Text & CTA",
           "type": "slot",
           "settings": {
@@ -267,7 +273,7 @@
       "type": "segment",
       "settings": {
         "fullWidth": true,
-        "bgColor": "transparent",
+        "bgColor": "#000000",
         "bgImage": null,
         "bgVideo": null,
         "padding": 40,
@@ -277,8 +283,8 @@
         "contentAlignment": "left",
         "verticalAlignment": "top",
         "direction": "row",
-        "minHeight": 200,
-        "borderEnabled": false,
+        "minHeight": 100,
+        "borderEnabled": true,
         "borderWidth": 1,
         "borderColor": "#000000",
         "elevationEnabled": false,
@@ -288,25 +294,32 @@
         "gap": "md",
         "bgType": "solid",
         "bgGradient": null,
-        "mobileOverrides": {},
-        "bgColorSlot": "transparent",
-        "horizontalScroll": true
+        "mobileOverrides": {
+          "headingAlignment": "center"
+        },
+        "bgColorSlot": "background",
+        "horizontalScroll": false,
+        "headingEnabled": true,
+        "headingColor": "#ffffff",
+        "headingFont": "heading2",
+        "headingAlignment": "left",
+        "headingContent": "Pick your first lesson"
       },
       "children": [
         {
-          "id": "slot-1776163912855-mkfr",
+          "id": "slot-1776185557269-ckdt",
           "name": "Column 1",
           "type": "slot",
           "settings": {
             "gridColumn": 12,
             "height": "auto",
-            "spacing": 16,
+            "spacing": "auto",
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
-            "padding": 20,
-            "contentAlignment": "left",
-            "verticalAlignment": "top",
+            "padding": 0,
+            "contentAlignment": "center",
+            "verticalAlignment": "center",
             "direction": "row",
             "borderEnabled": false,
             "borderWidth": 1,
@@ -321,43 +334,47 @@
             "bgType": "solid",
             "bgGradient": null,
             "scroll": false,
-            "mobileOverrides": {},
-            "overflow": "scroll",
-            "clipContent": false
+            "mobileOverrides": {
+              "direction": "column"
+            },
+            "overflow": "wrap",
+            "clipContent": false,
+            "alignContent": "center"
           },
           "children": [
             {
-              "id": "content-1776163628594",
+              "id": "content-1776178743779",
               "type": "card",
               "settings": {
-                "width": "300px",
-                "height": "auto",
+                "width": "260px",
+                "height": "320px",
                 "bgColor": "#ffffff",
                 "bgColorSlot": "card",
                 "bgType": "solid",
                 "bgGradient": null,
-                "padding": 20,
+                "padding": 16,
                 "direction": "column",
                 "contentAlignment": "left",
                 "verticalAlignment": "top",
-                "spacing": 12,
+                "spacing": 16,
                 "borderEnabled": false,
                 "borderWidth": 1,
                 "borderColor": "#e5e7eb",
-                "borderRadius": 8,
-                "elevationEnabled": true,
+                "borderRadius": 0,
+                "elevationEnabled": false,
                 "elevation": 4,
                 "showImage": true,
                 "showText": true,
                 "showButton": true,
                 "image": {
-                  "src": "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                  "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2F2025_state_of_revenue_enablement_report_6e0d355e51.webp&w=1920&q=75",
                   "objectFit": "cover",
-                  "borderRadius": "4px"
+                  "borderRadius": "0",
+                  "height": "180px"
                 },
                 "text": {
-                  "content": "Card title goes here",
-                  "textRole": "heading2",
+                  "content": "2026 State of Revenue Enablement Report",
+                  "textRole": "body",
                   "textAlign": "left",
                   "color": null
                 },
@@ -365,12 +382,83 @@
                   "label": "Learn More",
                   "assignedStyleId": "tertiary",
                   "icon": {
-                    "key": null,
-                    "position": "none"
+                    "key": "chevron-right",
+                    "position": "after"
                   },
                   "sizeOverride": {
-                    "enabled": false,
-                    "width": "auto",
+                    "enabled": true,
+                    "width": "100%",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {
+                  "width": "260pxe",
+                  "contentAlignment": "center",
+                  "image": {
+                    "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2F2025_state_of_revenue_enablement_report_6e0d355e51.webp&w=1920&q=75",
+                    "objectFit": "cover",
+                    "borderRadius": "0",
+                    "height": "w"
+                  }
+                }
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "name": "Learn card"
+            },
+            {
+              "id": "card-1776179769528-pwiqu",
+              "type": "card",
+              "settings": {
+                "width": "260px",
+                "height": "320px",
+                "bgColor": "#ffffff",
+                "bgColorSlot": "card",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 16,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 16,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 0,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2FAI_Role_Play_Perfect_Their_Pitches_2048x898_16cfde02f1.jpg&w=3840&q=75",
+                  "objectFit": "cover",
+                  "borderRadius": "0",
+                  "height": "180px"
+                },
+                "text": {
+                  "content": "2026 State of Revenue Enablement Report",
+                  "textRole": "body",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": "chevron-right",
+                    "position": "after"
+                  },
+                  "sizeOverride": {
+                    "enabled": true,
+                    "width": "100%",
                     "height": "auto"
                   }
                 },
@@ -384,7 +472,145 @@
                 "mobile": {},
                 "tablet": {},
                 "desktop": {}
-              }
+              },
+              "name": "Learn card"
+            },
+            {
+              "id": "card-1776185886642-f83pr",
+              "type": "card",
+              "settings": {
+                "width": "260px",
+                "height": "320px",
+                "bgColor": "#ffffff",
+                "bgColorSlot": "card",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 16,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 16,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 0,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2FThe_discovery_call_playbook_426207eb6a.jpg&w=3840&q=75",
+                  "objectFit": "contain",
+                  "borderRadius": "0",
+                  "width": "100%"
+                },
+                "text": {
+                  "content": "How to fuel your sales pipeline",
+                  "textRole": "body",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": "chevron-right",
+                    "position": "after"
+                  },
+                  "sizeOverride": {
+                    "enabled": true,
+                    "width": "100%",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "name": "Learn card"
+            },
+            {
+              "id": "card-1776185909463-cy75m",
+              "type": "card",
+              "settings": {
+                "width": "260px",
+                "height": "320px",
+                "bgColor": "#ffffff",
+                "bgColorSlot": "card",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 16,
+                "direction": "column",
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "spacing": 16,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 0,
+                "elevationEnabled": false,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2FBuyers_Guide_Rev_Enablement_solutions_640x360_74fec73355.webp&w=1920&q=75",
+                  "objectFit": "cover",
+                  "borderRadius": "0",
+                  "height": "180px"
+                },
+                "text": {
+                  "content": "A Buiers Guide to Revenue enablement Solutions",
+                  "textRole": "body",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": "chevron-right",
+                    "position": "after"
+                  },
+                  "sizeOverride": {
+                    "enabled": true,
+                    "width": "100%",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {
+                  "image": {
+                    "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2FBuyers_Guide_Rev_Enablement_solutions_640x360_74fec73355.webp&w=1920&q=75",
+                    "objectFit": "fill",
+                    "borderRadius": "0",
+                    "height": "200px"
+                  },
+                  "text": {
+                    "content": "A Buiers Guide to Revenue enablement Solutions",
+                    "textRole": "body",
+                    "textAlign": "center",
+                    "color": null
+                  }
+                }
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "name": "Learn card"
             }
           ]
         }
@@ -418,7 +644,7 @@
       },
       "children": [
         {
-          "id": "slot-1776163912855-e9pr",
+          "id": "slot-1776185557269-gvrg",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -511,7 +737,7 @@
           ]
         },
         {
-          "id": "slot-1776163912855-0zxq",
+          "id": "slot-1776185557269-43yd",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -693,7 +919,8 @@
           "angle": 90
         },
         "fontSize": 18,
-        "textColorSlot": "background"
+        "textColorSlot": "background",
+        "bgColorSlot": "primary"
       },
       {
         "id": "secondary",
@@ -734,7 +961,7 @@
     },
     "bgColor": "#000000",
     "bgColorSlot": "background",
-    "segmentSpacing": "lg"
+    "segmentSpacing": "md"
   },
   "mobileOverrides": {}
 }

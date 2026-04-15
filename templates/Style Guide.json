@@ -8,6 +8,123 @@
   },
   "root": [
     {
+      "id": "segment-1776175565761",
+      "name": "New Segment",
+      "type": "segment",
+      "settings": {
+        "layout": "full",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "#FFF0F5",
+        "bgColorSlot": "neutral",
+        "bgImage": "https://static.vecteezy.com/system/resources/thumbnails/012/634/777/small/light-leak-overlay-on-transparent-background-a-simple-light-leak-overlay-to-beautify-your-images-blurry-gradient-light-for-your-photo-filter-effect-colorful-photo-layer-effect-template-png.png",
+        "bgVideo": null,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "bgOpacity": "30%",
+        "bgType": "solid",
+        "bgGradient": null,
+        "mobileOverrides": {}
+      },
+      "children": [
+        {
+          "id": "slot-1776185312108-md8e",
+          "name": "Column 1",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "100px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "center",
+            "verticalAlignment": "center",
+            "direction": "column",
+            "overflow": "wrap",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 24,
+            "responsive": {
+              "hideOnMobile": false,
+              "mobileOrder": null
+            },
+            "bgPositionX": "left",
+            "bgPositionY": "bottom",
+            "bgColorSlot": "transparent",
+            "mobileGridColumn": 12,
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {}
+          },
+          "children": [
+            {
+              "id": "content-1776176255958",
+              "type": "label",
+              "settings": {
+                "content": "GET CREATIVE",
+                "textAlign": "left",
+                "color": "#1C1C1C",
+                "colorSlot": "neutral",
+                "bgColor": "#AAAAAA",
+                "bgColorSlot": "secondary",
+                "paddingX": 16,
+                "paddingY": 8,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#9ca3af",
+                "borderRadius": 16,
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "mobileOverrides": {}
+              }
+            },
+            {
+              "id": "content-1776175886003",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading2",
+                "customOverrides": {
+                  "content": "Test page for font & color styles"
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "textAlign": "center",
+                "mobileOverrides": {}
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "segment-1776164701313",
       "name": "New Segment",
       "type": "segment",
@@ -35,13 +152,13 @@
       },
       "children": [
         {
-          "id": "slot-1776166016441-tq86",
+          "id": "slot-1776185312108-4llw",
           "name": "Column 1",
           "type": "slot",
           "settings": {
             "gridColumn": 4,
             "height": "250px",
-            "spacing": 16,
+            "spacing": 24,
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
@@ -62,7 +179,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "mobileGridColumn": 12
           },
           "children": [
             {
@@ -152,7 +270,8 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -179,7 +298,8 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             },
             {
@@ -211,7 +331,9 @@
                   "hideOnMobile": false,
                   "mobileOrder": null
                 },
-                "mobileOverrides": {},
+                "mobileOverrides": {
+                  "padding": 24
+                },
                 "bgColorSlot": "neutral"
               },
               "children": [
@@ -242,13 +364,13 @@
           ]
         },
         {
-          "id": "slot-1776166016441-yx8h",
+          "id": "slot-1776185312108-5clh",
           "name": "Column 2",
           "type": "slot",
           "settings": {
             "gridColumn": 4,
             "height": "250px",
-            "spacing": 16,
+            "spacing": 24,
             "bgColor": "transparent",
             "bgImage": null,
             "bgVideo": null,
@@ -269,7 +391,10 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {
+              "mobileGridColumn": 6
+            },
+            "mobileGridColumn": 12
           },
           "children": [
             {
@@ -429,7 +554,7 @@
                     "assignedStyleId": null,
                     "textRole": null,
                     "customOverrides": {
-                      "src": "https://framerusercontent.com/images/1Z5ZUyGlpIkFSIKXxKT3ajuDU.webp",
+                      "src": "https://cdn-icons-png.flaticon.com/128/10740/10740589.png",
                       "objectFit": "contain",
                       "width": "100px"
                     },
@@ -489,7 +614,7 @@
           ]
         },
         {
-          "id": "slot-1776166016441-3eqb",
+          "id": "slot-1776185312108-lz6w",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -516,7 +641,8 @@
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "mobileGridColumn": 12
           },
           "children": [
             {
@@ -531,7 +657,7 @@
                 "bgGradient": null,
                 "padding": 20,
                 "direction": "column",
-                "contentAlignment": "left",
+                "contentAlignment": "right",
                 "verticalAlignment": "top",
                 "spacing": 12,
                 "borderEnabled": false,
@@ -546,7 +672,8 @@
                 "image": {
                   "src": "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
                   "objectFit": "cover",
-                  "borderRadius": "4px"
+                  "borderRadius": "4px",
+                  "height": "100px"
                 },
                 "text": {
                   "content": "This is a card element and can be used to showcase content in a clean way",
@@ -556,10 +683,71 @@
                 },
                 "button": {
                   "label": "Learn More",
-                  "assignedStyleId": "primary",
+                  "assignedStyleId": "tertiary",
                   "icon": {
-                    "key": null,
-                    "position": "none"
+                    "key": "chevron-right",
+                    "position": "after"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {}
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              }
+            },
+            {
+              "id": "card-1776177331701-0nog9",
+              "type": "card",
+              "settings": {
+                "width": "300px",
+                "height": "auto",
+                "bgColor": "#ffffff",
+                "bgColorSlot": "card",
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 20,
+                "direction": "column",
+                "contentAlignment": "right",
+                "verticalAlignment": "top",
+                "spacing": 12,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#e5e7eb",
+                "borderRadius": 8,
+                "elevationEnabled": true,
+                "elevation": 4,
+                "showImage": true,
+                "showText": true,
+                "showButton": true,
+                "image": {
+                  "src": "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                  "objectFit": "cover",
+                  "borderRadius": "4px",
+                  "height": "100px"
+                },
+                "text": {
+                  "content": "This is a card element and can be used to showcase content in a clean way",
+                  "textRole": "body",
+                  "textAlign": "left",
+                  "color": null
+                },
+                "button": {
+                  "label": "Learn More",
+                  "assignedStyleId": "tertiary",
+                  "icon": {
+                    "key": "chevron-right",
+                    "position": "after"
                   },
                   "sizeOverride": {
                     "enabled": false,
@@ -589,36 +777,36 @@
     "colors": {
       "primary": "#FF2D78",
       "secondary": "#FF80AB",
-      "accent": "#00AACC",
-      "text": "#1A001A",
-      "background": "#FFFFFF",
-      "neutral": "#FFF0F5",
-      "card": "#FFFFFF"
+      "accent": "#00D4FF",
+      "text": "#F8F8F8",
+      "background": "#0D0D0D",
+      "neutral": "#1A1A1A",
+      "card": "#1A1A1A"
     },
     "fonts": {
       "heading1": {
-        "family": "Lora",
+        "family": "Montserrat",
         "size": 48,
-        "weight": 600
+        "weight": 700
       },
       "heading2": {
-        "family": "Lora",
+        "family": "Montserrat",
         "size": 32,
-        "weight": 500
+        "weight": 600
       },
       "body": {
-        "family": "Source Sans 3",
+        "family": "Inter",
         "size": 16,
         "weight": 400
       },
       "label": {
-        "family": "Source Sans 3",
+        "family": "Inter",
         "size": 12,
         "weight": 500
       },
       "button": {
-        "family": "Source Sans 3",
-        "weight": 500
+        "family": "Montserrat",
+        "weight": 600
       }
     },
     "buttonStyles": [
@@ -628,7 +816,7 @@
         "bgColor": "#F5F5F5",
         "textColor": "#FFF0F5",
         "padding": 12,
-        "radius": 6,
+        "radius": 0,
         "bgType": "solid",
         "bgGradient": null,
         "fontSize": 14,
@@ -654,7 +842,7 @@
         "bgColor": "transparent",
         "textColor": "#3b82f6",
         "padding": 12,
-        "radius": 6,
+        "radius": 999,
         "bgType": "solid",
         "bgGradient": null,
         "fontSize": 14,
@@ -673,7 +861,8 @@
       "xl": 48
     },
     "bgColor": "#0D1B2E",
-    "bgColorSlot": "background"
+    "bgColorSlot": "background",
+    "segmentSpacing": "md"
   },
   "mobileOverrides": {}
 }

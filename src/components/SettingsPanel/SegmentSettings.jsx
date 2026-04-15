@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { usePageStore, pageActions } from '../../store/pageStore.jsx';
 import { GradientPicker } from './GradientPicker.jsx';
+import { ColorSlotPicker } from './ColorPresets.jsx';
 import { LAYOUT_PRESETS, GAP_PRESETS } from '../../store/pageTypes';
 import { useMobileSettings, MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx';
 import { segmentStorage } from '../../services/segmentStorage';
@@ -120,6 +121,109 @@ export function SegmentSettings() {
         >
           {saveStatus === 'saved' ? 'Saved!' : saveStatus === 'saving' ? 'Saving...' : 'Save'}
         </button>
+      </div>
+
+      {/* Heading */}
+      <div style={{ marginBottom: '12px' }}>
+        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={segment.settings.headingEnabled || false}
+            onChange={(e) => handleUpdate('headingEnabled', e.target.checked)}
+            style={{ cursor: 'pointer' }}
+          />
+          Heading
+        </label>
+        {segment.settings.headingEnabled && (
+          <>
+            <div style={{ marginTop: '8px' }}>
+              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Content</label>
+              <input
+                type="text"
+                value={segment.settings.headingContent || 'Section Heading'}
+                onChange={(e) => handleUpdate('headingContent', e.target.value)}
+                placeholder="Section Heading"
+                style={{
+                  width: '100%',
+                  padding: '6px',
+                  backgroundColor: '#374151',
+                  color: '#f3f4f6',
+                  border: '1px solid #4b5563',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Font</label>
+              <div style={{ display: 'flex', gap: '4px' }}>
+                {[
+                  { value: 'heading1', label: 'H1' },
+                  { value: 'heading2', label: 'H2' },
+                  { value: 'body', label: 'Body' }
+                ].map(font => (
+                  <button
+                    key={font.value}
+                    onClick={() => handleUpdate('headingFont', font.value)}
+                    style={{
+                      flex: 1,
+                      padding: '6px',
+                      fontSize: '12px',
+                      backgroundColor: (segment.settings.headingFont ?? 'heading1') === font.value ? '#3b82f6' : '#374151',
+                      color: '#f3f4f6',
+                      border: '1px solid #4b5563',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {font.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Alignment</label>
+              <div style={{ display: 'flex', gap: '4px' }}>
+                {[
+                  { value: 'left', label: '←' },
+                  { value: 'center', label: '—' },
+                  { value: 'right', label: '→' }
+                ].map(align => (
+                  <button
+                    key={align.value}
+                    onClick={() => handleUpdate('headingAlignment', align.value)}
+                    style={{
+                      flex: 1,
+                      padding: '6px',
+                      fontSize: '12px',
+                      backgroundColor: (segment.settings.headingAlignment ?? 'left') === align.value ? '#3b82f6' : '#374151',
+                      color: '#f3f4f6',
+                      border: '1px solid #4b5563',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {align.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Color</label>
+              <ColorSlotPicker
+                slot={segment.settings.headingColorSlot ?? null}
+                customColor={segment.settings.headingColor ?? '#000000'}
+                colors={colors}
+                onSlotChange={(slot, color) => {
+                  handleUpdate('headingColorSlot', slot);
+                  handleUpdate('headingColor', color);
+                }}
+                onCustomColorChange={(color) => handleUpdate('headingColor', color)}
+              />
+            </div>
+          </>
+        )}
       </div>
 
       {/* Layout Picker */}
@@ -521,45 +625,123 @@ export function SegmentSettings() {
           Border
         </label>
         {segment.settings.borderEnabled && (
-          <div style={{ marginTop: '8px', display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
-            <div style={{ flex: 1 }}>
-              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Width (px)</label>
-              <input
-                type="number"
-                value={segment.settings.borderWidth ?? 1}
-                min={1}
-                onChange={(e) => handleUpdate('borderWidth', parseInt(e.target.value) || 1)}
-                style={{
-                  width: '100%',
-                  padding: '6px',
-                  backgroundColor: '#374151',
-                  color: '#f3f4f6',
-                  border: '1px solid #4b5563',
-                  borderRadius: '4px',
-                  boxSizing: 'border-box'
-                }}
-              />
+          <>
+            <div style={{ marginTop: '8px' }}>
+              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '6px' }}>Edges</label>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', width: '120px', margin: '0 auto' }}>
+                <div></div>
+                <button
+                  onClick={() => {
+                    const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
+                    handleUpdate('borderEdges', { ...currentEdges, top: !currentEdges.top });
+                  }}
+                  style={{
+                    padding: '8px',
+                    fontSize: '12px',
+                    backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).top ? '#3b82f6' : '#374151',
+                    color: '#f3f4f6',
+                    border: '1px solid #4b5563',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).top ? '600' : '400'
+                  }}
+                >
+                  Top
+                </button>
+                <div></div>
+                <button
+                  onClick={() => {
+                    const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
+                    handleUpdate('borderEdges', { ...currentEdges, left: !currentEdges.left });
+                  }}
+                  style={{
+                    padding: '8px',
+                    fontSize: '12px',
+                    backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).left ? '#3b82f6' : '#374151',
+                    color: '#f3f4f6',
+                    border: '1px solid #4b5563',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).left ? '600' : '400'
+                  }}
+                >
+                  Left
+                </button>
+                <div></div>
+                <button
+                  onClick={() => {
+                    const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
+                    handleUpdate('borderEdges', { ...currentEdges, right: !currentEdges.right });
+                  }}
+                  style={{
+                    padding: '8px',
+                    fontSize: '12px',
+                    backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).right ? '#3b82f6' : '#374151',
+                    color: '#f3f4f6',
+                    border: '1px solid #4b5563',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).right ? '600' : '400'
+                  }}
+                >
+                  Right
+                </button>
+                <div></div>
+                <button
+                  onClick={() => {
+                    const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
+                    handleUpdate('borderEdges', { ...currentEdges, bottom: !currentEdges.bottom });
+                  }}
+                  style={{
+                    padding: '8px',
+                    fontSize: '12px',
+                    backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).bottom ? '#3b82f6' : '#374151',
+                    color: '#f3f4f6',
+                    border: '1px solid #4b5563',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).bottom ? '600' : '400'
+                  }}
+                >
+                  Bottom
+                </button>
+                <div></div>
+              </div>
             </div>
-            <div style={{ flex: 1 }}>
-              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Color</label>
-              <input
-                type="text"
-                value={segment.settings.borderColor ?? '#000000'}
-                onChange={(e) => handleUpdate('borderColor', e.target.value)}
-                placeholder="#000000"
-                style={{
-                  width: '100%',
-                  padding: '6px',
-                  backgroundColor: '#374151',
-                  color: '#f3f4f6',
-                  border: '1px solid #4b5563',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                  boxSizing: 'border-box'
-                }}
-              />
+            <div style={{ marginTop: '8px', display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Width (px)</label>
+                <input
+                  type="number"
+                  value={segment.settings.borderWidth ?? 1}
+                  min={1}
+                  onChange={(e) => handleUpdate('borderWidth', parseInt(e.target.value) || 1)}
+                  style={{
+                    width: '100%',
+                    padding: '6px',
+                    backgroundColor: '#374151',
+                    color: '#f3f4f6',
+                    border: '1px solid #4b5563',
+                    borderRadius: '4px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Color</label>
+                <ColorSlotPicker
+                  slot={segment.settings.borderColorSlot ?? null}
+                  customColor={segment.settings.borderColor ?? '#000000'}
+                  colors={colors}
+                  onSlotChange={(slot, color) => {
+                    handleUpdate('borderColorSlot', slot);
+                    handleUpdate('borderColor', color);
+                  }}
+                  onCustomColorChange={(color) => handleUpdate('borderColor', color)}
+                />
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
 
