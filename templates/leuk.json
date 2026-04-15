@@ -252,8 +252,10 @@
         "bgType": "gradient",
         "bgGradient": {
           "color1": "#FF2D78",
-          "color2": "#555555",
-          "angle": 90
+          "color2": "#FF80AB",
+          "angle": 90,
+          "color1Slot": null,
+          "color2Slot": null
         },
         "mobileOverrides": {
           "bgType": "solid"
