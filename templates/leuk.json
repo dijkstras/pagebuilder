@@ -48,7 +48,7 @@
       },
       "children": [
         {
-          "id": "slot-1776245658949-agjq",
+          "id": "slot-1776246287900-jgow",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -172,7 +172,7 @@
           ]
         },
         {
-          "id": "slot-1776245658949-heku",
+          "id": "slot-1776246287900-uu5n",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -265,7 +265,7 @@
       },
       "children": [
         {
-          "id": "slot-1776245658949-98dd",
+          "id": "slot-1776246287900-i7q8",
           "name": "Column 1",
           "type": "slot",
           "settings": {
