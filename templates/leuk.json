@@ -249,9 +249,9 @@
         "headingAlignment": "left",
         "headingColor": "#000000",
         "headingColorSlot": null,
-        "bgType": "solid",
+        "bgType": "gradient",
         "bgGradient": {
-          "color1": "#111111",
+          "color1": "#FF2D78",
           "color2": "#555555",
           "angle": 90
         },
