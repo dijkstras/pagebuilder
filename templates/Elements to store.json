@@ -46,11 +46,13 @@
           "right": false,
           "bottom": true,
           "left": false
-        }
+        },
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1776185557269-0web",
+          "id": "slot-1776244374534-ua46",
           "name": "Text & CTA",
           "type": "slot",
           "settings": {
@@ -72,7 +74,6 @@
             "elevation": 4,
             "borderRadius": 0,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
             "bgType": "solid",
@@ -81,7 +82,9 @@
               "contentAlignment": "center",
               "spacing": 32
             },
-            "alignContent": "space-between"
+            "alignContent": "space-between",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -90,8 +93,8 @@
               "settings": {
                 "content": "MINDTICKLE PAGES",
                 "textAlign": "left",
-                "color": null,
-                "colorSlot": null,
+                "color": "#ffffff",
+                "colorSlot": "text",
                 "bgColor": "#20201d",
                 "bgColorSlot": "neutral",
                 "padding": 8,
@@ -111,7 +114,8 @@
                 "mobileOverrides": {},
                 "hidden": false,
                 "paddingX": 16,
-                "paddingY": 8
+                "paddingY": 8,
+                "mobileHidden": false
               }
             },
             {
@@ -135,7 +139,9 @@
                 },
                 "mobileOverrides": {
                   "textAlign": "center"
-                }
+                },
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -158,7 +164,9 @@
                 },
                 "mobileOverrides": {
                   "textAlign": "center"
-                }
+                },
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -195,7 +203,8 @@
                 },
                 "hidden": false,
                 "minWidth": "100%",
-                "alignContent": "center"
+                "alignContent": "center",
+                "mobileHidden": false
               },
               "children": [
                 {
@@ -303,11 +312,13 @@
         "headingColor": "#ffffff",
         "headingFont": "heading2",
         "headingAlignment": "left",
-        "headingContent": "Pick your first lesson"
+        "headingContent": "Pick your first lesson",
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1776185557269-ckdt",
+          "id": "slot-1776244374534-6wcd",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -328,7 +339,6 @@
             "elevation": 4,
             "borderRadius": 0,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
             "bgType": "solid",
@@ -339,7 +349,9 @@
             },
             "overflow": "wrap",
             "clipContent": false,
-            "alignContent": "center"
+            "alignContent": "center",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -404,7 +416,9 @@
                     "borderRadius": "0",
                     "height": "w"
                   }
-                }
+                },
+                "hidden": false,
+                "mobileHidden": false
               },
               "responsiveVariants": {
                 "mobile": {},
@@ -466,7 +480,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               },
               "responsiveVariants": {
                 "mobile": {},
@@ -528,7 +544,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               },
               "responsiveVariants": {
                 "mobile": {},
@@ -603,7 +621,9 @@
                     "textAlign": "center",
                     "color": null
                   }
-                }
+                },
+                "hidden": false,
+                "mobileHidden": false
               },
               "responsiveVariants": {
                 "mobile": {},
@@ -640,11 +660,13 @@
         "bgColorSlot": "card",
         "bgType": "solid",
         "bgGradient": null,
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1776185557269-gvrg",
+          "id": "slot-1776244374534-q6qi",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -666,12 +688,13 @@
             "elevation": 4,
             "borderRadius": 0,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
             "bgType": "solid",
             "bgGradient": null,
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -726,7 +749,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               },
               "responsiveVariants": {
                 "mobile": {},
@@ -737,7 +762,7 @@
           ]
         },
         {
-          "id": "slot-1776185557269-43yd",
+          "id": "slot-1776244374534-ljzn",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -759,13 +784,14 @@
             "elevation": 4,
             "borderRadius": 0,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
             "bgType": "solid",
             "bgGradient": null,
             "mobileOverrides": {},
-            "bgColorSlot": "transparent"
+            "bgColorSlot": "transparent",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -820,7 +846,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               },
               "responsiveVariants": {
                 "mobile": {},
@@ -858,7 +886,9 @@
                   "mobileOrder": null
                 },
                 "mobileOverrides": {},
-                "bgColorSlot": "accent"
+                "bgColorSlot": "accent",
+                "hidden": false,
+                "mobileHidden": false
               },
               "children": []
             }
@@ -916,7 +946,9 @@
         "bgGradient": {
           "color1": "#ff8b1f",
           "color2": "#fdc86d",
-          "angle": 90
+          "angle": 90,
+          "color1Slot": "primary",
+          "color2Slot": "secondary"
         },
         "fontSize": 18,
         "textColorSlot": "background",

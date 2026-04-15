@@ -57,7 +57,15 @@ function collectMobileOverrideCSS(page, isMobilePreview = false) {
       if (mo.maxHeight !== undefined) css['max-height'] = `${mo.maxHeight}px`;
       if (mo.bgColor !== undefined && mo.bgType !== 'gradient') css['background-color'] = mo.bgColor;
       if (mo.bgType === 'gradient' && mo.bgGradient) {
-        css['background-image'] = `linear-gradient(${mo.bgGradient.angle}deg, ${mo.bgGradient.color1}, ${mo.bgGradient.color2})`;
+        const { angle, color1, color2, color1Slot, color2Slot } = mo.bgGradient;
+        const colors = page.styles.colors || {};
+        const resolvedColor1 = color1Slot && color1Slot !== 'custom'
+          ? (color1Slot === 'transparent' ? 'transparent' : (colors[color1Slot] || color1))
+          : color1;
+        const resolvedColor2 = color2Slot && color2Slot !== 'custom'
+          ? (color2Slot === 'transparent' ? 'transparent' : (colors[color2Slot] || color2))
+          : color2;
+        css['background-image'] = `linear-gradient(${angle}deg, ${resolvedColor1}, ${resolvedColor2})`;
       }
       if (mo.gap !== undefined) {
         const gapPx = GAP_PX[mo.gap];
@@ -101,7 +109,15 @@ function collectMobileOverrideCSS(page, isMobilePreview = false) {
       if (mo.height !== undefined) css['min-height'] = mo.height !== 'auto' ? mo.height : 'unset';
       if (mo.bgColor !== undefined && mo.bgType !== 'gradient') css['background-color'] = mo.bgColor;
       if (mo.bgType === 'gradient' && mo.bgGradient) {
-        css['background-image'] = `linear-gradient(${mo.bgGradient.angle}deg, ${mo.bgGradient.color1}, ${mo.bgGradient.color2})`;
+        const { angle, color1, color2, color1Slot, color2Slot } = mo.bgGradient;
+        const colors = page.styles.colors || {};
+        const resolvedColor1 = color1Slot && color1Slot !== 'custom'
+          ? (color1Slot === 'transparent' ? 'transparent' : (colors[color1Slot] || color1))
+          : color1;
+        const resolvedColor2 = color2Slot && color2Slot !== 'custom'
+          ? (color2Slot === 'transparent' ? 'transparent' : (colors[color2Slot] || color2))
+          : color2;
+        css['background-image'] = `linear-gradient(${angle}deg, ${resolvedColor1}, ${resolvedColor2})`;
       }
       if (mo.padding !== undefined) css['padding'] = `${mo.padding}px`;
       if (mo.borderRadius !== undefined) css['border-radius'] = `${mo.borderRadius}px`;
@@ -363,8 +379,18 @@ function renderSegment(segment, page, segmentHorizontalScroll = false) {
     : undefined;
 
   const isGradient = segment.settings.bgType === 'gradient' && segment.settings.bgGradient;
+  const segPaletteColors = page.styles.colors || {};
   const gradientBg = isGradient
-    ? `linear-gradient(${segment.settings.bgGradient.angle}deg, ${segment.settings.bgGradient.color1}, ${segment.settings.bgGradient.color2})`
+    ? (() => {
+        const { angle, color1, color2, color1Slot, color2Slot } = segment.settings.bgGradient;
+        const resolvedColor1 = color1Slot && color1Slot !== 'custom'
+          ? (color1Slot === 'transparent' ? 'transparent' : (segPaletteColors[color1Slot] || color1))
+          : color1;
+        const resolvedColor2 = color2Slot && color2Slot !== 'custom'
+          ? (color2Slot === 'transparent' ? 'transparent' : (segPaletteColors[color2Slot] || color2))
+          : color2;
+        return `linear-gradient(${angle}deg, ${resolvedColor1}, ${resolvedColor2})`;
+      })()
     : undefined;
   const hasBgImage = !!segment.settings.bgImage;
 
@@ -609,8 +635,14 @@ function renderSlot(slot, page, segmentHScroll = false, isNested = false) {
     styleObj.backgroundColor = resolvedSlotBg;
   }
   if (isGradient) {
-    const { angle, color1, color2 } = slot.settings.bgGradient;
-    styleObj.backgroundImage = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
+    const { angle, color1, color2, color1Slot, color2Slot } = slot.settings.bgGradient;
+    const resolvedColor1 = color1Slot && color1Slot !== 'custom'
+      ? (color1Slot === 'transparent' ? 'transparent' : (slotPaletteColors[color1Slot] || color1))
+      : color1;
+    const resolvedColor2 = color2Slot && color2Slot !== 'custom'
+      ? (color2Slot === 'transparent' ? 'transparent' : (slotPaletteColors[color2Slot] || color2))
+      : color2;
+    styleObj.backgroundImage = `linear-gradient(${angle}deg, ${resolvedColor1}, ${resolvedColor2})`;
     styleObj.backgroundSize = 'cover';
     styleObj.backgroundPosition = 'center';
     styleObj.backgroundRepeat = 'no-repeat';
@@ -844,7 +876,16 @@ function renderContentItemInner(item, page) {
       // Background
       const bgColor = item.settings.customOverrides?.bgColor || resolvedBgColor || '#3b82f6';
       const background = isGradient
-        ? `linear-gradient(${buttonStyle.bgGradient.angle ?? 90}deg, ${buttonStyle.bgGradient.color1}, ${buttonStyle.bgGradient.color2})`
+        ? (() => {
+            const { angle, color1, color2, color1Slot, color2Slot } = buttonStyle.bgGradient;
+            const resolvedColor1 = color1Slot && color1Slot !== 'custom'
+              ? (color1Slot === 'transparent' ? 'transparent' : (paletteColors[color1Slot] || color1))
+              : color1;
+            const resolvedColor2 = color2Slot && color2Slot !== 'custom'
+              ? (color2Slot === 'transparent' ? 'transparent' : (paletteColors[color2Slot] || color2))
+              : color2;
+            return `linear-gradient(${angle ?? 90}deg, ${resolvedColor1}, ${resolvedColor2})`;
+          })()
         : bgColor;
       const isOutline = resolvedBgColor === 'transparent' && !isGradient;
 
@@ -1029,7 +1070,16 @@ function renderContentItemInner(item, page) {
             : buttonStyle?.bgColor;
         const bgColor = cardResolvedBgColor || '#3b82f6';
         const background = isGradient
-          ? `linear-gradient(${buttonStyle.bgGradient.angle ?? 90}deg, ${buttonStyle.bgGradient.color1}, ${buttonStyle.bgGradient.color2})`
+          ? (() => {
+              const { angle, color1, color2, color1Slot, color2Slot } = buttonStyle.bgGradient;
+              const resolvedColor1 = color1Slot && color1Slot !== 'custom'
+                ? (color1Slot === 'transparent' ? 'transparent' : (cardPaletteColors[color1Slot] || color1))
+                : color1;
+              const resolvedColor2 = color2Slot && color2Slot !== 'custom'
+                ? (color2Slot === 'transparent' ? 'transparent' : (cardPaletteColors[color2Slot] || color2))
+                : color2;
+              return `linear-gradient(${angle ?? 90}deg, ${resolvedColor1}, ${resolvedColor2})`;
+            })()
           : bgColor;
         const isOutline = cardResolvedBgColor === 'transparent' && !isGradient;
 
@@ -1165,7 +1215,16 @@ export function generateCSS(page) {
           ? (hoverPaletteColors[bs.bgColorSlot] || bs.bgColor)
           : bs.bgColor;
       const hoverBg = isGradient
-        ? `linear-gradient(${bs.bgGradient.angle ?? 90}deg, ${darkenHex(bs.bgGradient.color1)}, ${darkenHex(bs.bgGradient.color2)})`
+        ? (() => {
+            const { angle, color1, color2, color1Slot, color2Slot } = bs.bgGradient;
+            const resolvedColor1 = color1Slot && color1Slot !== 'custom'
+              ? (color1Slot === 'transparent' ? 'transparent' : (hoverPaletteColors[color1Slot] || color1))
+              : color1;
+            const resolvedColor2 = color2Slot && color2Slot !== 'custom'
+              ? (color2Slot === 'transparent' ? 'transparent' : (hoverPaletteColors[color2Slot] || color2))
+              : color2;
+            return `linear-gradient(${angle ?? 90}deg, ${darkenHex(resolvedColor1)}, ${darkenHex(resolvedColor2)})`;
+          })()
         : darkenHex(resolvedBsColor || '#3b82f6');
       const isOutline = resolvedBsColor === 'transparent' && bs.bgType !== 'gradient';
       if (isOutline) return ''; // skip hover for transparent/outline buttons

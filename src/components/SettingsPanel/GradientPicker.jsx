@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { ColorSlotPicker, resolveSlotColor } from './ColorPresets.jsx';
 
 const inputStyle = {
@@ -13,12 +13,39 @@ const inputStyle = {
 };
 
 export function GradientPicker({ bgType = 'solid', bgColor, bgColorSlot, bgGradient, onUpdate, onMergeUpdate, colors = {} }) {
-  const gradient = bgGradient || { color1: bgColor || '#ffffff', color2: '#000000', angle: 90 };
+  const [gradient, setGradient] = useState(() => ({
+    color1: bgColor || '#ffffff',
+    color2: '#000000',
+    angle: 90,
+    color1Slot: null,
+    color2Slot: null,
+    ...bgGradient
+  }));
+
+  useEffect(() => {
+    setGradient({
+      color1: bgColor || '#ffffff',
+      color2: '#000000',
+      angle: 90,
+      color1Slot: null,
+      color2Slot: null,
+      ...bgGradient
+    });
+  }, [bgGradient, bgColor]);
+
   const dialRef = useRef(null);
   const dragging = useRef(false);
 
   const updateGradient = (key, value) => {
-    onUpdate('bgGradient', { ...gradient, [key]: value });
+    const newGradient = { ...gradient, [key]: value };
+    setGradient(newGradient);
+    onUpdate('bgGradient', newGradient);
+  };
+
+  const updateGradientMultiple = (updates) => {
+    const newGradient = { ...gradient, ...updates };
+    setGradient(newGradient);
+    onUpdate('bgGradient', newGradient);
   };
 
   const getAngleFromPointer = (e) => {
@@ -102,21 +129,25 @@ export function GradientPicker({ bgType = 'solid', bgColor, bgColorSlot, bgGradi
           {/* Color 1 */}
           <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '4px' }}>Color 1</div>
           <ColorSlotPicker
-            slot={null}
+            slot={gradient.color1Slot ?? null}
             customColor={gradient.color1}
             colors={colors}
-            onSlotChange={(slot, color) => updateGradient('color1', color)}
-            onCustomColorChange={(color) => updateGradient('color1', color)}
+            onSlotChange={(slot, color) => {
+              updateGradientMultiple({ color1Slot: slot, color1: color });
+            }}
+            onCustomColorChange={(color) => updateGradientMultiple({ color1Slot: null, color1: color })}
           />
 
           {/* Color 2 */}
           <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '4px', marginTop: '12px' }}>Color 2</div>
           <ColorSlotPicker
-            slot={null}
+            slot={gradient.color2Slot ?? null}
             customColor={gradient.color2}
             colors={colors}
-            onSlotChange={(slot, color) => updateGradient('color2', color)}
-            onCustomColorChange={(color) => updateGradient('color2', color)}
+            onSlotChange={(slot, color) => {
+              updateGradientMultiple({ color2Slot: slot, color2: color });
+            }}
+            onCustomColorChange={(color) => updateGradientMultiple({ color2Slot: null, color2: color })}
           />
 
           {/* Direction dial */}
