@@ -47,7 +47,7 @@
       },
       "children": [
         {
-          "id": "slot-1776240031913-02lg",
+          "id": "slot-1776240063766-3leu",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -164,7 +164,7 @@
           ]
         },
         {
-          "id": "slot-1776240031913-f6zc",
+          "id": "slot-1776240063766-flhm",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -245,11 +245,12 @@
           "color1": "#008a10",
           "color2": "#8b5cf6",
           "angle": 90
-        }
+        },
+        "mobileOverrides": {}
       },
       "children": [
         {
-          "id": "slot-1776240034410-y12p",
+          "id": "slot-1776240063766-520c",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -273,7 +274,10 @@
             "hidden": false,
             "responsive": {
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {}
           },
           "children": []
         }
