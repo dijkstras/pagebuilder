@@ -342,20 +342,20 @@
         "id": "primary",
         "label": "Primary",
         "bgColor": "#FF2D78",
-        "textColor": "#ffa200",
+        "textColor": "#F5F5F5",
         "padding": 12,
         "radius": 6,
-        "bgType": "solid",
+        "bgType": "gradient",
         "bgGradient": {
-          "color1": "#FF80AB",
-          "color2": "#000000",
+          "color1": "#ffc800",
+          "color2": "#acdb00",
           "angle": 90,
-          "color1Slot": null,
-          "color2Slot": null
+          "color1Slot": "primary",
+          "color2Slot": "secondary"
         },
         "fontSize": 14,
         "bgColorSlot": "primary",
-        "textColorSlot": "custom"
+        "textColorSlot": "text"
       },
       {
         "id": "secondary",
