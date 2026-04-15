@@ -1,0 +1,30 @@
+{
+  "name": "Mindtickle Marketing",
+  "fonts": {
+    "heading1": {
+      "family": "Montserrat",
+      "size": 55,
+      "weight": 300
+    },
+    "heading2": {
+      "family": "Montserrat",
+      "size": 24,
+      "weight": 600
+    },
+    "body": {
+      "family": "Inter",
+      "size": 16,
+      "weight": 400
+    },
+    "label": {
+      "family": "Inter",
+      "size": 12,
+      "weight": 500
+    },
+    "button": {
+      "family": "Montserrat",
+      "weight": 500
+    }
+  },
+  "savedAt": "2026-04-15T10:08:09.786Z"
+}
