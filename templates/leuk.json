@@ -193,7 +193,7 @@
             "borderRadius": 0,
             "width": "30%",
             "height": "auto",
-            "bgSize": "contain",
+            "bgSize": "cover",
             "bgType": "solid",
             "bgGradient": null,
             "gridColumn": 4,
