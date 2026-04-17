@@ -76,7 +76,8 @@
               "mobileOrder": 2
             },
             "mobileOverrides": {
-              "contentAlignment": "center"
+              "contentAlignment": "center",
+              "height": "300px"
             },
             "overflow": "wrap",
             "hidden": false,
