@@ -99,7 +99,8 @@
       "xl": 48
     },
     "bgColor": "#FFf",
-    "bgColorSlot": "background"
+    "bgColorSlot": "background",
+    "segmentSpacing": "lg"
   },
   "root": [
     {
@@ -149,7 +150,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-j3ne",
+          "id": "slot-1776334956457-57ft",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -217,7 +218,7 @@
           ]
         },
         {
-          "id": "slot-1776241001774-qn1t",
+          "id": "slot-1776334956457-khzw",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -275,7 +276,7 @@
           ]
         },
         {
-          "id": "slot-1776241001774-mk3r",
+          "id": "slot-1776334956457-3b8b",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -389,7 +390,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-djy3",
+          "id": "slot-1776334956457-ep21",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -545,7 +546,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-vze4",
+          "id": "slot-1776334956457-fg4k",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -616,7 +617,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-kdrm",
+          "id": "slot-1776334956457-g1r8",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -749,7 +750,7 @@
           ]
         },
         {
-          "id": "slot-1776241001774-sbdh",
+          "id": "slot-1776334956457-m4jl",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -892,7 +893,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-lhc8",
+          "id": "slot-1776334956457-2si6",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -1109,7 +1110,7 @@
           ]
         },
         {
-          "id": "slot-1776241001774-lwd4",
+          "id": "slot-1776334956457-axcg",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -1160,7 +1161,8 @@
                   "mobile": {},
                   "tablet": {},
                   "desktop": {}
-                }
+                },
+                "mobileOverrides": {}
               }
             }
           ]
@@ -1200,7 +1202,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-zbmm",
+          "id": "slot-1776334956457-w0z8",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -1261,7 +1263,7 @@
           ]
         },
         {
-          "id": "slot-1776241001774-cld2",
+          "id": "slot-1776334956457-u0yh",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -1412,7 +1414,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-leq5",
+          "id": "slot-1776334956457-enx1",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -1505,7 +1507,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-sffx",
+          "id": "slot-1776334956457-qka1",
           "name": "Touring",
           "type": "slot",
           "settings": {
@@ -1591,7 +1593,7 @@
           ]
         },
         {
-          "id": "slot-1776241001774-luql",
+          "id": "slot-1776334956457-0scx",
           "name": "Shifter",
           "type": "slot",
           "settings": {
@@ -1711,7 +1713,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-sqlw",
+          "id": "slot-1776334956457-47ao",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -1778,7 +1780,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-aawr",
+          "id": "slot-1776334956457-5cam",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -1869,7 +1871,7 @@
       },
       "children": [
         {
-          "id": "slot-1776241001774-vyh7",
+          "id": "slot-1776334956457-4q67",
           "name": "Copyright",
           "type": "slot",
           "settings": {

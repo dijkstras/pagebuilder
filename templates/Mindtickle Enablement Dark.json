@@ -52,7 +52,7 @@
       },
       "children": [
         {
-          "id": "slot-1776250148235-uff5",
+          "id": "slot-1776340769455-xfi4",
           "name": "Text & CTA",
           "type": "slot",
           "settings": {
@@ -125,7 +125,7 @@
                 "assignedStyleId": null,
                 "textRole": "heading1",
                 "customOverrides": {
-                  "content": "Enablement Starts Here",
+                  "content": "Enablement Starts right now",
                   "colorSlot": "custom"
                 },
                 "responsive": {
@@ -266,7 +266,8 @@
                     },
                     "mobileOverrides": {
                       "hidden": true
-                    }
+                    },
+                    "mobileHidden": true
                   },
                   "name": "Secondary STA"
                 }
@@ -319,7 +320,7 @@
       },
       "children": [
         {
-          "id": "slot-1776250148235-i5tb",
+          "id": "slot-1776340769455-tpzx",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -675,7 +676,7 @@
       },
       "children": [
         {
-          "id": "slot-1776250148235-cooj",
+          "id": "slot-1776340769455-cfph",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -771,7 +772,7 @@
           ]
         },
         {
-          "id": "slot-1776250148235-9obw",
+          "id": "slot-1776340769455-pwjz",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -904,18 +905,222 @@
           ]
         }
       ]
+    },
+    {
+      "id": "segment-1776334763323-guwtv",
+      "name": "Classic Header 3",
+      "type": "segment",
+      "settings": {
+        "fullWidth": true,
+        "bgColor": "transparent",
+        "bgImage": null,
+        "padding": 40,
+        "margin": 0,
+        "gutter": "auto",
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "direction": "row",
+        "minHeight": 200,
+        "bgVideo": null,
+        "bgType": "gradient",
+        "bgGradient": {
+          "color1": "#fff0d6",
+          "color2": "#f9fafb",
+          "angle": 148
+        },
+        "borderEnabled": false,
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "elevationEnabled": false,
+        "elevation": 8,
+        "borderRadius": 0,
+        "bgSize": "contain",
+        "bgPositionX": "right",
+        "layout": "67-33",
+        "gap": "sm",
+        "mobileOverrides": {
+          "gap": "none"
+        },
+        "hidden": false,
+        "mobileHidden": false
+      },
+      "children": [
+        {
+          "id": "slot-1776340769455-czne",
+          "name": "Text and button",
+          "type": "slot",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 40,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 2,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "width": "65%",
+            "bgType": "solid",
+            "bgGradient": null,
+            "gridColumn": 8,
+            "height": "auto",
+            "responsive": {
+              "mobileOrder": 2
+            },
+            "mobileOverrides": {
+              "contentAlignment": "center"
+            },
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
+          },
+          "children": [
+            {
+              "id": "text-1776334763323-6vubv",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading1",
+                "customOverrides": {
+                  "content": "I Love Hamburgers",
+                  "color": "#ec4899"
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {
+                  "textAlign": "center"
+                },
+                "hidden": false,
+                "mobileHidden": false
+              }
+            },
+            {
+              "id": "text-1776334763323-hhnqr",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "heading2",
+                "customOverrides": {
+                  "content": "My name is Sjoerd Dijkstra, and I love hamburgers. They make me feel happy and warm inside. "
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {
+                  "textAlign": "center"
+                },
+                "hidden": false,
+                "mobileHidden": false
+              }
+            },
+            {
+              "id": "button-1776334763323-4rql2",
+              "type": "button",
+              "settings": {
+                "assignedStyleId": "primary",
+                "textRole": null,
+                "customOverrides": {
+                  "label": "Eat a burger with Sjoerd",
+                  "icon": {
+                    "key": null,
+                    "position": "none"
+                  },
+                  "sizeOverride": {
+                    "enabled": false,
+                    "width": "auto",
+                    "height": "auto"
+                  }
+                },
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                },
+                "responsive": {
+                  "hideOnMobile": false,
+                  "hideOnDesktop": false
+                },
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
+              }
+            }
+          ]
+        },
+        {
+          "id": "slot-1776340769455-3zed",
+          "name": "Container",
+          "type": "slot",
+          "settings": {
+            "columnSpan": 12,
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": "https://png.pngtree.com/png-clipart/20240523/original/pngtree-3d-burger-on-transparent-background-png-image_15157990.png",
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "center",
+            "direction": "column",
+            "borderEnabled": false,
+            "borderWidth": 3,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "width": "30%",
+            "height": "auto",
+            "bgSize": "contain",
+            "bgType": "solid",
+            "bgGradient": null,
+            "gridColumn": 4,
+            "responsive": {
+              "mobileOrder": 1
+            },
+            "mobileOverrides": {
+              "contentAlignment": "center",
+              "padding": 60
+            },
+            "overflow": "wrap",
+            "bgPositionX": "center",
+            "bgPositionY": "center",
+            "hidden": false,
+            "mobileHidden": false
+          },
+          "children": []
+        }
+      ]
     }
   ],
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#ff8b1f",
-      "secondary": "#fdc86d",
-      "accent": "#66ae1e",
-      "text": "#ffffff",
-      "background": "#000000",
-      "neutral": "#20201d",
-      "card": "#1d1d20"
+      "primary": "#3B82F6",
+      "secondary": "#60A5FA",
+      "accent": "#F59E0B",
+      "text": "#E8EFF8",
+      "background": "#0D1B2E",
+      "neutral": "#162845",
+      "card": "#1A3050"
     },
     "fonts": {
       "heading1": {
