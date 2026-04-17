@@ -202,7 +202,8 @@
             },
             "mobileOverrides": {
               "contentAlignment": "center",
-              "padding": 60
+              "padding": 60,
+              "bgSize": "200px 200px"
             },
             "overflow": "wrap",
             "bgPositionX": "center",
