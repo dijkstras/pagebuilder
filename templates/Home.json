@@ -762,6 +762,24 @@
             }
           },
           "children": []
+        },
+        {
+          "id": "content-1776414705228",
+          "type": "text",
+          "settings": {
+            "assignedStyleId": null,
+            "textRole": "body",
+            "customOverrides": {
+              "content": "Your text here"
+            },
+            "hidden": false,
+            "mobileHidden": false,
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            }
+          }
         }
       ]
     }
