@@ -179,7 +179,7 @@
             "columnSpan": 12,
             "spacing": 16,
             "bgColor": "transparent",
-            "bgImage": "https://png.pngtree.com/png-clipart/20240523/original/pngtree-3d-burger-on-transparent-background-png-image_15157990.png",
+            "bgImage": null,
             "bgVideo": null,
             "padding": 0,
             "contentAlignment": "left",
