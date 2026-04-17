@@ -295,7 +295,26 @@
             "mobileOverrides": {},
             "mobileHidden": false
           },
-          "children": []
+          "children": [
+            {
+              "id": "content-1776411051853",
+              "type": "text",
+              "settings": {
+                "assignedStyleId": null,
+                "textRole": "body",
+                "customOverrides": {
+                  "content": "Your text here"
+                },
+                "hidden": false,
+                "mobileHidden": false,
+                "responsiveVariants": {
+                  "mobile": {},
+                  "tablet": {},
+                  "desktop": {}
+                }
+              }
+            }
+          ]
         }
       ]
     }
