@@ -179,11 +179,14 @@
         "headingFont": "heading1",
         "headingAlignment": "left",
         "headingColor": "#000000",
-        "headingColorSlot": null
+        "headingColorSlot": null,
+        "bgType": "solid",
+        "bgGradient": null,
+        "mobileOverrides": {}
       },
       "children": [
         {
-          "id": "slot-1776694852985-mrym",
+          "id": "slot-1776695255661-g2d4",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -208,7 +211,10 @@
             "mobileHidden": false,
             "responsive": {
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "mobileOverrides": {}
           },
           "children": []
         }
