@@ -51,7 +51,7 @@
       },
       "children": [
         {
-          "id": "slot-1776340950447-0anx",
+          "id": "slot-1776411666084-a1mc",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -174,7 +174,7 @@
       },
       "children": [
         {
-          "id": "slot-1776340950447-dg39",
+          "id": "slot-1776411666084-kxca",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -399,7 +399,7 @@
           ]
         },
         {
-          "id": "slot-1776340950447-3wu9",
+          "id": "slot-1776411666084-1dtr",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -659,7 +659,7 @@
           ]
         },
         {
-          "id": "slot-1776340950447-tbsy",
+          "id": "slot-1776411666084-is0h",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -864,7 +864,7 @@
       },
       "children": [
         {
-          "id": "slot-1776340956810-73xid",
+          "id": "slot-1776411666084-p0e0",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -1194,23 +1194,23 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#FF2D78",
-      "secondary": "#FF80AB",
-      "accent": "#00AACC",
-      "text": "#1A001A",
-      "background": "#FFFFFF",
-      "neutral": "#FFF0F5",
+      "primary": "#111111",
+      "secondary": "#555555",
+      "accent": "#888888",
+      "text": "#111111",
+      "background": "#F2F2F2",
+      "neutral": "#F5F5F5",
       "card": "#FFFFFF"
     },
     "fonts": {
       "heading1": {
         "family": "Montserrat",
-        "size": 48,
-        "weight": 700
+        "size": 55,
+        "weight": 300
       },
       "heading2": {
         "family": "Montserrat",
-        "size": 32,
+        "size": 24,
         "weight": 600
       },
       "body": {
@@ -1225,7 +1225,7 @@
       },
       "button": {
         "family": "Montserrat",
-        "weight": 600
+        "weight": 500
       }
     },
     "buttonStyles": [

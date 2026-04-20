@@ -119,6 +119,16 @@ function pageReducer(state, action) {
       return { ...state, page: { ...state.page, root } };
     }
 
+    case 'DELETE_SEGMENT': {
+      const root = state.page.root.filter(s => s.id !== action.payload);
+      return {
+        ...state,
+        page: { ...state.page, root },
+        selectedElementId: null,
+        selectedElementType: null
+      };
+    }
+
     case 'DELETE_ELEMENT':
       return {
         ...state,
@@ -345,6 +355,7 @@ export const pageActions = {
   updateElement: (id, updates) => ({ type: 'UPDATE_ELEMENT', payload: { id, updates } }),
   moveElement: (id, direction) => ({ type: 'MOVE_ELEMENT', payload: { id, direction } }),
   moveSegment: (id, direction) => ({ type: 'MOVE_SEGMENT', payload: { id, direction } }),
+  deleteSegment: (id) => ({ type: 'DELETE_SEGMENT', payload: id }),
   deleteElement: (id) => ({ type: 'DELETE_ELEMENT', payload: id }),
   duplicateElement: (id, elementType) => ({ type: 'DUPLICATE_ELEMENT', payload: { id, elementType } }),
   selectElement: (id, elementType) => ({ type: 'SELECT_ELEMENT', payload: { id, elementType } }),
