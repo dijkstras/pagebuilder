@@ -6,11 +6,12 @@ import { MobileOverrideIcon, MobileOverrideWrap } from './useMobileSettings.jsx'
 
 const MobileOverrideDot = MobileOverrideIcon;
 
-export function PageSettings() {
+export function PageSettings({ mode = 'advanced' }) {
   const { state, dispatch } = usePageStore();
   const { page } = state;
   const isMobile = state.viewportMode === 'mobile';
   const mo = page.mobileOverrides ?? {};
+  const isSimple = mode === 'simple';
 
   const setOverride = (key, value) => {
     dispatch(pageActions.updatePageMobileOverrides({ [key]: value }));
@@ -94,36 +95,38 @@ export function PageSettings() {
         />
       </MobileOverrideWrap>
 
-      <MobileOverrideWrap hasOverride={hasOverride('segmentSpacing')} style={{ marginBottom: '16px' }}>
-        <label style={{ fontSize: '12px', color: '#9ca3af', display: 'inline-block', marginBottom: '6px' }}>
-          Segment spacing
-          <MobileOverrideDot hasOverride={hasOverride('segmentSpacing')} onClear={() => clearOverride('segmentSpacing')} />
-        </label>
-        <div style={{ display: 'flex', gap: '4px' }}>
-          {Object.entries(SEGMENT_SPACING_PRESETS).map(([key, preset]) => {
-            const isActive = effectiveSpacing === key;
-            return (
-              <button
-                key={key}
-                onClick={() => handleSegmentSpacingChange(key)}
-                style={{
-                  flex: 1,
-                  padding: '8px',
-                  fontSize: '12px',
-                  backgroundColor: isActive ? '#3b82f6' : '#374151',
-                  color: isActive ? '#ffffff' : '#9ca3af',
-                  border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontWeight: isActive ? 600 : 400
-                }}
-              >
-                {preset.label} ({preset.px}px)
-              </button>
-            );
-          })}
-        </div>
-      </MobileOverrideWrap>
+      {!isSimple && (
+        <MobileOverrideWrap hasOverride={hasOverride('segmentSpacing')} style={{ marginBottom: '16px' }}>
+          <label style={{ fontSize: '12px', color: '#9ca3af', display: 'inline-block', marginBottom: '6px' }}>
+            Segment spacing
+            <MobileOverrideDot hasOverride={hasOverride('segmentSpacing')} onClear={() => clearOverride('segmentSpacing')} />
+          </label>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            {Object.entries(SEGMENT_SPACING_PRESETS).map(([key, preset]) => {
+              const isActive = effectiveSpacing === key;
+              return (
+                <button
+                  key={key}
+                  onClick={() => handleSegmentSpacingChange(key)}
+                  style={{
+                    flex: 1,
+                    padding: '8px',
+                    fontSize: '12px',
+                    backgroundColor: isActive ? '#3b82f6' : '#374151',
+                    color: isActive ? '#ffffff' : '#9ca3af',
+                    border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: isActive ? 600 : 400
+                  }}
+                >
+                  {preset.label} ({preset.px}px)
+                </button>
+              );
+            })}
+          </div>
+        </MobileOverrideWrap>
+      )}
 
       <p style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.5' }}>
         To edit fonts, colors, and button styles, open the{' '}

@@ -44,12 +44,13 @@ const labelStyle = {
 
 const MobileOverrideDot = MobileOverrideIcon;
 
-export function ContentSettings() {
+export function ContentSettings({ mode = 'advanced' }) {
   const { state, dispatch } = usePageStore();
   const content = findElement(state.page, state.selectedElementId);
 
   if (!content) return null;
 
+  const isSimple = mode === 'simple';
   const { isMobile, getSetting, updateSetting, mergeSettings, hasOverride, clearOverride } = useMobileSettings(content);
 
   const handleSettingUpdate = (key, value) => {
@@ -188,23 +189,25 @@ export function ContentSettings() {
             />
           </div>
 
-          <div>
-            <label style={labelStyle}>Text color</label>
-            <ColorSlotPicker
-              slot={content.settings.customOverrides.colorSlot ?? null}
-              customColor={content.settings.customOverrides.color}
-              colors={state.page.styles.colors || {}}
-              onSlotChange={(slot, color) => {
-                dispatch(pageActions.updateElement(content.id, {
-                  settings: {
-                    ...content.settings,
-                    customOverrides: { ...content.settings.customOverrides, colorSlot: slot, color }
-                  }
-                }));
-              }}
-              onCustomColorChange={(color) => handleCustomUpdate('color', color)}
-            />
-          </div>
+          {!isSimple && (
+            <div>
+              <label style={labelStyle}>Text color</label>
+              <ColorSlotPicker
+                slot={content.settings.customOverrides.colorSlot ?? null}
+                customColor={content.settings.customOverrides.color}
+                colors={state.page.styles.colors || {}}
+                onSlotChange={(slot, color) => {
+                  dispatch(pageActions.updateElement(content.id, {
+                    settings: {
+                      ...content.settings,
+                      customOverrides: { ...content.settings.customOverrides, colorSlot: slot, color }
+                    }
+                  }));
+                }}
+                onCustomColorChange={(color) => handleCustomUpdate('color', color)}
+              />
+            </div>
+          )}
         </>
       )}
 
@@ -257,33 +260,37 @@ export function ContentSettings() {
             </div>
           </div>
 
-          <div style={{ marginBottom: '16px' }}>
-            <label style={labelStyle}>Corner Radius</label>
-            <input
-              type="text"
-              value={content.settings.customOverrides.borderRadius || ''}
-              onChange={(e) => handleCustomUpdate('borderRadius', e.target.value)}
-              placeholder="0px"
-              style={inputStyle}
-            />
-            <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
-              Enter value like: 8px, 12px, 50%
+          {!isSimple && (
+            <div style={{ marginBottom: '16px' }}>
+              <label style={labelStyle}>Corner Radius</label>
+              <input
+                type="text"
+                value={content.settings.customOverrides.borderRadius || ''}
+                onChange={(e) => handleCustomUpdate('borderRadius', e.target.value)}
+                placeholder="0px"
+                style={inputStyle}
+              />
+              <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+                Enter value like: 8px, 12px, 50%
+              </div>
             </div>
-          </div>
+          )}
 
-          <div style={{ marginBottom: '16px' }}>
-            <label style={labelStyle}>Opacity</label>
-            <input
-              type="text"
-              value={content.settings.customOverrides.opacity || ''}
-              onChange={(e) => handleCustomUpdate('opacity', e.target.value)}
-              placeholder="100%"
-              style={inputStyle}
-            />
-            <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
-              Enter value like: 0.5, 50%, 80%
+          {!isSimple && (
+            <div style={{ marginBottom: '16px' }}>
+              <label style={labelStyle}>Opacity</label>
+              <input
+                type="text"
+                value={content.settings.customOverrides.opacity || ''}
+                onChange={(e) => handleCustomUpdate('opacity', e.target.value)}
+                placeholder="100%"
+                style={inputStyle}
+              />
+              <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+                Enter value like: 0.5, 50%, 80%
+              </div>
             </div>
-          </div>
+          )}
         </>
       )}
 
@@ -304,40 +311,42 @@ export function ContentSettings() {
             </div>
           </div>
 
-          <div style={{ marginBottom: '16px' }}>
-            <label style={labelStyle}>Video Fit</label>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {[
-                { id: 'contain', label: 'Fit' },
-                { id: 'cover', label: 'Fill' },
-                { id: 'stretch', label: 'Stretch' }
-              ].map(fit => {
-                const isActive = (content.settings.customOverrides.objectFit || 'cover') === (fit.id === 'stretch' ? '100% 100%' : fit.id);
-                return (
-                  <button
-                    key={fit.id}
-                    onClick={() => handleCustomUpdate('objectFit', fit.id === 'stretch' ? '100% 100%' : fit.id)}
-                    style={{
-                      flex: 1,
-                      padding: '10px 8px',
-                      backgroundColor: isActive ? '#1d4ed8' : '#374151',
-                      border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                      fontWeight: isActive ? '600' : '400',
-                      color: isActive ? '#93c5fd' : '#9ca3af'
-                    }}
-                  >
-                    {fit.label}
-                  </button>
-                );
-              })}
+          {!isSimple && (
+            <div style={{ marginBottom: '16px' }}>
+              <label style={labelStyle}>Video Fit</label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {[
+                  { id: 'contain', label: 'Fit' },
+                  { id: 'cover', label: 'Fill' },
+                  { id: 'stretch', label: 'Stretch' }
+                ].map(fit => {
+                  const isActive = (content.settings.customOverrides.objectFit || 'cover') === (fit.id === 'stretch' ? '100% 100%' : fit.id);
+                  return (
+                    <button
+                      key={fit.id}
+                      onClick={() => handleCustomUpdate('objectFit', fit.id === 'stretch' ? '100% 100%' : fit.id)}
+                      style={{
+                        flex: 1,
+                        padding: '10px 8px',
+                        backgroundColor: isActive ? '#1d4ed8' : '#374151',
+                        border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        fontWeight: isActive ? '600' : '400',
+                        color: isActive ? '#93c5fd' : '#9ca3af'
+                      }}
+                    >
+                      {fit.label}
+                    </button>
+                  );
+                })}
+              </div>
+              <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+                Fit: maintain aspect ratio • Fill: crop to fit • Stretch: ignore aspect ratio
+              </div>
             </div>
-            <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
-              Fit: maintain aspect ratio • Fill: crop to fit • Stretch: ignore aspect ratio
-            </div>
-          </div>
+          )}
         </>
       )}
 
@@ -415,8 +424,8 @@ export function ContentSettings() {
               />
             </div>
 
-            {/* Icon section */}
-            <div style={{ marginBottom: 16 }}>
+            {/* Icon section — Advanced only */}
+            {!isSimple && <div style={{ marginBottom: 16 }}>
               <label style={labelStyle}>Icon</label>
               {/* Position toggle */}
               <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
@@ -464,10 +473,10 @@ export function ContentSettings() {
                   ))}
                 </div>
               )}
-            </div>
+            </div>}
 
-            {/* Size override section */}
-            <div style={{ marginBottom: 16 }}>
+            {/* Size override section — Advanced only */}
+            {!isSimple && <div style={{ marginBottom: 16 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                 <label style={{ ...labelStyle, marginBottom: 0 }}>Size Override</label>
                 <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
@@ -503,7 +512,7 @@ export function ContentSettings() {
                   </div>
                 </div>
               )}
-            </div>
+            </div>}
           </>
         );
       })()}
@@ -592,8 +601,8 @@ export function ContentSettings() {
               />
             </div>
 
-            {/* Padding */}
-            <div style={{ marginBottom: '12px' }}>
+            {/* Padding — Advanced only */}
+            {!isSimple && <div style={{ marginBottom: '12px' }}>
               <label style={labelStyle}>Padding (px)</label>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <div style={{ flex: 1 }}>
@@ -617,10 +626,10 @@ export function ContentSettings() {
                   />
                 </div>
               </div>
-            </div>
+            </div>}
 
-            {/* Border Radius */}
-            <div style={{ marginBottom: '12px' }}>
+            {/* Border Radius — Advanced only */}
+            {!isSimple && <div style={{ marginBottom: '12px' }}>
               <label style={labelStyle}>Border Radius (px)</label>
               <input
                 type="number"
@@ -629,10 +638,10 @@ export function ContentSettings() {
                 onChange={(e) => handleSettingUpdate('borderRadius', parseInt(e.target.value) || 0)}
                 style={inputStyle}
               />
-            </div>
+            </div>}
 
-            {/* Stroke */}
-            <div style={{ marginBottom: '12px' }}>
+            {/* Stroke — Advanced only */}
+            {!isSimple && <div style={{ marginBottom: '12px' }}>
               <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                 <input
                   type="checkbox"
@@ -665,7 +674,7 @@ export function ContentSettings() {
                   </div>
                 </div>
               )}
-            </div>
+            </div>}
           </>
         );
       })()}
@@ -677,8 +686,8 @@ export function ContentSettings() {
         
         return (
           <>
-            {/* Card Settings */}
-            <div style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #1f2937' }}>
+            {/* Card Settings — Advanced only */}
+            {!isSimple && <div style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #1f2937' }}>
               <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Card Settings</label>
               
               {/* Layout Direction */}
@@ -904,7 +913,7 @@ export function ContentSettings() {
                   </div>
                 )}
               </div>
-            </div>
+            </div>}
 
             {/* Image Settings */}
             <div style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #1f2937' }}>
@@ -963,7 +972,7 @@ export function ContentSettings() {
                 </div>
               </div>
 
-              <div style={{ marginBottom: '12px' }}>
+              {!isSimple && <div style={{ marginBottom: '12px' }}>
                 <label style={labelStyle}>Image Border Radius</label>
                 <input
                   type="text"
@@ -972,9 +981,9 @@ export function ContentSettings() {
                   placeholder="4px"
                   style={inputStyle}
                 />
-              </div>
+              </div>}
 
-              <div style={{ marginBottom: '12px' }}>
+              {!isSimple && <div style={{ marginBottom: '12px' }}>
                 <label style={labelStyle}>Image Size</label>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <div style={{ flex: 1 }}>
@@ -1001,7 +1010,7 @@ export function ContentSettings() {
                 <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
                   e.g. 100%, 300px, auto
                 </div>
-              </div>
+              </div>}
             </div>
 
             {/* Text Settings */}
@@ -1203,8 +1212,8 @@ export function ContentSettings() {
                 </div>
               </div>
 
-              {/* Icon section */}
-              <div style={{ marginBottom: 12 }}>
+              {/* Icon section — Advanced only */}
+              {!isSimple && <div style={{ marginBottom: 12 }}>
                 <label style={labelStyle}>Icon</label>
                 {/* Position toggle */}
                 <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
@@ -1258,10 +1267,10 @@ export function ContentSettings() {
                     ))}
                   </div>
                 )}
-              </div>
+              </div>}
 
-              {/* Size override section */}
-              <div style={{ marginBottom: 12 }}>
+              {/* Size override section — Advanced only */}
+              {!isSimple && <div style={{ marginBottom: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                   <label style={{ ...labelStyle, marginBottom: 0 }}>Size Override</label>
                   <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
@@ -1306,14 +1315,14 @@ export function ContentSettings() {
                     </div>
                   </div>
                 )}
-              </div>
+              </div>}
             </div>
           </>
         );
       })()}
 
-      {/* ── Size ── */}
-      {content.type !== CONTENT_TYPES.CARD && content.type !== CONTENT_TYPES.LABEL && (
+      {/* ── Size — Advanced only ── */}
+      {!isSimple && content.type !== CONTENT_TYPES.CARD && content.type !== CONTENT_TYPES.LABEL && (
         <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151' }}>
           <label style={{ ...labelStyle, marginBottom: '8px' }}>Size</label>
           <div style={{ display: 'flex', gap: '8px' }}>
@@ -1344,8 +1353,8 @@ export function ContentSettings() {
         </div>
       )}
 
-      {/* ── Visibility ── */}
-      <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
+      {/* ── Visibility — Advanced only ── */}
+      {!isSimple && <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
         <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Visibility</label>
         
         <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
@@ -1371,7 +1380,7 @@ export function ContentSettings() {
           />
           Visible on mobile
         </label>
-      </div>
+      </div>}
     </div>
   );
 }
