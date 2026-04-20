@@ -37,10 +37,11 @@ function findElement(page, elementId) {
 
 const MobileOverrideDot = MobileOverrideIcon;
 
-export function SegmentSettings() {
+export function SegmentSettings({ mode = 'advanced' }) {
   const { state, dispatch } = usePageStore();
   const segment = findElement(state.page, state.selectedElementId);
   const [saveStatus, setSaveStatus] = useState('idle'); // 'idle' | 'saving' | 'saved'
+  const isSimple = mode === 'simple';
 
   if (!segment) return null;
 
@@ -249,7 +250,6 @@ export function SegmentSettings() {
                   gap: '4px'
                 }}
               >
-                {/* Visual block representation */}
                 <div style={{ display: 'flex', gap: '2px', width: '100%', height: '16px' }}>
                   {blocks.map((span, i) => (
                     <div
@@ -276,50 +276,54 @@ export function SegmentSettings() {
         </div>
       </div>
 
-      {/* Gap Selector */}
-      <MobileOverrideWrap hasOverride={hasOverride('gap')}>
-        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Gap<MobileOverrideDot hasOverride={hasOverride('gap')} onClear={() => clearOverride('gap')} /></label>
+      {/* Gap Selector — Advanced only */}
+      {!isSimple && (
+        <MobileOverrideWrap hasOverride={hasOverride('gap')}>
+          <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Gap<MobileOverrideDot hasOverride={hasOverride('gap')} onClear={() => clearOverride('gap')} /></label>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            {Object.entries(GAP_PRESETS).map(([key, preset]) => {
+              const isActive = currentGap === key;
+              return (
+                <button
+                  key={key}
+                  onClick={() => handleUpdate('gap', key)}
+                  style={{
+                    flex: 1,
+                    padding: '6px 2px',
+                    fontSize: '11px',
+                    backgroundColor: isActive ? '#3b82f6' : '#374151',
+                    color: isActive ? '#ffffff' : '#9ca3af',
+                    border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontWeight: isActive ? 600 : 400
+                  }}
+                >
+                  {preset.label}
+                </button>
+              );
+            })}
+          </div>
+        </MobileOverrideWrap>
+      )}
 
-        <div style={{ display: 'flex', gap: '4px' }}>
-          {Object.entries(GAP_PRESETS).map(([key, preset]) => {
-            const isActive = currentGap === key;
-            return (
-              <button
-                key={key}
-                onClick={() => handleUpdate('gap', key)}
-                style={{
-                  flex: 1,
-                  padding: '6px 2px',
-                  fontSize: '11px',
-                  backgroundColor: isActive ? '#3b82f6' : '#374151',
-                  color: isActive ? '#ffffff' : '#9ca3af',
-                  border: `1px solid ${isActive ? '#3b82f6' : '#4b5563'}`,
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontWeight: isActive ? 600 : 400
-                }}
-              >
-                {preset.label}
-              </button>
-            );
-          })}
-        </div>
-      </MobileOverrideWrap>
-
-      <MobileOverrideWrap hasOverride={hasOverride('horizontalScroll')}>
-        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-          <input
-            type="checkbox"
-            checked={getSetting('horizontalScroll', false)}
-            onChange={(e) => handleUpdate('horizontalScroll', e.target.checked)}
-            style={{ cursor: 'pointer' }}
-          />
-          Horizontal scroll<MobileOverrideDot hasOverride={hasOverride('horizontalScroll')} onClear={() => clearOverride('horizontalScroll')} />
-        </label>
-        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
-          Segment becomes the scroll container. Slot content flows freely beyond slot bounds.
-        </div>
-      </MobileOverrideWrap>
+      {/* Horizontal Scroll — Advanced only */}
+      {!isSimple && (
+        <MobileOverrideWrap hasOverride={hasOverride('horizontalScroll')}>
+          <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={getSetting('horizontalScroll', false)}
+              onChange={(e) => handleUpdate('horizontalScroll', e.target.checked)}
+              style={{ cursor: 'pointer' }}
+            />
+            Horizontal scroll<MobileOverrideDot hasOverride={hasOverride('horizontalScroll')} onClear={() => clearOverride('horizontalScroll')} />
+          </label>
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+            Segment becomes the scroll container. Slot content flows freely beyond slot bounds.
+          </div>
+        </MobileOverrideWrap>
+      )}
 
       <MobileOverrideWrap hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')}>
         <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '6px' }}>Background<MobileOverrideDot hasOverride={hasOverride('bgColor') || hasOverride('bgType') || hasOverride('bgGradient')} onClear={() => { clearOverride('bgColor'); clearOverride('bgType'); clearOverride('bgGradient'); }} /></label>
@@ -334,42 +338,48 @@ export function SegmentSettings() {
         />
       </MobileOverrideWrap>
 
-      <MobileOverrideWrap hasOverride={hasOverride('minHeight')}>
-        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Min Height (px)<MobileOverrideDot hasOverride={hasOverride('minHeight')} onClear={() => clearOverride('minHeight')} /></label>
-        <input
-          type="number"
-          value={getSetting('minHeight', 200)}
-          onChange={(e) => handleUpdate('minHeight', parseInt(e.target.value))}
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        />
-      </MobileOverrideWrap>
+      {/* Min Height — Advanced only */}
+      {!isSimple && (
+        <MobileOverrideWrap hasOverride={hasOverride('minHeight')}>
+          <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Min Height (px)<MobileOverrideDot hasOverride={hasOverride('minHeight')} onClear={() => clearOverride('minHeight')} /></label>
+          <input
+            type="number"
+            value={getSetting('minHeight', 200)}
+            onChange={(e) => handleUpdate('minHeight', parseInt(e.target.value))}
+            style={{
+              width: '100%',
+              padding: '6px',
+              backgroundColor: '#374151',
+              color: '#f3f4f6',
+              border: '1px solid #4b5563',
+              borderRadius: '4px',
+              boxSizing: 'border-box'
+            }}
+          />
+        </MobileOverrideWrap>
+      )}
 
-      <MobileOverrideWrap hasOverride={hasOverride('maxHeight')}>
-        <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Max Height (px)<MobileOverrideDot hasOverride={hasOverride('maxHeight')} onClear={() => clearOverride('maxHeight')} /></label>
-        <input
-          type="number"
-          value={getSetting('maxHeight', '') || ''}
-          onChange={(e) => handleUpdate('maxHeight', e.target.value ? parseInt(e.target.value) : null)}
-          placeholder="No limit"
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            boxSizing: 'border-box'
-          }}
-        />
-      </MobileOverrideWrap>
+      {/* Max Height — Advanced only */}
+      {!isSimple && (
+        <MobileOverrideWrap hasOverride={hasOverride('maxHeight')}>
+          <label style={{ fontSize: '12px', display: 'inline-block', marginBottom: '4px' }}>Max Height (px)<MobileOverrideDot hasOverride={hasOverride('maxHeight')} onClear={() => clearOverride('maxHeight')} /></label>
+          <input
+            type="number"
+            value={getSetting('maxHeight', '') || ''}
+            onChange={(e) => handleUpdate('maxHeight', e.target.value ? parseInt(e.target.value) : null)}
+            placeholder="No limit"
+            style={{
+              width: '100%',
+              padding: '6px',
+              backgroundColor: '#374151',
+              color: '#f3f4f6',
+              border: '1px solid #4b5563',
+              borderRadius: '4px',
+              boxSizing: 'border-box'
+            }}
+          />
+        </MobileOverrideWrap>
+      )}
 
       <div style={{ marginBottom: '12px' }}>
         <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Image URL</label>
@@ -391,30 +401,34 @@ export function SegmentSettings() {
         />
       </div>
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Video URL</label>
-        <input
-          type="text"
-          value={segment.settings.bgVideo || ''}
-          onChange={(e) => handleUpdate('bgVideo', e.target.value || null)}
-          placeholder="https://www.youtube.com/watch?v=..."
-          style={{
-            width: '100%',
-            padding: '6px',
-            backgroundColor: '#374151',
-            color: '#f3f4f6',
-            border: '1px solid #4b5563',
-            borderRadius: '4px',
-            fontSize: '12px',
-            boxSizing: 'border-box'
-          }}
-        />
-        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
-          Plays muted in background. Paste a YouTube URL.
+      {/* Background Video — Advanced only */}
+      {!isSimple && (
+        <div style={{ marginBottom: '12px' }}>
+          <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>Background Video URL</label>
+          <input
+            type="text"
+            value={segment.settings.bgVideo || ''}
+            onChange={(e) => handleUpdate('bgVideo', e.target.value || null)}
+            placeholder="https://www.youtube.com/watch?v=..."
+            style={{
+              width: '100%',
+              padding: '6px',
+              backgroundColor: '#374151',
+              color: '#f3f4f6',
+              border: '1px solid #4b5563',
+              borderRadius: '4px',
+              fontSize: '12px',
+              boxSizing: 'border-box'
+            }}
+          />
+          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+            Plays muted in background. Paste a YouTube URL.
+          </div>
         </div>
-      </div>
+      )}
 
-      {segment.settings.bgVideo && (
+      {/* Video Fit — Advanced only */}
+      {!isSimple && segment.settings.bgVideo && (
         <div style={{ marginBottom: '12px' }}>
           <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Video Fit</label>
           <div style={{ display: 'flex', gap: '6px' }}>
@@ -454,7 +468,8 @@ export function SegmentSettings() {
         </div>
       )}
 
-      {segment.settings.bgImage && (
+      {/* Background image detail controls — Advanced only */}
+      {!isSimple && segment.settings.bgImage && (
         <>
           <div style={{ marginBottom: '12px' }}>
             <label style={{ fontSize: '12px', display: 'block', marginBottom: '6px' }}>Background Fit</label>
@@ -613,188 +628,196 @@ export function SegmentSettings() {
         </>
       )}
 
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-          <input
-            type="checkbox"
-            checked={segment.settings.borderEnabled || false}
-            onChange={(e) => handleUpdate('borderEnabled', e.target.checked)}
-            style={{ cursor: 'pointer' }}
-          />
-          Border
-        </label>
-        {segment.settings.borderEnabled && (
-          <>
-            <div style={{ marginTop: '8px' }}>
-              <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '6px' }}>Edges</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', width: '120px', margin: '0 auto' }}>
-                <div></div>
-                <button
-                  onClick={() => {
-                    const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
-                    handleUpdate('borderEdges', { ...currentEdges, top: !currentEdges.top });
-                  }}
-                  style={{
-                    padding: '8px',
-                    fontSize: '12px',
-                    backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).top ? '#3b82f6' : '#374151',
-                    color: '#f3f4f6',
-                    border: '1px solid #4b5563',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).top ? '600' : '400'
-                  }}
-                >
-                  Top
-                </button>
-                <div></div>
-                <button
-                  onClick={() => {
-                    const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
-                    handleUpdate('borderEdges', { ...currentEdges, left: !currentEdges.left });
-                  }}
-                  style={{
-                    padding: '8px',
-                    fontSize: '12px',
-                    backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).left ? '#3b82f6' : '#374151',
-                    color: '#f3f4f6',
-                    border: '1px solid #4b5563',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).left ? '600' : '400'
-                  }}
-                >
-                  Left
-                </button>
-                <div></div>
-                <button
-                  onClick={() => {
-                    const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
-                    handleUpdate('borderEdges', { ...currentEdges, right: !currentEdges.right });
-                  }}
-                  style={{
-                    padding: '8px',
-                    fontSize: '12px',
-                    backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).right ? '#3b82f6' : '#374151',
-                    color: '#f3f4f6',
-                    border: '1px solid #4b5563',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).right ? '600' : '400'
-                  }}
-                >
-                  Right
-                </button>
-                <div></div>
-                <button
-                  onClick={() => {
-                    const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
-                    handleUpdate('borderEdges', { ...currentEdges, bottom: !currentEdges.bottom });
-                  }}
-                  style={{
-                    padding: '8px',
-                    fontSize: '12px',
-                    backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).bottom ? '#3b82f6' : '#374151',
-                    color: '#f3f4f6',
-                    border: '1px solid #4b5563',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).bottom ? '600' : '400'
-                  }}
-                >
-                  Bottom
-                </button>
-                <div></div>
-              </div>
-            </div>
-            <div style={{ marginTop: '8px', display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
-              <div style={{ flex: 1 }}>
-                <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Width (px)</label>
-                <input
-                  type="number"
-                  value={segment.settings.borderWidth ?? 1}
-                  min={1}
-                  onChange={(e) => handleUpdate('borderWidth', parseInt(e.target.value) || 1)}
-                  style={{
-                    width: '100%',
-                    padding: '6px',
-                    backgroundColor: '#374151',
-                    color: '#f3f4f6',
-                    border: '1px solid #4b5563',
-                    borderRadius: '4px',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
-              <div style={{ flex: 1 }}>
-                <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Color</label>
-                <ColorSlotPicker
-                  slot={segment.settings.borderColorSlot ?? null}
-                  customColor={segment.settings.borderColor ?? '#000000'}
-                  colors={colors}
-                  onSlotChange={(slot, color) => {
-                    handleMergeUpdate({ borderColorSlot: slot, borderColor: color });
-                  }}
-                  onCustomColorChange={(color) => handleMergeUpdate({ borderColorSlot: null, borderColor: color })}
-                />
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-
-      <div style={{ marginBottom: '12px' }}>
-        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-          <input
-            type="checkbox"
-            checked={segment.settings.elevationEnabled || false}
-            onChange={(e) => handleUpdate('elevationEnabled', e.target.checked)}
-            style={{ cursor: 'pointer' }}
-          />
-          Elevation
-        </label>
-        {segment.settings.elevationEnabled && (
-          <div style={{ marginTop: '8px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-              <label style={{ fontSize: '11px', color: '#9ca3af' }}>Shadow intensity</label>
-              <span style={{ fontSize: '11px', color: '#9ca3af' }}>{segment.settings.elevation ?? 4}</span>
-            </div>
+      {/* Border — Advanced only */}
+      {!isSimple && (
+        <div style={{ marginBottom: '12px' }}>
+          <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
             <input
-              type="range"
-              min={0}
-              max={24}
-              value={segment.settings.elevation ?? 4}
-              onChange={(e) => handleUpdate('elevation', parseInt(e.target.value))}
-              style={{ width: '100%', cursor: 'pointer' }}
+              type="checkbox"
+              checked={segment.settings.borderEnabled || false}
+              onChange={(e) => handleUpdate('borderEnabled', e.target.checked)}
+              style={{ cursor: 'pointer' }}
             />
-          </div>
-        )}
-      </div>
+            Border
+          </label>
+          {segment.settings.borderEnabled && (
+            <>
+              <div style={{ marginTop: '8px' }}>
+                <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '6px' }}>Edges</label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', width: '120px', margin: '0 auto' }}>
+                  <div></div>
+                  <button
+                    onClick={() => {
+                      const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
+                      handleUpdate('borderEdges', { ...currentEdges, top: !currentEdges.top });
+                    }}
+                    style={{
+                      padding: '8px',
+                      fontSize: '12px',
+                      backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).top ? '#3b82f6' : '#374151',
+                      color: '#f3f4f6',
+                      border: '1px solid #4b5563',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).top ? '600' : '400'
+                    }}
+                  >
+                    Top
+                  </button>
+                  <div></div>
+                  <button
+                    onClick={() => {
+                      const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
+                      handleUpdate('borderEdges', { ...currentEdges, left: !currentEdges.left });
+                    }}
+                    style={{
+                      padding: '8px',
+                      fontSize: '12px',
+                      backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).left ? '#3b82f6' : '#374151',
+                      color: '#f3f4f6',
+                      border: '1px solid #4b5563',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).left ? '600' : '400'
+                    }}
+                  >
+                    Left
+                  </button>
+                  <div></div>
+                  <button
+                    onClick={() => {
+                      const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
+                      handleUpdate('borderEdges', { ...currentEdges, right: !currentEdges.right });
+                    }}
+                    style={{
+                      padding: '8px',
+                      fontSize: '12px',
+                      backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).right ? '#3b82f6' : '#374151',
+                      color: '#f3f4f6',
+                      border: '1px solid #4b5563',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).right ? '600' : '400'
+                    }}
+                  >
+                    Right
+                  </button>
+                  <div></div>
+                  <button
+                    onClick={() => {
+                      const currentEdges = segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true };
+                      handleUpdate('borderEdges', { ...currentEdges, bottom: !currentEdges.bottom });
+                    }}
+                    style={{
+                      padding: '8px',
+                      fontSize: '12px',
+                      backgroundColor: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).bottom ? '#3b82f6' : '#374151',
+                      color: '#f3f4f6',
+                      border: '1px solid #4b5563',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontWeight: (segment.settings.borderEdges || { top: true, right: true, bottom: true, left: true }).bottom ? '600' : '400'
+                    }}
+                  >
+                    Bottom
+                  </button>
+                  <div></div>
+                </div>
+              </div>
+              <div style={{ marginTop: '8px', display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Width (px)</label>
+                  <input
+                    type="number"
+                    value={segment.settings.borderWidth ?? 1}
+                    min={1}
+                    onChange={(e) => handleUpdate('borderWidth', parseInt(e.target.value) || 1)}
+                    style={{
+                      width: '100%',
+                      padding: '6px',
+                      backgroundColor: '#374151',
+                      color: '#f3f4f6',
+                      border: '1px solid #4b5563',
+                      borderRadius: '4px',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '4px' }}>Color</label>
+                  <ColorSlotPicker
+                    slot={segment.settings.borderColorSlot ?? null}
+                    customColor={segment.settings.borderColor ?? '#000000'}
+                    colors={colors}
+                    onSlotChange={(slot, color) => {
+                      handleMergeUpdate({ borderColorSlot: slot, borderColor: color });
+                    }}
+                    onCustomColorChange={(color) => handleMergeUpdate({ borderColorSlot: null, borderColor: color })}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
 
-      {/* Visibility */}
-      <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
-        <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Visibility</label>
-        
-        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
-          <input
-            type="checkbox"
-            checked={!(segment.settings.hidden || false)}
-            onChange={(e) => handleUpdate('hidden', !e.target.checked)}
-            style={{ cursor: 'pointer' }}
-          />
-          Visible on desktop
-        </label>
-        
-        <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
-          <input
-            type="checkbox"
-            checked={!(segment.settings.mobileHidden || false)}
-            onChange={(e) => handleUpdate('mobileHidden', !e.target.checked)}
-            style={{ cursor: 'pointer' }}
-          />
-          Visible on mobile
-        </label>
-      </div>
+      {/* Elevation — Advanced only */}
+      {!isSimple && (
+        <div style={{ marginBottom: '12px' }}>
+          <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={segment.settings.elevationEnabled || false}
+              onChange={(e) => handleUpdate('elevationEnabled', e.target.checked)}
+              style={{ cursor: 'pointer' }}
+            />
+            Elevation
+          </label>
+          {segment.settings.elevationEnabled && (
+            <div style={{ marginTop: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <label style={{ fontSize: '11px', color: '#9ca3af' }}>Shadow intensity</label>
+                <span style={{ fontSize: '11px', color: '#9ca3af' }}>{segment.settings.elevation ?? 4}</span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={24}
+                value={segment.settings.elevation ?? 4}
+                onChange={(e) => handleUpdate('elevation', parseInt(e.target.value))}
+                style={{ width: '100%', cursor: 'pointer' }}
+              />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Visibility — Advanced only */}
+      {!isSimple && (
+        <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #374151', marginBottom: 0 }}>
+          <label style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Visibility</label>
+
+          <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
+            <input
+              type="checkbox"
+              checked={!(segment.settings.hidden || false)}
+              onChange={(e) => handleUpdate('hidden', !e.target.checked)}
+              style={{ cursor: 'pointer' }}
+            />
+            Visible on desktop
+          </label>
+
+          <label style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '6px' }}>
+            <input
+              type="checkbox"
+              checked={!(segment.settings.mobileHidden || false)}
+              onChange={(e) => handleUpdate('mobileHidden', !e.target.checked)}
+              style={{ cursor: 'pointer' }}
+            />
+            Visible on mobile
+          </label>
+        </div>
+      )}
     </div>
   );
 }
