@@ -1,12 +1,14 @@
 # Page Builder — Architecture & Data Specification
 
-This document describes the complete data model for a page, from top-level structure down to individual content items. Use it as the reference for building new pages, integrations, or tooling on top of this system.
+This document is a guided tour through the page builder's data model. It starts at the top (the page itself) and works down through every layer: branding, segments, slots, and content items. Each field is explained — not just what it is, but why it exists and what it does in practice.
+
+If you're new to the system, read it top to bottom. If you're looking for a specific field, jump to the relevant section.
 
 ---
 
 ## Table of Contents
 
-1. [Architecture Overview](#1-architecture-overview)
+1. [Mental Model](#1-mental-model)
 2. [Page](#2-page)
 3. [Branding System](#3-branding-system)
    - [Color Slots](#31-color-slots)
@@ -15,9 +17,9 @@ This document describes the complete data model for a page, from top-level struc
    - [Spacing & Shape](#34-spacing--shape)
 4. [Segments](#4-segments)
    - [Layout Presets](#41-layout-presets)
-   - [Segment Settings Reference](#42-segment-settings-reference)
+   - [Segment Settings](#42-segment-settings)
 5. [Slots](#5-slots)
-   - [Slot Settings Reference](#51-slot-settings-reference)
+   - [Slot Settings](#51-slot-settings)
 6. [Content Items](#6-content-items)
    - [Text](#61-text)
    - [Image](#62-image)
@@ -33,472 +35,723 @@ This document describes the complete data model for a page, from top-level struc
 
 ---
 
-## 1. Architecture Overview
+## 1. Mental Model
 
-A page is a strict hierarchy. Nothing exists outside it.
+A page is built from four nested concepts, each with a clear job. If you understand the responsibilities of each layer, everything else falls into place.
 
 ```
-Page
-├── styles (branding: colors, fonts, buttons, spacing)
-└── root[]
-    └── Segment
-        └── children[]
-            └── Slot
-                └── children[]
-                    └── ContentItem (text | image | button | video | card | label)
+┌──────────────────────────────────────────────────────────────┐
+│ PAGE                                                         │
+│  ├── BRANDING (colors, fonts, button styles — set once)      │
+│  │                                                           │
+│  ├── SEGMENT  (horizontal band, defines a column grid)       │
+│  │     ├── SLOT  (one column in the grid, holds content)     │
+│  │     │    ├── CONTENT ITEM (text, image, button, ...)      │
+│  │     │    ├── CONTENT ITEM                                 │
+│  │     │    └── CONTENT ITEM                                 │
+│  │     └── SLOT                                              │
+│  │          └── CONTENT ITEM                                 │
+│  │                                                           │
+│  └── SEGMENT                                                 │
+│        └── ...                                               │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-**Rules:**
-- A **Page** has one branding definition and an ordered list of segments.
-- A **Segment** is a full-width section. It defines a grid layout that determines how many slots it contains.
-- A **Slot** occupies N columns within the segment's grid and holds an ordered list of content items.
-- A **ContentItem** is a leaf node. It holds the actual content (text, an image, a button, etc.).
+**The responsibilities of each layer:**
+
+- **Page** — the document. Owns the branding (everything visual cascades from here) and an ordered list of segments.
+- **Segment** — a horizontal section of the page. Like a row in a newspaper. Its job is to define a grid (1, 2, or 3 columns) and provide a backdrop (color, image, video).
+- **Slot** — one column inside a segment. Its job is to be a container that arranges content items vertically or horizontally.
+- **Content Item** — the actual stuff a reader sees: a paragraph, a button, an image, a card.
+
+**Why this matters:** branding lives at the top so that changing a single color or font updates the whole page. Layout lives in segments so the grid system is consistent. Content lives in slots so that authors can rearrange items without thinking about CSS.
 
 ---
 
 ## 2. Page
 
-The root object. Every other element lives inside it.
+The page is the root of everything. A single page renders to one URL.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | `string` | Unique ID, format: `page-{timestamp}` |
-| `title` | `string` | Human-readable page name |
-| `styles` | `PageStyles` | The page-wide branding definition (see §3) |
-| `root` | `Segment[]` | Ordered list of segments |
-| `breakpoints` | `object` | Fixed viewport widths for preview |
-| `mobileOverrides` | `object` | Mobile-specific branding overrides (see §7) |
+```
+Page object
+  ├─ id              "page-1715000000000"
+  ├─ title           "Home"
+  ├─ breakpoints     { mobile: 320, tablet: 768, desktop: 1024 }
+  ├─ styles          ────► the entire branding system (see §3)
+  ├─ root[]          ────► ordered list of segments (see §4)
+  └─ mobileOverrides ────► mobile-specific overrides (see §7)
+```
 
-**Breakpoints (fixed, not editable):**
+| Field | Type | What it's for |
+|-------|------|---------------|
+| `id` | `string` | Unique identifier. Auto-generated as `page-{timestamp}`. Never displayed; used by the system to track this page across save/load operations. |
+| `title` | `string` | The page's name. Appears in the page grid (the dashboard listing all pages) and is used as the filename when saving. |
+| `breakpoints` | `object` | The pixel widths at which mobile/tablet/desktop previews are rendered. **These are fixed at 320 / 768 / 1024** and exist so designers can preview how the page looks at different sizes. They are not user-editable. |
+| `styles` | `PageStyles` | The page's complete branding definition (see §3). This is the single source of truth for colors, fonts, and button styles. |
+| `root` | `Segment[]` | Ordered array of segments. The order here is the visual order top-to-bottom on the page. |
+| `mobileOverrides` | `object` | Optional. Lets the page have different branding values on mobile (e.g. a smaller heading size). See §7. |
 
-| Name | Width |
-|------|-------|
-| `mobile` | 320px |
-| `tablet` | 768px |
-| `desktop` | 1024px |
+**Visual: a page is just a stack of segments.**
+
+```
+┌─ Page ──────────────────────┐
+│ ┌─────────────────────────┐ │
+│ │ Segment 1 (hero)        │ │
+│ └─────────────────────────┘ │
+│ ┌─────────────────────────┐ │
+│ │ Segment 2 (features)    │ │
+│ └─────────────────────────┘ │
+│ ┌─────────────────────────┐ │
+│ │ Segment 3 (CTA)         │ │
+│ └─────────────────────────┘ │
+└─────────────────────────────┘
+```
 
 ---
 
 ## 3. Branding System
 
-`page.styles` is the single source of truth for visual identity. All color, typography, and button decisions cascade from here. Individual elements can reference these values by slot name or override them with a custom hex value.
+`page.styles` is where the page's visual identity is defined. Anything that has a color, a font, or a button style can either reference one of these branding values or override it with a custom value.
+
+The branding system has four parts: **colors**, **typography**, **buttons**, and **spacing/shape**.
+
+**Why it exists:** if a marketing team decides to change their primary brand color, they should be able to do it once and see every primary button, headline accent, and highlighted card update across the whole page. Without a branding layer, every element would need to be edited individually.
 
 ### 3.1 Color Slots
 
-Seven named color slots. Every slot holds a hex color string. These are the only predefined semantic colors in the system — all other color fields reference one of these by name or bypass the slot system with a custom hex value.
-
-| Slot Name | Default | Role |
-|-----------|---------|------|
-| `primary` | `#3b82f6` | Main brand color. Used for primary buttons, key highlights. |
-| `secondary` | `#8b5cf6` | Supporting brand color. |
-| `accent` | `#ec4899` | Tertiary/accent color. |
-| `text` | `#1f2937` | Default text color. |
-| `background` | `#f9fafb` | Page background. |
-| `neutral` | `#6b7280` | Disabled states, secondary buttons, subtle fills. |
-| `card` | `#ffffff` | Card and panel backgrounds. |
-
-**How any element references a color:**
-
-Every color-bearing field on every element comes as a pair:
+The page has seven named **color slots**. A slot is a semantic role — "primary" doesn't mean a specific color, it means "whatever color we've decided is our main brand color." Any element on the page can reference a slot by name, and changing the slot's value updates every referencing element automatically.
 
 ```
-bgColor: "#3b82f6"        ← the resolved hex value (always present)
-bgColorSlot: "primary"    ← the slot it's linked to, or null for a custom value
+page.styles.colors = {
+  primary:    "#3b82f6"  ┐
+  secondary:  "#8b5cf6"  │  ← these 7 hex values are referenced
+  accent:     "#ec4899"  │     by every element on the page
+  text:       "#1f2937"  │
+  background: "#f9fafb"  │
+  neutral:    "#6b7280"  │
+  card:       "#ffffff"  ┘
+}
 ```
 
-- If `bgColorSlot` is a valid slot name → the element uses that slot's color. Changing `colors.primary` updates all elements referencing it.
-- If `bgColorSlot` is `null` → `bgColor` is a one-off custom color, not linked to any slot.
-- If `bgColorSlot` is `"transparent"` → renders as transparent, `bgColor` is ignored.
+| Slot | Default | What it's for |
+|------|---------|---------------|
+| `primary` | `#3b82f6` | The main brand color. Used for primary CTAs, key accents, and important highlights. This is the "loudest" color in the brand. |
+| `secondary` | `#8b5cf6` | The supporting brand color. Used alongside primary to add variety without competing — e.g. a secondary section background or a complementary button. |
+| `accent` | `#ec4899` | A pop color. Used sparingly for emphasis: badges, tags, hover states, decorative elements. |
+| `text` | `#1f2937` | The default body text color. Every paragraph and label uses this unless overridden. |
+| `background` | `#f9fafb` | The default page background. Segments inherit this unless they specify their own background. |
+| `neutral` | `#6b7280` | A muted color for non-critical UI: disabled states, secondary buttons, subtle dividers, captions. |
+| `card` | `#ffffff` | The background color for cards and panels. Kept separate from `background` so cards can visually "lift" off the page even when the page background changes. |
+
+**Visual: changing one slot updates everything that references it.**
+
+```
+Before:                          After (primary changed to red):
+┌────────────────────┐           ┌────────────────────┐
+│  [Buy Now]  ← blue │           │  [Buy Now]  ← red  │
+│                    │           │                    │
+│  Feature title     │           │  Feature title     │
+│  ───────── ← blue  │           │  ───────── ← red   │
+│                    │           │                    │
+│  ★ Featured  ← blue│           │  ★ Featured  ← red │
+└────────────────────┘           └────────────────────┘
+   colors.primary = #3b82f6         colors.primary = #ef4444
+```
+
+See §9 for the rules on how elements reference these slots.
 
 ### 3.2 Typography Roles
 
-Five named roles define all text rendering. Every text element is assigned one role, then optionally overrides the color.
+Instead of letting authors pick fonts and sizes per text element (which leads to chaos), the system defines five **typography roles**. Each role is a complete font definition. Every text item picks one of these roles, and the role decides what it looks like.
 
-| Role | Default Family | Default Size | Default Weight | Used For |
-|------|---------------|-------------|----------------|----------|
-| `heading1` | Inter | 48px | 700 | Page titles, hero text |
-| `heading2` | Inter | 24px | 600 | Section headings |
-| `body` | Inter | 16px | 400 | Paragraphs, descriptions |
-| `label` | Inter | 12px | 500 | Tags, captions, small UI text |
-| `button` | Inter | — | 500 | Button labels (font size set per button style) |
+```
+page.styles.fonts = {
+  heading1: { family: "Inter", size: 48, weight: 700 }  ← big titles
+  heading2: { family: "Inter", size: 24, weight: 600 }  ← section heads
+  body:     { family: "Inter", size: 16, weight: 400 }  ← paragraphs
+  label:    { family: "Inter", size: 12, weight: 500 }  ← captions, tags
+  button:   { family: "Inter",           weight: 500 }  ← button labels
+}
+```
 
-Each role has the fields:
+| Role | Used For | Why It Exists |
+|------|----------|---------------|
+| `heading1` | Page titles, hero text | The biggest, boldest text. There should usually be only one per segment to maintain visual hierarchy. |
+| `heading2` | Section headings, card titles | Subordinate to heading1 but still prominent. Used when a segment has multiple sub-sections. |
+| `body` | Paragraphs, descriptions, long text | The default reading text. Sized for comfortable reading at normal viewing distance. |
+| `label` | Tags, captions, small UI text | Small supporting text. Used for badges, image captions, form labels. |
+| `button` | Button labels | Separate role because buttons need consistent typography across the page regardless of the surrounding text. Notably has no `size` — button font size is set per button style (see §3.3). |
+
+Each role has:
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `family` | `string` | Any Google Font name (Inter, Montserrat, Playfair Display, etc.) |
-| `size` | `number` | Pixels. Not present on `button` role — button font size is set per button style. |
-| `weight` | `number` | Standard CSS font-weight values (300, 400, 500, 600, 700, 800) |
+| `family` | `string` | Any Google Font name. Common choices: Inter, Montserrat, Playfair Display, Roboto, Open Sans. |
+| `size` | `number` | Font size in pixels. **Not present on the `button` role** — button font size is owned by the button style. |
+| `weight` | `number` | Standard CSS weights: 300 (light), 400 (regular), 500 (medium), 600 (semibold), 700 (bold), 800 (extrabold). |
+
+**Why fonts are roles, not raw values:** if every text item set its own font, changing the brand typography would mean editing hundreds of elements. With roles, you update `heading1` once and every heading on the page changes.
 
 ### 3.3 Button Styles
 
-Three predefined button styles. Every button content item is assigned one of these by ID. Changing a style updates all buttons using it.
+There are exactly **three** button styles on every page: `primary`, `secondary`, and `tertiary`. Every button on the page must reference one of these. You cannot define a fourth style.
 
-| ID | Default Role |
-|----|-------------|
-| `primary` | Main CTA |
-| `secondary` | Supporting action |
-| `tertiary` | Ghost/text button |
+```
+page.styles.buttonStyles = [
+  ┌─ primary ─────────────────────┐  ← the main CTA. Most visible.
+  │ bgColor:   primary slot       │
+  │ textColor: white              │
+  │ radius:    6px                │
+  └───────────────────────────────┘
+
+  ┌─ secondary ───────────────────┐  ← supporting action. Less visible.
+  │ bgColor:   neutral slot       │
+  │ textColor: text slot          │
+  │ radius:    6px                │
+  └───────────────────────────────┘
+
+  ┌─ tertiary ────────────────────┐  ← ghost/text button. Least visible.
+  │ bgColor:   transparent        │
+  │ textColor: primary slot       │
+  │ radius:    6px                │
+  └───────────────────────────────┘
+]
+```
+
+**Why only three:** a clear button hierarchy is essential to user experience. A page with five button styles is a page where every action looks equally important — which means none of them do. Three slots forces the team to make explicit decisions about button priority.
 
 Each button style has:
 
-| Field | Type | Options / Notes |
-|-------|------|-----------------|
-| `id` | `string` | `primary` \| `secondary` \| `tertiary` |
-| `label` | `string` | Display name shown in the editor |
-| `bgType` | `string` | `solid` \| `gradient` |
-| `bgColor` | `string` | Hex. Used when `bgType` is `solid`. |
-| `bgColorSlot` | `string\|null` | Slot reference for background color. |
-| `bgGradient` | `object\|null` | `{ color1, color2, angle }`. Used when `bgType` is `gradient`. |
-| `textColor` | `string` | Hex. |
-| `textColorSlot` | `string\|null` | Slot reference for text color. |
-| `fontSize` | `number` | Pixels. |
-| `padding` | `number` | Pixels (applied symmetrically). |
-| `radius` | `number` | Border radius in px. Presets: `0` (sharp), `6` (rounded), `999` (pill). |
-
-**Default slot assignments:**
-- Primary: `bgColorSlot = "primary"`, `textColorSlot = null` (white)
-- Secondary: `bgColorSlot = "neutral"`, `textColorSlot = "text"`
-- Tertiary: `bgColorSlot = null` (transparent background), `textColorSlot = "primary"`
+| Field | Type | Options | What it does |
+|-------|------|---------|--------------|
+| `id` | `string` | `primary` \| `secondary` \| `tertiary` | The identifier buttons reference. |
+| `label` | `string` | | Display name shown in the editor (e.g. "Primary CTA"). Not rendered on the page. |
+| `bgType` | `string` | `solid` \| `gradient` | Whether the background is a flat color or a gradient. |
+| `bgColor` | `string` | Hex | The background color when `bgType` is `solid`. |
+| `bgColorSlot` | `string\|null` | Slot name | Slot reference for the background. See §9 for how this works. |
+| `bgGradient` | `object\|null` | `{ color1, color2, angle }` | The gradient definition when `bgType` is `gradient`. `angle` is in degrees. |
+| `textColor` | `string` | Hex | The button label color. |
+| `textColorSlot` | `string\|null` | Slot name | Slot reference for the text. |
+| `fontSize` | `number` | px | The button's text size. Lives here (not in typography) so buttons can be visually larger than body text without changing the body role. |
+| `padding` | `number` | px | Symmetric inner padding. Larger padding = bigger button. |
+| `radius` | `number` | px | Border radius. Common presets: `0` (sharp/square), `6` (rounded — most common), `999` (pill). |
 
 ### 3.4 Spacing & Shape
 
-| Field | Type | Options | Description |
-|-------|------|---------|-------------|
-| `segmentSpacing` | `string` | `sm` \| `md` \| `lg` | Vertical gap between segments on the page |
-| `shapes.borderRadius` | `number` | Any px value | Global default border radius, used as a base reference |
-| `spacing.xs` | `number` | px | Extra-small spacing token |
-| `spacing.sm` | `number` | px | Small spacing token |
-| `spacing.md` | `number` | px | Medium spacing token |
-| `spacing.lg` | `number` | px | Large spacing token |
-| `spacing.xl` | `number` | px | Extra-large spacing token |
-| `bgColor` | `string` | Hex | Page background color |
-| `bgColorSlot` | `string\|null` | Slot name | Slot reference for page background |
+Foundational tokens used throughout the system.
+
+```
+page.styles.spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 }
+page.styles.shapes  = { borderRadius: 6 }
+page.styles.segmentSpacing = "md"
+page.styles.bgColor = "#f9fafb"
+```
+
+| Field | Type | What it does |
+|-------|------|--------------|
+| `segmentSpacing` | `sm \| md \| lg` | The vertical gap between segments on the page. `sm` = tight, `lg` = generous. This is a high-level rhythm setting. |
+| `shapes.borderRadius` | `number` | A base radius value other elements can default to. Helps keep "rounded" elements visually consistent. |
+| `spacing.xs..xl` | `number` (px) | Five spacing tokens used as a scale. Useful as a reference when setting paddings and gaps elsewhere. |
+| `bgColor` / `bgColorSlot` | hex / slot ref | The page-wide background color. Typically references the `background` slot. |
 
 ---
 
 ## 4. Segments
 
-A segment is a full-width horizontal band on the page. It defines a 12-column grid that is divided among its slots. Segments are ordered — their order in `root[]` is their render order top to bottom.
+A **segment** is a full-width horizontal band on the page — think of it as a row in a magazine spread, or a section on a landing page. Its job is twofold:
+
+1. **Divide horizontally** — define a grid of 1, 2, or 3 columns (called slots).
+2. **Provide a backdrop** — color, image, gradient, or video behind everything in the segment.
+
+Segments are stacked vertically in the order they appear in `page.root[]`.
+
+```
+┌─ Segment (50/50 layout) ─────────────────────────────┐
+│ ┌────────────────────┬────────────────────────────┐  │
+│ │     Slot 1         │       Slot 2               │  │
+│ │     (50%)          │       (50%)                │  │
+│ │                    │                            │  │
+│ │  ┌─ image  ─┐      │   ┌─ heading ─────┐        │  │
+│ │  └──────────┘      │   └───────────────┘        │  │
+│ │                    │   ┌─ body text ───┐        │  │
+│ │                    │   └───────────────┘        │  │
+│ │                    │   ┌─ button ─┐             │  │
+│ │                    │   └──────────┘             │  │
+│ └────────────────────┴────────────────────────────┘  │
+└──────────────────────────────────────────────────────┘
+```
 
 ### 4.1 Layout Presets
 
-The `layout` setting determines how many slots a segment has and how wide each one is.
+The `layout` setting on a segment determines how many slots it has and how wide each one is. The system uses a 12-column grid internally; each preset divides those 12 columns differently.
 
-| Key | Label | Slot Column Spans | Slot Count |
-|-----|-------|------------------|-----------|
-| `full` | Full Width | 12 | 1 |
-| `50-50` | 50 / 50 | 6, 6 | 2 |
-| `33-67` | 1/3 + 2/3 | 4, 8 | 2 |
-| `67-33` | 2/3 + 1/3 | 8, 4 | 2 |
-| `33-33-33` | Three Equal | 4, 4, 4 | 3 |
-| `25-75` | 1/4 + 3/4 | 3, 9 | 2 |
-| `75-25` | 3/4 + 1/4 | 9, 3 | 2 |
-| `25-50-25` | Sidebar + Center | 3, 6, 3 | 3 |
+| Key | Visual | Slot Spans | Use Case |
+|-----|--------|-----------|----------|
+| `full` | `│■■■■■■■■■■■■│` | [12] | Single-column content. Hero text, image gallery. |
+| `50-50` | `│■■■■■■│■■■■■■│` | [6, 6] | Image + text. Two equal features. |
+| `33-67` | `│■■■■│■■■■■■■■│` | [4, 8] | Narrow sidebar + main content. |
+| `67-33` | `│■■■■■■■■│■■■■│` | [8, 4] | Main content + sidebar. |
+| `33-33-33` | `│■■■■│■■■■│■■■■│` | [4, 4, 4] | Three feature columns. |
+| `25-75` | `│■■■│■■■■■■■■■│` | [3, 9] | Compact sidebar + main. |
+| `75-25` | `│■■■■■■■■■│■■■│` | [9, 3] | Main content + compact sidebar. |
+| `25-50-25` | `│■■■│■■■■■■│■■■│` | [3, 6, 3] | Center content with two flanking sidebars. |
 
-When the layout changes, existing slots are preserved where possible. If the slot count decreases, content from removed slots is merged into the last remaining slot.
+**Important behavior:** changing the layout doesn't destroy your content. If you switch from `50-50` to `full`, the two slots are merged — the second slot's content is appended to the first. If you switch from `full` to `50-50`, a new empty slot is added.
 
-### 4.2 Segment Settings Reference
+### 4.2 Segment Settings
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `layout` | `string` | `full` | Layout preset key (see §4.1) |
-| `gap` | `string` | `md` | Gap between slots: `none` \| `sm` (12px) \| `md` (24px) \| `lg` (40px) \| `xl` (64px) |
-| `fullWidth` | `boolean` | `false` | Whether the segment ignores the max-width constraint |
-| `maxWidth` | `number\|null` | `null` | Max content width in px. `null` = no constraint. |
-| `contentAlignment` | `string` | `left` | Horizontal content alignment within slots: `left` \| `center` \| `right` |
-| `verticalAlignment` | `string` | `top` | Vertical alignment of slots: `top` \| `center` \| `bottom` |
-| `minHeight` | `number` | `0` | Minimum segment height in px |
-| **Background** | | | |
-| `bgType` | `string` | `solid` | `solid` \| `gradient` |
-| `bgColor` | `string` | `#ffffff` | Background hex color |
-| `bgColorSlot` | `string\|null` | `null` | Slot reference for background |
-| `bgGradient` | `object\|null` | `null` | `{ color1, color2, angle }` — used when `bgType` is `gradient` |
-| `bgImage` | `string\|null` | `null` | Background image URL. Overrides color/gradient when set. |
-| `bgVideo` | `string\|null` | `null` | Background video URL. Overrides image when set. |
-| **Border** | | | |
-| `borderEnabled` | `boolean` | `false` | Show border |
-| `borderEdges` | `object` | all `true` | Which edges: `{ top, right, bottom, left }` |
-| `borderWidth` | `number` | `1` | px |
-| `borderColor` | `string` | `#e2e8f0` | Hex |
-| `borderColorSlot` | `string\|null` | `null` | Slot reference |
-| `borderRadius` | `number` | `0` | px |
-| **Elevation** | | | |
-| `elevationEnabled` | `boolean` | `false` | Show drop shadow |
-| `elevation` | `number` | `4` | Shadow intensity |
-| **Segment Heading** | | | |
-| `headingEnabled` | `boolean` | `false` | Render a heading above the slot grid |
-| `headingContent` | `string` | `""` | Heading text |
-| `headingFont` | `string` | `heading2` | Typography role: `heading1` \| `heading2` \| `body` |
-| `headingAlignment` | `string` | `left` | `left` \| `center` \| `right` |
-| `headingColor` | `string` | `#1f2937` | Hex |
-| `headingColorSlot` | `string\|null` | `null` | Slot reference |
-| **Visibility** | | | |
-| `hidden` | `boolean` | `false` | Hide on all viewports |
-| `mobileHidden` | `boolean` | `false` | Hide on mobile only |
+Every segment has the following settings. Grouped by purpose.
+
+**Layout**
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `layout` | `string` | `full` | The grid preset (see §4.1). Determines slot count and widths. |
+| `gap` | `string` | `md` | The horizontal gap between slots. Values: `none` (0), `sm` (12px), `md` (24px), `lg` (40px), `xl` (64px). Use larger gaps when slots have different visual weights and need breathing room. |
+| `fullWidth` | `boolean` | `false` | If `true`, the segment ignores the page's max-width constraint and extends edge-to-edge. Useful for backgrounds that should bleed to the screen edges. |
+| `maxWidth` | `number\|null` | `null` | An explicit max content width in pixels. `null` uses the page default. |
+| `contentAlignment` | `string` | `left` | Horizontal alignment of content inside slots: `left`, `center`, `right`. |
+| `verticalAlignment` | `string` | `top` | Vertical alignment of slots when they have different heights: `top`, `center`, `bottom`. |
+| `minHeight` | `number` | `0` | Minimum segment height in pixels. Useful for hero sections that should always be tall, even with little content. |
+
+**Background**
+
+The background is what's drawn *behind* the slots. Backgrounds layer in priority: video > image > gradient/solid color.
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `bgType` | `string` | `solid` | `solid` or `gradient`. Switches between a flat color and a two-color gradient. |
+| `bgColor` | `string` | `#ffffff` | The solid background color (when `bgType` is `solid`). |
+| `bgColorSlot` | `string\|null` | `null` | Slot reference for the background color. See §9. |
+| `bgGradient` | `object\|null` | `null` | `{ color1, color2, angle }`. Used when `bgType` is `gradient`. `angle` is in degrees (0 = top-to-bottom, 90 = left-to-right). |
+| `bgImage` | `string\|null` | `null` | Background image URL. If set, **overrides** the color/gradient. |
+| `bgVideo` | `string\|null` | `null` | Background video URL. If set, **overrides** the image. |
+
+**Border**
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `borderEnabled` | `boolean` | `false` | Master toggle for the border. |
+| `borderEdges` | `object` | all `true` | `{ top, right, bottom, left }`. Each edge can be enabled independently — useful for adding only a top or bottom divider. |
+| `borderWidth` | `number` | `1` | Border thickness in pixels. |
+| `borderColor` / `borderColorSlot` | hex / slot ref | `#e2e8f0` | Border color (see §9). |
+| `borderRadius` | `number` | `0` | Corner rounding in pixels. |
+
+**Elevation (drop shadow)**
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `elevationEnabled` | `boolean` | `false` | Master toggle for drop shadow. |
+| `elevation` | `number` | `4` | Shadow intensity. Higher numbers = larger, softer shadow, suggesting more "depth" off the page. |
+
+**Segment Heading (optional)**
+
+A built-in heading that renders above the slot grid. Saves you from manually placing a text item every time you want a section title.
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `headingEnabled` | `boolean` | `false` | Master toggle. If `false`, no heading is rendered. |
+| `headingContent` | `string` | `""` | The heading text. |
+| `headingFont` | `string` | `heading2` | Which typography role to use: `heading1`, `heading2`, or `body`. |
+| `headingAlignment` | `string` | `left` | `left`, `center`, or `right`. |
+| `headingColor` / `headingColorSlot` | hex / slot ref | `#1f2937` | Text color (see §9). |
+
+**Visibility**
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `hidden` | `boolean` | `false` | Hide on all viewports. |
+| `mobileHidden` | `boolean` | `false` | Hide on mobile only. |
+
+See §8 for how these interact.
 
 ---
 
 ## 5. Slots
 
-A slot is a column-based container within a segment. It holds an ordered vertical (or horizontal) stack of content items. Each slot maps to a column span in the segment's 12-column grid.
+A **slot** is a single column inside a segment. Its job is to act as a container that arranges content items — vertically (default) or horizontally — and decorates them with its own background, padding, and border.
 
-### 5.1 Slot Settings Reference
+A slot doesn't choose its own width. The width is determined by the segment's layout preset.
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `gridColumn` | `number` | set by layout | Column span (1–12). Set automatically from layout preset. |
-| `direction` | `string` | `column` | Flex direction for content items: `column` \| `row` |
-| `overflow` | `string` | `wrap` | When `direction` is `row`: `wrap` \| `scroll` |
-| `contentAlignment` | `string` | `left` | Horizontal alignment: `left` \| `center` \| `right` |
-| `verticalAlignment` | `string` | `top` | Vertical alignment: `top` \| `center` \| `bottom` |
-| `spacing` | `number\|auto` | `16` | Gap between content items in px, or `auto` |
-| `height` | `string` | `auto` | CSS height value (`auto`, `250px`, `50vh`, etc.) |
-| `padding` | `number` | `0` | Inner padding in px |
-| **Background** | | | |
-| `bgType` | `string` | `solid` | `solid` \| `gradient` |
-| `bgColor` | `string` | `transparent` | Hex |
-| `bgColorSlot` | `string\|null` | `null` | Slot reference |
-| `bgGradient` | `object\|null` | `null` | `{ color1, color2, angle }` |
-| `bgImage` | `string\|null` | `null` | Background image URL |
-| `bgVideo` | `string\|null` | `null` | Background video URL |
-| **Border** | | | |
-| `borderEnabled` | `boolean` | `false` | Show border |
-| `borderWidth` | `number` | `1` | px |
-| `borderColor` | `string` | `#e2e8f0` | Hex |
-| `borderRadius` | `number` | `0` | px |
-| **Elevation** | | | |
-| `elevationEnabled` | `boolean` | `false` | Show drop shadow |
-| `elevation` | `number` | `4` | Shadow intensity |
-| **Responsive** | | | |
-| `responsive.mobileOrder` | `number\|null` | `null` | Override render order on mobile |
-| **Visibility** | | | |
-| `hidden` | `boolean` | `false` | Hide on all viewports |
-| `mobileHidden` | `boolean` | `false` | Hide on mobile only |
+```
+┌─ Slot (50% wide, column direction) ──┐
+│                                      │
+│  ┌─ heading text ──┐    ← gap        │
+│  └─────────────────┘                 │
+│                                      │
+│  ┌─ body text ─────┐    ← gap        │
+│  │ lorem ipsum...  │                 │
+│  └─────────────────┘                 │
+│                                      │
+│  ┌─ button ─┐                        │
+│  └──────────┘                        │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+### 5.1 Slot Settings
+
+**Layout & Sizing**
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `gridColumn` | `number` | from layout | The column span (1–12). **Set automatically** when the segment's layout changes. Don't set this manually. |
+| `direction` | `string` | `column` | `column` (stack vertically) or `row` (lay out horizontally). Use `row` for things like icon-grids or horizontal scrolling content. |
+| `overflow` | `string` | `wrap` | When `direction` is `row`: `wrap` (items wrap to new lines) or `scroll` (horizontal scrolling). |
+| `contentAlignment` | `string` | `left` | Horizontal alignment of items inside the slot: `left`, `center`, `right`. |
+| `verticalAlignment` | `string` | `top` | Vertical alignment: `top`, `center`, `bottom`. |
+| `spacing` | `number\|"auto"` | `16` | The gap between content items in pixels. `auto` lets the system pick based on content. |
+| `height` | `string` | `auto` | CSS height value: `auto`, `250px`, `50vh`, etc. Use a fixed height when the slot needs to match a sibling's height. |
+| `padding` | `number` | `0` | Inner padding in pixels. Push content away from the slot's edges. |
+
+**Background**
+
+Same model as segments: video > image > gradient/solid.
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `bgType` | `string` | `solid` | `solid` or `gradient`. |
+| `bgColor` / `bgColorSlot` | hex / slot ref | `transparent` | Background color (see §9). |
+| `bgGradient` | `object\|null` | `null` | `{ color1, color2, angle }`. |
+| `bgImage` | `string\|null` | `null` | Background image URL. |
+| `bgVideo` | `string\|null` | `null` | Background video URL. |
+
+**Border & Elevation**
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `borderEnabled` | `boolean` | `false` | Toggle border. |
+| `borderWidth` | `number` | `1` | Border thickness in px. |
+| `borderColor` | `string` | `#e2e8f0` | Border color (hex). |
+| `borderRadius` | `number` | `0` | Corner rounding in px. |
+| `elevationEnabled` | `boolean` | `false` | Toggle drop shadow. |
+| `elevation` | `number` | `4` | Shadow intensity. |
+
+**Responsive & Visibility**
+
+| Field | Type | Default | What it controls |
+|-------|------|---------|------------------|
+| `responsive.mobileOrder` | `number\|null` | `null` | Override the render order on mobile. Useful when a sidebar (right slot on desktop) should appear *first* on mobile. |
+| `hidden` | `boolean` | `false` | Hide on all viewports. |
+| `mobileHidden` | `boolean` | `false` | Hide on mobile only. |
 
 ---
 
 ## 6. Content Items
 
-All content items share a `type` discriminator field. Settings are type-specific.
+A **content item** is a leaf node — it holds actual content (a paragraph, a button label, an image URL). There are six types. Every content item has a `type` field that determines which settings apply.
+
+```
+type = "text"   ────►  6.1
+type = "image"  ────►  6.2
+type = "button" ────►  6.3
+type = "video"  ────►  6.4
+type = "card"   ────►  6.5
+type = "label"  ────►  6.6
+```
+
+All content items share two universal fields: `hidden` and `mobileHidden` (see §8).
 
 ### 6.1 Text
 
-Renders a styled text block. The visual style is defined by a typography role, not raw CSS.
+A block of styled text. The styling comes entirely from the assigned typography role — there is no inline font size or family.
 
-| Field | Type | Options | Description |
-|-------|------|---------|-------------|
-| `type` | `string` | `text` | |
-| `settings.textRole` | `string` | `heading1` \| `heading2` \| `body` \| `label` | Which typography role to apply |
-| `settings.customOverrides.content` | `string` | | The text content |
-| `settings.customOverrides.color` | `string` | Hex | Override the color from the typography role |
-| `settings.customOverrides.colorSlot` | `string\|null` | Slot name | Slot reference for color override |
-| `settings.hidden` | `boolean` | | Hide on all viewports |
-| `settings.mobileHidden` | `boolean` | | Hide on mobile only |
-| `settings.mobileOverrides.textAlign` | `string\|null` | `left` \| `center` \| `right` | Override text alignment on mobile |
+```
+TextItem
+  type:                            "text"
+  settings.textRole:               "heading1" │ "heading2" │ "body" │ "label"
+  settings.customOverrides.content:  "Welcome to our site"
+  settings.customOverrides.color:    "#333333"   (optional override)
+  settings.customOverrides.colorSlot: "text"     (optional slot ref)
+```
+
+| Field | What it controls |
+|-------|------------------|
+| `textRole` | Which of the five typography roles to apply. This is the primary styling decision. |
+| `customOverrides.content` | The actual text content. Can contain plain text. |
+| `customOverrides.color` / `colorSlot` | Optional color override. If not set, the text uses the role's default color (which is the `text` slot). Set this when you want, e.g., a heading in your `accent` color. |
+| `mobileOverrides.textAlign` | Override text alignment specifically on mobile (e.g., center-aligned on mobile, left-aligned on desktop). |
+
+**Why styling is role-based:** if every text item had its own font, the page would quickly become visually inconsistent. By forcing authors to pick a role, the page maintains a clean typographic hierarchy and updating brand typography means changing one definition, not hundreds of elements.
 
 ### 6.2 Image
 
-Renders an image. Sizing is controlled by the containing slot.
+An image rendered at the size of its container, with control over how it fills that container.
 
-| Field | Type | Options | Description |
-|-------|------|---------|-------------|
-| `type` | `string` | `image` | |
-| `settings.customOverrides.src` | `string` | URL | Image source |
-| `settings.customOverrides.objectFit` | `string` | `contain` \| `cover` \| `stretch` | How the image fills its container |
-| `settings.customOverrides.width` | `string\|null` | CSS value | Optional explicit width (e.g. `100%`, `300px`) |
-| `settings.customOverrides.borderRadius` | `string\|null` | CSS value | e.g. `8px`, `50%` |
-| `settings.customOverrides.opacity` | `string\|number\|null` | 0–1 or `%` | e.g. `0.8`, `"80%"` |
-| `settings.hidden` | `boolean` | | |
-| `settings.mobileHidden` | `boolean` | | |
+```
+ImageItem
+  type:                                  "image"
+  settings.customOverrides.src:          "https://..."
+  settings.customOverrides.objectFit:    "contain" │ "cover" │ "stretch"
+  settings.customOverrides.width:        "100%" │ "300px" │ null
+  settings.customOverrides.borderRadius: "8px"
+  settings.customOverrides.opacity:      "0.8"
+```
+
+| Field | What it controls |
+|-------|------------------|
+| `src` | The image URL. |
+| `objectFit` | How the image fills its slot. `cover` = fill the container, crop if needed (common for hero images). `contain` = fit the whole image inside, leaving empty space if needed (common for logos). `stretch` = distort to fill exactly (rarely desirable). |
+| `width` | Optional explicit width. If `null`, the image fills its slot's width. |
+| `borderRadius` | Rounding on image corners. Useful for avatars (use `50%` for a circle) or rounded thumbnails. |
+| `opacity` | Transparency. Use to fade an image into a background. |
+
+**Visual: objectFit options.**
+
+```
+container = 4:3                cover         contain        stretch
+image    = 1:1                ┌────────┐    ┌────────┐    ┌────────┐
+                              │■ crop ■│    │  ■■    │    │ stretch│
+                              │  fill  │    │  ■■    │    │ distort│
+                              │■ crop ■│    │        │    │        │
+                              └────────┘    └────────┘    └────────┘
+```
 
 ### 6.3 Button
 
-Renders a button whose visual style is inherited from one of the three page-level button styles.
+A button whose visual style comes from one of the three page-level button styles (§3.3). The content item only controls *which* style to use plus the label and an optional icon.
 
-| Field | Type | Options | Description |
-|-------|------|---------|-------------|
-| `type` | `string` | `button` | |
-| `settings.assignedStyleId` | `string` | `primary` \| `secondary` \| `tertiary` | Which button style to use |
-| `settings.customOverrides.label` | `string` | | Button text |
-| `settings.customOverrides.icon.key` | `string\|null` | Icon name or `null` | Icon to display |
-| `settings.customOverrides.icon.position` | `string` | `none` \| `before` \| `after` | Where the icon appears relative to the label |
-| `settings.customOverrides.sizeOverride.enabled` | `boolean` | | Enable explicit size |
-| `settings.customOverrides.sizeOverride.width` | `string` | CSS value | e.g. `auto`, `200px`, `100%` |
-| `settings.customOverrides.sizeOverride.height` | `string` | CSS value | e.g. `auto`, `48px` |
-| `settings.hidden` | `boolean` | | |
-| `settings.mobileHidden` | `boolean` | | |
+```
+ButtonItem
+  type:                                          "button"
+  settings.assignedStyleId:                      "primary" │ "secondary" │ "tertiary"
+  settings.customOverrides.label:                "Get Started"
+  settings.customOverrides.icon.key:             "arrow-right" │ null
+  settings.customOverrides.icon.position:        "before" │ "after" │ "none"
+  settings.customOverrides.sizeOverride.enabled: false
+  settings.customOverrides.sizeOverride.width:   "auto"
+  settings.customOverrides.sizeOverride.height:  "auto"
+```
+
+| Field | What it controls |
+|-------|------------------|
+| `assignedStyleId` | Which of the three button styles (`primary`, `secondary`, `tertiary`) this button uses. Changes the entire appearance. |
+| `label` | The visible button text. |
+| `icon.key` | The name of an icon (e.g. `arrow-right`, `plus`, `search`). `null` for no icon. |
+| `icon.position` | Whether the icon appears `before` the label, `after` the label, or `none` (hidden). |
+| `sizeOverride.enabled` | If `true`, the button uses explicit width/height instead of sizing to its content. |
+| `sizeOverride.width` / `height` | CSS values. Use this for buttons that must match a specific footprint (e.g. all card CTAs should be the same width). |
+
+**Why button appearance isn't customizable per-button:** if every button could have its own color and radius, the page would lose its visual hierarchy. Users couldn't reliably tell which action is "the main one." Centralizing button styles into three roles forces a meaningful distinction between primary, secondary, and tertiary actions.
 
 ### 6.4 Video
 
-Embeds a video (YouTube URL).
+An embedded video, typically from YouTube.
 
-| Field | Type | Options | Description |
-|-------|------|---------|-------------|
-| `type` | `string` | `video` | |
-| `settings.customOverrides.src` | `string` | YouTube URL | |
-| `settings.customOverrides.objectFit` | `string` | `contain` \| `cover` \| `stretch` | |
-| `settings.hidden` | `boolean` | | |
-| `settings.mobileHidden` | `boolean` | | |
+```
+VideoItem
+  type:                                "video"
+  settings.customOverrides.src:        "https://youtube.com/watch?v=..."
+  settings.customOverrides.objectFit:  "contain" │ "cover" │ "stretch"
+```
+
+| Field | What it controls |
+|-------|------------------|
+| `src` | The video URL (YouTube format). |
+| `objectFit` | How the video fits its container. Same semantics as images. |
 
 ### 6.5 Card
 
-A self-contained card with an optional image, text block, and button. Unlike a slot, a card is a single content item that carries its own layout and styling.
+A self-contained box with optional image, text, and button — all in one. A card is a composite element, but it's a *single* content item, not a slot with multiple items inside it.
 
-**Card container settings:**
+**Why cards are their own type:** repeating "image + text + button" patterns (like product cards, team member cards, feature highlights) would be painful to build slot-by-slot. The card type packages them together with consistent styling and the ability to toggle each sub-element on or off.
 
-| Field | Type | Options | Description |
-|-------|------|---------|-------------|
-| `type` | `string` | `card` | |
-| `settings.width` | `string` | CSS value | e.g. `300px`, `100%` |
-| `settings.height` | `string` | CSS value | e.g. `auto`, `400px` |
-| `settings.bgType` | `string` | `solid` \| `gradient` | |
-| `settings.bgColor` | `string` | Hex | |
-| `settings.bgColorSlot` | `string\|null` | Slot name | |
-| `settings.bgGradient` | `object\|null` | `{ color1, color2, angle }` | |
-| `settings.padding` | `number` | px | Inner padding |
-| `settings.direction` | `string` | `column` \| `row` | Layout of sub-elements |
-| `settings.contentAlignment` | `string` | `left` \| `center` \| `right` | |
-| `settings.verticalAlignment` | `string` | `top` \| `center` \| `bottom` | |
-| `settings.spacing` | `number` | px | Gap between sub-elements |
-| `settings.borderEnabled` | `boolean` | | |
-| `settings.borderWidth` | `number` | px | |
-| `settings.borderColor` | `string` | Hex | |
-| `settings.borderRadius` | `number` | px | |
-| `settings.elevationEnabled` | `boolean` | | |
-| `settings.elevation` | `number` | | |
-| `settings.hidden` | `boolean` | | |
-| `settings.mobileHidden` | `boolean` | | |
+```
+┌─ Card ──────────────────┐
+│ ┌─ image ─────────────┐ │  ← showImage: true
+│ │                     │ │
+│ │     [photo]         │ │
+│ │                     │ │
+│ └─────────────────────┘ │
+│                         │
+│  Heading text           │  ← showText: true
+│  Supporting body...     │
+│                         │
+│  [ Learn more → ]       │  ← showButton: true
+│                         │
+└─────────────────────────┘
+```
 
-**Card sub-elements (each independently toggled):**
+**Container settings** (same idea as slot, but applied to the card box):
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `settings.showImage` | `boolean` | Whether to render the image |
-| `settings.image.src` | `string` | Image URL |
-| `settings.image.objectFit` | `string` | `cover` \| `contain` |
-| `settings.image.borderRadius` | `string` | CSS value |
-| `settings.showText` | `boolean` | Whether to render the text block |
-| `settings.text.content` | `string` | Text content |
-| `settings.text.textRole` | `string` | `heading2` \| `body` |
-| `settings.text.textAlign` | `string` | `left` \| `center` \| `right` |
-| `settings.text.color` | `string\|null` | Hex color override |
-| `settings.showButton` | `boolean` | Whether to render the button |
-| `settings.button.label` | `string` | Button text |
-| `settings.button.assignedStyleId` | `string` | `primary` \| `secondary` \| `tertiary` |
-| `settings.button.icon.key` | `string\|null` | Icon name |
-| `settings.button.icon.position` | `string` | `none` \| `before` \| `after` |
+| Field | What it controls |
+|-------|------------------|
+| `width` / `height` | Card dimensions. Often `300px` width, `auto` height. |
+| `bgType` / `bgColor` / `bgColorSlot` / `bgGradient` | Card background. |
+| `padding` | Inner padding. |
+| `direction` | `column` (image on top, text below) or `row` (image on the side). |
+| `contentAlignment` / `verticalAlignment` | How the image/text/button are aligned inside the card. |
+| `spacing` | Gap between the image, text, and button blocks. |
+| `borderEnabled` / `borderWidth` / `borderColor` / `borderRadius` | Border styling. |
+| `elevationEnabled` / `elevation` | Drop shadow. Cards commonly use elevation to feel "lifted." |
+
+**Sub-element toggles:**
+
+| Field | What it controls |
+|-------|------------------|
+| `showImage` | If `true`, render the image block. |
+| `showText` | If `true`, render the text block. |
+| `showButton` | If `true`, render the button. |
+
+**Image sub-element:**
+
+| Field | What it controls |
+|-------|------------------|
+| `image.src` | Image URL. |
+| `image.objectFit` | `cover` or `contain`. |
+| `image.borderRadius` | Corner rounding on the card image (separate from the card itself). |
+
+**Text sub-element:**
+
+| Field | What it controls |
+|-------|------------------|
+| `text.content` | The text content. |
+| `text.textRole` | `heading2` or `body`. |
+| `text.textAlign` | `left`, `center`, `right`. |
+| `text.color` | Optional hex color override. |
+
+**Button sub-element:**
+
+| Field | What it controls |
+|-------|------------------|
+| `button.label` | Button text. |
+| `button.assignedStyleId` | Which button style (`primary` / `secondary` / `tertiary`). |
+| `button.icon.key` / `position` | Icon settings (same as a normal button). |
+| `button.sizeOverride` | Same as a normal button. |
 
 ### 6.6 Label
 
-A small inline badge or tag. Purely presentational.
+A small inline tag or badge. Pure decoration — no interactive behavior.
 
-| Field | Type | Options | Description |
-|-------|------|---------|-------------|
-| `type` | `string` | `label` | |
-| `settings.content` | `string` | | Text content |
-| `settings.textAlign` | `string` | `left` \| `center` \| `right` | |
-| `settings.color` | `string` | Hex | Text color |
-| `settings.colorSlot` | `string\|null` | Slot name | |
-| `settings.bgColor` | `string` | Hex | Background color |
-| `settings.bgColorSlot` | `string\|null` | Slot name | |
-| `settings.paddingX` | `number` | px | Horizontal padding |
-| `settings.paddingY` | `number` | px | Vertical padding |
-| `settings.borderEnabled` | `boolean` | | |
-| `settings.borderWidth` | `number` | px | |
-| `settings.borderColor` | `string` | Hex | |
-| `settings.borderRadius` | `number` | px | Default: 4 |
-| `settings.hidden` | `boolean` | | |
-| `settings.mobileHidden` | `boolean` | | |
+```
+┌─ NEW ─┐    ┌─ Featured ─┐    ┌─ Sale ─┐
+└───────┘    └────────────┘    └────────┘
+```
+
+**Why a separate type:** labels have very different sizing and styling needs from text (they're small, padded, and often have backgrounds). Treating them as their own type keeps the text type focused on prose.
+
+| Field | What it controls |
+|-------|------------------|
+| `content` | The label text. |
+| `textAlign` | `left`, `center`, `right`. |
+| `color` / `colorSlot` | Text color (see §9). |
+| `bgColor` / `bgColorSlot` | Background color. |
+| `paddingX` / `paddingY` | Horizontal/vertical inner padding. |
+| `borderEnabled` / `borderWidth` / `borderColor` | Optional border. |
+| `borderRadius` | Corner rounding. Default is `4`. Set to `999` for a pill shape. |
 
 ---
 
 ## 7. Mobile Overrides
 
-The system has a single mobile breakpoint (320px). Rather than duplicating the entire page structure, mobile-specific values are stored as overrides that are merged on top of the desktop values at render time.
+Rather than maintaining two completely separate page structures (one for desktop, one for mobile), the system uses a single page definition plus **mobile overrides** — a sparse set of values that apply only on small screens.
 
-### Where overrides live
+**The rule:** if a mobile override field is `null` or absent, the desktop value is used. If it's set, it replaces the desktop value when the viewport is mobile.
 
-| Scope | Location |
-|-------|----------|
-| Page-level branding | `page.mobileOverrides` |
-| Segment-specific | `segment.settings.mobileOverrides` |
-| Slot-specific | `slot.settings.mobileOverrides` |
-| Content item | `contentItem.settings.mobileOverrides` |
+```
+Desktop render:               Mobile render:
+┌──────────────────┐          ┌──────────┐
+│ heading1: 48px   │          │ heading1: 32px │  ← mobileOverride.fonts.heading1.size = 32
+│ segments: md gap │          │ segments: sm   │  ← mobileOverride.segmentSpacing = "sm"
+│ left + right     │          │ left           │  ← right slot has mobileHidden = true
+└──────────────────┘          │ (right hidden) │
+                              └──────────┘
+```
 
-### Page-level mobile override fields
+Mobile overrides live at four different scopes, depending on what they affect:
+
+| Scope | Where it lives | What it can override |
+|-------|----------------|----------------------|
+| **Page** | `page.mobileOverrides` | The branding system: colors, fonts, button styles, page background, segment spacing. |
+| **Segment** | `segment.settings.mobileOverrides` | Per-segment things: gap, background, visibility. |
+| **Slot** | `slot.settings.mobileOverrides` | Per-slot things: direction, alignment, spacing, height, padding. |
+| **Content item** | `contentItem.settings.mobileOverrides` | Per-item things: text alignment (currently the main use case). |
+
+**Page-level overrides:**
 
 ```
 page.mobileOverrides = {
-  bgColor: string | null,
-  bgColorSlot: string | null,
-  segmentSpacing: 'sm' | 'md' | 'lg' | null,
-  fonts: { [role]: { family, size, weight } },
-  colors: { [slotName]: "#hexvalue" },
-  buttonStyles: { [buttonId]: Partial<ButtonStyle> }
+  bgColor:        string | null,
+  bgColorSlot:    string | null,
+  segmentSpacing: "sm" | "md" | "lg" | null,
+  fonts:          { [role]: { family, size, weight } },
+  colors:         { [slotName]: "#hex" },
+  buttonStyles:   { [buttonId]: Partial<ButtonStyle> }
 }
 ```
 
-### Segment-level mobile override fields
+**Segment-level overrides:** `gap`, `bgColor`, `bgColorSlot`, `bgPositionX`, `bgSize`, `hidden`.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `gap` | `string\|null` | Override gap between slots |
-| `bgColor` | `string\|null` | Override background color |
-| `bgColorSlot` | `string\|null` | Override background slot |
-| `bgPositionX` | `string\|null` | Override background image horizontal position |
-| `bgSize` | `string\|null` | Override background image size |
-| `hidden` | `boolean\|null` | Override visibility |
+**Slot-level overrides:** `direction`, `overflow`, `contentAlignment`, `verticalAlignment`, `spacing`, `height`, `padding`.
 
-### Slot-level mobile override fields
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `direction` | `string\|null` | Override flex direction |
-| `overflow` | `string\|null` | Override overflow behavior |
-| `contentAlignment` | `string\|null` | Override horizontal alignment |
-| `verticalAlignment` | `string\|null` | Override vertical alignment |
-| `spacing` | `number\|string\|null` | Override item gap |
-| `height` | `string\|null` | Override slot height |
-| `padding` | `number\|null` | Override padding |
-
-### Content-level mobile override fields
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `textAlign` | `string\|null` | Text items only: override text alignment |
+**Content-level overrides:** `textAlign` (text items).
 
 ---
 
 ## 8. Visibility
 
-Every element (segment, slot, content item) has two independent visibility flags:
+Two independent boolean flags on every segment, slot, and content item:
 
-| Field | Effect |
-|-------|--------|
-| `hidden: true` | Element is invisible on all viewports |
-| `mobileHidden: true` | Element is invisible only when viewport ≤ 320px |
+| Field | When `true` |
+|-------|-------------|
+| `hidden` | The element is invisible on **all** viewports. |
+| `mobileHidden` | The element is invisible **only** on mobile (≤ 320px viewport). |
 
-Both can be set on the same element independently. `hidden` takes precedence.
+```
+hidden=false, mobileHidden=false   →  visible everywhere
+hidden=false, mobileHidden=true    →  visible on desktop/tablet, hidden on mobile
+hidden=true,  mobileHidden=false   →  hidden everywhere
+hidden=true,  mobileHidden=true    →  hidden everywhere (hidden wins)
+```
+
+`hidden` always wins over `mobileHidden`.
+
+**Use cases:**
+- `hidden: true` — temporarily disable a section without deleting it. Useful for seasonal content (Black Friday banner, etc.).
+- `mobileHidden: true` — hide secondary content on mobile to save space (e.g. an illustrative side image that doesn't add value on small screens).
 
 ---
 
 ## 9. Color Referencing Rules
 
-Every color-bearing field follows this convention without exception:
+This is the most important convention in the system. Every color-bearing field comes as a **pair**: the resolved hex value, and an optional slot reference.
 
 ```
-someColor:     "#hexvalue"   ← always present, holds the resolved color
-someColorSlot: "slotname"    ← or null if not linked to a slot
+bgColor:     "#3b82f6"     ← always present — the actual color to render
+bgColorSlot: "primary"     ← which slot this is linked to, or null
 ```
 
-| `someColorSlot` value | Behavior |
-|----------------------|----------|
-| A slot name (`"primary"`, etc.) | Uses the color from `page.styles.colors[slotName]`. Updating the slot updates all referencing elements. |
-| `null` | Uses `someColor` directly. One-off custom color. |
-| `"transparent"` | Renders transparent. `someColor` is ignored. |
+The slot reference determines how the color is resolved:
 
-This pattern applies to: segment backgrounds, slot backgrounds, card backgrounds, button backgrounds, button text, label text, label backgrounds, heading colors, text color overrides, and border colors.
+| `bgColorSlot` value | Behavior |
+|---------------------|----------|
+| A slot name like `"primary"` | The color comes from `page.styles.colors[slotName]`. Updating the slot updates this element automatically. |
+| `null` | The color is custom — read `bgColor` directly, ignore the slot system. |
+| `"transparent"` | The element is rendered transparent. `bgColor` is ignored. |
+
+**Why this design:** authors want both options. Most of the time you want a button to use the brand primary color, so referencing `"primary"` means it updates with the brand. But sometimes you need a one-off color for a specific moment, and forcing it through a slot would pollute the brand system. The pair handles both cases cleanly.
+
+This pattern applies to **every** color field in the system:
+- segment backgrounds, slot backgrounds, card backgrounds
+- button backgrounds and text colors
+- label backgrounds and text colors
+- segment heading colors
+- text item color overrides
+- border colors
+
+```
+Example: a button with a custom (non-slot) background color
+
+  bgType:      "solid"
+  bgColor:     "#fa8072"     ← custom salmon color
+  bgColorSlot: null          ← not linked to any slot — won't update if "primary" changes
+
+Example: a button using the primary slot
+
+  bgType:      "solid"
+  bgColor:     "#3b82f6"     ← current value of primary slot (updated automatically)
+  bgColorSlot: "primary"     ← linked to the primary slot
+```
 
 ---
 
@@ -506,31 +759,33 @@ This pattern applies to: segment backgrounds, slot backgrounds, card backgrounds
 
 ### Saved Pages
 
-Each page is stored as a single JSON file (`{title}.json`) in the `/templates/` directory. The file contains the complete page object exactly as described in §2.
+Each page is stored as a single JSON file at `/templates/{title}.json`. The file contains the complete page object exactly as described in §2.
 
 ### Color Presets
 
-Saved color schemes. Stored in `/color-presets/`. Applying a preset replaces `page.styles.colors` in full.
+Saved color schemes live in `/color-presets/`. Each preset is a complete set of all 7 color slot values. Applying a preset replaces `page.styles.colors` in full.
 
 ```json
 {
   "name": "MT Dark",
   "colors": {
-    "primary": "#ff8b1f",
-    "secondary": "#fdc86d",
-    "accent": "#66ae1e",
-    "text": "#ffffff",
+    "primary":    "#ff8b1f",
+    "secondary":  "#fdc86d",
+    "accent":     "#66ae1e",
+    "text":       "#ffffff",
     "background": "#000000",
-    "neutral": "#20201d",
-    "card": "#1d1d20"
+    "neutral":    "#20201d",
+    "card":       "#1d1d20"
   },
-  "savedAt": "ISO 8601 timestamp"
+  "savedAt": "2026-04-15T09:52:04.776Z"
 }
 ```
 
+**Why presets:** they let teams build a library of approved color schemes (light mode, dark mode, holiday theme) and swap between them instantly without re-entering values.
+
 ### Typography Presets
 
-Saved font configurations. Stored in `/typography-presets/`. Applying a preset replaces `page.styles.fonts` in full.
+Saved font configurations live in `/typography-presets/`. Each preset is a complete set of all 5 typography role definitions.
 
 ```json
 {
@@ -542,7 +797,7 @@ Saved font configurations. Stored in `/typography-presets/`. Applying a preset r
     "label":    { "family": "Inter",       "size": 12, "weight": 500 },
     "button":   { "family": "Montserrat",             "weight": 500 }
   },
-  "savedAt": "ISO 8601 timestamp"
+  "savedAt": "2026-04-15T10:08:09.786Z"
 }
 ```
 
@@ -550,24 +805,26 @@ Saved font configurations. Stored in `/typography-presets/`. Applying a preset r
 
 ## 11. Key Invariants
 
-These rules are enforced by the system. Any implementation must respect them.
+These rules are enforced by the system. Any implementation, integration, or hand-edited JSON must respect them.
 
-1. **Color fields always come in pairs.** `bgColor` without `bgColorSlot` (or vice versa) is invalid. If no slot is wanted, set `bgColorSlot: null`.
+1. **Color fields always come in pairs.** `bgColor` without a corresponding `bgColorSlot` (or vice versa) is invalid. If you don't want to reference a slot, explicitly set `bgColorSlot: null`.
 
-2. **Slot count matches the layout.** A segment with `layout: "50-50"` must always have exactly 2 slots. Changing layout merges or creates slots automatically — it never leaves a mismatch.
+2. **Slot count matches the layout preset.** A segment with `layout: "50-50"` must always have exactly 2 slots. Changing the layout merges or creates slots automatically — never leaves a mismatch.
 
-3. **Column spans must sum correctly.** Slot `gridColumn` values for slots in a segment must match the layout preset's column spans. Do not set these manually; they are managed by the layout system.
+3. **Column spans are derived from layout, not set manually.** `slot.gridColumn` is managed by the layout system. Don't hand-edit it.
 
-4. **Typography roles are the only way to style text.** There is no inline font size or font family on a text item. You change the appearance of text by changing the role assigned to it, or by changing what the role itself looks like in `page.styles.fonts`.
+4. **Typography roles are the only way to style text.** There is no inline font size or font family on a text item. To change how text looks, change the role assigned to it, or change what the role itself looks like in `page.styles.fonts`.
 
-5. **Button appearance is always inherited.** A button content item does not define its own colors, radius, or font. It references a button style by ID. Per-button overrides are limited to: label, icon, and explicit size.
+5. **Button appearance is always inherited from a button style.** A button content item does not define its own colors, radius, or font. It references a button style by ID. Per-button overrides are limited to: label, icon, and explicit size.
 
-6. **IDs are type-prefixed and unique.** Format: `{type}-{timestamp}-{random}`. Never reuse or hardcode IDs.
+6. **IDs are type-prefixed, timestamped, and unique.** Format: `{type}-{timestamp}-{random}`. Never reuse or hardcode IDs.
 
-7. **Mobile overrides are additive.** A `null` value in a mobile override means "use the desktop value." Only set fields you want to actually override.
+7. **Mobile overrides are additive, not replacements.** A `null` value in a mobile override means "use the desktop value." Only set fields you actually want to change on mobile.
 
 8. **`hidden` takes precedence over `mobileHidden`.** An element with `hidden: true` is always hidden, regardless of `mobileHidden`.
 
-9. **Breakpoints are fixed.** The mobile/tablet/desktop widths (320/768/1024) are not configurable per page.
+9. **Breakpoints are fixed.** The mobile/tablet/desktop widths (320 / 768 / 1024) are not configurable per page. They are preview viewports, not adjustable parameters.
 
-10. **Gradients require `bgType: "gradient"`.** Setting `bgGradient` without setting `bgType` to `"gradient"` has no effect. The `bgType` field is always the active discriminator.
+10. **Gradients require `bgType: "gradient"`.** Setting `bgGradient` without setting `bgType` to `"gradient"` has no effect. The `bgType` field is always the active discriminator between solid and gradient backgrounds.
+
+11. **Background layering is video > image > color/gradient.** If multiple are set, the higher-priority one wins. To use a gradient, both `bgImage` and `bgVideo` must be null/empty.
