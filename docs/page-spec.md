@@ -31,7 +31,15 @@ If you're new to the system, read it top to bottom. If you're looking for a spec
 8. [Visibility](#8-visibility)
 9. [Color Referencing Rules](#9-color-referencing-rules)
 10. [Presets & Storage](#10-presets--storage)
-11. [Key Invariants](#11-key-invariants)
+11. [Implementation: Technology Reference](#11-implementation-technology-reference)
+    - [Stack Overview](#111-stack-overview)
+    - [The Grid System](#112-the-grid-system)
+    - [Typography & Fonts](#113-typography--fonts)
+    - [Colors & Backgrounds](#114-colors--backgrounds)
+    - [Borders, Shadows & Spacing](#115-borders-shadows--spacing)
+    - [Mobile Rendering](#116-mobile-rendering)
+    - [What Uses Tailwind vs Inline Styles](#117-what-uses-tailwind-vs-inline-styles)
+12. [Key Invariants](#12-key-invariants)
 
 ---
 
@@ -803,7 +811,328 @@ Saved font configurations live in `/typography-presets/`. Each preset is a compl
 
 ---
 
-## 11. Key Invariants
+## 11. Implementation: Technology Reference
+
+This section tells you exactly which technology to reach for when building a feature, so you don't re-derive what's already been established.
+
+### 11.1 Stack Overview
+
+| Concern | Technology | How it's loaded |
+|---------|-----------|-----------------|
+| Grid layout & responsive visibility | **Tailwind CSS** (utility classes) | `<script src="https://cdn.tailwindcss.com">` in generated HTML |
+| All visual styling (colors, shadows, borders, etc.) | **Inline styles** (JS object → CSS string) | Applied directly as `style="..."` attributes |
+| Typography values | **CSS custom properties** (variables) | `<style>:root { --font-heading1-size: 48px; … }</style>` injected at render time |
+| Font files | **Google Fonts** | `@import url('https://fonts.googleapis.com/css2?…')` dynamically built from which fonts the page actually uses |
+| Mobile breakpoint overrides | **Generated `@media` CSS** | `<style>@media (max-width: 767px) { … }</style>` injected at render time |
+
+**There is no custom `tailwind.config.js`.** The project uses vanilla Tailwind off the CDN. Do not invent custom Tailwind classes or assume a custom theme — only standard Tailwind utilities are available.
+
+---
+
+### 11.2 The Grid System
+
+The grid is built on Tailwind's `grid` and `grid-cols-12` utilities. Every segment grid container gets these classes:
+
+```html
+<div class="grid grid-cols-12 gap-6 w-full max-w-full">
+  <!-- slots go here -->
+</div>
+```
+
+**Slot column spans** use Tailwind's responsive `col-span` utilities. On mobile, every slot is always full-width (`col-span-12`). The desktop width is applied from the `md:` breakpoint up:
+
+```html
+<!-- A slot with gridColumn: 6 (half-width on desktop) -->
+<div class="col-span-12 md:col-span-6">...</div>
+
+<!-- A slot with gridColumn: 4 (one-third on desktop) -->
+<div class="col-span-12 md:col-span-4">...</div>
+```
+
+**How layout presets translate to `col-span` values:**
+
+```
+Layout "full"       → one slot  → md:col-span-12
+Layout "50-50"      → two slots → md:col-span-6  + md:col-span-6
+Layout "33-67"      → two slots → md:col-span-4  + md:col-span-8
+Layout "67-33"      → two slots → md:col-span-8  + md:col-span-4
+Layout "33-33-33"   → three    → md:col-span-4  + md:col-span-4  + md:col-span-4
+Layout "25-75"      → two slots → md:col-span-3  + md:col-span-9
+Layout "75-25"      → two slots → md:col-span-9  + md:col-span-3
+Layout "25-50-25"   → three    → md:col-span-3  + md:col-span-6  + md:col-span-3
+```
+
+**Gap** between slots is a Tailwind `gap-N` class applied to the grid container. Use the values from this table — do not use arbitrary gap values:
+
+| `segment.settings.gap` | Tailwind class | Rendered gap |
+|------------------------|---------------|-------------|
+| `none` | `gap-0` | 0px |
+| `sm` | `gap-3` | 12px |
+| `md` | `gap-6` | 24px *(default)* |
+| `lg` | `gap-10` | 40px |
+| `xl` | `gap-16` | 64px |
+
+**Max-width constraint:** when a segment has `maxWidth` set, add `mx-auto` and an arbitrary-value class:
+```html
+<div class="grid grid-cols-12 gap-6 w-full md:max-w-[1200px] mx-auto">
+```
+
+**Mobile column reordering:** when a slot has `responsive.mobileOrder` set, use Tailwind's `order-N` with `md:order-none` to reset on desktop:
+```html
+<!-- This slot should appear first on mobile even if it's the second slot in the DOM -->
+<div class="col-span-12 md:col-span-6 order-1 md:order-none">...</div>
+```
+
+---
+
+### 11.3 Typography & Fonts
+
+**Do not hardcode font values.** All font sizes, families, and weights are stored in CSS custom properties and must be read from there. This is how changing a typography role in the branding panel updates every text element on the page.
+
+**CSS custom properties injected at page render time:**
+
+```css
+:root {
+  --font-heading1-family: Montserrat, sans-serif;
+  --font-heading1-size:   55px;
+  --font-heading1-weight: 300;
+
+  --font-heading2-family: Montserrat, sans-serif;
+  --font-heading2-size:   24px;
+  --font-heading2-weight: 600;
+
+  --font-body-family:     Inter, sans-serif;
+  --font-body-size:       16px;
+  --font-body-weight:     400;
+
+  --font-label-family:    Inter, sans-serif;
+  --font-label-size:      12px;
+  --font-label-weight:    500;
+
+  --font-button-family:   Montserrat, sans-serif;
+  --font-button-weight:   500;
+  /* note: no --font-button-size — button font size comes from the button style */
+}
+```
+
+**How to apply typography to a text element (inline style):**
+
+```javascript
+// Text item with textRole = "heading1"
+style="font-family: var(--font-heading1-family);
+       font-size:   var(--font-heading1-size);
+       font-weight: var(--font-heading1-weight);
+       line-height: 1.2;"
+
+// Text item with textRole = "body"
+style="font-family: var(--font-body-family);
+       font-size:   var(--font-body-size);
+       font-weight: var(--font-body-weight);
+       line-height: 1.6;"
+```
+
+**Line-height conventions:**
+- `heading1`, `heading2` → `line-height: 1.2`
+- `body` → `line-height: 1.6`
+- `label` → `line-height: 1.4`
+- `button` → `line-height: 1`
+
+**Font loading:** Google Fonts are loaded via a single `@import` that is dynamically assembled from the families actually in use on the page. Don't hardcode a specific import URL — collect the unique families and weights from `page.styles.fonts`, then build the URL:
+
+```
+@import url('https://fonts.googleapis.com/css2?
+  family=Montserrat:wght@300;600;500&
+  family=Inter:wght@400;500&
+  display=swap');
+```
+
+---
+
+### 11.4 Colors & Backgrounds
+
+**All color rendering uses inline styles**, not Tailwind color utilities. This is intentional — Tailwind's color classes are a fixed set, but page colors are dynamic user-chosen hex values.
+
+**Color resolution:** before applying any color, resolve it from the slot system. The pattern is always the same:
+
+```javascript
+function resolveColor(colorSlot, colorHex, pageColors) {
+  if (colorSlot === 'transparent') return 'transparent';
+  if (colorSlot && colorSlot !== 'custom') return pageColors[colorSlot] ?? colorHex;
+  return colorHex;
+}
+
+// Usage examples:
+resolveColor('primary', '#3b82f6', page.styles.colors)  // → "#3b82f6" (or whatever primary is)
+resolveColor(null,      '#ff0000', page.styles.colors)  // → "#ff0000" (custom hex, used as-is)
+resolveColor('transparent', '',   page.styles.colors)  // → "transparent"
+```
+
+**Solid background:**
+```javascript
+style="background-color: #3b82f6;"
+```
+
+**Gradient background** (`bgType: "gradient"`):
+```javascript
+// bgGradient = { color1: "#3b82f6", color2: "#8b5cf6", angle: 129 }
+style="background-image: linear-gradient(129deg, #3b82f6, #8b5cf6);"
+```
+
+**Image background:** applied as a CSS `::before` pseudo-element so content can sit on top with a z-index above it. Do not apply as `background-image` directly on the element if it contains interactive content:
+```css
+[data-element-id="segment-123"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('https://...');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+/* slot content must have position: relative; z-index: 1 */
+```
+
+**Text with gradient color** (special case — not a background, but a text fill):
+```javascript
+style="background: linear-gradient(90deg, #3b82f6, #ec4899);
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+       background-clip: text;
+       color: transparent;"
+```
+
+---
+
+### 11.5 Borders, Shadows & Spacing
+
+All of these are **inline styles**.
+
+**Border:** each edge is set independently, which allows a segment to have only a bottom border (acting as a divider) without affecting the other three sides:
+
+```javascript
+// borderEdges = { top: false, right: false, bottom: true, left: false }
+// borderWidth = 1, borderColor = "#e2e8f0"
+style="border-bottom: 1px solid #e2e8f0;"
+
+// All four edges:
+style="border: 1px solid #e2e8f0;"
+```
+
+**Border radius:**
+```javascript
+style="border-radius: 8px;"
+```
+
+**Elevation (drop shadow):** use CSS `filter: drop-shadow()`, not `box-shadow`. The formula scales naturally with the `elevation` value:
+
+```javascript
+// elevation = 4 → subtle shadow
+style="filter: drop-shadow(0 4px 12px rgba(0,0,0,0.28));"
+
+// elevation = 16 → prominent shadow
+style="filter: drop-shadow(0 16px 48px rgba(0,0,0,0.52));"
+
+// Formula:
+const opacity = 0.2 + elevation * 0.02;
+const blur    = elevation * 3;
+`drop-shadow(0 ${elevation}px ${blur}px rgba(0,0,0,${opacity}))`
+```
+
+**Segment spacing** (vertical padding on each `<section>`): use the `SEGMENT_SPACING_PRESETS` values, not arbitrary numbers:
+
+| `page.styles.segmentSpacing` | Padding value |
+|------------------------------|---------------|
+| `sm` | 24px |
+| `md` | 40px *(default)* |
+| `lg` | 80px |
+
+```javascript
+// Applied as padding on the segment's outer <section> element
+style="padding: 40px;"
+```
+
+---
+
+### 11.6 Mobile Rendering
+
+Mobile (≤ 767px) is handled through a combination of Tailwind responsive classes and a generated `<style>` block injected into the page.
+
+**Rule 1 — Grid columns always collapse to full-width on mobile.**
+This is handled by Tailwind: every slot gets `col-span-12` unconditionally. The `md:col-span-N` class only kicks in at 768px and above. No extra work needed.
+
+**Rule 2 — Mobile overrides inject a `@media` CSS block.**
+For any setting that has a mobile override, a scoped CSS rule is generated and injected:
+
+```css
+@media (max-width: 767px) {
+  /* segment with id "segment-abc" has a mobile gap override */
+  [data-element-id="segment-abc"] > .grid { gap: 12px; }
+
+  /* slot "slot-def" stacks vertically on mobile instead of horizontally */
+  [data-element-id="slot-def"] { flex-direction: column; }
+
+  /* slot "slot-ghi" is hidden on mobile */
+  [data-element-id="slot-ghi"] { display: none; }
+}
+```
+
+Each element must have a `data-element-id` attribute set to its `id` field for this to work.
+
+**Rule 3 — Mobile baseline resets.** Always apply these rules for the mobile breakpoint to prevent overflow:
+
+```css
+@media (max-width: 767px) {
+  section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    overflow-x: hidden !important;
+  }
+  section > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  section > div > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+}
+```
+
+---
+
+### 11.7 What Uses Tailwind vs Inline Styles
+
+This is the most important rule to remember. The system has a clean split:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  USE TAILWIND CLASSES FOR:          USE INLINE STYLES FOR:      │
+│                                                                 │
+│  ✓ Grid layout                      ✓ Background colors         │
+│    grid, grid-cols-12               ✓ Background gradients      │
+│    col-span-N, md:col-span-N        ✓ Background images         │
+│                                     ✓ Text colors               │
+│  ✓ Gap between slots                ✓ Font size / family        │
+│    gap-0 / gap-3 / gap-6 / ...      ✓ Border color & width      │
+│                                     ✓ Border radius             │
+│  ✓ Responsive visibility            ✓ Padding / spacing         │
+│    hidden, md:block, md:hidden      ✓ Drop shadow (elevation)   │
+│                                     ✓ Width / height            │
+│  ✓ Column reordering                ✓ Flex direction/alignment  │
+│    order-N, md:order-none           ✓ Opacity                   │
+│                                     ✓ Object-fit                │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Why the split?** Tailwind's utility classes are ideal for structural, layout-level decisions that don't change with brand settings. Inline styles are used for visual properties because they are dynamic — they depend on user-chosen hex colors, user-set spacing values, and slot-resolved colors that can't be expressed as static Tailwind class names.
+
+Never use Tailwind color classes (`bg-blue-500`, `text-gray-700`, etc.) for brand colors. Those are hardcoded values. Always use inline styles with resolved hex colors.
+
+---
+
+## 12. Key Invariants
 
 These rules are enforced by the system. Any implementation, integration, or hand-edited JSON must respect them.
 
