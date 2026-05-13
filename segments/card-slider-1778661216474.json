@@ -1,0 +1,373 @@
+{
+  "name": "Card slider",
+  "data": {
+    "id": "segment-1775228469358",
+    "name": "Card slider",
+    "type": "segment",
+    "settings": {
+      "fullWidth": true,
+      "bgColor": "#000000",
+      "bgImage": null,
+      "bgVideo": null,
+      "padding": 40,
+      "margin": 0,
+      "gutter": 24,
+      "maxWidth": null,
+      "contentAlignment": "left",
+      "verticalAlignment": "top",
+      "direction": "row",
+      "minHeight": 100,
+      "borderEnabled": true,
+      "borderWidth": 1,
+      "borderColor": "#000000",
+      "elevationEnabled": false,
+      "elevation": 4,
+      "borderRadius": 0,
+      "layout": "full",
+      "gap": "md",
+      "bgType": "solid",
+      "bgGradient": null,
+      "mobileOverrides": {
+        "headingAlignment": "center"
+      },
+      "bgColorSlot": "background",
+      "horizontalScroll": true,
+      "headingEnabled": true,
+      "headingColor": "#ffffff",
+      "headingFont": "heading2",
+      "headingAlignment": "left",
+      "headingContent": "Pick your first lesson",
+      "hidden": false,
+      "mobileHidden": false,
+      "headingColorSlot": "text"
+    },
+    "children": [
+      {
+        "id": "slot-1778660822237-aa3e",
+        "name": "Column 1",
+        "type": "slot",
+        "settings": {
+          "gridColumn": 12,
+          "height": "auto",
+          "spacing": "auto",
+          "bgColor": "transparent",
+          "bgImage": null,
+          "bgVideo": null,
+          "padding": 0,
+          "contentAlignment": "center",
+          "verticalAlignment": "center",
+          "direction": "row",
+          "borderEnabled": false,
+          "borderWidth": 1,
+          "borderColor": "#000000",
+          "elevationEnabled": false,
+          "elevation": 4,
+          "borderRadius": 0,
+          "responsive": {
+            "mobileOrder": null
+          },
+          "bgType": "solid",
+          "bgGradient": null,
+          "scroll": false,
+          "mobileOverrides": {
+            "direction": "column"
+          },
+          "overflow": "wrap",
+          "clipContent": false,
+          "alignContent": "center",
+          "hidden": false,
+          "mobileHidden": false
+        },
+        "children": [
+          {
+            "id": "content-1776178743779",
+            "type": "card",
+            "settings": {
+              "width": "260px",
+              "height": "320px",
+              "bgColor": "#ffffff",
+              "bgColorSlot": "card",
+              "bgType": "solid",
+              "bgGradient": null,
+              "padding": 16,
+              "direction": "column",
+              "contentAlignment": "left",
+              "verticalAlignment": "top",
+              "spacing": 16,
+              "borderEnabled": false,
+              "borderWidth": 1,
+              "borderColor": "#e5e7eb",
+              "borderRadius": 0,
+              "elevationEnabled": true,
+              "elevation": 4,
+              "showImage": true,
+              "showText": true,
+              "showButton": true,
+              "image": {
+                "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2F2025_state_of_revenue_enablement_report_6e0d355e51.webp&w=1920&q=75",
+                "objectFit": "cover",
+                "borderRadius": "0",
+                "height": "180px"
+              },
+              "text": {
+                "content": "2026 State of Revenue Enablement Report",
+                "textRole": "body",
+                "textAlign": "left",
+                "color": null
+              },
+              "button": {
+                "label": "Learn More",
+                "assignedStyleId": "tertiary",
+                "icon": {
+                  "key": "chevron-right",
+                  "position": "after"
+                },
+                "sizeOverride": {
+                  "enabled": true,
+                  "width": "100%",
+                  "height": "auto"
+                }
+              },
+              "responsive": {
+                "hideOnMobile": false,
+                "hideOnDesktop": false
+              },
+              "mobileOverrides": {
+                "width": "260pxe",
+                "contentAlignment": "center",
+                "image": {
+                  "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2F2025_state_of_revenue_enablement_report_6e0d355e51.webp&w=1920&q=75",
+                  "objectFit": "cover",
+                  "borderRadius": "0",
+                  "height": "w"
+                }
+              },
+              "hidden": false,
+              "mobileHidden": false
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            },
+            "name": "Learn card"
+          },
+          {
+            "id": "card-1776179769528-pwiqu",
+            "type": "card",
+            "settings": {
+              "width": "260px",
+              "height": "320px",
+              "bgColor": "#ffffff",
+              "bgColorSlot": "card",
+              "bgType": "solid",
+              "bgGradient": null,
+              "padding": 16,
+              "direction": "column",
+              "contentAlignment": "left",
+              "verticalAlignment": "top",
+              "spacing": 16,
+              "borderEnabled": false,
+              "borderWidth": 1,
+              "borderColor": "#e5e7eb",
+              "borderRadius": 0,
+              "elevationEnabled": true,
+              "elevation": 4,
+              "showImage": true,
+              "showText": true,
+              "showButton": true,
+              "image": {
+                "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2FAI_Role_Play_Perfect_Their_Pitches_2048x898_16cfde02f1.jpg&w=3840&q=75",
+                "objectFit": "cover",
+                "borderRadius": "0",
+                "height": "180px"
+              },
+              "text": {
+                "content": "2026 State of Revenue Enablement Report",
+                "textRole": "body",
+                "textAlign": "left",
+                "color": null
+              },
+              "button": {
+                "label": "Learn More",
+                "assignedStyleId": "tertiary",
+                "icon": {
+                  "key": "chevron-right",
+                  "position": "after"
+                },
+                "sizeOverride": {
+                  "enabled": true,
+                  "width": "100%",
+                  "height": "auto"
+                }
+              },
+              "responsive": {
+                "hideOnMobile": false,
+                "hideOnDesktop": false
+              },
+              "mobileOverrides": {
+                "image": {
+                  "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2FThe_discovery_call_playbook_426207eb6a.jpg&w=3840&q=75",
+                  "objectFit": "cover",
+                  "borderRadius": "0",
+                  "height": "180px"
+                },
+                "showImage": false
+              },
+              "hidden": false,
+              "mobileHidden": false
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            },
+            "name": "Learn card"
+          },
+          {
+            "id": "card-1776247537764-1hb2y",
+            "type": "card",
+            "settings": {
+              "width": "260px",
+              "height": "320px",
+              "bgColor": "#ffffff",
+              "bgColorSlot": "card",
+              "bgType": "solid",
+              "bgGradient": null,
+              "padding": 16,
+              "direction": "column",
+              "contentAlignment": "left",
+              "verticalAlignment": "top",
+              "spacing": 16,
+              "borderEnabled": false,
+              "borderWidth": 1,
+              "borderColor": "#e5e7eb",
+              "borderRadius": 0,
+              "elevationEnabled": true,
+              "elevation": 4,
+              "showImage": true,
+              "showText": true,
+              "showButton": true,
+              "image": {
+                "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2FThe_discovery_call_playbook_426207eb6a.jpg&w=3840&q=75",
+                "objectFit": "cover",
+                "borderRadius": "0",
+                "height": "180px"
+              },
+              "text": {
+                "content": "2026 State of Revenue Enablement Report",
+                "textRole": "body",
+                "textAlign": "left",
+                "color": null
+              },
+              "button": {
+                "label": "Learn More",
+                "assignedStyleId": "tertiary",
+                "icon": {
+                  "key": "chevron-right",
+                  "position": "after"
+                },
+                "sizeOverride": {
+                  "enabled": true,
+                  "width": "100%",
+                  "height": "auto"
+                }
+              },
+              "responsive": {
+                "hideOnMobile": false,
+                "hideOnDesktop": false
+              },
+              "mobileOverrides": {},
+              "hidden": false,
+              "mobileHidden": false
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            },
+            "name": "Learn card"
+          },
+          {
+            "id": "card-1776185909463-cy75m",
+            "type": "card",
+            "settings": {
+              "width": "260px",
+              "height": "320px",
+              "bgColor": "#ffffff",
+              "bgColorSlot": "card",
+              "bgType": "solid",
+              "bgGradient": null,
+              "padding": 16,
+              "direction": "column",
+              "contentAlignment": "left",
+              "verticalAlignment": "top",
+              "spacing": 16,
+              "borderEnabled": false,
+              "borderWidth": 1,
+              "borderColor": "#e5e7eb",
+              "borderRadius": 0,
+              "elevationEnabled": true,
+              "elevation": 4,
+              "showImage": true,
+              "showText": true,
+              "showButton": true,
+              "image": {
+                "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2FBuyers_Guide_Rev_Enablement_solutions_640x360_74fec73355.webp&w=1920&q=75",
+                "objectFit": "cover",
+                "borderRadius": "0",
+                "height": "180px"
+              },
+              "text": {
+                "content": "A Buiers Guide to Revenue enablement Solutions",
+                "textRole": "body",
+                "textAlign": "left",
+                "color": null
+              },
+              "button": {
+                "label": "Learn More",
+                "assignedStyleId": "tertiary",
+                "icon": {
+                  "key": "chevron-right",
+                  "position": "after"
+                },
+                "sizeOverride": {
+                  "enabled": true,
+                  "width": "100%",
+                  "height": "auto"
+                }
+              },
+              "responsive": {
+                "hideOnMobile": false,
+                "hideOnDesktop": false
+              },
+              "mobileOverrides": {
+                "image": {
+                  "src": "https://www.mindtickle.com/_next/image/?url=https%3A%2F%2Fsuperb-activity-b7b8c463f3.media.strapiapp.com%2FBuyers_Guide_Rev_Enablement_solutions_640x360_74fec73355.webp&w=1920&q=75",
+                  "objectFit": "fill",
+                  "borderRadius": "0",
+                  "height": "200px"
+                },
+                "text": {
+                  "content": "A Buiers Guide to Revenue enablement Solutions",
+                  "textRole": "body",
+                  "textAlign": "center",
+                  "color": null
+                }
+              },
+              "hidden": false,
+              "mobileHidden": false
+            },
+            "responsiveVariants": {
+              "mobile": {},
+              "tablet": {},
+              "desktop": {}
+            },
+            "name": "Learn card"
+          }
+        ]
+      }
+    ]
+  },
+  "savedAt": "2026-05-13T08:33:36.474Z"
+}
