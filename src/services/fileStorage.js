@@ -14,13 +14,19 @@ async function getStorageImplementation() {
 
   try {
     // In production (Netlify), use GitHub API
-    if (typeof window === 'undefined' && typeof process !== 'undefined' && process.env.NETLIFY === 'true') {
+    // Check if we're not on localhost/127.0.0.1
+    const isLocalhost = typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' ||
+       window.location.hostname === '127.0.0.1' ||
+       window.location.hostname === '');
+
+    if (!isLocalhost) {
       const { fileStorageGitHub } = await import('./fileStorageGitHub.js');
       cachedImpl = fileStorageGitHub;
       return fileStorageGitHub;
     }
 
-    // In browser or local dev, use Express backend
+    // In local dev, use Express backend
     cachedImpl = fileStorageLocal;
     return fileStorageLocal;
   } catch (error) {
