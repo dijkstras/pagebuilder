@@ -15,6 +15,14 @@ export function Editor({ onBackToGrid }) {
   const [pages, setPages] = useState([]);
   const [autoSaveTimeout, setAutoSaveTimeout] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [lastSavedTitle, setLastSavedTitle] = useState('');
+
+  // Initialize lastSavedTitle when page loads
+  useEffect(() => {
+    if (state.page.title && lastSavedTitle === '') {
+      setLastSavedTitle(state.page.title);
+    }
+  }, [state.page.title, lastSavedTitle]);
 
   // Auto-save when page changes
   useEffect(() => {
@@ -30,7 +38,17 @@ export function Editor({ onBackToGrid }) {
     const timeout = setTimeout(async () => {
       dispatch(pageActions.setSaveStatus('saving'));
       try {
+        // If title changed, delete the old file first
+        if (lastSavedTitle && lastSavedTitle !== state.page.title && lastSavedTitle !== 'Untitled Page') {
+          try {
+            await storage.deletePage(lastSavedTitle);
+          } catch (deleteError) {
+            // Ignore if old file doesn't exist
+            console.log('Old file not found or already deleted:', deleteError.message);
+          }
+        }
         const result = await storage.savePage(state.page.title, state.page);
+        setLastSavedTitle(state.page.title);
         dispatch(pageActions.setSaveStatus('saved'));
         // Clear saved status after 2 seconds
         setTimeout(() => {
