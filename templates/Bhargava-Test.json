@@ -15,7 +15,8 @@
       "accent": "#ec4899",
       "text": "#1f2937",
       "background": "#f9fafb",
-      "neutral": "#6b7280"
+      "neutral": "#6b7280",
+      "card": "#ffffff"
     },
     "fonts": {
       "heading1": {
@@ -53,7 +54,9 @@
         "radius": 6,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "primary",
+        "textColorSlot": "custom"
       },
       {
         "id": "secondary",
@@ -64,7 +67,9 @@
         "radius": 6,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "neutral",
+        "textColorSlot": "text"
       },
       {
         "id": "tertiary",
@@ -75,7 +80,9 @@
         "radius": 6,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "custom",
+        "textColorSlot": "primary"
       }
     ],
     "shapes": {
@@ -88,6 +95,8 @@
       "lg": 24,
       "xl": 48
     },
-    "bgColor": "#f9fafb"
-  }
+    "bgColor": "#f9fafb",
+    "bgColorSlot": "background"
+  },
+  "mobileOverrides": {}
 }
