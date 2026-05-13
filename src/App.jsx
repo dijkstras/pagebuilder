@@ -53,7 +53,7 @@ function App() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@mindtickle.com"
+                placeholder="Your work email"
                 autoFocus
                 style={{
                   width: '100%',
