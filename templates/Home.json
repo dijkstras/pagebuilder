@@ -144,7 +144,7 @@
       },
       "children": [
         {
-          "id": "slot-1776414673459-qg8d",
+          "id": "slot-1778657596269-iqe4",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -265,7 +265,7 @@
           ]
         },
         {
-          "id": "slot-1776414673459-e7az",
+          "id": "slot-1778657596269-lozm",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -366,7 +366,7 @@
       },
       "children": [
         {
-          "id": "slot-1776414673459-si96",
+          "id": "slot-1778657596269-qeqy",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -519,7 +519,7 @@
       },
       "children": [
         {
-          "id": "slot-1776414673459-7m9i",
+          "id": "slot-1778657596269-1hel",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -555,7 +555,7 @@
           "children": []
         },
         {
-          "id": "slot-1776414673459-7flo",
+          "id": "slot-1778657596269-95cq",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -591,7 +591,7 @@
           "children": []
         },
         {
-          "id": "slot-1776414673459-liw3",
+          "id": "slot-1778657596269-q5r0",
           "name": "Column 3",
           "type": "slot",
           "settings": {
@@ -660,7 +660,7 @@
       },
       "children": [
         {
-          "id": "slot-1776414673459-s616",
+          "id": "slot-1778657596269-a093",
           "name": "Column 1",
           "type": "slot",
           "settings": {
