@@ -52,7 +52,7 @@
       },
       "children": [
         {
-          "id": "slot-1778657111161-1qp7",
+          "id": "slot-1778660822236-lh6m",
           "name": "Text & CTA",
           "type": "slot",
           "settings": {
@@ -308,7 +308,7 @@
           "headingAlignment": "center"
         },
         "bgColorSlot": "background",
-        "horizontalScroll": false,
+        "horizontalScroll": true,
         "headingEnabled": true,
         "headingColor": "#ffffff",
         "headingFont": "heading2",
@@ -320,7 +320,7 @@
       },
       "children": [
         {
-          "id": "slot-1778657111161-1160",
+          "id": "slot-1778660822237-aa3e",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -676,7 +676,7 @@
       },
       "children": [
         {
-          "id": "slot-1778657111161-mgqj",
+          "id": "slot-1778660822237-kx1k",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -772,7 +772,7 @@
           ]
         },
         {
-          "id": "slot-1778657111161-sf8k",
+          "id": "slot-1778660822237-mtf7",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -947,7 +947,7 @@
       },
       "children": [
         {
-          "id": "slot-1778657111161-rp6t",
+          "id": "slot-1778660822237-twzw",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -1068,7 +1068,7 @@
           ]
         },
         {
-          "id": "slot-1778657111161-f9y2",
+          "id": "slot-1778660822237-ril7",
           "name": "Container",
           "type": "slot",
           "settings": {

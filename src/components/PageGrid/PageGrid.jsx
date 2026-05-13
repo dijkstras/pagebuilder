@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import specContent from '../../../docs/superpowers/specs/2026-04-09-responsive-layout-system-design.md?raw';
 import { storage } from '../../services/fileStorage';
 import { THEME } from '../../utils/constants';
 import { generateHTML } from '../../services/pageGenerator';
@@ -7,6 +9,7 @@ export function PageGrid({ onPageSelect, onNewPage }) {
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagePreviews, setPagePreviews] = useState({});
+  const [showSpecsModal, setShowSpecsModal] = useState(false);
 
   const handlePageClick = async (pageName) => {
     console.log('PageGrid: Page clicked:', pageName);
@@ -93,6 +96,22 @@ export function PageGrid({ onPageSelect, onNewPage }) {
     }
   };
 
+  const handleShowSpecs = () => {
+    setShowSpecsModal(true);
+  };
+
+  const handleDownloadSpecs = () => {
+    const blob = new Blob([specContent], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'page-specifications.md';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   if (loading) {
     return (
       <div style={{
@@ -120,7 +139,7 @@ export function PageGrid({ onPageSelect, onNewPage }) {
           alignItems: 'center',
           gap: '16px'
         }}>
-          <img 
+          <img
             src="https://superb-activity-b7b8c463f3.media.strapiapp.com/logo_0e2ef7d0ed.webp"
             alt="Pagebuilder Logo"
             style={{
@@ -149,24 +168,44 @@ export function PageGrid({ onPageSelect, onNewPage }) {
             </p>
           </div>
         </div>
-        <button
-          onClick={onNewPage}
-          style={{
-            padding: '12px 24px',
-            backgroundColor: THEME.accent,
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '16px',
-            fontWeight: '500',
-            transition: 'background-color 0.2s'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#3182ce'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.accent}
-        >
-          + Create New Page
-        </button>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button
+            onClick={handleShowSpecs}
+            style={{
+              padding: '12px 24px',
+              backgroundColor: THEME.surface,
+              color: THEME.text,
+              border: `1px solid ${THEME.border}`,
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              fontWeight: '500',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = THEME.border}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.surface}
+          >
+            Page Specifications
+          </button>
+          <button
+            onClick={onNewPage}
+            style={{
+              padding: '12px 24px',
+              backgroundColor: THEME.accent,
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              fontWeight: '500',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#3182ce'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.accent}
+          >
+            + Create New Page
+          </button>
+        </div>
       </div>
 
       {pages.length === 0 ? (
@@ -355,6 +394,106 @@ export function PageGrid({ onPageSelect, onNewPage }) {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {showSpecsModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: THEME.surface,
+            borderRadius: '12px',
+            maxWidth: '900px',
+            maxHeight: '80vh',
+            width: '90%',
+            display: 'flex',
+            flexDirection: 'column',
+            border: `1px solid ${THEME.border}`
+          }}>
+            <div style={{
+              padding: '20px',
+              borderBottom: `1px solid ${THEME.border}`,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <h2 style={{
+                margin: 0,
+                fontSize: '20px',
+                fontWeight: 600,
+                color: THEME.text
+              }}>
+                Page Specifications
+              </h2>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  onClick={handleDownloadSpecs}
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: THEME.accent,
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  Download
+                </button>
+                <button
+                  onClick={() => setShowSpecsModal(false)}
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: 'transparent',
+                    color: THEME.text,
+                    border: `1px solid ${THEME.border}`,
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+            <div style={{
+              padding: '24px',
+              overflow: 'auto',
+              flex: 1
+            }}>
+              <div style={{
+                color: THEME.text,
+                lineHeight: '1.6'
+              }}>
+                <ReactMarkdown
+                  components={{
+                    h1: ({children}) => <h1 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px', marginTop: '24px' }}>{children}</h1>,
+                    h2: ({children}) => <h2 style={{ fontSize: '24px', fontWeight: 600, marginBottom: '12px', marginTop: '20px' }}>{children}</h2>,
+                    h3: ({children}) => <h3 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px', marginTop: '16px' }}>{children}</h3>,
+                    p: ({children}) => <p style={{ marginBottom: '12px' }}>{children}</p>,
+                    code: ({children}) => <code style={{ backgroundColor: THEME.background, padding: '2px 6px', borderRadius: '4px', fontSize: '14px' }}>{children}</code>,
+                    pre: ({children}) => <pre style={{ backgroundColor: THEME.background, padding: '16px', borderRadius: '8px', overflow: 'auto', marginBottom: '16px' }}>{children}</pre>,
+                    ul: ({children}) => <ul style={{ marginBottom: '12px', paddingLeft: '24px' }}>{children}</ul>,
+                    ol: ({children}) => <ol style={{ marginBottom: '12px', paddingLeft: '24px' }}>{children}</ol>,
+                    li: ({children}) => <li style={{ marginBottom: '4px' }}>{children}</li>,
+                    blockquote: ({children}) => <blockquote style={{ borderLeft: '4px solid', borderColor: THEME.accent, paddingLeft: '16px', marginBottom: '12px', fontStyle: 'italic' }}>{children}</blockquote>
+                  }}
+                >
+                  {specContent}
+                </ReactMarkdown>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
