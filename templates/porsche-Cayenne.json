@@ -14,7 +14,8 @@
       "accent": "#ec4899",
       "text": "#000000",
       "background": "#ffffff",
-      "neutral": "#6b7280"
+      "neutral": "#6b7280",
+      "card": "#ffffff"
     },
     "fonts": {
       "heading1": {
@@ -56,7 +57,9 @@
           "color2": "#000000",
           "angle": 90
         },
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "primary",
+        "textColorSlot": "custom"
       },
       {
         "id": "secondary",
@@ -67,7 +70,9 @@
         "radius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "neutral",
+        "textColorSlot": "text"
       },
       {
         "id": "tertiary",
@@ -78,7 +83,9 @@
         "radius": 0,
         "bgType": "solid",
         "bgGradient": null,
-        "fontSize": 14
+        "fontSize": 14,
+        "bgColorSlot": "custom",
+        "textColorSlot": "primary"
       }
     ],
     "shapes": {
@@ -91,7 +98,8 @@
       "lg": 24,
       "xl": 48
     },
-    "bgColor": "#000000"
+    "bgColor": "#000000",
+    "bgColorSlot": "background"
   },
   "root": [
     {
@@ -130,11 +138,13 @@
         "bgVideoSize": "fill",
         "layout": "full",
         "gap": "md",
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1775814691651-1i33",
+          "id": "slot-1778659693409-imlb",
           "name": "Navigation",
           "type": "slot",
           "settings": {
@@ -159,10 +169,12 @@
             "height": "auto",
             "gridColumn": 12,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -185,7 +197,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -215,7 +229,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
@@ -254,11 +270,13 @@
         },
         "layout": "full",
         "gap": "xl",
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1775814691651-66tm",
+          "id": "slot-1778659693409-old7",
           "name": "Feature card",
           "type": "slot",
           "settings": {
@@ -290,10 +308,12 @@
             },
             "gridColumn": 12,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -314,7 +334,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -336,13 +358,15 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
         },
         {
-          "id": "slot-1775814691651-mxoe",
+          "id": "slot-1778659693409-xlwj",
           "name": "Feature card",
           "type": "slot",
           "settings": {
@@ -374,10 +398,12 @@
             },
             "gridColumn": 12,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -398,7 +424,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -420,13 +448,15 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
         },
         {
-          "id": "slot-1775814691651-upck",
+          "id": "slot-1778659693409-05uh",
           "name": "Feature card",
           "type": "slot",
           "settings": {
@@ -458,10 +488,12 @@
             },
             "gridColumn": 12,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -482,7 +514,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -504,13 +538,15 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
         },
         {
-          "id": "slot-1775814691651-no84",
+          "id": "slot-1778659693409-9kgz",
           "name": "Feature card",
           "type": "slot",
           "settings": {
@@ -542,10 +578,12 @@
             },
             "gridColumn": 12,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -566,7 +604,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -588,7 +628,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
@@ -622,11 +664,13 @@
         "bgGradient": null,
         "layout": "50-50",
         "gap": "lg",
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1775814691651-ss56",
+          "id": "slot-1778659693409-dqap",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -653,10 +697,12 @@
             "bgGradient": null,
             "gridColumn": 12,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -679,7 +725,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -709,13 +757,15 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
         },
         {
-          "id": "slot-1775814691651-1bhh",
+          "id": "slot-1778659693409-h1gq",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -740,10 +790,12 @@
             "gridColumn": 12,
             "height": "250px",
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -765,7 +817,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -788,7 +842,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
@@ -822,11 +878,13 @@
         "bgGradient": null,
         "layout": "full",
         "gap": "md",
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1775814691651-m6si-wrap",
+          "id": "slot-1778659693409-g7ya",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -847,9 +905,14 @@
             "elevation": 4,
             "borderRadius": 0,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false,
+            "mobileOverrides": {}
           },
           "children": [
             {
@@ -870,7 +933,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
@@ -904,11 +969,13 @@
         "bgGradient": null,
         "layout": "50-50",
         "gap": "md",
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1775814691651-vjm4",
+          "id": "slot-1778659693409-87ff",
           "name": "Touring",
           "type": "slot",
           "settings": {
@@ -934,10 +1001,12 @@
             "bgOpacity": "",
             "gridColumn": 12,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -959,7 +1028,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -982,13 +1053,15 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
         },
         {
-          "id": "slot-1775814691651-v0bf",
+          "id": "slot-1778659693409-7ku8",
           "name": "Shifter",
           "type": "slot",
           "settings": {
@@ -1013,10 +1086,12 @@
             "height": "620px",
             "gridColumn": 12,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
             },
-            "mobileOverrides": {}
+            "mobileOverrides": {},
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false
           },
           "children": [
             {
@@ -1038,7 +1113,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             },
             {
@@ -1061,7 +1138,9 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
@@ -1095,11 +1174,13 @@
         "bgGradient": null,
         "layout": "full",
         "gap": "md",
-        "mobileOverrides": {}
+        "mobileOverrides": {},
+        "hidden": false,
+        "mobileHidden": false
       },
       "children": [
         {
-          "id": "slot-1775814691651-ak7h-wrap",
+          "id": "slot-1778659693409-2bee",
           "name": "Content",
           "type": "slot",
           "settings": {
@@ -1120,9 +1201,14 @@
             "elevation": 4,
             "borderRadius": 0,
             "responsive": {
-              "hideOnMobile": false,
               "mobileOrder": null
-            }
+            },
+            "bgType": "solid",
+            "bgGradient": null,
+            "overflow": "wrap",
+            "hidden": false,
+            "mobileHidden": false,
+            "mobileOverrides": {}
           },
           "children": [
             {
@@ -1143,12 +1229,15 @@
                   "hideOnMobile": false,
                   "hideOnDesktop": false
                 },
-                "mobileOverrides": {}
+                "mobileOverrides": {},
+                "hidden": false,
+                "mobileHidden": false
               }
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "mobileOverrides": {}
 }
