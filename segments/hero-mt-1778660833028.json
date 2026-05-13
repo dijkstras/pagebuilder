@@ -1,0 +1,274 @@
+{
+  "name": "Hero mt",
+  "data": {
+    "id": "segment-1776080372091",
+    "name": "Hero mt",
+    "type": "segment",
+    "settings": {
+      "layout": "full",
+      "gap": "md",
+      "fullWidth": true,
+      "bgColor": "transparent",
+      "bgImage": "https://images.unsplash.com/photo-1760978631985-590e3b5f4057?q=80&w=3628&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "bgVideo": null,
+      "maxWidth": null,
+      "contentAlignment": "left",
+      "verticalAlignment": "top",
+      "minHeight": 200,
+      "borderEnabled": true,
+      "borderWidth": 1,
+      "borderColor": "#20201d",
+      "elevationEnabled": false,
+      "elevation": 4,
+      "borderRadius": 0,
+      "bgSize": "cover",
+      "bgPositionY": "top",
+      "bgPositionX": "right",
+      "bgType": "solid",
+      "bgGradient": null,
+      "mobileOverrides": {
+        "bgOpacity": "50",
+        "bgRepeat": true,
+        "bgPositionX": "center",
+        "bgPositionY": "bottom",
+        "bgSize": "200px 200px"
+      },
+      "bgOpacity": "30%",
+      "borderEdges": {
+        "top": false,
+        "right": false,
+        "bottom": true,
+        "left": false
+      },
+      "hidden": false,
+      "mobileHidden": false
+    },
+    "children": [
+      {
+        "id": "slot-1778660822236-lh6m",
+        "name": "Text & CTA",
+        "type": "slot",
+        "settings": {
+          "gridColumn": 12,
+          "height": "auto",
+          "spacing": 40,
+          "bgColor": "transparent",
+          "bgImage": null,
+          "bgVideo": null,
+          "padding": 0,
+          "contentAlignment": "left",
+          "verticalAlignment": "center",
+          "direction": "column",
+          "overflow": "wrap",
+          "borderEnabled": false,
+          "borderWidth": 1,
+          "borderColor": "#000000",
+          "elevationEnabled": false,
+          "elevation": 4,
+          "borderRadius": 0,
+          "responsive": {
+            "mobileOrder": null
+          },
+          "bgType": "solid",
+          "bgGradient": null,
+          "mobileOverrides": {
+            "contentAlignment": "center",
+            "spacing": 32
+          },
+          "alignContent": "space-between",
+          "hidden": false,
+          "mobileHidden": false
+        },
+        "children": [
+          {
+            "id": "content-1776156944682",
+            "type": "label",
+            "settings": {
+              "content": "MINDTICKLE PAGES",
+              "textAlign": "left",
+              "color": "#ffffff",
+              "colorSlot": "text",
+              "bgColor": "#20201d",
+              "bgColorSlot": "neutral",
+              "padding": 8,
+              "borderEnabled": true,
+              "borderWidth": 1,
+              "borderColor": "#555",
+              "borderRadius": 30,
+              "responsive": {
+                "hideOnMobile": false,
+                "hideOnDesktop": false
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "mobileOverrides": {},
+              "hidden": false,
+              "paddingX": 16,
+              "paddingY": 8,
+              "mobileHidden": false
+            }
+          },
+          {
+            "id": "content-1776081153786",
+            "type": "text",
+            "settings": {
+              "assignedStyleId": null,
+              "textRole": "heading1",
+              "customOverrides": {
+                "content": "Enablement Starts right now",
+                "colorSlot": "custom"
+              },
+              "responsive": {
+                "hideOnMobile": false,
+                "hideOnDesktop": false
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "mobileOverrides": {
+                "textAlign": "center"
+              },
+              "hidden": false,
+              "mobileHidden": false
+            }
+          },
+          {
+            "id": "text-1776081159491-orjpv",
+            "type": "text",
+            "settings": {
+              "assignedStyleId": null,
+              "textRole": "heading2",
+              "customOverrides": {
+                "content": "Unleash the Power of Mindtickle Enablement on your teams and win deals like never before. Preparation is Everything."
+              },
+              "responsive": {
+                "hideOnMobile": false,
+                "hideOnDesktop": false
+              },
+              "responsiveVariants": {
+                "mobile": {},
+                "tablet": {},
+                "desktop": {}
+              },
+              "mobileOverrides": {
+                "textAlign": "center"
+              },
+              "hidden": false,
+              "mobileHidden": false
+            }
+          },
+          {
+            "id": "container-1776158782868-xbff",
+            "name": "Container",
+            "type": "container",
+            "settings": {
+              "gridColumn": 12,
+              "height": "auto",
+              "spacing": 32,
+              "bgColor": "transparent",
+              "bgImage": null,
+              "bgVideo": null,
+              "bgType": "solid",
+              "bgGradient": null,
+              "padding": 0,
+              "contentAlignment": "left",
+              "verticalAlignment": "top",
+              "direction": "row",
+              "overflow": "wrap",
+              "borderEnabled": false,
+              "borderWidth": 1,
+              "borderColor": "#000000",
+              "elevationEnabled": false,
+              "elevation": 4,
+              "borderRadius": 0,
+              "responsive": {
+                "hideOnMobile": false,
+                "mobileOrder": null
+              },
+              "mobileOverrides": {
+                "direction": "column",
+                "contentAlignment": "center"
+              },
+              "hidden": false,
+              "minWidth": "100%",
+              "alignContent": "center",
+              "mobileHidden": false
+            },
+            "children": [
+              {
+                "id": "content-1776158812084",
+                "type": "button",
+                "settings": {
+                  "assignedStyleId": "primary",
+                  "textRole": null,
+                  "customOverrides": {
+                    "label": "Enroll Today",
+                    "icon": {
+                      "key": "arrow-right",
+                      "position": "after"
+                    },
+                    "sizeOverride": {
+                      "enabled": false,
+                      "width": "auto",
+                      "height": "auto"
+                    }
+                  },
+                  "responsive": {
+                    "hideOnMobile": false,
+                    "hideOnDesktop": false
+                  },
+                  "responsiveVariants": {
+                    "mobile": {},
+                    "tablet": {},
+                    "desktop": {}
+                  }
+                },
+                "name": "Primary CTA"
+              },
+              {
+                "id": "button-1776158814801-pya93",
+                "type": "button",
+                "settings": {
+                  "assignedStyleId": "tertiary",
+                  "textRole": null,
+                  "customOverrides": {
+                    "label": "Browse the Curriculum",
+                    "icon": {
+                      "key": null,
+                      "position": "none"
+                    },
+                    "sizeOverride": {
+                      "enabled": false,
+                      "width": "auto",
+                      "height": "auto"
+                    }
+                  },
+                  "responsive": {
+                    "hideOnMobile": false,
+                    "hideOnDesktop": false
+                  },
+                  "responsiveVariants": {
+                    "mobile": {},
+                    "tablet": {},
+                    "desktop": {}
+                  },
+                  "mobileOverrides": {
+                    "hidden": true
+                  },
+                  "mobileHidden": true
+                },
+                "name": "Secondary STA"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "savedAt": "2026-05-13T08:27:13.029Z"
+}
