@@ -8,17 +8,17 @@ export function SegmentPickerModal({ isOpen, onClose, onSelect, onEmptySelect })
 
   useEffect(() => {
     if (isOpen) {
-      setSegments(segmentStorage.getAll());
+      segmentStorage.getAll().then(setSegments).catch(console.error);
     }
   }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const handleDelete = (e, id) => {
+  const handleDelete = async (e, id) => {
     e.stopPropagation();
     if (confirm('Delete this saved segment?')) {
-      segmentStorage.delete(id);
-      setSegments(segmentStorage.getAll());
+      await segmentStorage.delete(id);
+      segmentStorage.getAll().then(setSegments).catch(console.error);
     }
   };
 

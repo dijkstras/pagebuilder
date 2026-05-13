@@ -47,11 +47,11 @@ export function SegmentSettings({ mode = 'advanced' }) {
 
   const { isMobile, getSetting, updateSetting, mergeSettings, hasOverride, clearOverride } = useMobileSettings(segment);
 
-  const handleSaveSegment = () => {
+  const handleSaveSegment = async () => {
     setSaveStatus('saving');
     try {
       const name = segment.name || 'Unnamed Segment';
-      segmentStorage.save(name, segment);
+      await segmentStorage.save(name, segment);
       setSaveStatus('saved');
       setTimeout(() => setSaveStatus('idle'), 1500);
     } catch (error) {

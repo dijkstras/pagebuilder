@@ -212,5 +212,123 @@ export const fileStorageGitHub = {
     } catch (error) {
       throw new Error(`Failed to duplicate: ${error.message}`);
     }
+  },
+
+  async listSegments() {
+    validateEnv();
+
+    try {
+      const { data } = await octokit.rest.repos.getContent({
+        owner, repo, path: 'segments', ref: branch
+      });
+
+      // Get commit info for last modified timestamps
+      const segments = data
+        .filter(item => item.name.endsWith('.json'))
+        .map(item => ({
+          name: item.name.replace('.json', ''),
+          path: item.path,
+          id: item.name.replace('.json', '')
+        }));
+
+      // Fetch commit history for each file to get lastModified
+      const segmentsWithTimestamps = await Promise.all(
+        segments.map(async (segment) => {
+          try {
+            const { data: commits } = await octokit.rest.repos.listCommits({
+              owner, repo, path: segment.path, branch, per_page: 1
+            });
+            const lastModified = commits[0]?.commit?.author?.date || new Date().toISOString();
+            return { ...segment, lastModified };
+          } catch (e) {
+            return { ...segment, lastModified: new Date().toISOString() };
+          }
+        })
+      );
+
+      // Sort by lastModified descending
+      segmentsWithTimestamps.sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
+      return segmentsWithTimestamps;
+    } catch (error) {
+      if (error.status === 404) return [];
+      throw new Error(`Failed to list segments: ${error.message}`);
+    }
+  },
+
+  async saveSegment(name, data) {
+    validateEnv();
+
+    const id = `${name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`;
+    const path = `segments/${id}.json`;
+    const content = JSON.stringify({ name, data, savedAt: new Date().toISOString() }, null, 2);
+    const encoding = 'utf-8';
+
+    try {
+      // Create file
+      const { data } = await octokit.rest.repos.createOrUpdateFileContents({
+        owner, repo, path,
+        message: `Save segment: ${name}`,
+        content: Buffer.from(content).toString('base64'),
+        branch
+      });
+
+      return {
+        success: true,
+        commitHash: data.commit.sha,
+        message: 'Saved to GitHub',
+        segment: { id, name, data, savedAt: new Date().toISOString() }
+      };
+    } catch (error) {
+      throw new Error(`Failed to save segment: ${error.message}`);
+    }
+  },
+
+  async loadSegment(id) {
+    validateEnv();
+
+    const path = `segments/${id}.json`;
+
+    try {
+      const { data } = await octokit.rest.repos.getContent({
+        owner, repo, path, ref: branch
+      });
+
+      const content = Buffer.from(data.content, 'base64').toString('utf-8');
+      const parsed = JSON.parse(content);
+      return {
+        id,
+        name: parsed.name,
+        data: parsed.data,
+        savedAt: parsed.savedAt
+      };
+    } catch (error) {
+      if (error.status === 404) return null;
+      throw new Error(`Failed to load segment: ${error.message}`);
+    }
+  },
+
+  async deleteSegment(id) {
+    validateEnv();
+
+    const path = `segments/${id}.json`;
+
+    try {
+      // Get current file SHA
+      const { data } = await octokit.rest.repos.getContent({
+        owner, repo, path, ref: branch
+      });
+
+      // Delete file
+      await octokit.rest.repos.deleteFile({
+        owner, repo, path,
+        message: `Delete segment: ${id}`,
+        sha: data.sha,
+        branch
+      });
+
+      return { success: true, message: 'Segment deleted' };
+    } catch (error) {
+      throw new Error(`Failed to delete segment: ${error.message}`);
+    }
   }
 };

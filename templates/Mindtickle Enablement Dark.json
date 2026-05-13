@@ -9,7 +9,7 @@
   "root": [
     {
       "id": "segment-1776080372091",
-      "name": "Hero",
+      "name": "Hero mt",
       "type": "segment",
       "settings": {
         "layout": "full",
@@ -52,7 +52,7 @@
       },
       "children": [
         {
-          "id": "slot-1776411827147-0g0s",
+          "id": "slot-1778657111161-1qp7",
           "name": "Text & CTA",
           "type": "slot",
           "settings": {
@@ -320,7 +320,7 @@
       },
       "children": [
         {
-          "id": "slot-1776411827147-gc8d",
+          "id": "slot-1778657111161-1160",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -676,7 +676,7 @@
       },
       "children": [
         {
-          "id": "slot-1776411827147-03k7",
+          "id": "slot-1778657111161-mgqj",
           "name": "Column 1",
           "type": "slot",
           "settings": {
@@ -772,7 +772,7 @@
           ]
         },
         {
-          "id": "slot-1776411827147-lxzh",
+          "id": "slot-1778657111161-sf8k",
           "name": "Column 2",
           "type": "slot",
           "settings": {
@@ -947,7 +947,7 @@
       },
       "children": [
         {
-          "id": "slot-1776411827147-nbja",
+          "id": "slot-1778657111161-rp6t",
           "name": "Text and button",
           "type": "slot",
           "settings": {
@@ -1068,7 +1068,7 @@
           ]
         },
         {
-          "id": "slot-1776411827147-od64",
+          "id": "slot-1778657111161-f9y2",
           "name": "Container",
           "type": "slot",
           "settings": {
@@ -1114,13 +1114,13 @@
   "styles": {
     "logo": null,
     "colors": {
-      "primary": "#3B82F6",
-      "secondary": "#60A5FA",
-      "accent": "#F59E0B",
-      "text": "#E8EFF8",
-      "background": "#0D1B2E",
-      "neutral": "#162845",
-      "card": "#1A3050"
+      "primary": "#ff8b1f",
+      "secondary": "#fdc86d",
+      "accent": "#66ae1e",
+      "text": "#ffffff",
+      "background": "#000000",
+      "neutral": "#20201d",
+      "card": "#1d1d20"
     },
     "fonts": {
       "heading1": {

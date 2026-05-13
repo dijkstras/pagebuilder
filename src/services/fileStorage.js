@@ -94,6 +94,50 @@ export const storage = {
   async duplicatePage(pageName, newName) {
     const impl = await getStorageImplementation();
     return impl.duplicatePage(pageName, newName);
+  },
+
+  /**
+   * List all available segments in storage
+   * @returns {Promise<Array>} Array of segment objects
+   * @throws {Error} If list operation fails
+   */
+  async listSegments() {
+    const impl = await getStorageImplementation();
+    return impl.listSegments();
+  },
+
+  /**
+   * Save a segment to storage and commit to GitHub
+   * @param {string} name - Name of segment
+   * @param {object} data - Segment data
+   * @returns {Promise<object>} Object with success and segment info
+   * @throws {Error} If save operation fails
+   */
+  async saveSegment(name, data) {
+    const impl = await getStorageImplementation();
+    return impl.saveSegment(name, data);
+  },
+
+  /**
+   * Load a single segment from storage
+   * @param {string} id - ID of segment to load
+   * @returns {Promise<object|null>} Segment object or null if not found
+   * @throws {Error} If load operation fails
+   */
+  async loadSegment(id) {
+    const impl = await getStorageImplementation();
+    return impl.loadSegment(id);
+  },
+
+  /**
+   * Delete a segment from storage
+   * @param {string} id - ID of segment to delete
+   * @returns {Promise<object>} Success response
+   * @throws {Error} If deletion fails
+   */
+  async deleteSegment(id) {
+    const impl = await getStorageImplementation();
+    return impl.deleteSegment(id);
   }
 };
 

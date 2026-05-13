@@ -64,5 +64,37 @@ export const fileStorageLocal = {
       body: JSON.stringify({ newName })
     });
     return handleResponse(response);
+  },
+
+  async listSegments() {
+    const response = await fetch(`${API_URL}/api/segments`);
+    return handleResponse(response);
+  },
+
+  async saveSegment(name, data) {
+    const response = await fetch(`${API_URL}/api/segments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, data })
+    });
+    return handleResponse(response);
+  },
+
+  async loadSegment(id) {
+    try {
+      const response = await fetch(`${API_URL}/api/segments/${id}`);
+      if (response.status === 404) return null;
+      return handleResponse(response);
+    } catch (error) {
+      console.error('Error loading segment:', error);
+      return null;
+    }
+  },
+
+  async deleteSegment(id) {
+    const response = await fetch(`${API_URL}/api/segments/${id}`, {
+      method: 'DELETE'
+    });
+    return handleResponse(response);
   }
 };

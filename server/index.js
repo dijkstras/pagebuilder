@@ -18,6 +18,7 @@ const PORT = process.env.SERVER_PORT || 3001;
 const TEMPLATES_DIR = path.join(__dirname, '../templates');
 const COLOR_PRESETS_DIR = path.join(__dirname, '../color-presets');
 const TYPOGRAPHY_PRESETS_DIR = path.join(__dirname, '../typography-presets');
+const SEGMENTS_DIR = path.join(__dirname, '../segments');
 
 app.use(cors());
 app.use(express.json());
@@ -46,6 +47,15 @@ async function ensureTypographyPresetsDir() {
     await fs.mkdir(TYPOGRAPHY_PRESETS_DIR, { recursive: true });
   } catch (error) {
     console.error('Failed to create typography-presets directory:', error);
+  }
+}
+
+// Ensure segments directory exists
+async function ensureSegmentsDir() {
+  try {
+    await fs.mkdir(SEGMENTS_DIR, { recursive: true });
+  } catch (error) {
+    console.error('Failed to create segments directory:', error);
   }
 }
 
@@ -566,6 +576,139 @@ app.delete('/api/typography-presets/:id', async (req, res) => {
   }
 });
 
+// Segments API Routes
+
+// GET /api/segments - List all segments
+app.get('/api/segments', async (req, res) => {
+  try {
+    await ensureSegmentsDir();
+    const files = await fs.readdir(SEGMENTS_DIR);
+    const segments = await Promise.all(
+      files
+        .filter(f => f.endsWith('.json'))
+        .map(async (f) => {
+          const filePath = path.join(SEGMENTS_DIR, f);
+          const stat = await fs.stat(filePath);
+          const content = await fs.readFile(filePath, 'utf-8');
+          const data = JSON.parse(content);
+          return {
+            id: f.replace('.json', ''),
+            name: data.name || f.replace('.json', ''),
+            data: data.data,
+            savedAt: data.savedAt || stat.mtime.toISOString()
+          };
+        })
+    );
+    // Sort by savedAt descending (newest first)
+    segments.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+    res.json(segments);
+  } catch (error) {
+    console.error('List segments error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// POST /api/segments - Save a segment
+app.post('/api/segments', async (req, res) => {
+  try {
+    const { name, data } = req.body;
+
+    if (!name || typeof name !== 'string') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid segment name'
+      });
+    }
+
+    if (!data || typeof data !== 'object') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid segment data'
+      });
+    }
+
+    const id = `${name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`;
+    const filePath = path.join(SEGMENTS_DIR, `${id}.json`);
+
+    const segmentData = {
+      name: name.trim(),
+      data: data,
+      savedAt: new Date().toISOString()
+    };
+
+    await ensureSegmentsDir();
+    await fs.writeFile(filePath, JSON.stringify(segmentData, null, 2));
+
+    // Commit to git and push to GitHub
+    try {
+      execSync(`git add ${filePath}`, { cwd: path.dirname(SEGMENTS_DIR) });
+      execSync(`git commit -m "Save segment: ${name}"`, { cwd: path.dirname(SEGMENTS_DIR) });
+      execSync(`git push origin HEAD`, { cwd: path.dirname(SEGMENTS_DIR) });
+      console.log(`✅ Pushed save segment: ${name}`);
+    } catch (error) {
+      console.warn('Git push failed (might not be in repo):', error.message);
+    }
+
+    res.json({ success: true, segment: { id, ...segmentData } });
+  } catch (error) {
+    console.error('Save segment error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// GET /api/segments/:id - Load a single segment
+app.get('/api/segments/:id', async (req, res) => {
+  try {
+    const filePath = path.join(SEGMENTS_DIR, `${req.params.id}.json`);
+    const content = await fs.readFile(filePath, 'utf-8');
+    const data = JSON.parse(content);
+    res.json({
+      id: req.params.id,
+      name: data.name,
+      data: data.data,
+      savedAt: data.savedAt
+    });
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return res.status(404).json({ message: 'Segment not found' });
+    }
+    console.error('Load segment error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// DELETE /api/segments/:id - Delete a segment
+app.delete('/api/segments/:id', async (req, res) => {
+  try {
+    const filePath = path.join(SEGMENTS_DIR, `${req.params.id}.json`);
+
+    // Check if file exists
+    try {
+      await fs.access(filePath);
+    } catch {
+      return res.status(404).json({ success: false, message: 'Segment not found' });
+    }
+
+    // Delete file
+    await fs.unlink(filePath);
+
+    // Commit deletion to git and push to GitHub
+    try {
+      execSync(`git add -A`, { cwd: path.dirname(SEGMENTS_DIR) });
+      execSync(`git commit -m "Delete segment: ${req.params.id}"`, { cwd: path.dirname(SEGMENTS_DIR) });
+      execSync(`git push origin HEAD`, { cwd: path.dirname(SEGMENTS_DIR) });
+      console.log(`✅ Pushed delete segment: ${req.params.id}`);
+    } catch (error) {
+      console.warn('Git push failed:', error.message);
+    }
+
+    res.json({ success: true, message: 'Segment deleted' });
+  } catch (error) {
+    console.error('Delete segment error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // Error handler
 app.use((err, req, res, next) => {
   console.error(err);
@@ -573,7 +716,12 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-ensureTemplatesDir().then(() => {
+Promise.all([
+  ensureTemplatesDir(),
+  ensureColorPresetsDir(),
+  ensureTypographyPresetsDir(),
+  ensureSegmentsDir()
+]).then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Pagebuilder API server running on http://localhost:${PORT}`);
   });
