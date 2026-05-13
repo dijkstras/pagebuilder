@@ -17,12 +17,12 @@ export function Editor({ onBackToGrid }) {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [lastSavedTitle, setLastSavedTitle] = useState('');
 
-  // Initialize lastSavedTitle when page loads
+  // Initialize lastSavedTitle when page loads or changes
   useEffect(() => {
-    if (state.page.title && lastSavedTitle === '') {
+    if (state.page.title && state.page.title !== 'Untitled Page') {
       setLastSavedTitle(state.page.title);
     }
-  }, [state.page.title, lastSavedTitle]);
+  }, [state.page.title]);
 
   // Auto-save when page changes
   useEffect(() => {

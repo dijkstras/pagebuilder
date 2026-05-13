@@ -46,7 +46,9 @@ export function AppContent() {
     try {
       dispatch(pageActions.setSaveStatus('saving'));
       const newPage = await storage.createNewPage(pageName);
-      dispatch(pageActions.setPage(newPage));
+      // Ensure the title is set correctly before setting in store
+      const pageWithTitle = { ...newPage, title: pageName };
+      dispatch(pageActions.setPage(pageWithTitle));
       dispatch(pageActions.setView('editor'));
       dispatch(pageActions.setSaveStatus('saved'));
       setShowNewPageDialog(false);
