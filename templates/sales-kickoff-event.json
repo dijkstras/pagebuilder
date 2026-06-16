@@ -125,6 +125,78 @@
                       "desktop": {}
                     }
                   }
+                },
+                {
+                  "id": "text-1781591736333-ghrj0",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Theme: Accelerate Growth. Win Together."
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                },
+                {
+                  "id": "text-1781591738573-ulhyd",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Theme: Accelerate Growth. Win Together."
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                },
+                {
+                  "id": "text-1781591738332-hweei",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Theme: Accelerate Growth. Win Together."
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                },
+                {
+                  "id": "text-1781591738140-bfx17",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Theme: Accelerate Growth. Win Together."
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
                 }
               ]
             }
