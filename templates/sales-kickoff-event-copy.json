@@ -1,0 +1,303 @@
+{
+  "id": "page-1781591826690",
+  "title": "sales-kickoff-event-copy",
+  "breakpoints": {
+    "mobile": 320,
+    "tablet": 768,
+    "desktop": 1024
+  },
+  "root": [
+    {
+      "id": "segment-1781591393523",
+      "name": "hero-section",
+      "type": "segment",
+      "settings": {
+        "layout": "full",
+        "gap": "md",
+        "fullWidth": true,
+        "bgColor": "transparent",
+        "bgColorSlot": "transparent",
+        "bgImage": null,
+        "bgVideo": null,
+        "maxWidth": null,
+        "contentAlignment": "left",
+        "verticalAlignment": "top",
+        "minHeight": 200,
+        "borderEnabled": false,
+        "borderEdges": {
+          "top": true,
+          "right": true,
+          "bottom": true,
+          "left": true
+        },
+        "borderWidth": 1,
+        "borderColor": "#000000",
+        "borderColorSlot": null,
+        "elevationEnabled": false,
+        "elevation": 4,
+        "borderRadius": 0,
+        "hidden": false,
+        "mobileHidden": false,
+        "headingEnabled": false,
+        "headingContent": "Section Heading",
+        "headingFont": "heading1",
+        "headingAlignment": "left",
+        "headingColor": "#000000",
+        "headingColorSlot": null
+      },
+      "children": [
+        {
+          "id": "slot-1781591393523-q4zy",
+          "name": "Agenda",
+          "type": "slot",
+          "settings": {
+            "gridColumn": 12,
+            "height": "250px",
+            "spacing": 16,
+            "bgColor": "transparent",
+            "bgImage": null,
+            "bgVideo": null,
+            "padding": 0,
+            "contentAlignment": "left",
+            "verticalAlignment": "top",
+            "direction": "column",
+            "overflow": "wrap",
+            "borderEnabled": false,
+            "borderWidth": 1,
+            "borderColor": "#000000",
+            "elevationEnabled": false,
+            "elevation": 4,
+            "borderRadius": 0,
+            "hidden": false,
+            "mobileHidden": false,
+            "responsive": {
+              "mobileOrder": null
+            }
+          },
+          "children": [
+            {
+              "id": "container-1781591688182-op8s",
+              "name": "Container",
+              "type": "container",
+              "settings": {
+                "gridColumn": 12,
+                "height": "auto",
+                "spacing": 16,
+                "bgColor": "transparent",
+                "bgImage": null,
+                "bgVideo": null,
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 0,
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "direction": "column",
+                "overflow": "wrap",
+                "minWidth": null,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#000000",
+                "elevationEnabled": false,
+                "elevation": 4,
+                "borderRadius": 0,
+                "hidden": false,
+                "mobileHidden": false,
+                "responsive": {
+                  "mobileOrder": null
+                },
+                "mobileOverrides": {}
+              },
+              "children": [
+                {
+                  "id": "content-1781591695741",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Theme: Accelerate Growth. Win Together.",
+                      "colorSlot": "accent",
+                      "color": "#ec4899"
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    },
+                    "textAlign": "left"
+                  }
+                },
+                {
+                  "id": "text-1781591736333-ghrj0",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Theme: Accelerate Growth. Win Together."
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                },
+                {
+                  "id": "text-1781591738573-ulhyd",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Location: Austin Convention Center, Austin, Texas"
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                },
+                {
+                  "id": "text-1781591738332-hweei",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Audience: Global Sales, Customer Success, Solutions Engineering, Sales Leadership"
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                },
+                {
+                  "id": "text-1781591738140-bfx17",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Theme: Accelerate Growth. Win Together."
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "styles": {
+    "logo": null,
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#8b5cf6",
+      "accent": "#ec4899",
+      "text": "#1f2937",
+      "background": "#f9fafb",
+      "neutral": "#6b7280",
+      "card": "#ffffff"
+    },
+    "fonts": {
+      "heading1": {
+        "family": "Inter",
+        "size": 48,
+        "weight": 700
+      },
+      "heading2": {
+        "family": "Inter",
+        "size": 32,
+        "weight": 600
+      },
+      "body": {
+        "family": "Inter",
+        "size": 16,
+        "weight": 400
+      },
+      "label": {
+        "family": "Inter",
+        "size": 12,
+        "weight": 500
+      },
+      "button": {
+        "family": "Inter",
+        "weight": 500
+      }
+    },
+    "buttonStyles": [
+      {
+        "id": "primary",
+        "label": "Primary",
+        "bgColor": "#3b82f6",
+        "textColor": "#ffffff",
+        "padding": 12,
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14,
+        "bgColorSlot": "primary",
+        "textColorSlot": "custom"
+      },
+      {
+        "id": "secondary",
+        "label": "Secondary",
+        "bgColor": "#e5e7eb",
+        "textColor": "#1f2937",
+        "padding": 12,
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14,
+        "bgColorSlot": "neutral",
+        "textColorSlot": "text"
+      },
+      {
+        "id": "tertiary",
+        "label": "Tertiary",
+        "bgColor": "transparent",
+        "textColor": "#3b82f6",
+        "padding": 12,
+        "radius": 6,
+        "bgType": "solid",
+        "bgGradient": null,
+        "fontSize": 14,
+        "bgColorSlot": "custom",
+        "textColorSlot": "primary"
+      }
+    ],
+    "shapes": {
+      "borderRadius": 6
+    },
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "md": 16,
+      "lg": 24,
+      "xl": 48
+    },
+    "bgColor": "#f9fafb",
+    "bgColorSlot": "background"
+  },
+  "mobileOverrides": {}
+}
