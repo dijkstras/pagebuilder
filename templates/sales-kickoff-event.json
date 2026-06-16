@@ -107,7 +107,26 @@
                 },
                 "mobileOverrides": {}
               },
-              "children": []
+              "children": [
+                {
+                  "id": "content-1781591695741",
+                  "type": "text",
+                  "settings": {
+                    "assignedStyleId": null,
+                    "textRole": "body",
+                    "customOverrides": {
+                      "content": "Your text here"
+                    },
+                    "hidden": false,
+                    "mobileHidden": false,
+                    "responsiveVariants": {
+                      "mobile": {},
+                      "tablet": {},
+                      "desktop": {}
+                    }
+                  }
+                }
+              ]
             }
           ]
         }
