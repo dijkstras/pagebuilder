@@ -74,7 +74,42 @@
               "mobileOrder": null
             }
           },
-          "children": []
+          "children": [
+            {
+              "id": "container-1781591688182-op8s",
+              "name": "Container",
+              "type": "container",
+              "settings": {
+                "gridColumn": 12,
+                "height": "auto",
+                "spacing": 16,
+                "bgColor": "transparent",
+                "bgImage": null,
+                "bgVideo": null,
+                "bgType": "solid",
+                "bgGradient": null,
+                "padding": 0,
+                "contentAlignment": "left",
+                "verticalAlignment": "top",
+                "direction": "column",
+                "overflow": "wrap",
+                "minWidth": null,
+                "borderEnabled": false,
+                "borderWidth": 1,
+                "borderColor": "#000000",
+                "elevationEnabled": false,
+                "elevation": 4,
+                "borderRadius": 0,
+                "hidden": false,
+                "mobileHidden": false,
+                "responsive": {
+                  "mobileOrder": null
+                },
+                "mobileOverrides": {}
+              },
+              "children": []
+            }
+          ]
         }
       ]
     }
