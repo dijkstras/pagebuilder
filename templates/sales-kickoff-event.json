@@ -74,27 +74,7 @@
               "mobileOrder": null
             }
           },
-          "children": [
-            {
-              "id": "content-1781591491142",
-              "type": "text",
-              "settings": {
-                "assignedStyleId": null,
-                "textRole": "heading1",
-                "customOverrides": {
-                  "content": ""
-                },
-                "hidden": false,
-                "mobileHidden": false,
-                "responsiveVariants": {
-                  "mobile": {},
-                  "tablet": {},
-                  "desktop": {}
-                }
-              },
-              "name": "agenda-1"
-            }
-          ]
+          "children": []
         }
       ]
     }
