@@ -115,7 +115,9 @@
                     "assignedStyleId": null,
                     "textRole": "body",
                     "customOverrides": {
-                      "content": "Theme: Accelerate Growth. Win Together."
+                      "content": "Theme: Accelerate Growth. Win Together.",
+                      "colorSlot": "accent",
+                      "color": "#ec4899"
                     },
                     "hidden": false,
                     "mobileHidden": false,
