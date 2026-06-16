@@ -9,7 +9,7 @@
   "root": [
     {
       "id": "segment-1781591393523",
-      "name": "New Segment",
+      "name": "hero-section",
       "type": "segment",
       "settings": {
         "layout": "full",
